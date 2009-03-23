@@ -1,12 +1,12 @@
 """
-Abscissas:
-    Calculates the abscissas used in the Gauss-Legenre Quadrature (GLQ).
-    Meant to be used in conjuction with the Weights class.
+Module GLQ (Gauss-Legendre Quadrature):
+
+    This module contains classes for calculating the abscissas and weights used
+    in the Gauss-Legenre Quadrature (GLQ).
 
     Example: To integrate x**2 from -20 to 15 using a 5 point GLQ
 
     >>> from math import e
-    >>> from weights import Weights
     >>>
     >>> my_abs = Abscissas(order=5)
     >>> my_weights = Weights(my_abs)
@@ -25,7 +25,7 @@ Abscissas:
     
             
 
-    This class implements Newton's Method for Multiple Roots presented in:
+    Abscissas implements Newton's Method for Multiple Roots presented in:
         Barrera-Figueroa, V., Sosa-Pedroza, J. and Lopez-Bonilla, J.,
         "Multiple root finder algorithm for Legendre and Chebyshev polynomials
          via Newton's method", 2006,
@@ -97,7 +97,28 @@ class IndexNotIntegerError(AbscissasError):
 
 class Abscissas:
     """
-    Abscissas class.
+    Calculates the abscissas for the GLQ.
+    __init__ recieves an integer parameter 'order'. This is the order of the
+    GLQ and must be >= 2. Raises OrderNotIntegerError and OrderOutOfRangeError
+    if invalid orders are passed.
+    The abscissas can also be re-calculated by calling 'calculate(order)'.
+
+    These values are scaled in the interval [-1,1]. To scale them to an interval
+    [lower,upper] call 'scale(lower,upper)'.
+    A non-scaled version is still kept so further calls to 'scale' can be made
+    on the original abscissas.
+
+    Abscissas uses a modified Newton's method (Barrera-Figueroa et al., 2006) to
+    search for the abscissas.
+    In case this algorithm ends because it reached it's maximum iterations, a
+    MaxIterationsError will be raised. If this happens, the maximum error
+    (difference between iteration n and n-1) can be increased by modifying the
+    class variable 'max_error'. The default error is 10e-15.
+
+    The abcissas can be accessed using [] as if they were lists. In case of an
+    invalid index passed IndexOutOfRangeError and/or IndexNotIntegerError will
+    be raised.
+
     """
 
     # Class variables that define the maximum number of iterations when
@@ -107,7 +128,10 @@ class Abscissas:
     max_error = 0.000000000000001
 
 
-    def __init__(self, order):                
+    def __init__(self, order):
+        self.order = 0
+        self.val_unscaled = []
+        self.val = []
         self.calculate(order)
         
 
@@ -208,7 +232,14 @@ class Abscissas:
         """
         Scale the abscissas to the interval [lower,upper].
         """
-        pass
+
+        # This is done to optimize the code a bit
+        tmpplus = (upper + lower)/2.0,
+        tmpminus = (upper - lower)/2.0;
+        
+        for i in range(0, self.order):
+            self.val[i] = tmpminus*self.val_unscaled[i] + tmpplus;
+
 
     def __getitem__(self, key):
         """
@@ -216,13 +247,29 @@ class Abscissas:
         key should be integer and order > key >= 0.
         Raises IndexOutOfRangeError and IndexNotIntegerError.
         """
-        pass
+        # Check if the key given is valid
+        ########################################################################
+        # Check if it is an integer.
+        if int(key) != key:
+            raise IndexNotIntegerError, \
+                  "ERROR! Abscissa index given (%s) is not an integer!" \
+                      % (str(key))
+
+        # Key must be >= 0 and < order.
+        if key >= self.order or key < 0:
+            raise IndexOutOfRangeError, \
+                  "ERROR! Abscissa index given '%d' is not valid! " + \
+                  "Must be %d > index >= 0!" % (self.order)
+        ########################################################################
+
+        return self.val[key]
+
 
     def __len__(self):
         """
         Return the order of the abscissas if len function is called.
         """
-        pass
+        return self.order
 
 ################################################################################
 
