@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Unit-tests of abscissas.py.
+Unit-tests of the Abscissas class in glq.py.
 
 Author: Leonardo Uieda (leouieda@gmail.com)
         Geophysics undergraduate student
@@ -13,7 +13,7 @@ Revision: $Revision$
 Last edited: $Date$
 """
 
-import abscissas as ab
+import glq
 import unittest
 from math import sqrt
 
@@ -43,7 +43,7 @@ class KnownValues(unittest.TestCase):
         (2, -2.54, 14.9, [8.72*sqrt(3)/3 + 6.18, -8.72*sqrt(3)/3 + 6.18]),
         (3, -2.54, 14.9, [8.72*sqrt(15)/5 + 6.18,
                           6.18,
-                          -8.72*sqrt(15)/5] + 6.18),
+                          -8.72*sqrt(15)/5 + 6.18]),
         (4, -2.54, 14.9, [8.72*sqrt(525+70*sqrt(30))/35 + 6.18,
                           8.72*sqrt(525-70*sqrt(30))/35 + 6.18,
                           -8.72*sqrt(525-70*sqrt(30))/35 + 6.18,
@@ -52,7 +52,7 @@ class KnownValues(unittest.TestCase):
                           8.72*sqrt(245-14*sqrt(70))/21 + 6.18,
                           6.18,
                           -8.72*sqrt(245-14*sqrt(70))/21 + 6.18,
-                          -8.72*sqrt(245+14*sqrt(70))/21] + 6.18),
+                          -8.72*sqrt(245+14*sqrt(70))/21 + 6.18]),
         (2, 125.6, 234.84, [54.62*sqrt(3)/3 + 180.22,
                             -54.62*sqrt(3)/3 + 180.22]),
         (3, 125.6, 234.84, [54.62*sqrt(15)/5 + 180.22,
@@ -86,7 +86,7 @@ class KnownValues(unittest.TestCase):
         
         for order, known_abs in self.known_values:
 
-            test_abs = ab.Abscissas(order)
+            test_abs = glq.Abscissas(order)
             
             for i in range(0, order):
 
@@ -99,9 +99,9 @@ class KnownValues(unittest.TestCase):
 
         for order in range(2, 50):
 
-            test_abs = ab.Abscissas(order)
+            test_abs = glq.Abscissas(order)
 
-            self.assertEqual(len(test_abs), order,\
+            self.assertEqual(len(test_abs), order, \
                              msg="Failed for order %d." % (order))
 
 
@@ -110,20 +110,21 @@ class KnownValues(unittest.TestCase):
 
         for order in range(2, 50):
             
-            test_abs = ab.Abscissas(order)
+            test_abs = glq.Abscissas(order)
             
             for i in range(0, order):
             
-                self.assertEqual(test_abs.val[i], test_abs[i],\
+                self.assertEqual(test_abs.val[i], test_abs[i], \
                     msg="Failed for abscissa %d of order %d." % (i+1, order))
+
 
     def test_scale_known_value(self):
         """scale(lower,upper) should give known result with known input"""
 
         for order, lower, upper, known_abs in self.known_values_scaled:
 
-            test_abs = ab.Abscissas(order)
-            test_abs.scale(lower,upper)
+            test_abs = glq.Abscissas(order)
+            test_abs.scale(lower, upper)
 
             for i in range(0, order):
 
@@ -144,28 +145,28 @@ class BadOrder(unittest.TestCase):
     
     def test_string_order(self):
         """calculate(order) should fail for non-integer (string) order"""
-        a = ab.Abscissas(4)
-        self.assertRaises(ab.OrderNotIntegerError, a.calculate, "5")
+        a = glq.Abscissas(4)
+        self.assertRaises(glq.OrderNotIntegerError, a.calculate, "5")
 
     def test_float_order(self):
         """calculate(order) should fail for non-integer (float) order"""
-        a = ab.Abscissas(5)
-        self.assertRaises(ab.OrderNotIntegerError, a.calculate, 3.454)
+        a = glq.Abscissas(5)
+        self.assertRaises(glq.OrderNotIntegerError, a.calculate, 3.454)
 
     def test_one_order(self):
         """calculate(order) should fail for order = 1"""
-        a = ab.Abscissas(3)
-        self.assertRaises(ab.OrderOutOfRangeError, a.calculate, 1)
+        a = glq.Abscissas(3)
+        self.assertRaises(glq.OrderOutOfRangeError, a.calculate, 1)
 
     def test_zero_order(self):
         """calculate(order) should fail for order = 0"""
-        a = ab.Abscissas(2)
-        self.assertRaises(ab.OrderOutOfRangeError, a.calculate, 0)
+        a = glq.Abscissas(2)
+        self.assertRaises(glq.OrderOutOfRangeError, a.calculate, 0)
 
     def test_negative_order(self):
         """calculate(order) should fail for negative order"""
-        a = ab.Abscissas(6)
-        self.assertRaises(ab.OrderOutOfRangeError, a.calculate, -2)
+        a = glq.Abscissas(6)
+        self.assertRaises(glq.OrderOutOfRangeError, a.calculate, -2)
 
 
 class BadIndex(unittest.TestCase):
@@ -175,28 +176,28 @@ class BadIndex(unittest.TestCase):
 
     def test_string_index(self):
         """__getitem__ should fail for non-integer (string) order"""
-        a = ab.Abscissas(7)
-        self.assertRaises(ab.IndexNotIntegerError, a.__getitem__, "6")
+        a = glq.Abscissas(7)
+        self.assertRaises(glq.IndexNotIntegerError, a.__getitem__, "6")
 
     def test_float_index(self):
         """__getitem__ should fail for non-integer (float) order"""
-        a = ab.Abscissas(3)
-        self.assertRaises(ab.IndexNotIntegerError, a.__getitem__, 2.466)
+        a = glq.Abscissas(3)
+        self.assertRaises(glq.IndexNotIntegerError, a.__getitem__, 2.466)
         
     def test_negative_index(self):
         """__getitem__ should fail if the key given is negative."""
-        a = ab.Abscissas(5)
-        self.assertRaises(ab.IndexOutOfRangeError, a.__getitem__, -2)
+        a = glq.Abscissas(5)
+        self.assertRaises(glq.IndexOutOfRangeError, a.__getitem__, -2)
 
     def test_large_index(self):
         """__getitem__ should fail if the key given is > order."""
-        a = ab.Abscissas(2)
-        self.assertRaises(ab.IndexOutOfRangeError, a.__getitem__, 4)
+        a = glq.Abscissas(2)
+        self.assertRaises(glq.IndexOutOfRangeError, a.__getitem__, 4)
 
     def test_order_index(self):
         """__getitem__ should fail if the key given is == order."""
-        a = ab.Abscissas(3)
-        self.assertRaises(ab.IndexOutOfRangeError, a.__getitem__, 3)
+        a = glq.Abscissas(3)
+        self.assertRaises(glq.IndexOutOfRangeError, a.__getitem__, 3)
 
 
 class MaxIterations(unittest.TestCase):
@@ -208,8 +209,8 @@ class MaxIterations(unittest.TestCase):
         """Max iterations should not be reached when calculating abscissas."""
         for i in range(2, 100):
             try:
-                a = ab.Abscissas(i)
-            except ab.MaxIterationsError, e:
+                a = glq.Abscissas(i)
+            except glq.MaxIterationsError, e:
                 self.fail(msg=e.message)
 
 ################################################################################
