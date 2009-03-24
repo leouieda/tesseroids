@@ -9,8 +9,8 @@ Author: Leonardo Uieda (leouieda@gmail.com)
         Sao Paulo - SP, Brasil
 
 Created: 23-Mar-2009 10:29:35 PM
-Revision: $Revision: $
-Last edited: $Date: $
+Revision: $Revision$
+Last edited: $Date$
 """
 
 import glq
