@@ -135,23 +135,23 @@ class BadParameters(unittest.TestCase):
         self.assertRaises(tesseroid.InvalidDensityError, tess.set_density, \
                           [12.345, 23.56])
 
-    def test_list_density(self):
+    def test_dict_density(self):
         """set_density should fail is passed a dictionary."""
         tess = tesseroid.Tesseroid(1, 2, 1, 2, 12, 38, -2.34)
         self.assertRaises(tesseroid.InvalidDensityError, tess.set_density, \
                           {1:12.345, 2:23.56})
 
-    def test_list_density(self):
+    def test_tuple_density(self):
         """set_density should fail is passed a tuple."""
         tess = tesseroid.Tesseroid(1, 2, 1, 2, 12, 38, -2.34)
         self.assertRaises(tesseroid.InvalidDensityError, tess.set_density, \
-                          (12.345, 23.56)
+                          (12.345, 23.56))
 
     def test_w_greaterthan360(self):
         """set_bounds should fail if passed W > 360."""
         tess = tesseroid.Tesseroid(1, 2, 1, 2, 12, 38, -2.34)
         self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
-                    362.45, 2, 1, 2, 12)
+                    362.45, 2, 1, 2, 12, 38)
 
     def test_w_lessthanm180(self):
         """set_bounds should fail if passed W < -180."""
@@ -218,6 +218,27 @@ class BadParameters(unittest.TestCase):
         tess = tesseroid.Tesseroid(1, 2, 1, 2, 12, 38, -2.34)
         self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
                     1, 2, -34.67765, -30.68, 123.45, 123.45)
+
+
+class BadKey(unittest.TestCase):
+    """
+    Test if the proper exceptions are raised when passing bad key to __getitem__
+    """
+
+    def test_invalid_string(self):
+        """___getitem__ should fail if key is not boundary or density param."""
+        tess = tesseroid.Tesseroid(1.45, 6.2435, -1.25, 2.3567, 1, 33.35, -2.34)
+        self.assertRaises(tesseroid.InvalidKeyError, tess.__getitem__, 'meh')
+
+    def test_float_key(self):
+        """___getitem__ should fail if key is a float"""
+        tess = tesseroid.Tesseroid(1.45, 6.2435, -1.25, 2.3567, 1, 33.35, -2.34)
+        self.assertRaises(tesseroid.InvalidKeyError, tess.__getitem__, 173.564)
+
+    def test_int_key(self):
+        """___getitem__ should fail if key is a float"""
+        tess = tesseroid.Tesseroid(1.45, 6.2435, -1.25, 2.3567, 1, 33.35, -2.34)
+        self.assertRaises(tesseroid.InvalidKeyError, tess.__getitem__, 466)
 
 ################################################################################
 
