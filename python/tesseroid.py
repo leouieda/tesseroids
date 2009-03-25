@@ -109,6 +109,9 @@ class Tesseroid:
         self.set_bounds(w, e, s, n, top, bottom)
         self.density = 0
         self.set_density(density)
+        # This is a value that can differentiate each tesseroid
+        # Recomended is it's position in the model file
+        self.tag = ''
 
     def set_bounds(self, w, e, s, n, top, bottom):
         """
@@ -123,7 +126,24 @@ class Tesseroid:
         Sets the density of the tesseroid. Also checks if the density given is
         a float or integer value. Raises InvalidDensityError is it is not.
         """
-        pass
+        # Check if density is a float
+        try:
+            # This part catches if density is a string.
+            # if it is an integer it will pass.
+            if float(density) != density:
+                raise InvalidDensityError, \
+                      "ERROR! Density given to tesseroid %s is not valid! %s" \
+                          % (str(self.tag), str(density))
+        except TypeError:
+            # If density is neither float nor string nor int, a TypeError is
+            # raised. If this happens, density was not valid.
+            raise InvalidDensityError, \
+                      "ERROR! Density given to tesseroid %s is not valid!"
+
+        # If made it this far, then the density is valid
+        self.density = density
+
+
 
     def __getitem__(self, key):
         """

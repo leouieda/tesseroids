@@ -190,6 +190,11 @@ class BadOrder(unittest.TestCase):
         a = glq.Abscissas(4)
         self.assertRaises(glq.OrderNotIntegerError, a.calculate, "5")
 
+    def test_list_order(self):
+        """calculate(order) should fail for non-integer (list) order"""
+        a = glq.Abscissas(4)
+        self.assertRaises(glq.OrderNotIntegerError, a.calculate, [53.45, 345])
+        
     def test_float_order(self):
         """calculate(order) should fail for non-integer (float) order"""
         a = glq.Abscissas(5)
@@ -217,12 +222,17 @@ class BadIndex(unittest.TestCase):
     """
 
     def test_string_index(self):
-        """__getitem__ should fail for non-integer (string) order"""
+        """__getitem__ should fail for non-integer (string) index"""
         a = glq.Abscissas(7)
         self.assertRaises(glq.IndexNotIntegerError, a.__getitem__, "6")
 
+    def test_list_index(self):
+        """__getitem__ should fail for non-integer (list) index"""
+        a = glq.Abscissas(4)
+        self.assertRaises(glq.IndexNotIntegerError, a.__getitem__, [3, 5])
+
     def test_float_index(self):
-        """__getitem__ should fail for non-integer (float) order"""
+        """__getitem__ should fail for non-integer (float) index"""
         a = glq.Abscissas(3)
         self.assertRaises(glq.IndexNotIntegerError, a.__getitem__, 2.466)
         

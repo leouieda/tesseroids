@@ -224,6 +224,12 @@ class BadIndex(unittest.TestCase):
         weights = glq.Weights(abscissas)
         self.assertRaises(glq.IndexNotIntegerError, weights.__getitem__, "6")
 
+    def test_list_index(self):
+        """__getitem__ should fail for non-integer (list) order"""
+        abscissas = MockAbscissas(3)
+        weights = glq.Weights(abscissas)
+        self.assertRaises(glq.IndexNotIntegerError, weights.__getitem__, [1,2])
+
     def test_float_index(self):
         """__getitem__ should fail for non-integer (float) order"""
         abscissas = MockAbscissas(2)

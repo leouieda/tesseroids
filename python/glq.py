@@ -244,11 +244,18 @@ class Abscissas:
         # Check if the order given is valid
         ########################################################################
         # Check if it is an integer.
-        if int(order) != order:
+        try:
+            # This part catches if order is a float or a string
+            if int(order) != order:
+                raise OrderNotIntegerError, \
+                      "ERROR! Order of GLQ (%s) provided is not an integer!" \
+                          % (str(order))
+        except TypeError:
+            # If order is neither float nor string nor int, a TypeError is
+            # raised. If this happens, order was not valid.
             raise OrderNotIntegerError, \
-                  "ERROR! Order of GLQ (%s) provided is not an integer!" \
-                      % (str(order))
-                      
+                     "ERROR! Order of GLQ provided is not an integer!"            
+
         # Order must be at least 2.
         if order < 2:
             raise OrderOutOfRangeError, \
@@ -294,10 +301,17 @@ class Abscissas:
         # Check if the key given is valid
         ########################################################################
         # Check if it is an integer.
-        if int(key) != key:
+        try:
+            # This part catches if key is a float or a string
+            if int(key) != key:
+                raise IndexNotIntegerError, \
+                      "ERROR! Abscissa index given (%s) is not an integer!" \
+                          % (str(key))
+        except TypeError:
+            # If key is neither float nor string nor int, a TypeError is
+            # raised. If this happens, key was not valid.
             raise IndexNotIntegerError, \
-                  "ERROR! Abscissa index given (%s) is not an integer!" \
-                      % (str(key))
+                      "ERROR! Abscissa index given is not an integer!"
 
         # Key must be >= 0 and < order.
         if key >= self.order or key < 0:
@@ -401,10 +415,18 @@ class Weights():
         # Check if the key given is valid
         ########################################################################
         # Check if it is an integer.
-        if int(key) != key:
+        try:
+            if int(key) != key:
+                # This part catches if key is a float or a string
+                raise IndexNotIntegerError, \
+                      "ERROR! Weight index given (%s) is not an integer!" \
+                          % (str(key))
+
+        except TypeError:
+            # If key is neither float nor string nor int, a TypeError is
+            # raised. If this happens, key was not valid.
             raise IndexNotIntegerError, \
-                  "ERROR! Weight index given (%s) is not an integer!" \
-                      % (str(key))
+                      "ERROR! Weight index given is not an integer!"
 
         # Key must be >= 0 and < order.
         if key >= self.order or key < 0:
