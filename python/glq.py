@@ -67,10 +67,10 @@ Module GLQ (Gauss-Legendre Quadrature):
          
 """
 ################################################################################
-# $Author$
+__author__ = '$Author$'
 # Created: 21-Mar-2009 1:47:06 AM
 # Revision: $Revision$
-# Last edited: $Date$
+__date__ = 'Last edited: $Date$'
 ################################################################################
 
 
