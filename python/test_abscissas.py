@@ -1,17 +1,59 @@
 #!/usr/bin/env python
+################################################################################
+#
+#    Copyright (C) 2009  Leonardo Uieda
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#    Doubts and/or suggestions please mail the author:
+#         Leonardo Uieda - leouieda@gmail.com
+#
+################################################################################
 """
-Unit-tests of the Abscissas class in glq.py.
+Test_abscissas:
+    Unit-tests of the Abscissas class in module GLQ.
+    To execute the tests run:
 
-Author: Leonardo Uieda (leouieda@gmail.com)
-        Geophysics undergraduate student
-        Instituto de Astronomia, Geofisica e Ciencias Atmosfericas
-        Universidade de Sao Paulo
-        Sao Paulo - SP, Brasil
+        python test_abscissas.py -v
 
-Created: 21-Mar-2009 1:49:24 AM
-Revision: $Revision$
-Last edited: $Date$
+
+    Copyright (C) 2009  Leonardo Uieda
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Doubts and/or suggestions please mail the author:
+         Leonardo Uieda - leouieda@gmail.com
+
 """
+################################################################################
+# $Author$
+# Created: 21-Mar-2009 1:49:24 AM
+# $Revision: 4 $
+# Last edited: $Date: 2009-03-24 00:54:04 -0400 (Tue, 24 Mar 2009) $
+################################################################################
+
 
 import glq
 import unittest

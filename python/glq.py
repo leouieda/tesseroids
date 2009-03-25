@@ -1,8 +1,29 @@
+################################################################################
+#    
+#    Copyright (C) 2009  Leonardo Uieda
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#    Doubts and/or suggestions please mail the author:
+#         Leonardo Uieda - leouieda@gmail.com
+#
+################################################################################
 """
 Module GLQ (Gauss-Legendre Quadrature):
 
     This module contains classes for calculating the abscissas and weights used
-    in the Gauss-Legenre Quadrature (GLQ).
+    in the Gauss-Legenre Quadrature.
 
     Example: To integrate x**2 from -20 to 15 using a 5 point GLQ
 
@@ -26,16 +47,31 @@ Module GLQ (Gauss-Legendre Quadrature):
          via Newton's method", 2006,
         Annales mathematicae et Informaticae, 33, pp 3-13.
 
-Author: Leonardo Uieda (leouieda@gmail.com)
-        Geophysics undergraduate student
-        Instituto de Astronomia, Geofisica e Ciencias Atmosfericas
-        Universidade de Sao Paulo
-        Sao Paulo - SP, Brasil
+    Copyright (C) 2009  Leonardo Uieda
 
-Created: 21-Mar-2009 1:47:06 AM
-Revision: $Revision$
-Last edited: $Date$
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Doubts and/or suggestions please mail the author:
+         Leonardo Uieda - leouieda@gmail.com
+         
 """
+################################################################################
+# Created: 21-Mar-2009 1:47:06 AM
+# Revision: $Revision: $
+# Last edited: $Date: $
+################################################################################
+
 
 import math as m
 
