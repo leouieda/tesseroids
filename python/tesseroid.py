@@ -100,18 +100,18 @@ class Tesseroid:
 
     def __init__(self, w, e, s, n, top, bottom, density):
         # Initialize the parameters and let set_* methods set them
-        self.w = 0
-        self.e = 0
-        self.s = 0
-        self.n = 0
-        self.top = 0
-        self.bottom = 0
-        self.set_bounds(w, e, s, n, top, bottom)
-        self.density = 0
-        self.set_density(density)
-        # This is a value that can differentiate each tesseroid
+        # Tag is a value that can differentiate each tesseroid
         # Recomended is it's position in the model file
-        self.tag = ''
+        self.params = {'w': 0,
+                       'e': 0,
+                       's': 0,
+                       'n': 0,
+                       'top': 0,
+                       'bottom': 0,
+                       'density': 0,
+                       'tag': ''}
+        self.set_bounds(w, e, s, n, top, bottom)
+        self.set_density(density)
 
     def set_bounds(self, w, e, s, n, top, bottom):
         """
@@ -133,7 +133,7 @@ class Tesseroid:
             if float(density) != density:
                 raise InvalidDensityError, \
                       "ERROR! Density given to tesseroid %s is not valid! %s" \
-                          % (str(self.tag), str(density))
+                          % (str(self.params['tag']), str(density))
         except TypeError:
             # If density is neither float nor string nor int, a TypeError is
             # raised. If this happens, density was not valid.
@@ -141,7 +141,7 @@ class Tesseroid:
                       "ERROR! Density given to tesseroid %s is not valid!"
 
         # If made it this far, then the density is valid
-        self.density = density
+        self.params['density'] = density
 
 
 
@@ -151,7 +151,13 @@ class Tesseroid:
         Key can be 'w', 'e', 's', 'n', 'top', 'bottom' or 'density'.
         Raises InvalidKeyError if it is none of the above.
         """
-        pass
+        if key not in ('w', 'e', 's', 'n', 'top', 'bottom', 'density'):
+            raise InvalidKeyError, "ERROR! Tesseroid %s has no field %s!" + \
+                " Valid fields are 'w', 'e', 's', 'n', 'top', 'bottom', and" + \
+                "'density'." % (str(self.params['tag']), str(key))
+
+        return self.params[key]
+    
 ################################################################################
 
 
