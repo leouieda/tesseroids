@@ -65,9 +65,9 @@ class KnownValues(unittest.TestCase):
     """
     Test if the class returns the correct values for some inputs.
     """
-    known = ( (180, 181.4, -12.4, -11.3, 500, 654.3),
-              (-123, -112, 4.56, 6.7886, -1203, -1120),
-              (-1, 1, -2.4, 2.67, -12, 5.65))
+    known = ( (180, 181.4, -12.4, -11.3, 500, 654.3, -2.64),
+              (-123, -112, 4.56, 6.7886, -1203, -1120, 3.466),
+              (-1, 1, -2.4, 2.67, -12, 5.65, -1.346))
 
     known_change = ( (312, 3, -48, 3),
                      (179, -179, 179, 181) )
@@ -75,14 +75,17 @@ class KnownValues(unittest.TestCase):
     def test_getitem(self):
         """__getitem__ should return the correct values"""
 
-        for w, e, s, n, t, b in self.known:
-            tess = tesseroid.Tesseroid(w, e, s, n, t, b, -2.64)
+        for w, e, s, n, t, b, d in self.known:
+            tess = tesseroid.Tesseroid(w, e, s, n, t, b, d)
             self.assertEqual(w, tess['w'], msg="Failed for w=%f." % (w))
-            self.assertEqual(e, tess['e'], msg="Failed for w=%f." % (e))
-            self.assertEqual(s, tess['s'], msg="Failed for w=%f." % (s))
-            self.assertEqual(n, tess['n'], msg="Failed for w=%f." % (n))
-            self.assertEqual(t, tess['top'], msg="Failed for w=%f." % (t))
-            self.assertEqual(b, tess['bottom'], msg="Failed for w=%f." % (b))
+            self.assertEqual(e, tess['e'], msg="Failed for e=%f." % (e))
+            self.assertEqual(s, tess['s'], msg="Failed for s=%f." % (s))
+            self.assertEqual(n, tess['n'], msg="Failed for n=%f." % (n))
+            self.assertEqual(t, tess['top'], msg="Failed for top=%f." % (t))
+            self.assertEqual(b, tess['bottom'], msg="Failed for bottom=%f." \
+                                                        % (b))
+            self.assertEqual(b, tess['density'], msg="Failed for density=%f." \
+                                                    % (d))
 
     def test_setbounds(self):
         """set_bounds should change the W and E values appropriately"""
@@ -92,8 +95,10 @@ class KnownValues(unittest.TestCase):
         b = 20
         for w, e, known_w, known_e in self.known_change:
             tess = tesseroid.Tesseroid(w, e, s, n, t, b, -2.64)
-            self.assertEqual(known_w, tess.w, msg="Failed for %f, %f." % (w, e))
-            self.assertEqual(known_e, tess.e, msg="Failed for %f, %f." % (w, e))
+            self.assertEqual(known_w, tess['w'], msg="Failed for %f, %f." \
+                                                        % (w, e))
+            self.assertEqual(known_e, tess['e'], msg="Failed for %f, %f." \
+                                                        % (w, e))
         
 ################################################################################
 
@@ -122,6 +127,22 @@ class BadParameters(unittest.TestCase):
                     1, 2.34, 80.5, 81.34, '100', 140)
         self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
                     1, 2.34, 80.5, 81.34, 100, '140')
+
+    def test_list_boudary(self):
+        """set_bounds should fail if passed list parameter."""
+        tess = tesseroid.Tesseroid(1, 2, 1, 2, 12, 38, -2.34)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    [1, 2], 2.34, 80.5, 81.34, 100, 140)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    1, [2.34, 3], 80.5, 81.34, 100, 140)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    1, 2.34, [80.5, 'meh'], 81.34, 100, 140)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    1, 2.34, 80.5, [81.34, 3.45], 100, 140)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    1, 2.34, 80.5, 81.34, [100, 1002.45], 140)
+        self.assertRaises(tesseroid.InvalidBoundaryError, tess.set_bounds, \
+                    1, 2.34, 80.5, 81.34, 100, [140, 'bla'])
 
     def test_string_density(self):
         """set_density should fail is passed a string."""
@@ -236,7 +257,7 @@ class BadKey(unittest.TestCase):
         self.assertRaises(tesseroid.InvalidKeyError, tess.__getitem__, 173.564)
 
     def test_int_key(self):
-        """___getitem__ should fail if key is a float"""
+        """___getitem__ should fail if key is a int"""
         tess = tesseroid.Tesseroid(1.45, 6.2435, -1.25, 2.3567, 1, 33.35, -2.34)
         self.assertRaises(tesseroid.InvalidKeyError, tess.__getitem__, 466)
 
