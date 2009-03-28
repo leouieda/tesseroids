@@ -89,10 +89,11 @@ class NullHandler(logging.Handler):
     Log Handler that does nothing.
     """
     def emit(self, record):
+        """ Do nothing. """
         pass
 
-nullh = NullHandler()
-logging.getLogger('glq').addHandler(nullh)
+NULLH = NullHandler()
+logging.getLogger('glq').addHandler(NULLH)
 ################################################################################
 
 
@@ -278,7 +279,7 @@ class Abscissas:
             # If order is neither float nor string nor int, a TypeError is
             # raised. If this happens, order was not valid.
             raise OrderNotIntegerError, \
-                     "ERROR! Order of GLQ provided is not an integer!"            
+                     "ERROR! Order of GLQ provided is not an integer!"
 
         # Order must be at least 2.
         if order < 2:
@@ -476,7 +477,8 @@ class Weights():
 # DOCTEST
 
 if __name__ == '__main__':
-    import doctest
+    import doctest    
     doctest.testmod()
+    print "Finished"
     
 ################################################################################

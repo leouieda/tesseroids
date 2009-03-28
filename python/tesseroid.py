@@ -26,7 +26,8 @@ Tesseroid:
         - Boundary (W, E, S, N, Top, Bottom);
         - Physical Property (Density);
         - tag (a tag identifying the tesseroid, ex: line it is in model file)
-    Also contains the exceptions raised by Tesseroid's methods.
+    Also contains the exceptions raised by Tesseroid's methods. These are
+    derived from TesseroidError.
     
     
     Copyright (C) 2009  Leonardo Uieda
@@ -67,10 +68,11 @@ class NullHandler(logging.Handler):
     Log Handler that does nothing.
     """
     def emit(self, record):
+        """ Do nothing. """
         pass
 
-nullh = NullHandler()
-logging.getLogger('tesseroid').addHandler(nullh)
+NULLH = NullHandler()
+logging.getLogger('tesseroid').addHandler(NULLH)
 ################################################################################
 
 
@@ -111,18 +113,49 @@ class Tesseroid(dict):
     """
     The Tesseroid class.
     Holds the parameters that define a tesseroid:
-        - Boundary (W, E, S, N, Top, Bottom);
-        - Physical Property (Density);
+        - Boundary (w, e, s, n, top, bottom);
+        - Physical Property (density);
         - tag (a tag identifying the tesseroid, ex: line it is in model file)
-    Pass the parameters to __init__.
-    If the parameters need to be changed later on, use the 'set_bounds' and
-    'set_density' methods!
+    Pass the parameters to __init__ and it will call the appropriate set_* 
+    method. If the parameters need to be changed later on, use the 'set_bounds'
+    and 'set_density' methods!
     DO NOT set these parameters by hand! set_bounds performs some checks and
     adaptations on the parameters without which the GLQ might fail later on!
-    The parameters can also be set/accessed just like in a dictionary.    
+
+    The parameters can be accessed just like in a dictionary.
+    
+    NOTICE:
+    If W > E, then there will be a problem when calculating the abscissas for
+    the glq because of the jump from 360 to 1 or from 179 to -179. The abscissas 
+    algorithm won't understand this and will go 360 to 1 the other way around. 
+    So, to correct for this, first W and E will be converted to [0,360]. Then,
+    if W still > E, W will be converted [-180,180]. So don't be surprised if the
+    value set to tesseroid is not the one you passed (though it is actually the
+    same!). A INFO will be printed to a log (if you are logging) telling what
+    changes have been made.
+    
+    Ex:
+        >>> import logging
+        >>> import sys
+        >>>
+        >>> # Setup a log
+        >>> logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        >>>
+        >>> tess = Tesseroid(179,-179,-1,1,10,100,1.5,"MyTesseroid")
+        INFO:tesseroid.Tesseroid:Tesseroid MyTesseroid had it's boundary \
+parameter E changed from -179 to 181 for convenience.
+        >>>
+        >>> print tess['w'], tess['e']
+        179 181
+        
     """
 
     def __init__(self, w, e, s, n, top, bottom, density, tag=''):
+        """
+        Pass boundary and density parameters.
+        Optionaly pass a tag value to identify the tesseroid. DEFAULT=''
+        """
+        dict.__init__(self)
         # Initialize the parameters and let set_* methods set them
         # Tag is a value that can differentiate each tesseroid
         # Recomended is it's position in the model file
@@ -214,8 +247,8 @@ class Tesseroid(dict):
         # If W > E, then there will be a problem when calculating the abscissas
         # because of the jump from 360 to 1 or from 179 to -179. The abscissas
         # algorithm won't understand this and will go 360 to 1 the other way
-        # around. So, to correct for this, if convert W and E to an interval
-        # with no jump.
+        # around. So, to correct for this, convert W and E to an interval with
+        # no jump.
         # To make it easier to analyse, first convert them both to [0,360]:
         if w < 0:
             msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
@@ -323,5 +356,6 @@ class Tesseroid(dict):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+    print "Finished"
 
 ################################################################################
