@@ -66,7 +66,7 @@ class KnownValues(unittest.TestCase):
     Test if the class returns the correct values for some inputs.
     """
     known = ( (180, 181.4, -12.4, -11.3, 500, 654.3, -2.64),
-              (-123, -112, 4.56, 6.7886, -1203, -1120, 3.466),
+              (103, 112, 4.56, 6.7886, -1203, -1120, 3.466),
               (-1, 1, -2.4, 2.67, -12, 5.65, -1.346))
 
     known_change = ( (312, 3, -48, 3),
@@ -84,7 +84,7 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(t, tess['top'], msg="Failed for top=%f." % (t))
             self.assertEqual(b, tess['bottom'], msg="Failed for bottom=%f." \
                                                         % (b))
-            self.assertEqual(b, tess['density'], msg="Failed for density=%f." \
+            self.assertEqual(d, tess['density'], msg="Failed for density=%f." \
                                                     % (d))
 
     def test_setbounds(self):

@@ -55,6 +55,8 @@ __author__ = '$Author$'
 __date__ = 'Last edited: $Date$'
 ################################################################################
 
+import logging
+
 
 ################################################################################
 #  EXCEPTIONS
@@ -125,33 +127,35 @@ class Tesseroid(dict):
         Performs checks to see if parameters are correct.
         Raises a InvalidBoundaryError if parameters are not in correct format.
         """
+        ########################################################################
+        # CHECK THE TYPE OF PARAMETERS
         # Check if parameters are float or int
         try:
             # This part catches if parameters are strings.
             # if it is an integer it will pass.
             if float(w) != w:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter W " + \
-                "given to tesseroid %s is not valid! %s" % (str(self['tag']), \
-                                                            str(w))
+                "given to tesseroid %s is not valid!\n Value given: %s" \
+                % (str(self['tag']), str(w))
             if float(e) != e:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter E " + \
-                "given to tesseroid %s is not valid! %s" % (str(self['tag']), \
-                                                            str(e))
+                "given to tesseroid %s is not valid!\n Value given: %s" \
+                % (str(self['tag']), str(e))
             if float(s) != s:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter S " + \
-                "given to tesseroid %s is not valid! %s" % (str(self['tag']), \
-                                                            str(s))
+                "given to tesseroid %s is not valid!\n Value given: %s" \
+                % (str(self['tag']), str(s))
             if float(n) != n:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter N " + \
-                "given to tesseroid %s is not valid! %s" % (str(self['tag']), \
-                                                            str(n))
+                "given to tesseroid %s is not valid!\n Value given: %s" \
+                % (str(self['tag']), str(n))
             if float(top) != top:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter Top " + \
-                "given to tesseroid %s is not valid! %s" % (str(self['tag']), \
-                                                            str(w))
+                "given to tesseroid %s is not valid!\n Value given: %s" \
+                % (str(self['tag']), str(top))
             if float(bottom) != bottom:
                 raise InvalidBoundaryError, "ERROR! Boundary parameter " + \
-                "Bottom given to tesseroid %s is not valid! %s" \
+                "Bottom given to tesseroid %s is not valid!\n Value given: %s" \
                 % (str(self['tag']), str(bottom))
 
         except TypeError:
@@ -160,6 +164,86 @@ class Tesseroid(dict):
             raise InvalidBoundaryError, \
                       "ERROR! Boundary given to tesseroid %s is not valid!" \
                           % (self['tag'])
+        ########################################################################
+
+        ########################################################################
+        # CHECK THE VALUES OF PARAMETERS
+        # Longitude boundaries cannot be > 360 degrees
+        if w > 360:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter W " + \
+                "given to tesseroid %s cannot be > 360" % (str(self['tag'])) + \
+                " degrees!\n Value given: %f" % (w)
+        if e > 360:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter E " + \
+                "given to tesseroid %s cannot be > 360" % (str(self['tag'])) + \
+                " degrees!\n Value given: %f" % (e)
+        # Longitude boundaries cannot be < -180 degrees
+        if w < -180:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter W " + \
+            "given to tesseroid %s cannot be < -180" % (str(self['tag'])) + \
+            " degrees!\n Value given: %f" % (w)
+        if e < -180:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter E " + \
+            "given to tesseroid %s cannot be < -180" % (str(self['tag'])) + \
+            " degrees!\n Value given: %f" % (e)
+        # Longitude boundaries cannot be equal
+        if w == e:
+            raise InvalidBoundaryError, "ERROR! Boundary parameters W and " + \
+            "E given to tesseroid %s cannot be equal!" % (str(self['tag'])) + \
+            "\n Values given: w:%f  e:%f" % (w, e)
+        # If W > E, then there will be a problem when calculating the abscissas
+        # because of the jump from 360 to 1 or from 179 to -179. The abscissas
+        # algorithm won't understand this and will go 360 to 1 the other way
+        # around. So, to correct for this, if convert W and E to an interval
+        # with no jump.
+        # To make it easier to analyse, first convert them both to [0,360]:
+        if w < 0:
+            w = 360 + w
+        if e <  0:
+            e = 360 + e
+        if w > e:
+            w = w - 360
+        # Now W and E should be ok with no problems
+
+        # Latitude boundaries cannot be > 90 degrees
+        if s > 90:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter S " + \
+                "given to tesseroid %s cannot be > 90" % (str(self['tag'])) + \
+                " degrees!\n Value given: %f" % (s)
+        if n > 90:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter N " + \
+                "given to tesseroid %s cannot be > 90" % (str(self['tag'])) + \
+                " degrees!\n Value given: %f" % (n)
+        # Latitude boundaries cannot be < -90 degrees
+        if s < -90:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter S " + \
+            "given to tesseroid %s cannot be < -90" % (str(self['tag'])) + \
+            " degrees!\n Value given: %f" % (s)
+        if n < -90:
+            raise InvalidBoundaryError, "ERROR! Boundary parameter N " + \
+            "given to tesseroid %s cannot be < -90" % (str(self['tag'])) + \
+            " degrees!\n Value given: %f" % (n)
+        # S cannot be greater than or equal to N
+        if s >= n:
+            raise InvalidBoundaryError, "ERROR! Boundary parameters S " + \
+            "given to tesseroid %s cannot be >= N!" % (str(self['tag'])) + \
+            "\n Values given: s:%f  n:%f" % (s, n)
+
+        # Since bottom and top are the depth to the bottom and top of the
+        # tesseroid, top cannot be >= bottom.
+        if top >= bottom:
+            raise InvalidBoundaryError, "ERROR! Boundary parameters Top " + \
+            "given to tesseroid %s cannot be >= Bottom!" % (str(self['tag'])) +\
+            "\n Values given: top:%f  bottom:%f" % (top, bottom)
+        ########################################################################
+
+        # If we got here, then all went well and the parameters are OK
+        self['w'] = w
+        self['e'] = e
+        self['s'] = s
+        self['n'] = n
+        self['top'] = top
+        self['bottom'] = bottom
 
         
     def set_density(self, density):
