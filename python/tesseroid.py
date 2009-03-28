@@ -55,7 +55,23 @@ __author__ = '$Author$'
 __date__ = 'Last edited: $Date$'
 ################################################################################
 
+
+################################################################################
+# LOGGING
 import logging
+
+# A Handler that does nothing so that if the app using tesseroid.py doesn't
+# want to log, it won't get an error because it didn't provide a Handler
+class NullHandler(logging.Handler):
+    """
+    Log Handler that does nothing.
+    """
+    def emit(self, record):
+        pass
+
+nullh = NullHandler()
+logging.getLogger('tesseroid').addHandler(nullh)
+################################################################################
 
 
 ################################################################################
@@ -106,7 +122,7 @@ class Tesseroid(dict):
     The parameters can also be set/accessed just like in a dictionary.    
     """
 
-    def __init__(self, w, e, s, n, top, bottom, density):
+    def __init__(self, w, e, s, n, top, bottom, density, tag=''):
         # Initialize the parameters and let set_* methods set them
         # Tag is a value that can differentiate each tesseroid
         # Recomended is it's position in the model file
@@ -117,9 +133,13 @@ class Tesseroid(dict):
         self['top'] = 0
         self['bottom'] = 0
         self['density'] = 0
-        self['tag'] = ''
+        self['tag'] = tag
+        # Create a Logger for the Tesseroid class
+        self.log = logging.getLogger('tesseroid.Tesseroid')
+        # Check if the parameters are Ok and set them if they are.
         self.set_bounds(w, e, s, n, top, bottom)
         self.set_density(density)
+        
 
     def set_bounds(self, w, e, s, n, top, bottom):
         """
@@ -198,11 +218,20 @@ class Tesseroid(dict):
         # with no jump.
         # To make it easier to analyse, first convert them both to [0,360]:
         if w < 0:
-            w = 360 + w
+            msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
+                  " W changed from %g to %g for convenience." % (w, 360 + w)
+            w = 360 + w            
+            self.log.info(msg)
         if e <  0:
+            msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
+                  " E changed from %g to %g for convenience." % (e, 360 + e)
             e = 360 + e
+            self.log.info(msg)
         if w > e:
+            msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
+                  " W changed from %g to %g so that W < E." % (w, w - 360)
             w = w - 360
+            self.log.info(msg)
         # Now W and E should be ok with no problems
 
         # Latitude boundaries cannot be > 90 degrees

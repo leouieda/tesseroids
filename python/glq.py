@@ -47,6 +47,7 @@ Module GLQ (Gauss-Legendre Quadrature):
          via Newton's method", 2006,
         Annales mathematicae et Informaticae, 33, pp 3-13.
 
+
     Copyright (C) 2009  Leonardo Uieda
 
     This program is free software: you can redistribute it and/or modify
@@ -75,6 +76,24 @@ __date__ = 'Last edited: $Date$'
 
 
 import math as m
+
+
+################################################################################
+# LOGGING
+import logging
+
+# A Handler that does nothing so that if the app using glq.py doesn't
+# want to log, it won't get an error because it didn't provide a Handler
+class NullHandler(logging.Handler):
+    """
+    Log Handler that does nothing.
+    """
+    def emit(self, record):
+        pass
+
+nullh = NullHandler()
+logging.getLogger('glq').addHandler(nullh)
+################################################################################
 
 
 ################################################################################
@@ -167,6 +186,9 @@ class Abscissas:
 
 
     def __init__(self, order):
+        # Create a Logger for the Abscissas class
+        self.log = logging.getLogger('glq.Abscissas')
+        # Initiate the parameters and calculate the abscissas they are OK
         self.order = 0
         self.val_unscaled = []
         self.val = []
@@ -226,13 +248,15 @@ class Abscissas:
             if abs(x1 - x0) <= self.max_error:
                 error_reached = True
                 break
-           
-        if iterations >= self.max_iterations and not error_reached:
-            raise MaxIterationsError, \
-                "WARNING! Maximum iterations (%d) " % (self.max_iterations) +\
-                "reached when looking for root %d of " % (current_root) + \
-                "Legendre polynomial P%d." % (self.order)
 
+        # If max_iterations was reached, create a warning msg in the log.
+        if iterations >= self.max_iterations and not error_reached:
+            msg = "Maximum iterations (%d) " % (self.max_iterations) +\
+                  "reached when looking for root %d of " % (current_root) + \
+                  "Legendre polynomial P%d." % (self.order)
+            self.log.warning(msg)
+
+        # Return the final value of the root.
         return x1
     
 
