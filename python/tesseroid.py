@@ -111,7 +111,6 @@ class InvalidKeyError(TesseroidError):
 
 class Tesseroid(dict):
     """
-    The Tesseroid class.
     Holds the parameters that define a tesseroid:
         - Boundary (w, e, s, n, top, bottom);
         - Physical Property (density);
