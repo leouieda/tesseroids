@@ -1,4 +1,9 @@
 ################################################################################
+#                                                                              #
+#                  MODULE GLQ (GAUSS-LEGENDRE QUADRATURE)                      #
+#                                                                              #
+################################################################################
+################################################################################
 #    
 #    Copyright (C) 2009  Leonardo Uieda
 #
@@ -20,8 +25,6 @@
 #
 ################################################################################
 """
-Module GLQ (Gauss-Legendre Quadrature):
-
     This module contains classes for calculating the abscissas and weights used
     in the Gauss-Legenre Quadrature.
 
@@ -290,17 +293,17 @@ class Abscissas:
         # Set the order of the GLQ. This will be number of abscissas.
         self.order = order
 
-        # Initialize the unscaled values with 0
-        self.val_unscaled = [0.0]
-        self.val_unscaled *= order
+        # Initialize the (unscaled) values with 0
+        self.val_unscaled = [0.0]*order
+        self.val = [0.0]*order
         
         # Iterate to find all roots of the Legendre polynomial
         # Find the root and put it in the unscaled version of the roots
         for i in range(0, order):
             self.val_unscaled[i] = self.__findroot(m.cos(m.pi*((i+1)-0.25)/ \
                                                    (order+0.5)), i)
-        # Then copy the to the ones that will be scaled in the future
-        self.val = self.val_unscaled
+            # Then copy the to the ones that will be scaled in the future
+            self.val[i] = self.val_unscaled[i]
         
 
     def scale(self, lower, upper):
