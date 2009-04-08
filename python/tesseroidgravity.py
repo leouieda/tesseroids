@@ -31,7 +31,7 @@
     The constants used in the calculations are defined as class variables in the
     TesseroidGravity class that is mother to all others.
     Also included are functions to time the execution of these calculations.
-    
+
 
     Copyright (C) 2009  Leonardo Uieda
 
@@ -61,7 +61,7 @@ __date__ = 'Last edited: $Date$'
 ################################################################################
 
 
-from math import pi, cos, sin, sqrt
+from math import pi, cos, sin, sqrt, log
 from timeit import Timer
 
 
@@ -192,7 +192,7 @@ class TesseroidPotential(TesseroidGravity):
     This class is used to calculate the GRAVITY POTENTIAL field of a tesseroid
     model. Calculations are performed on a grid. A Gauss-Legendre Quadrature is
     used in order to solve the integral that defines the field. The Abscissas
-    and Weights classes used in this GLQ must be passed to __init__ (see 
+    and Weights classes used in this GLQ must be passed to __init__ (see
     __init__ doc for more on the input parameters).
     See glq module doc for more on Abscissas and Weights.
     Abscissas must be in the radial, lon, and lat directions (and so must the
@@ -251,7 +251,7 @@ class TesseroidPotential(TesseroidGravity):
 
         # First initialize the array that will hold the field values
         field = [[0.0]*len(lons) for i in range(0, len(lats))]
-        
+
         # Iterate over the tesseroids in the model and sum their fields on the
         # grid points.
         for tess in model:
@@ -260,7 +260,7 @@ class TesseroidPotential(TesseroidGravity):
             self.abr.scale(self.R - tess['bottom'], self.R - tess['top'])
             self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
             self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
-            
+
             # This is the scale fator that will multiply the GLQ summation due
             # to the scaling of the abscissas
             # For practicality I included the density of the tesseroid and the
@@ -271,18 +271,18 @@ class TesseroidPotential(TesseroidGravity):
             # Caculate the field at every point on the grid and sum to what was
             # there before.
             for i, phi in zip(*[range(0, len(lats)), lats]):
-                
+
                 # Convert the latitude to radians
                 phi *= deg2rad
-                
+
                 for j, lamb in zip(*[range(0, len(lons)), lons]):
-                    
+
                     # Calculate the radial distance to the point
                     r = self.R + heights[i][j]
 
                     # Convert the longitude to radians
                     lamb *= deg2rad
-                    
+
                     # Initialize the result with zero
                     res = 0.0
 
@@ -313,6 +313,100 @@ class TesseroidPotential(TesseroidGravity):
 
         return field
 
+
+    def calculate2D(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points using analytical integraion in the r direction and 2D GLQ
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        See doc for method 'calculate' for more information.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # These are the integration limits
+            r1 = self.R - tess['bottom']
+            r2 = self.R - tess['top']
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                                  tess['density']*self.G*self.si2mgal) / 4.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+
+                            # Calculate the integral kernel K
+                            r_2 = r**2
+                            cosPhil = cos(phil)
+                            cosPsi = sin(phi)*sin(phil) + cos(phi)*cosPhil* \
+                                                               cos(lamb - lambl)
+                            l1 = sqrt( r_2 + (r1**2) - (2*r*r1*cosPsi) )
+                            l2 = sqrt( r_2 + (r2**2) - (2*r*r2*cosPsi) )
+                            lntop = l2 + r2 - (r*cosPsi)
+                            lnbot = l1 + r1 - (r*cosPsi)
+                            ln = log(abs(lntop/lnbot))
+
+                            K = cosPhil*0.5*( r2*l2 - r1*l1 + \
+                                3*r*cosPsi*(l2 - l1) + \
+                                r_2*((3*cosPsi*cosPsi) - 1)*ln )
+
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
 ################################################################################
 
 
@@ -452,6 +546,113 @@ class TesseroidGx(TesseroidGravity):
 
         return field
 
+    def calculate2D(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points using analytical integraion in the r direction and 2D GLQ
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        See doc for method 'calculate' for more information.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # These are the integration limits
+            r1 = self.R - tess['bottom']
+            r2 = self.R - tess['top']
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                                  tess['density']*self.G*self.si2mgal) / 4.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+
+                            # Calculate the integral kernel K
+                            r_2 = r**2
+                            r1_2 = r1**2
+                            r2_2 = r2**2
+                            cosPhil = cos(phil)
+                            cosPhi = cos(phi)
+                            sinPhi = sin(phi)
+                            sinPhil = sin(phil)
+                            cosLambLambl = cos(lamb-lambl)
+                            cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*\
+                                                                    cosLambLambl
+                            cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*\
+                                                                    cosLambLambl
+                            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+                            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+                            r1l1 = r1/l1
+                            r2l2 = r2/l2
+                            lntop = l2 + r2 - (r*cosPsi)
+                            lnbot = l1 + r1 - (r*cosPsi)
+                            ln = log(abs(lntop/lnbot))
+
+                            K = (cosPhil*cosPsiPhi/(2*r))*(\
+                                r*(r1*r1l1 - r2*r2l2) + \
+                                3*r*(l2 - l1 + r*cosPsi*(r1l1 - r2l2)) + \
+                                6*r_2*cosPsi*ln + \
+                                r_2*r*((3*cosPsi*cosPsi) - 1)*(\
+                                    ((r1 + l1)/(l1*lnbot)) - \
+                                    ((r2 + l2)/(l2*lntop)) ) )
+
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
 ################################################################################
 
 
@@ -588,6 +789,111 @@ class TesseroidGy(TesseroidGravity):
 
         return field
 
+
+    def calculate2D(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points using analytical integraion in the r direction and 2D GLQ
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        See doc for method 'calculate' for more information.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # These are the integration limits
+            r1 = self.R - tess['bottom']
+            r2 = self.R - tess['top']
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                                  tess['density']*self.G*self.si2mgal) / 4.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+
+                            # Calculate the integral kernel K
+                            r_2 = r**2
+                            r1_2 = r1**2
+                            r2_2 = r2**2
+                            cosPhil = cos(phil)
+                            cosPhi = cos(phi)
+                            cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*\
+                                                                 cos(lamb-lambl)
+                            cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
+                            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+                            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+                            r1l1 = r1/l1
+                            r2l2 = r2/l2
+                            lntop = l2 + r2 - (r*cosPsi)
+                            lnbot = l1 + r1 - (r*cosPsi)
+                            ln = log(abs(lntop/lnbot))
+
+                            K = ((cosPsiLamb*cosPhil)/(2*r*cosPhi))*( \
+                                r*(r1*r1l1 - r2*r2l2) + \
+                                3*r*(l2 - l1 + r*cosPsi*(r1l1 - r2l2)) + \
+                                6*r_2*cosPsi*ln + \
+                                r_2*r*((3*cosPsi*cosPsi) - 1)*( \
+                                    (r1 + l1)/(l1*lnbot) - \
+                                    (r2+l2)/(l2*lntop) ) )
+
+
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
 ################################################################################
 
 
@@ -723,6 +1029,379 @@ class TesseroidGz(TesseroidGravity):
 
         return field
 
+
+    def calculate2D(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points using analytical integraion in the r direction and 2D GLQ
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        See doc for method 'calculate' for more information.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # These are the integration limits
+            r1 = self.R - tess['bottom']
+            r2 = self.R - tess['top']
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                                  tess['density']*self.G*self.si2mgal) / 4.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+
+                            # Calculate the integral kernel K
+                            r_2 = r**2
+                            r1_2 = r1**2
+                            r2_2 = r2**2
+                            cosPhil = cos(phil)
+                            cosPsi = sin(phi)*sin(phil) + cos(phi)*cosPhil* \
+                                                               cos(lamb - lambl)
+                            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+                            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+                            lntop = l2 + r2 - (r*cosPsi)
+                            lnbot = l1 + r1 - (r*cosPsi)
+                            ln = log( abs(lntop / lnbot) )
+
+                            K = (cosPhil/r)*( r1*l1 - r2*l2 - \
+                                3*r*cosPsi*(l2 - l1) - \
+                                r_2*((3*cosPsi*cosPsi) - 1)*ln + \
+                                (r2*r2_2)/l2 - (r1*r1_2)/l1 )
+
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
+################################################################################
+
+
+
+################################################################################
+# TESSEROIDGXX CLASS
+
+class TesseroidGxx(TesseroidGravity):
+    """
+    This class is used to calculate the XX COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+
+
+    def calculate(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points.
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        Example:
+            lons = [0, 90, 180, 270]
+            lats = [-80, -40, 0, 40, 80]
+            heights = [[10, 10, 10, 10],
+                       [20, 20, 20, 20],
+                       [40, 40, 40, 40],
+                       [30, 30, 30, 30],
+                       [20, 20, 20, 20]]
+            The field will be calculated at latitude -80 and longitudes [0, 90,
+            180, 270] with a height of 10, at lattitude 0 and longitudes [0, 90,
+            180, 270] with a height of 40, etc.
+            The field returned will be: field[0][0] will correspond to the field
+            at lon 0 and lat -80, field[1][2] will correspond to the
+            field at lon 180 and lat -40, and so forth.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.abr.scale(self.R - tess['bottom'], self.R - tess['top'])
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                     (tess['bottom']-tess['top'])*\
+                     tess['density']*self.G*self.si2mgal) / 8.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+                            for rl, wr in zip(*[self.abr.val, self.wr.val]):
+
+                                # Calculate the integral kernel K
+                                rl_2 = rl**2
+                                r_2 = r**2
+                                cosPhil = cos(phil)
+                                cosPhi = cos(phi)
+                                sinPhil = sin(phil)
+                                sinPhi = sin(phi)
+                                cosLambLambl = cos(lamb - lambl)
+                                cosPsi = sinPhi*sinPhil + cosPhi*cosPhil* \
+                                                                    cosLambLambl
+                                cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*\
+                                                                    cosLambLambl
+                                l = sqrt( (r_2) + (rl_2) - (2*r*rl*cosPsi) )
+                                l_3 = l**3
+                                rrl = r*rl
+
+                                K = rl_2*cosPhil*((
+                                    (3*rrl*rrl*cosPsiPhi*cosPsiPhi)/(l_3*l*l) -\
+                                    (rrl*cosPsi)/(l_3) + \
+                                    r*(((rl*cosPsi) - r)/l_3) ) / r_2 )
+
+                                # Add the weighted kernel at the current
+                                # integration point to the result
+                                res += wlon*wlat*wr*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
+
+
+    def calculate2D(self, model, lons, lats, heights):
+        """
+        Calculate this particular gravity field of a Tesseroid model on a given
+        grid of points using analytical integraion in the r direction and 2D GLQ
+        Parameters:
+            model   - list of Tesseroid objects;
+            lons    - list of longitudes in which to calculate the field;
+            lats    - list of latitudes in which to calculate the field;
+            heights - 2D list (grid) with the calculation heights. The columns
+                      correspond to the longitudes in 'lons' and the lines to
+                      the latitudes in 'lats';
+
+        Returns a 2D list (grid) with the field values on the respective grid
+        points.
+
+        See doc for method 'calculate' for more information.
+        """
+
+        # Conversion factor from degrees to radians.
+        deg2rad = pi/180.0
+
+        # First initialize the array that will hold the field values
+        field = [[0.0]*len(lons) for i in range(0, len(lats))]
+
+        # Iterate over the tesseroids in the model and sum their fields on the
+        # grid points.
+        for tess in model:
+
+            # Scale the abscissas to the dimensions of the tesseroid
+            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+
+            # These are the integration limits
+            r1 = self.R - tess['bottom']
+            r2 = self.R - tess['top']
+
+            # This is the scale fator that will multiply the GLQ summation due
+            # to the scaling of the abscissas
+            # For practicality I included the density of the tesseroid and the
+            # gravitational constants as well.
+            factor = ((deg2rad**2)*(tess['e']-tess['w'])*(tess['n']-tess['s'])*\
+                                  tess['density']*self.G*self.si2mgal) / 4.0
+
+            # Caculate the field at every point on the grid and sum to what was
+            # there before.
+            for i, phi in zip(*[range(0, len(lats)), lats]):
+
+                # Convert the latitude to radians
+                phi *= deg2rad
+
+                for j, lamb in zip(*[range(0, len(lons)), lons]):
+
+                    # Calculate the radial distance to the point
+                    r = self.R + heights[i][j]
+
+                    # Convert the longitude to radians
+                    lamb *= deg2rad
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
+                        for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+
+                            # Calculate the integral kernel K
+                            r_2 = r**2
+                            r1_2 = r1**2
+                            r2_2 = r2**2
+                            cosPhil = cos(phil)
+                            cosPhi = cos(phi)
+                            sinPhil = sin(phil)
+                            sinPhi = sin(phi)
+                            cosLambLambl = cos(lamb - lambl)
+                            cosPsi = sinPhi*sinPhil + cosPhi*cosPhil* \
+                                                                    cosLambLambl
+                            cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil* \
+                                                                    cosLambLambl
+                            cosPsiPhi_2 = cosPsiPhi**2
+                            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+                            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+                            l1_2 = l1**2
+                            l2_2 = l2**2
+                            r1l1 = r1 / l1
+                            r2l2 = r2 / l2
+                            lntop = l2 + r2 - (r*cosPsi)
+                            lnbot = l1 + r1 - (r*cosPsi)
+                            cosPsi_2_1 = (3*cosPsi*cosPsi) - 1
+                            ln = log(abs( lntop / lnbot ) )
+                            # Kphi**2
+                            t1 = (r2l2*r2l2*r/l2)* \
+                                            (r*r2*cosPsiPhi_2 - l2_2*cosPsi)
+                            t2 = (r1l1*r1l1*r/l1)* \
+                                                (r*r1*cosPsiPhi_2 - l1_2*cosPsi)
+                            t3 = 3*r_2*cosPsiPhi_2*( \
+                                    2*(r1l1 - r2l2) + \
+                                    r*cosPsi*( (r1l1*r1l1/l1) - \
+                                        r2l2*r2l2/l2 ) )
+                            t4 = 3*r*cosPsi*(l2 - l1 + cosPsi*(r*r1l1 - r*r2l2))
+                            t5 = 6*r_2*ln*(cosPsiPhi_2 - cosPsi*cosPsi)
+                            t6 = r_2*r*cosPsi*(12*cosPsiPhi_2 - cosPsi_2_1)*( \
+                                 (r1 + l1)/(l1*lnbot) - (r2 + l2)/(l2*lntop) )
+                            t7 = r_2*r_2*cosPsiPhi_2*cosPsi_2_1*( \
+                                 (r1*lnbot - (r1 + l1)*(r1l1*lnbot + r1 + l1)) \
+                                 /(l1*l1*lnbot*lnbot) - (r2*lntop - \
+                                     (r2 + l2)*(r2l2*lntop + r2 + l2)) \
+                                     /(l2*l2*lntop*lntop) )
+                            Kphi_2 = 0.5*( t2 - t1 + t3 - t4 + t5 + t6 - t7 )
+                            # Kr 
+                            Kr = ( r2*l2 - r1*l1 + 3*r*cosPsi*(l2 - l1) + \
+                                r_2*cosPsi_2_1*ln - r2l2*r2_2 + r1l1*r1_2 ) / r
+
+                            K = cosPhil*(Kphi_2 + r*Kr) / r_2
+
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i][j] += factor*res
+
+        return field
 ################################################################################
 
 
@@ -742,7 +1421,7 @@ def time_potential(repetitions, num_times):
     iterations, and total time.
     The model used is a one tesseroid model calculated over a 100x100 grid.
     """
-    
+
     # The setup statement that import everything, instantiates the Abscissas
     # and Weights, and creates the grids.
     str = "import glq\n" + \
@@ -784,7 +1463,7 @@ def time_potential(repetitions, num_times):
 ################################################################################
 # CALCULATE THE FIELDS FOR A TEST
 
-def calc_all():
+def calc_all(height):
     """
     Calculate all the fields for a 2 tesseroid model, one with positive and one
     with negative density on a 100x100 grid at 250km altitude and a 5x5x5 GLQ.
@@ -793,7 +1472,7 @@ def calc_all():
     import scipy as s
     import pylab as p
     import tesseroid as t
-    
+
     # Make the model
     print "Creating model..."
     tess1 = t.Tesseroid(19, 21, -1, 1, 0, 40000, 1.0, 'pos')
@@ -814,7 +1493,7 @@ def calc_all():
     lons = s.arange(10, 40.3, 0.3)
     lats = s.arange(-15, 15.3, 0.3)
     glons, glats = p.meshgrid(lons, lats)
-    heights = [[250000.0]*len(lons) for i in range(0, len(lats))]
+    heights = [[height]*len(lons) for i in range(0, len(lats))]
 
     # Make the field calculator obejects
     print "Creating calculator objects..."
@@ -825,19 +1504,27 @@ def calc_all():
 
     # Calculate the fields
     print "Calculating fields:"
-    print "Potential..."
-    pot = tesspot.calculate(model, lons, lats, heights)
+#    print "Potential..."
+#    pot = tesspot.calculate(model, lons, lats, heights)
     print "Gx..."
-    gx = tessgx.calculate(model, lons, lats, heights)
-    print "Gy..."
-    gy = tessgy.calculate(model, lons, lats, heights)
-    print "Gz..."
-    gz = tessgz.calculate(model, lons, lats, heights)
+    gx = tessgx.calculate2D(model, lons, lats, heights)
+#    print "Gy..."
+#    gy = tessgy.calculate(model, lons, lats, heights)
+#    print "Gz..."
+#    gz = tessgz.calculate(model, lons, lats, heights)
 
     # Plot the maps
     print "Plotting maps:"
-    fields = [pot, gx, gy, gz]
-    names = ['Potential', 'Gx', 'Gy', 'Gz']
+    fields = []
+#    fields.append(pot)
+    fields.append(gx)
+#    fields.append(gy)
+#    fields.append(gz)
+    names = []
+#    names.append('Potential at %g' % (height))
+    names.append('Gx at %g' % (height))
+#    names.append('Gy at %g' % (height))
+#    names.append('Gz at %g' % (height))
     for field, name in zip(*[fields, names]):
 
         print "%s..." % (name)
@@ -856,13 +1543,13 @@ def calc_all():
         p.plot(tess2lons,tess2lats,'-k',linewidth=1)
         p.xlim(10, 40)
         p.ylim(-15, 15)
-        
+
     print "Done!"
     p.show()
-    
+
 ################################################################################
-    
+
 if __name__ == '__main__':
 
     time_potential(100, 10)
-        
+
