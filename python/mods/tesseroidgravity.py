@@ -26,38 +26,20 @@
 ################################################################################
 """
     This module contains classes for calculating the gravity fields of tesseroid
-    models. Fields are: potential, geoid, 3-component acceleration, 9-component
-    gradient tensor.
+    models. Fields are:
+        potential, 3-component acceleration, 9-component gradient tensor.
     The constants used in the calculations are defined as class variables in the
     TesseroidGravity class that is mother to all others.
-    Also included are functions to time the execution of these calculations.
-
-
-    Copyright (C) 2009  Leonardo Uieda
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    Doubts and/or suggestions please mail the author:
-         Leonardo Uieda - leouieda@gmail.com
-
 """
 
 ################################################################################
-__author__ = '$Author$'
-# Created: 6-Apr-2009 4:07:57 PM
-# Revision: $Revision$
-__date__ = 'Last edited: $Date$'
+# Created on 6-Apr-2009 4:07:57 PM
+# Last modified by $Author$
+__author__ = 'Leonardo Uieda (leouieda@gmail.com)'
+__version__ = '$Revision$'
+__date__ = '$Date$'
+__copyright__ = "Copyright (C) 2009  Leonardo Uieda"
+__license__ = "GPL"
 ################################################################################
 
 

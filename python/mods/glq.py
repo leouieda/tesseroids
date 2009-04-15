@@ -48,33 +48,16 @@
         Barrera-Figueroa, V., Sosa-Pedroza, J. and Lopez-Bonilla, J.,
         "Multiple root finder algorithm for Legendre and Chebyshev polynomials
          via Newton's method", 2006,
-        Annales mathematicae et Informaticae, 33, pp 3-13.
-
-
-    Copyright (C) 2009  Leonardo Uieda
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    Doubts and/or suggestions please mail the author:
-         Leonardo Uieda - leouieda@gmail.com
-         
+        Annales mathematicae et Informaticae, 33, pp 3-13.         
 """
 ################################################################################
-__author__ = '$Author$'
-# Created: 21-Mar-2009 1:47:06 AM
-# Revision: $Revision$
-__date__ = 'Last edited: $Date$'
+# Created on 21-Mar-2009 1:47:06 AM
+# Last modified by $Author$
+__author__ = 'Leonardo Uieda (leouieda@gmail.com)'
+__version__ = '$Revision$'
+__date__ = '$Date$'
+__copyright__ = "Copyright (C) 2009  Leonardo Uieda"
+__license__ = "GPL"
 ################################################################################
 
 
@@ -190,13 +173,21 @@ class Abscissas:
 
 
     def __init__(self, order):
+        """
+        Pass the order of the GLQ (number of nodes).
+        Must me integer > 1.
+        """
         # Create a Logger for the Abscissas class
         self.log = logging.getLogger('glq.Abscissas')
         # Initiate the parameters and calculate the abscissas they are OK
         self.order = 0
         self.val_unscaled = []
         self.val = []
+        # Flag to tell if max_it was reached
+        self.maxit = False
+        # Calculate the abscissas
         self.calculate(order)
+
         
 
     def __findroot(self, initial_guess, current_root):
@@ -259,6 +250,7 @@ class Abscissas:
                   "reached when looking for root %d of " % (current_root) + \
                   "Legendre polynomial P%d." % (self.order)
             self.log.warning(msg)
+            self.maxit = True
 
         # Return the final value of the root.
         return x1
@@ -289,7 +281,10 @@ class Abscissas:
             raise OrderOutOfRangeError, \
                   "ERROR! Order of GLQ (%d) cannot be < 2!" % (order)
         ########################################################################
-        
+
+        # Flag to tell if max_it was reached when looking for the root
+        self.maxit = False
+
         # Set the order of the GLQ. This will be number of abscissas.
         self.order = order
 
