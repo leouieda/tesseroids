@@ -342,7 +342,8 @@ parameter E changed from -179 to 181 for convenience.
 
 if __name__ == '__main__':
     import doctest
+    print "\nDOCTEST FOR TESSEROID.PY:"
     doctest.testmod()
-    print "Finished"
+    print "Finished\n"
 
 ################################################################################

@@ -475,8 +475,9 @@ class Weights():
 # DOCTEST
 
 if __name__ == '__main__':
-    import doctest    
+    import doctest
+    print "\nDOCTEST FOR GLQ.PY:"
     doctest.testmod()
-    print "Finished"
+    print "Finished\n"
     
 ################################################################################
