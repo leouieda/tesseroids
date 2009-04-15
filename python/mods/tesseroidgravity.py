@@ -42,11 +42,6 @@ __copyright__ = "Copyright (C) 2009  Leonardo Uieda"
 __license__ = "GPL"
 ################################################################################
 
-
-from math import pi, cos, sin, sqrt, log
-from timeit import Timer
-
-
 ################################################################################
 # LOGGING
 import logging
@@ -65,6 +60,10 @@ NULLH = NullHandler()
 logging.getLogger('tesseroidgravity').addHandler(NULLH)
 
 ################################################################################
+
+
+from math import pi, cos, sin, sqrt, log
+from timeit import Timer
 
 
 ################################################################################
