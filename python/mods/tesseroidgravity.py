@@ -730,6 +730,528 @@ class TesseroidGxx(TesseroidGravity):
 
 
 ################################################################################
+# TESSEROIDGXY CLASS
+
+class TesseroidGxy(TesseroidGravity):
+    """
+    This class is used to calculate the XY COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        self.unit = self.si2eotvos
+
+
+    def kernel3D(self, r, lamb, phi, rl, lambl, phil):
+        """
+        The kernel of the 3D integral defining the gravitational field.
+        """
+        rl_2 = rl**2
+        r_2 = r**2
+        cosPhil = cos(phil)
+        cosPhi = cos(phi)
+        sinPhil = sin(phil)
+        sinPhi = sin(phi)
+        cosLambLambl = cos(lamb - lambl)
+        sinLambLambl = sin(lamb - lambl)
+        cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+        cosPsiLamb = (-1)*cosPhi*cosPhil*sinLambLambl
+        cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
+        l = sqrt( (r_2) + (rl_2) - (2*r*rl*cosPsi) )
+        l_3 = l**3
+        rrl_l3 = (r*rl)/l_3
+        return rl_2*cosPhil*( ( rrl_l3*((3*r*rl*cosPsiLamb*cosPsiPhi)/(l**2) + \
+                                        (sinPhi*cosPhil*sinLambLambl)) + \
+                                ((sinPhi/cosPhi)*(rrl_l3*cosPsiLamb))) \
+                              / (r_2*cosPhi) )
+
+
+    def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
+        """
+        The kernel of the 2D integral defining the gravitational field.
+        """
+        try:
+            r_2 = r**2
+            r1_2 = r1**2
+            r2_2 = r2**2
+            cosPhil = cos(phil)
+            cosPhi = cos(phi)
+            sinPhil = sin(phil)
+            sinPhi = sin(phi)
+            cosLambLambl = cos(lamb - lambl)
+            sinLambLambl = sin(lamb - lambl)
+            cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
+            cosPsiLamb = (-1)*cosPhi*cosPhil*sinLambLambl
+            cosPsiPhiXLamb = cosPsiPhi*cosPsiLamb
+            cosPsiPhiLamb = sinPhi*cosPhil*sinLambLambl
+            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+            l1_2 = l1*l1
+            l2_2 = l2*l2
+            rr1_l1 = (r*r1) / l1
+            rr2_l2 = (r*r2) / l2
+            lntop = l2 + r2 - (r*cosPsi)
+            lnbot = l1 + r1 - (r*cosPsi)
+            ln = log(abs( lntop / lnbot ))
+            cosPsi_2_1 = 3*(cosPsi**2) - 1
+            sumt3 = l2 - l1 + cosPsi*(rr1_l1 - rr2_l2)
+            sumt6 = (r1 + l1)/(l1*lnbot) - (r2 + l2)/(l2*lntop)
+            
+            # KVphilamb
+            t1 = (rr2_l2*r2/l2_2)*(l2_2*cosPsiPhiLamb + r*r2*cosPsiPhiXLamb)
+            t2 = (rr1_l1*r1/l1_2)*(l1_2*cosPsiPhiLamb + r*r1*cosPsiPhiXLamb)
+            t3 = 3*r*cosPsiPhiLamb*sumt3
+            t4 = 6*r_2*ln*(cosPsi*cosPsiPhiLamb + cosPsiPhiXLamb)
+            t5 = 3*r*cosPsiPhiXLamb*( 2*(rr1_l1 - rr2_l2) + cosPsi*cosPsiLamb*(\
+                                     (rr1_l1*rr1_l1/l1) - (rr2_l2*rr2_l2/l2) ) )
+            t6 = r_2*r*(cosPsi_2_1*cosPsiPhiLamb + 12*cosPsi*cosPsiPhiXLamb)*\
+                                                                          sumt6
+            t7 = r_2*r_2*cosPsi_2_1*cosPsiPhiXLamb*(\
+                     (r1*lnbot - (r1 + l1)*((r1/l1)*lnbot + r1 + l1))/ \
+                                                        (l1_2*lnbot*lnbot) - \
+                     (r2*lntop - (r2 + l2)*((r2/l2)*lntop + r2 + l2))/ \
+                                                        (l2_2*lntop*lntop))
+            KVphilamb = 0.5*( t2 - t1 + t3 + t4 + t5 + t6 - t7 )
+
+            # KVlamb
+            KVlamb = 0.5*cosPsiLamb*(rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
+                                     6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
+
+            return cosPhil*((KVphilamb + ((sinPhi/cosPhi)*KVlamb))/(r_2*cosPhi))
+
+        except ZeroDivisionError:
+            rad2deg = 180.0/pi
+            msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being aligned with a GLQ node in TesseroidGxy."
+            raise SingularityError, msg
+
+################################################################################
+
+
+################################################################################
+# TESSEROIDGXZ CLASS
+
+class TesseroidGxz(TesseroidGravity):
+    """
+    This class is used to calculate the XZ COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        self.unit = self.si2eotvos
+
+
+    def kernel3D(self, r, lamb, phi, rl, lambl, phil):
+        """
+        The kernel of the 3D integral defining the gravitational field.
+        """
+        rl_2 = rl**2
+        r_2 = r**2
+        cosPhil = cos(phil)
+        cosPhi = cos(phi)
+        sinPhil = sin(phil)
+        sinPhi = sin(phi)
+        cosLambLambl = cos(lamb - lambl)
+        cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+        cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
+        l = sqrt( (r_2) + (rl_2) - (2*r*rl*cosPsi) )
+        l_3 = l**3
+        rl_l3 = rl / l_3
+        return rl_2*cosPhil*(((r*rl_l3*cosPsiPhi)/r - \
+                              (rl_l3*cosPsiPhi*(3*r*(rl*cosPsi - r)/l**2 + 1)))\
+                             / r )
+
+
+
+    def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
+        """
+        The kernel of the 2D integral defining the gravitational field.
+        """
+        try:
+            r_2 = r**2
+            r1_2 = r1**2
+            r2_2 = r2**2
+            cosPhil = cos(phil)
+            cosPhi = cos(phi)
+            sinPhil = sin(phil)
+            sinPhi = sin(phi)
+            cosLambLambl = cos(lamb - lambl)
+            cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
+            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+            l1_2 = l1*l1
+            l2_2 = l2*l2
+            rr1_l1 = (r*r1) / l1
+            rr2_l2 = (r*r2) / l2
+            lntop = l2 + r2 - (r*cosPsi)
+            lnbot = l1 + r1 - (r*cosPsi)
+            ln = log(abs( lntop / lnbot ))
+            cosPsi_2_1 = (3*cosPsi*cosPsi) - 1
+            sumt3 = l2 - l1 + cosPsi*(rr1_l1 - rr2_l2)
+            sumt6 = (r1 + l1)/(l1*lnbot) - (r2 + l2)/(l2*lntop)
+            
+            KVphir = (cosPsiPhi/r)*( rr1_l1*r1*r1_2/l1_2 - rr2_l2*r2*r2_2/l2_2 \
+                                    + rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
+                                      6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
+
+            KVphi = 0.5*cosPsiPhi*(rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
+                                   6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
+
+            return cosPhil*( (KVphi/r - KVphir) / r )
+
+        except ZeroDivisionError:
+            rad2deg = 180.0/pi
+            msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being aligned with a GLQ node in TesseroidGxz."
+            raise SingularityError, msg
+
+################################################################################
+
+
+################################################################################
+# TESSEROIDGYY CLASS
+
+class TesseroidGyy(TesseroidGravity):
+    """
+    This class is used to calculate the YY COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        self.unit = self.si2eotvos
+
+
+    def kernel3D(self, r, lamb, phi, rl, lambl, phil):
+        """
+        The kernel of the 3D integral defining the gravitational field.
+        """
+        rl_2 = rl**2
+        r_2 = r**2
+        cosPhil = cos(phil)
+        cosPhi = cos(phi)
+        sinPhil = sin(phil)
+        sinPhi = sin(phi)
+        cosLambLambl = cos(lamb - lambl)
+        cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+        cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
+        l = sqrt( (r_2) + (rl_2) - (2*r*rl*cosPsi) )
+        l_3 = l**3
+        rrl = r*rl
+        return rl_2*cosPhil*( ( ((3*rrl*rrl*cosPsiLamb*cosPsiLamb)/(l_3*l*l) - \
+                                 (rrl*cosPhi*cosPhil*cosLambLambl)/(l_3)) + \
+                                r*cosPhi*cosPhi*((rl*cosPsi - r) / l_3) - \
+                                cosPhi*sinPhi*( (rrl*(cosPhi*sinPhil - \
+                                                 sinPhi*cosPhil*cosLambLambl))/\
+                                          l_3 ) ) / (r_2*cosPhi*cosPhi) )
+
+
+    def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
+        """
+        The kernel of the 2D integral defining the gravitational field.
+        """
+        try:
+            r_2 = r**2
+            r1_2 = r1**2
+            r2_2 = r2**2
+            cosPhil = cos(phil)
+            cosPhi = cos(phi)
+            sinPhil = sin(phil)
+            sinPhi = sin(phi)
+            cosLambLambl = cos(lamb - lambl)
+            cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
+            cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
+            cosPsiLamb_2 = cosPsiLamb*cosPsiLamb
+            cosPsiLambLamb = (-1)*cosPhi*cosPhil*cosLambLambl
+            l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
+            l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
+            l1_2 = l1*l1
+            l2_2 = l2*l2
+            r1l1 = r1 / l1
+            r2l2 = r2 / l2
+            lntop = l2 + r2 - (r*cosPsi)
+            lnbot = l1 + r1 - (r*cosPsi)
+            ln = log(abs( lntop / lnbot ))
+            cosPsi_2_1 = (3*cosPsi*cosPsi) - 1
+            
+            # KVlamb^2 
+            t1 = (r*r2l2*r2l2/l2)*(r*r2*cosPsiLamb_2 + l2_2*cosPsiLambLamb)
+            t2 = (r*r1l1*r1l1/l1)*(r*r1*cosPsiLamb_2 + l1_2*cosPsiLambLamb)
+            t3 = 3*r_2*cosPsiLamb_2*(2*(r1l1 - r2l2) + \
+                                     r*cosPsi*((r1l1*r1l1/l1) - (r2l2*r2l2/l2)))
+            t4 = 3*r*cosPsiLambLamb*(l2 - l1  + r*cosPsi*(r1l1 - r2l2))
+            t5 = 6*r_2*ln*(cosPsiLamb_2 + cosPsiLambLamb*cosPsi)
+            t6 = r_2*r*(12*cosPsi*cosPsiLamb_2 + cosPsiLambLamb*cosPsi_2_1)*\
+                       ((r1 + l1)/(l1*lnbot) - (r2 + l2)/(l2*lntop))
+            t7 = r_2*r_2*cosPsiLamb_2*cosPsi_2_1*(\
+                    (r1*lnbot - (r1 + l1)*(r1l1*lnbot + r1 + l1))/ \
+                                                         (l1*l1*lnbot*lnbot) - \
+                    (r2*lntop - (r2 + l2)*(r2l2*lntop + r2 + l2))/ \
+                                                         (l2*l2*lntop*lntop))
+            KVlamb_2 = 0.5*( t2 - t1 + t3 + t4 + t5 + t6 - t7 )
+
+            # KVphi
+            KVphi = (cosPsiPhi/2)*(r*r1*r1l1 - r*r2*r2l2 + \
+                                   3*r*(l2 - l1 + r*cosPsi*(r1l1 - r2l2)) + \
+                                   6*r_2*cosPsi*ln + \
+                                   r_2*r*cosPsi_2_1*((r1 + l1)/(l1*lnbot) - \
+                                                     (r2 + l2)/(l2*lntop)) )
+            # KVr
+            KVr = (r2*l2 - r1*l1 + 3*r*cosPsi*(l2 - l1) + r_2*cosPsi_2_1*ln - \
+                   r2l2*r2_2 + r1l1*r1_2) / r
+
+            return cosPhil*((KVlamb_2 + r*cosPhi*cosPhi*KVr - \
+                             cosPhi*sinPhi*KVphi)/(r_2*cosPhi*cosPhi))
+
+        except ZeroDivisionError:
+            rad2deg = 180.0/pi
+            msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being aligned with a GLQ node in TesseroidGyy."
+            raise SingularityError, msg
+
+################################################################################
+
+
+################################################################################
+# TESSEROIDGYZ CLASS
+
+class TesseroidGyz(TesseroidGravity):
+    """
+    This class is used to calculate the YZ COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        self.unit = self.si2eotvos
+
+
+    def kernel3D(self, r, lamb, phi, rl, lambl, phil):
+        """
+        The kernel of the 3D integral defining the gravitational field.
+        """
+        rl_2 = rl**2
+        r_2 = r**2
+        cosPhil = cos(phil)
+        cosPhi = cos(phi)
+        cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
+        cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
+        l = sqrt( r_2 + rl_2 - (2*r*rl*cosPsi) )
+        l_3 = l**3
+        rl_l3 = rl / l_3
+        return rl_2*cosPhil*( ((r*rl_l3*cosPsiLamb)/r - \
+               rl_l3*cosPsiLamb*(3*r*(rl*cosPsi - r)/l**3  + 1)) / (r*cosPhi) )
+                                    
+
+    def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
+        """
+        The kernel of the 2D integral defining the gravitational field.
+        """
+        try:
+            r_2 = r**2
+            r1_2 = r1**2
+            r2_2 = r2**2
+            cosPhil = cos(phil)
+            cosPhi = cos(phi)
+            cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
+            cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
+            l1 = sqrt( r_2 + r1_2 - (2*r*r1*cosPsi) )
+            l2 = sqrt( r_2 + r2_2 - (2*r*r2*cosPsi) )
+            l1_2 = l1*l1
+            l2_2 = l2*l2
+            rr1_l1 = (r*r1) / l1
+            rr2_l2 = (r*r2) / l2
+            lntop = l2 + r2 - (r*cosPsi)
+            lnbot = l1 + r1 - (r*cosPsi)
+            ln = log(abs( lntop / lnbot ))
+            cosPsi_2_1 = (3*cosPsi*cosPsi) - 1
+            sumt3 = l2 - l1 + cosPsi*(rr1_l1 - rr2_l2)
+            sumt6 = (r1 + l1)/(l1*lnbot) - (r2+l2)/(l2*lntop)
+            
+            KVlambr = (cosPsiLamb/r)*(rr1_l1*r1*r1_2/l1_2 - \
+                                      rr2_l2*r2*r2_2/l2_2 + rr1_l1*r1 - \
+                                      rr2_l2*r2 + 3*r*sumt3 + 6*r_2*cosPsi*ln +\
+                                      r_2*r*cosPsi_2_1*sumt6)
+
+            KVlamb = 0.5*cosPsiLamb*(rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
+                                     6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
+
+            return cosPhil*( (KVlamb/r - KVlambr)/(r*cosPhi) )
+
+        except ZeroDivisionError:
+            rad2deg = 180.0/pi
+            msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being aligned with a GLQ node in TesseroidGyz."
+            raise SingularityError, msg
+
+################################################################################
+
+
+################################################################################
+# TESSEROIDGZZ CLASS
+
+class TesseroidGzz(TesseroidGravity):
+    """
+    This class is used to calculate the ZZ COMPONENT OF THE GRAVITY GRADIENT
+    TENSOR field of a tesseroid model.
+    Calculations are performed on a grid. A Gauss-Legendre Quadrature is used in
+    order to solve the integral that defines the field. The Abscissas and
+    Weights classes used in this GLQ must be passed to __init__ (see __init__
+    doc for more on the input parameters). See glq module doc for more on
+    Abscissas and Weights.
+    Abscissas must be in the radial, lon, and lat directions (and so must the
+    weights). Use the 'calculate' method to calculate a the field (see calculate
+    doc for input parameters and output).
+    """
+
+    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+        """
+        Pass the Abscissas and associated Weights that will be used in the GLQ.
+        Parameters:
+            abr   - Abscissas in the radial direction;
+            ablon - Abscissas in the longitude direction;
+            ablat - Abscissas in the latitude direction;
+            wr    - Weights in the radial direction;
+            wlon  - Weights in the longitude direction;
+            wlat  - Weights in the latitude direction;
+        """
+        # Call the base class constructor to set the parameters
+        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        self.unit = self.si2eotvos
+
+
+    def kernel3D(self, r, lamb, phi, rl, lambl, phil):
+        """
+        The kernel of the 3D integral defining the gravitational field.
+        """
+        rl_2 = rl**2
+        cosPhil = cos(phil)
+        cosPsi = sin(phi)*sin(phil) + cos(phi)*cosPhil*cos(lamb - lambl)
+        l = sqrt( (r**2) + rl_2 - (2*r*rl*cosPsi) )
+        l_3 = l**3
+        rlcosPsi_r = r - (rl*cosPsi)
+        return rl_2*cosPhil*( ((3*rlcosPsi_r*rlcosPsi_r)/l**2 - 1)/l_3 )
+
+
+    def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
+        """
+        The kernel of the 2D integral defining the gravitational field.
+        """
+        try:
+            r_2 = r**2
+            r1_2 = r1**2
+            r2_2 = r2**2
+            cosPhil = cos(phil)
+            cosPhi = cos(phi)
+            cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
+            l1 = sqrt( r_2 + r1_2 - (2*r*r1*cosPsi) )
+            l2 = sqrt( r_2 + r2_2 - (2*r*r2*cosPsi) )
+            r1l1 = (r1_2*r1) / (2*l1)
+            r2l2 = (r2_2*r2) / (2*l2)
+            lntop = l2 + r2 - (r*cosPsi)
+            lnbot = l1 + r1 - (r*cosPsi)
+            ln = log(abs( lntop / lnbot ))
+            return cosPhil*(r1l1 - r2l2 - r1*l1 + r2*l2 - \
+                            r1l1*(r_2 - r1_2)/l1**2 + r2l2*(r_2 - r2_2)/l2**2 +\
+                            3*r*cosPsi*(l2 - l1) + \
+                            r_2*(3*cosPsi**2 - 1)*ln) / r_2
+
+        except ZeroDivisionError:
+            rad2deg = 180.0/pi
+            msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being aligned with a GLQ node in TesseroidGzz."
+            raise SingularityError, msg
+
+################################################################################
+
+
+################################################################################
 # TIMING TESTS
 
 def time_potential(repetitions, num_times):
@@ -756,7 +1278,7 @@ import __main__ as tg
 import scipy as s
 tess = t.Tesseroid(27.5,32.5,-2.4,2.5,0,40000,1.0,'TEST')
 mod = [tess]
-o = 5
+o = 2
 ablon = glq.Abscissas(o)
 ablat = glq.Abscissas(o)
 abr = glq.Abscissas(o)
@@ -795,7 +1317,7 @@ for lon in lons:
     times = []
     total = 0.0
     timer = Timer(stmt='tp.calculate3D(mod, lns, lts, hs)', setup=str)
-    print "3D ALGORITHM:\n  Iteration: Time (s)"
+    print "\n3D ALGORITHM:\n  Iteration: Time (s)"
     for i in range(1, num_times+1):
         t = timer.timeit(repetitions)
         print "  %d: %g" % (i, t)
@@ -812,7 +1334,7 @@ for lon in lons:
 ################################################################################
 # CALCULATE THE FIELDS FOR A TEST
 
-def calc_all(height):
+def calc_all(order, height):
     """
     Calculate all the fields for a 2 tesseroid model, one with positive and one
     with negative density on a 100x100 grid at 250km altitude and a 5x5x5 GLQ.
@@ -824,25 +1346,33 @@ def calc_all(height):
 
     # Make the model
     print "Creating model..."
-    tess1 = t.Tesseroid(19, 21, -1, 1, 0, 40000, 1.0, 'pos')
-    tess2 = t.Tesseroid(29, 31, -1, 1, 0, 40000, -1.0, 'neg')
-    model = [tess1, tess2]
+    tess1 = t.Tesseroid(19.9, 20.1, -0.1, 0.1, 0, 4000, 1.0, 'pos')
+    #tess2 = t.Tesseroid(29.9, 30.1, -0.1, 0.1, 0, 40000, -1.0, 'neg')
+    #model = [tess1, tess2]
+    model = [tess1]
 
     # Make the abscissas and weights
     print "Calculating abscissas and weights..."
-    ablon = glq.Abscissas(5)
-    ablat = glq.Abscissas(5)
-    abr = glq.Abscissas(5)
+    ablon = glq.Abscissas(order)
+    ablat = glq.Abscissas(order)
+    abr = glq.Abscissas(order)
     wlon = glq.Weights(ablon)
     wlat = glq.Weights(ablat)
     wr = glq.Weights(abr)
 
     # Make the grid
     print "Creating grid..."
-    lons = s.arange(10, 40.3, 0.3)
-    lats = s.arange(-15, 15.3, 0.3)
-    glons, glats = p.meshgrid(lons, lats)
-    heights = [[height]*len(lons) for i in range(0, len(lats))]
+    lons = s.arange(18, 22.04, 0.04)
+    lats = s.arange(-2, 2.04, 0.04)
+    glons, glats = p.meshgrid(lons, lats)   
+    hs = []
+    lns = []
+    lts = []
+    for lat in lats:
+        for lon in lons:
+            lns.append(lon)
+            lts.append(lat)
+            hs.append(height)
 
     # Make the field calculator obejects
     print "Creating calculator objects..."
@@ -852,34 +1382,59 @@ def calc_all(height):
     tessgz = TesseroidGz(abr, ablon, ablat, wr, wlon, wlat)
 
     # Calculate the fields
-    print "Calculating fields:"
-    print "Potential..."
-    pot = tesspot.calculate_kernel(model, lons, lats, heights)
-    #print "Gx..."
-    #gx = tessgx.calculate2D(model, lons, lats, heights)
-#    print "Gy..."
-#    gy = tessgy.calculate(model, lons, lats, heights)
-#    print "Gz..."
-#    gz = tessgz.calculate(model, lons, lats, heights)
+    print "Calculating fields with 2D algorithm:"
+    print "  Potential..."
+    pot = tesspot.calculate(model, lns, lts, hs)
+    print "  Gx..."
+    gx = tessgx.calculate(model, lns, lts, hs)
+    print "  Gy..."
+    gy = tessgy.calculate(model, lns, lts, hs)
+    print "  Gz..."
+    gz = tessgz.calculate(model, lns, lts, hs)
+    print "Calculating fields with 3D algorithm:"
+    print "  Potential..."
+    pot3d = tesspot.calculate3D(model, lns, lts, hs)
+    print "  Gx..."
+    gx3d = tessgx.calculate3D(model, lns, lts, hs)
+    print "  Gy..."
+    gy3d = tessgy.calculate3D(model, lns, lts, hs)
+    print "  Gz..."
+    gz3d = tessgz.calculate3D(model, lns, lts, hs)
 
     # Plot the maps
     print "Plotting maps:"
     fields = []
     fields.append(pot)
-#    fields.append(gx)
-#    fields.append(gy)
-#    fields.append(gz)
+    fields.append(gx)
+    fields.append(gy)
+    fields.append(gz)
+    fields.append(pot3d)
+    fields.append(gx3d)
+    fields.append(gy3d)
+    fields.append(gz3d)
     names = []
-    names.append('Potential at %g' % (height))
-    #names.append('Gx at %g' % (height))
-#    names.append('Gy at %g' % (height))
-#    names.append('Gz at %g' % (height))
+    names.append('Potential at %g - GLQ Order %d (2D)' % (height, order))
+    names.append('Gx at %g - GLQ Order %d (2D)' % (height, order))
+    names.append('Gy at %g - GLQ Order %d (2D)' % (height, order))
+    names.append('Gz at %g - GLQ Order %d (2D)' % (height, order))
+    names.append('Potential at %g - GLQ Order %d (3D)' % (height, order))
+    names.append('Gx at %g - GLQ Order %d (3D)' % (height, order))
+    names.append('Gy at %g - GLQ Order %d (3D)' % (height, order))
+    names.append('Gz at %g - GLQ Order %d (3D)' % (height, order))
     for field, name in zip(*[fields, names]):
 
-        print "%s..." % (name)
+        print "  %s..." % (name)
+
+        fieldlist = []
+        for i in range(len(lons),len(field)+1,len(lons)):
+            fieldlist.append(field[i-len(lons):i]+[field[i-len(lons)]])
+        # Since I reversed lat, have to reverse field too
+        #fieldlist.reverse()
+        fieldgrd = s.array(fieldlist)
+
         p.figure()
         p.title(name)
-        p.pcolor(glons, glats, field, cmap=p.cm.jet)
+        p.pcolor(glons, glats, fieldgrd, cmap=p.cm.jet)
         p.colorbar(orientation='horizontal')
 
         # Plot the tesseroids with 'white' for the positive density and 'black'
@@ -887,11 +1442,11 @@ def calc_all(height):
         tess1lons = [tess1['w'], tess1['e'], tess1['e'], tess1['w'], tess1['w']]
         tess1lats = [tess1['s'], tess1['s'], tess1['n'], tess1['n'], tess1['s']]
         p.plot(tess1lons,tess1lats,'-w',linewidth=1)
-        tess2lons = [tess2['w'], tess2['e'], tess2['e'], tess2['w'], tess2['w']]
-        tess2lats = [tess2['s'], tess2['s'], tess2['n'], tess2['n'], tess2['s']]
-        p.plot(tess2lons,tess2lats,'-k',linewidth=1)
-        p.xlim(10, 40)
-        p.ylim(-15, 15)
+        #tess2lons = [tess2['w'], tess2['e'], tess2['e'], tess2['w'], tess2['w']]
+        #tess2lats = [tess2['s'], tess2['s'], tess2['n'], tess2['n'], tess2['s']]
+        #p.plot(tess2lons,tess2lats,'-k',linewidth=1)
+        p.xlim(18, 22)
+        p.ylim(-2, 2)
 
     print "Done!"
     p.show()
@@ -900,5 +1455,5 @@ def calc_all(height):
 
 if __name__ == '__main__':
 
-    time_potential(100, 10)
+    calc_all(2,1000)
 
