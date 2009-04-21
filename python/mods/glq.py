@@ -181,8 +181,8 @@ class Abscissas:
         self.log = logging.getLogger('glq.Abscissas')
         # Initiate the parameters and calculate the abscissas they are OK
         self.order = 0
-        self.val_unscaled = []
-        self.val = []
+        self._val_unscaled = []
+        self._val = []
         # Flag to tell if max_it was reached
         self.maxit = False
         # Calculate the abscissas
@@ -232,7 +232,7 @@ class Abscissas:
             # Sum the roots found so far
             rootsum = 0.0
             for n in range(0, current_root):
-                rootsum += 1.0 / (x0 - self.val_unscaled[n])
+                rootsum += 1.0 / (x0 - self._val_unscaled[n])
             
             # Update the guess for the root
             x1 = x0 - ( pn / (pn_line - (pn*rootsum)) )
@@ -289,16 +289,16 @@ class Abscissas:
         self.order = order
 
         # Initialize the (unscaled) values with 0
-        self.val_unscaled = [0.0]*order
-        self.val = [0.0]*order
+        self._val_unscaled = [0.0]*order
+        self._val = [0.0]*order
         
         # Iterate to find all roots of the Legendre polynomial
         # Find the root and put it in the unscaled version of the roots
         for i in range(0, order):
-            self.val_unscaled[i] = self.__findroot(m.cos(m.pi*((i+1)-0.25)/ \
+            self._val_unscaled[i] = self.__findroot(m.cos(m.pi*((i+1)-0.25)/ \
                                                    (order+0.5)), i)
             # Then copy the to the ones that will be scaled in the future
-            self.val[i] = self.val_unscaled[i]
+            self._val[i] = self._val_unscaled[i]
         
 
     def scale(self, lower, upper):
@@ -311,7 +311,7 @@ class Abscissas:
         tmpminus = (upper - lower)/2.0
         
         for i in range(0, self.order):
-            self.val[i] = tmpminus*self.val_unscaled[i] + tmpplus
+            self._val[i] = tmpminus*self._val_unscaled[i] + tmpplus
 
 
     def __getitem__(self, key):
@@ -343,7 +343,7 @@ class Abscissas:
                   "Must be %d > index >= 0!" % (self.order)
         ########################################################################
 
-        return self.val[key]
+        return self._val[key]
 
 
     def __len__(self):
@@ -377,7 +377,7 @@ class Weights():
     """
 
     def __init__(self, abscissas):
-        self.val = []
+        self._val = []
         self.order = 0
         self.calculate(abscissas)
 
@@ -400,8 +400,8 @@ class Weights():
         self.order = len(abscissas)
 
         # Initialize the values with 0
-        self.val = [0.0]
-        self.val *= self.order
+        self._val = [0.0]
+        self._val *= self.order
 
         # Calculate the weights
         for i in range(0, self.order):
@@ -411,7 +411,7 @@ class Weights():
             #     Pn(x) = (2n-1)xPn_1(x)/n - (n-1)Pn_2(x)/n
             # Then use:
             #     Pn'(x) = n(xPn(x)-Pn_1(x))/(x*x-1)
-            xi = abscissas.val_unscaled[i]
+            xi = abscissas._val_unscaled[i]
 
             # Find Pn and Pn-1 stating from P0 and P1
             pn_1 = 1.0   # This is Po(x)
@@ -425,7 +425,7 @@ class Weights():
             pn_line = self.order*(xi*pn-pn_1) / ((xi**2)-1)
 
             # Calculate the weight Wi
-            self.val[i] = 2.0 / ( (1-(xi**2))*(pn_line**2) )
+            self._val[i] = 2.0 / ( (1-(xi**2))*(pn_line**2) )
         
 
     def __getitem__(self, key):
@@ -458,7 +458,7 @@ class Weights():
                   "Must be %d > index >= 0!" % (self.order)
         ########################################################################
 
-        return self.val[key]
+        return self._val[key]
 
 
     def __len__(self):
@@ -478,6 +478,6 @@ if __name__ == '__main__':
     import doctest
     print "\nDOCTEST FOR GLQ.PY:"
     doctest.testmod()
-    print "Finished\n"
+    print "Done\n"
     
 ################################################################################

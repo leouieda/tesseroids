@@ -241,17 +241,17 @@ parameter E changed from -179 to 181 for convenience.
             msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
                   " W changed from %g to %g for convenience." % (w, 360 + w)
             w = 360 + w            
-            self.log.info(msg)
+            self.log.debug(msg)
         if e <  0:
             msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
                   " E changed from %g to %g for convenience." % (e, 360 + e)
             e = 360 + e
-            self.log.info(msg)
+            self.log.debug(msg)
         if w > e:
             msg = "Tesseroid %s had it's boundary parameter" % (self['tag']) + \
                   " W changed from %g to %g so that W < E." % (w, w - 360)
             w = w - 360
-            self.log.info(msg)
+            self.log.debug(msg)
         # Now W and E should be ok with no problems
 
         # Latitude boundaries cannot be > 90 degrees
@@ -344,6 +344,6 @@ if __name__ == '__main__':
     import doctest
     print "\nDOCTEST FOR TESSEROID.PY:"
     doctest.testmod()
-    print "Finished\n"
+    print "Done\n"
 
 ################################################################################

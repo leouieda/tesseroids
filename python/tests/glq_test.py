@@ -130,7 +130,7 @@ class AbscissasKnownValues(unittest.TestCase):
             
             for i in range(0, order):
 
-                self.assertAlmostEqual(test_abs.val[i], known_abs[i], places=15,
+                self.assertAlmostEqual(test_abs._val[i], known_abs[i], places=15,
                     msg="Failed for abscissa %d of order %d." % (i+1, order))
 
 
@@ -154,7 +154,7 @@ class AbscissasKnownValues(unittest.TestCase):
             
             for i in range(0, order):
             
-                self.assertEqual(test_abs.val[i], test_abs[i], \
+                self.assertEqual(test_abs._val[i], test_abs[i], \
                     msg="Failed for abscissa %d of order %d." % (i+1, order))
 
 
@@ -168,7 +168,7 @@ class AbscissasKnownValues(unittest.TestCase):
 
             for i in range(0, order):
 
-                self.assertAlmostEqual(test_abs.val[i], known_abs[i], places=12,
+                self.assertAlmostEqual(test_abs._val[i], known_abs[i], places=12,
                     msg="Failed to scale abscissa %d of order %d to [%f,%f]."\
                          % (i+1, order, lower, upper))
 
@@ -303,8 +303,8 @@ class MockAbscissas(glq.Abscissas):
         Just set the correct value from the known_values.
         """
         self.order = order
-        self.val_unscaled = self.known_values[order]
-        self.val = self.val_unscaled
+        self._val_unscaled = self.known_values[order]
+        self._val = self._val_unscaled
 
     def __len__(self):
         """
@@ -342,7 +342,7 @@ class WeightsKnownValues(unittest.TestCase):
             weights = glq.Weights(abscissas)
 
             for i in range(0, order):
-                self.assertAlmostEqual(weights.val[i], known_weights[i], \
+                self.assertAlmostEqual(weights._val[i], known_weights[i], \
                     places=15, msg="Failed for weight %d in order %d." \
                                  % (i, order))
 
@@ -367,7 +367,7 @@ class WeightsKnownValues(unittest.TestCase):
 
             for i in range(0, order):
 
-                self.assertEqual(weights.val[i], weights[i], \
+                self.assertEqual(weights._val[i], weights[i], \
                     msg="Failed for weight %d in order %d." % (i+1, order))
 
 ################################################################################

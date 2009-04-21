@@ -63,7 +63,6 @@ logging.getLogger('tesseroidgravity').addHandler(NULLH)
 
 
 from math import pi, cos, sin, sqrt, log
-from timeit import Timer
 
 
 ################################################################################
@@ -111,7 +110,7 @@ class TesseroidGravity:
     si2mgal = 100000.0
 
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr, wr):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
             abr   - Abscissas in the radial direction;
@@ -131,10 +130,13 @@ class TesseroidGravity:
         # A factor to convert the field to the proper unit
         self.unit = 1.0
         self.field = []
-
+      
 
     def calculate3D(self, model, lons, lats, heights):
         """
+        NOTICE: This function is slower than the 2D GLQ implemented in 
+        'calculate'. Also, it has no optimizations and is not being maintained.
+
         Calculate the gravity potential field of a Tesseroid model on a given
         grid of points using 3D GLQ.
         Parameters:
@@ -190,9 +192,9 @@ class TesseroidGravity:
                 res = 0.0
 
                 # Do the GLQ summation to calculate the field
-                for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
-                    for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
-                        for rl, wr in zip(*[self.abr.val, self.wr.val]):
+                for lambl, wlon in zip(*[self.ablon._val, self.wlon._val]):
+                    for phil, wlat in zip(*[self.ablat._val, self.wlat._val]):
+                        for rl, wr in zip(*[self.abr._val, self.wr._val]):
 
                             # Calculate the integral kernel K
                             K = self.kernel3D(r, lamb, phi, rl, lambl, phil)
@@ -246,6 +248,21 @@ class TesseroidGravity:
             latsrad[i] *= deg2rad
             rs[i] += self.R
 
+        grid = zip(*[range(0, len(lonsrad)), lonsrad, latsrad, rs])
+
+        # Make a local copies, they run faster
+        kernel_local = self.kernel
+        kernel3d_local = self.kernel3D
+        ablon_local = self.ablon
+        wlon_local = self.wlon
+        ablat_local = self.ablat
+        wlat_local = self.wlat
+        abr_local = self.abr
+        wr_local = self.wr
+        R_local = self.R
+        G_local = self.G
+        unit_local = self.unit
+       
         # First initialize the array that will hold the field values
         field = [0.0]*len(lons)
 
@@ -254,12 +271,12 @@ class TesseroidGravity:
         for tess in model:
 
             # Scale the abscissas to the dimensions of the tesseroid
-            self.ablon.scale(deg2rad*tess['w'], deg2rad*tess['e'])
-            self.ablat.scale(deg2rad*tess['s'], deg2rad*tess['n'])
+            ablon_local.scale(deg2rad*tess['w'], deg2rad*tess['e'])
+            ablat_local.scale(deg2rad*tess['s'], deg2rad*tess['n'])
 
             # These are the integration limits
-            r1 = self.R - tess['bottom']
-            r2 = self.R - tess['top']
+            r1 = R_local - tess['bottom']
+            r2 = R_local - tess['top']
 
             # This is the scale fator that will multiply the GLQ summation due
             # to the scaling of the abscissas
@@ -268,34 +285,83 @@ class TesseroidGravity:
             factor = ((deg2rad**2)*\
                       (tess['e'] - tess['w'])*\
                       (tess['n'] - tess['s'])*\
-                      tess['density']*self.G*self.unit) / 4.0
+                      tess['density']*G_local*unit_local) / 4.0
+            # The 3D GLQ version of the scale factor (only used when 3D GLQ is
+            # needed).
+            factor3d = ((deg2rad**2)*(tess['e'] - tess['w'])*\
+                      (tess['n'] - tess['s'])*\
+                      (tess['bottom'] - tess['top'])*\
+                      tess['density']*G_local*unit_local) / 8.0
+
+            # Instead of putting this in the loop, do it only once
+            abs_w_lon = zip(*[ablon_local._val, wlon_local._val])
+            abs_w_lat = zip(*[ablat_local._val, wlat_local._val])
 
             # Caculate the field at every point on the grid and sum to what was
-            # there before.
-            grid = zip(*[range(0, len(lonsrad)), lonsrad, latsrad, rs])
+            # there before.                        
             for i, lamb, phi, r in grid:
 
-                # Initialize the result with zero
-                res = 0.0
+                # There is a singularity in the 2D algorithm when the
+                # computation point is aligned with a GLQ node. If this
+                # singularity is encountered, use the slower 3D algorithm to do
+                # the calculation on this point.
+                try:
+                    # Initialize the result with zero
+                    res = 0.0
 
-                # Do the GLQ summation to calculate the field
-                for lambl, wlon in zip(*[self.ablon.val, self.wlon.val]):
-                    for phil, wlat in zip(*[self.ablat.val, self.wlat.val]):
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in abs_w_lon:
+                        for phil, wlat in abs_w_lat:
 
-                        # Calculate the integral kernel K
-                        K = self.kernel(r, lamb, phi, r1, r2, lambl, phil)
+                            # Calculate the integral kernel K
+                            K = kernel_local(r, lamb, phi, r1, r2, lambl, phil)
 
-                        # Add the weighted kernel at the current
-                        # integration point to the result
-                        res += wlon*wlat*K
+                            # Add the weighted kernel at the current
+                            # integration point to the result
+                            res += wlon*wlat*K
 
-                # Add this to the field of the other tesseroids
-                # Factor is there to account for the change in variables
-                # done when scaling the abscissas to the correct interval.
-                # It also contains the density of the tesseroid, the
-                # gravitational constant and a unit conversion factor (only
-                # if needed).
-                field[i] += factor*res
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i] += factor*res
+
+                except SingularityError, e:
+
+                    self.logger.debug("In tesseroid '%s': " % (tess['tag']) + \
+                        str(e) + " Using 3D algorithm instead.")
+
+                    # Do the 3D algorithm since the 2D failed
+
+                    # Take this out of the loop
+                    abr_local.scale(r1, r2)
+                    abs_w_r = zip(*[abr_local._val, wr_local._val])
+
+                    # Initialize the result with zero
+                    res = 0.0
+
+                    # Do the GLQ summation to calculate the field
+                    for lambl, wlon in abs_w_lon:
+                        for phil, wlat in abs_w_lat :
+                            for rl, wr in abs_w_r:
+
+                                # Calculate the integral kernel K
+                                K = kernel3d_local(r, lamb, phi, \
+                                                   rl, lambl, phil)
+
+                                # Add the kernel at the current integration
+                                # point to the result
+                                res += wlon*wlat*wr*K
+
+                    # Add this to the field of the other tesseroids
+                    # Factor is there to account for the change in variables
+                    # done when scaling the abscissas to the correct interval.
+                    # It also contains the density of the tesseroid, the
+                    # gravitational constant and a unit conversion factor (only
+                    # if needed).
+                    field[i] += factor3d*res
 
         return field
 
@@ -324,7 +390,7 @@ class TesseroidPotential(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -336,7 +402,9 @@ class TesseroidPotential(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.potential')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -395,7 +463,7 @@ class TesseroidGx(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -407,8 +475,10 @@ class TesseroidGx(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2mgal
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gx')
     
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
         """
@@ -481,7 +551,7 @@ class TesseroidGy(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -493,8 +563,10 @@ class TesseroidGy(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2mgal
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gy')
 
     
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -561,7 +633,7 @@ class TesseroidGz(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -573,8 +645,10 @@ class TesseroidGz(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2mgal
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gz')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -634,7 +708,7 @@ class TesseroidGxx(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -646,8 +720,10 @@ class TesseroidGxx(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gxx')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -746,7 +822,7 @@ class TesseroidGxy(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -758,8 +834,10 @@ class TesseroidGxy(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gxy')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -867,7 +945,7 @@ class TesseroidGxz(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -879,8 +957,10 @@ class TesseroidGxz(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gxz')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -969,7 +1049,7 @@ class TesseroidGyy(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -981,8 +1061,10 @@ class TesseroidGyy(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gyy')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -1094,7 +1176,7 @@ class TesseroidGyz(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -1106,8 +1188,10 @@ class TesseroidGyz(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gyz')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -1189,7 +1273,7 @@ class TesseroidGzz(TesseroidGravity):
     doc for input parameters and output).
     """
 
-    def __init__(self, abr, ablon, ablat, wr, wlon, wlat):
+    def __init__(self, ablon, wlon, ablat, wlat, abr=None, wr=None):
         """
         Pass the Abscissas and associated Weights that will be used in the GLQ.
         Parameters:
@@ -1201,8 +1285,10 @@ class TesseroidGzz(TesseroidGravity):
             wlat  - Weights in the latitude direction;
         """
         # Call the base class constructor to set the parameters
-        TesseroidGravity.__init__(self, abr, ablon, ablat, wr, wlon, wlat)
+        TesseroidGravity.__init__(self, ablon, wlon, ablat, wlat, abr, wr)
         self.unit = self.si2eotvos
+        # Create a logger
+        self.logger = logging.getLogger('tesseroidgravity.gzz')
 
 
     def kernel3D(self, r, lamb, phi, rl, lambl, phil):
@@ -1251,209 +1337,6 @@ class TesseroidGzz(TesseroidGravity):
 ################################################################################
 
 
-################################################################################
-# TIMING TESTS
-
-def time_potential(repetitions, num_times):
-    """
-    Counts the time it takes to execute TesseroidPotential.calculate number of
-    times.
-    Parameters:
-        repetitions - the number calculate will be executed per iteration. The
-                      time returned is the time it takes to all repetions;
-        num_times   - the number of iterations performed;
-
-    Prints to stdout the times per iteration, max of all iterations, min of all
-    iterations, and total time.
-    The model used is a one tesseroid model calculated over a 100x100 grid.
-    """
-
-    # The setup statement that import everything, instantiates the Abscissas
-    # and Weights, and creates the grids.
-    str = \
-"""
-import glq
-import tesseroid as t
-import __main__ as tg
-import scipy as s
-tess = t.Tesseroid(27.5,32.5,-2.4,2.5,0,40000,1.0,'TEST')
-mod = [tess]
-o = 2
-ablon = glq.Abscissas(o)
-ablat = glq.Abscissas(o)
-abr = glq.Abscissas(o)
-wlon = glq.Weights(ablon)
-wlat = glq.Weights(ablat)
-wr = glq.Weights(abr)
-tp = tg.TesseroidPotential(abr,ablon,ablat,wr,wlon,wlat)
-lons = s.arange(5,55.5,0.5)
-lats = s.arange(-25,25.5,0.5)
-hs = []
-lns = []
-lts = []
-for lon in lons:
-    for lat in lats:
-        lns.append(lon)
-        lts.append(lat)
-        hs.append(100000)
-"""
-
-    print "Timing %d iterations of calculate %d times on a 100x100 grid...\n" \
-            % (repetitions, num_times)
-    times = []
-    total = 0.0
-    timer = Timer(stmt='tp.calculate(mod, lns, lts, hs)', setup=str)
-    print "2D ALGORITHM:\n  Iteration: Time (s)"
-    for i in range(1, num_times+1):
-        t = timer.timeit(repetitions)
-        print "  %d: %g" % (i, t)
-        times.append(t)
-        total += t
-
-    print "  Max: %g" % (max(times))
-    print "  Min: %g" % (min(times))
-    print "  Total: %g" % (total)
-
-    times = []
-    total = 0.0
-    timer = Timer(stmt='tp.calculate3D(mod, lns, lts, hs)', setup=str)
-    print "\n3D ALGORITHM:\n  Iteration: Time (s)"
-    for i in range(1, num_times+1):
-        t = timer.timeit(repetitions)
-        print "  %d: %g" % (i, t)
-        times.append(t)
-        total += t
-
-    print "  Max: %g" % (max(times))
-    print "  Min: %g" % (min(times))
-    print "  Total: %g" % (total)
-
-################################################################################
-
-
-################################################################################
-# CALCULATE THE FIELDS FOR A TEST
-
-def calc_all(order, height):
-    """
-    Calculate all the fields for a 2 tesseroid model, one with positive and one
-    with negative density on a 100x100 grid at 250km altitude and a 5x5x5 GLQ.
-    """
-    import glq
-    import scipy as s
-    import pylab as p
-    import tesseroid as t
-
-    # Make the model
-    print "Creating model..."
-    tess1 = t.Tesseroid(19.9, 20.1, -0.1, 0.1, 0, 4000, 1.0, 'pos')
-    #tess2 = t.Tesseroid(29.9, 30.1, -0.1, 0.1, 0, 40000, -1.0, 'neg')
-    #model = [tess1, tess2]
-    model = [tess1]
-
-    # Make the abscissas and weights
-    print "Calculating abscissas and weights..."
-    ablon = glq.Abscissas(order)
-    ablat = glq.Abscissas(order)
-    abr = glq.Abscissas(order)
-    wlon = glq.Weights(ablon)
-    wlat = glq.Weights(ablat)
-    wr = glq.Weights(abr)
-
-    # Make the grid
-    print "Creating grid..."
-    lons = s.arange(18, 22.04, 0.04)
-    lats = s.arange(-2, 2.04, 0.04)
-    glons, glats = p.meshgrid(lons, lats)   
-    hs = []
-    lns = []
-    lts = []
-    for lat in lats:
-        for lon in lons:
-            lns.append(lon)
-            lts.append(lat)
-            hs.append(height)
-
-    # Make the field calculator obejects
-    print "Creating calculator objects..."
-    tesspot = TesseroidPotential(abr, ablon, ablat, wr, wlon, wlat)
-    tessgx = TesseroidGx(abr, ablon, ablat, wr, wlon, wlat)
-    tessgy = TesseroidGy(abr, ablon, ablat, wr, wlon, wlat)
-    tessgz = TesseroidGz(abr, ablon, ablat, wr, wlon, wlat)
-
-    # Calculate the fields
-    print "Calculating fields with 2D algorithm:"
-    print "  Potential..."
-    pot = tesspot.calculate(model, lns, lts, hs)
-    print "  Gx..."
-    gx = tessgx.calculate(model, lns, lts, hs)
-    print "  Gy..."
-    gy = tessgy.calculate(model, lns, lts, hs)
-    print "  Gz..."
-    gz = tessgz.calculate(model, lns, lts, hs)
-    print "Calculating fields with 3D algorithm:"
-    print "  Potential..."
-    pot3d = tesspot.calculate3D(model, lns, lts, hs)
-    print "  Gx..."
-    gx3d = tessgx.calculate3D(model, lns, lts, hs)
-    print "  Gy..."
-    gy3d = tessgy.calculate3D(model, lns, lts, hs)
-    print "  Gz..."
-    gz3d = tessgz.calculate3D(model, lns, lts, hs)
-
-    # Plot the maps
-    print "Plotting maps:"
-    fields = []
-    fields.append(pot)
-    fields.append(gx)
-    fields.append(gy)
-    fields.append(gz)
-    fields.append(pot3d)
-    fields.append(gx3d)
-    fields.append(gy3d)
-    fields.append(gz3d)
-    names = []
-    names.append('Potential at %g - GLQ Order %d (2D)' % (height, order))
-    names.append('Gx at %g - GLQ Order %d (2D)' % (height, order))
-    names.append('Gy at %g - GLQ Order %d (2D)' % (height, order))
-    names.append('Gz at %g - GLQ Order %d (2D)' % (height, order))
-    names.append('Potential at %g - GLQ Order %d (3D)' % (height, order))
-    names.append('Gx at %g - GLQ Order %d (3D)' % (height, order))
-    names.append('Gy at %g - GLQ Order %d (3D)' % (height, order))
-    names.append('Gz at %g - GLQ Order %d (3D)' % (height, order))
-    for field, name in zip(*[fields, names]):
-
-        print "  %s..." % (name)
-
-        fieldlist = []
-        for i in range(len(lons),len(field)+1,len(lons)):
-            fieldlist.append(field[i-len(lons):i]+[field[i-len(lons)]])
-        # Since I reversed lat, have to reverse field too
-        #fieldlist.reverse()
-        fieldgrd = s.array(fieldlist)
-
-        p.figure()
-        p.title(name)
-        p.pcolor(glons, glats, fieldgrd, cmap=p.cm.jet)
-        p.colorbar(orientation='horizontal')
-
-        # Plot the tesseroids with 'white' for the positive density and 'black'
-        # for the negative density
-        tess1lons = [tess1['w'], tess1['e'], tess1['e'], tess1['w'], tess1['w']]
-        tess1lats = [tess1['s'], tess1['s'], tess1['n'], tess1['n'], tess1['s']]
-        p.plot(tess1lons,tess1lats,'-w',linewidth=1)
-        #tess2lons = [tess2['w'], tess2['e'], tess2['e'], tess2['w'], tess2['w']]
-        #tess2lats = [tess2['s'], tess2['s'], tess2['n'], tess2['n'], tess2['s']]
-        #p.plot(tess2lons,tess2lats,'-k',linewidth=1)
-        p.xlim(18, 22)
-        p.ylim(-2, 2)
-
-    print "Done!"
-    p.show()
-
-################################################################################
-
 if __name__ == '__main__':
-
-    calc_all(2,1000)
+    print __doc__
 
