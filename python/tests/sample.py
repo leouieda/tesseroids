@@ -61,10 +61,9 @@ import glq
 import tesseroid as t
 import tesseroidgravity as tg
 
-def main(opt):
+def main(opt, order):
 
     height = 250000.0
-    order = 3
 
     # Create a logger for stokes
     logger = logging.getLogger()
@@ -184,8 +183,6 @@ def main(opt):
         fieldlist = []
         for i in range(len(lons),len(field)+1,len(lons)):
             fieldlist.append(field[i-len(lons):i]+[field[i-len(lons)]])
-        # Since I reversed lat, have to reverse field too
-        #fieldlist.reverse()
         fieldgrd = s.array(fieldlist)
 
         p.figure(figsize=(10,10))
@@ -193,7 +190,7 @@ def main(opt):
         p.xlabel('Longitude')
         p.ylabel('Latitude')
         p.pcolor(glons, glats, fieldgrd, cmap=p.cm.jet)
-        p.colorbar(orientation='horizontal')
+        p.colorbar(orientation='horizontal',aspect=50)
 
         # Plot the tesseroids with 'white'
         p.plot(tesslons,tesslats,'-w',linewidth=1)

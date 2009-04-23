@@ -57,7 +57,7 @@ __author__ = 'Leonardo Uieda (leouieda@gmail.com)'
 __version__ = '$Revision$'
 __date__ = '$Date$'
 __copyright__ = "Copyright (C) 2009  Leonardo Uieda"
-__license__ = "GPL"
+__license__ = "GPL" 
 ################################################################################
 
 
