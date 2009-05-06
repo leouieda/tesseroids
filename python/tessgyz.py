@@ -27,10 +27,10 @@ TessGyz:
 """
 ################################################################################
 # Created on 6-May-2009 10:05 PM
-# Last modified by $Author: $
+# Last modified by $Author$
 __author__ = 'Leonardo Uieda (leouieda@gmail.com)'
-__version__ = '$Revision: $'
-__date__ = '$Date: $'
+__version__ = '$Revision$'
+__date__ = '$Date$'
 __copyright__ = "Copyright (C) 2009  Leonardo Uieda"
 __license__ = "GPL"
 ################################################################################
