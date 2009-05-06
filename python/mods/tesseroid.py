@@ -126,10 +126,10 @@ class Tesseroid(dict):
         >>> import sys
         >>>
         >>> # Setup a log
-        >>> logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+        >>> logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
         >>>
         >>> tess = Tesseroid(179,-179,-1,1,10,100,1.5,"MyTesseroid")
-        INFO:tesseroid.Tesseroid:Tesseroid MyTesseroid had it's boundary \
+        DEBUG:tesseroid.Tesseroid:Tesseroid MyTesseroid had it's boundary \
 parameter E changed from -179 to 181 for convenience.
         >>>
         >>> print tess['w'], tess['e']
