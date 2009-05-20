@@ -105,9 +105,12 @@ class TesseroidGravity:
     # The mean earth radius (m)
     R = 6378137.0
     # Conversion factor from SI units to Eotvos: 1 /s**2 = 10**9 Eotvos
-    si2eotvos = 1000000000.0
+    si2eotvos = 10.0**9
     # Conversion factor from SI units to mGal: 1 m/s**2 = 10**5 mGal
-    si2mgal = 100000.0
+    si2mgal = 10.0**5
+    # Minimum value of cos(Psi) to use the 2D algorithm without raising a
+    # SingularityError
+    minimum_cosPsi = 0.99999999
 
 
     def __init__(self, ablon, wlon, ablat, wlat, abr, wr):
@@ -761,6 +764,19 @@ class TesseroidGxx(TesseroidGravity):
             sinPhi = sin(phi)
             cosLambLambl = cos(lamb - lambl)
             cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGxx. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
             cosPsiPhi_2 = cosPsiPhi**2
             l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
@@ -791,8 +807,8 @@ class TesseroidGxx(TesseroidGravity):
             Kphi_2 = 0.5*( t2 - t1 + t3 - t4 + t5 + t6 - t7 )
 
             # Kr
-            Kr = ( r2*l2 - r1*l1 + 3*r*cosPsi*(l2 - l1) + r_2*cosPsi_2_1*ln - \
-                r2l2*r2_2 + r1l1*r1_2 ) / r
+            Kr = (r2*l2 - r1*l1 + 3*r*cosPsi*(l2 - l1) + r_2*cosPsi_2_1*ln - \
+                r2l2*r2_2 + r1l1*r1_2) / r
 
             return cosPhil*(Kphi_2 + r*Kr) / r_2
 
@@ -879,6 +895,19 @@ class TesseroidGxy(TesseroidGravity):
             cosLambLambl = cos(lamb - lambl)
             sinLambLambl = sin(lamb - lambl)
             cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGxy. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
             cosPsiLamb = (-1)*cosPhi*cosPhil*sinLambLambl
             cosPsiPhiXLamb = cosPsiPhi*cosPsiLamb
@@ -999,6 +1028,19 @@ class TesseroidGxz(TesseroidGravity):
             sinPhi = sin(phi)
             cosLambLambl = cos(lamb - lambl)
             cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGxz. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
             l1 = sqrt( r_2 + (r1_2) - (2*r*r1*cosPsi) )
             l2 = sqrt( r_2 + (r2_2) - (2*r*r2*cosPsi) )
@@ -1105,6 +1147,19 @@ class TesseroidGyy(TesseroidGravity):
             sinPhi = sin(phi)
             cosLambLambl = cos(lamb - lambl)
             cosPsi = sinPhi*sinPhil + cosPhi*cosPhil*cosLambLambl
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGyy. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             cosPsiPhi = cosPhi*sinPhil - sinPhi*cosPhil*cosLambLambl
             cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
             cosPsiLamb_2 = cosPsiLamb*cosPsiLamb
@@ -1203,13 +1258,12 @@ class TesseroidGyz(TesseroidGravity):
         cosPhil = cos(phil)
         cosPhi = cos(phi)
         cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
-        cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
         l = sqrt( r_2 + rl_2 - (2*r*rl*cosPsi) )
-        l_3 = l**3
-        rl_l3 = rl / l_3
-        return rl_2*cosPhil*( ((r*rl_l3*cosPsiLamb)/r - \
-               rl_l3*cosPsiLamb*(3*r*(rl*cosPsi - r)/l**3  + 1)) / (r*cosPhi) )
-                                    
+        rlcosPsiLamb_l3 = (-rl*cosPhi*cosPhil*sin(lamb - lambl))/l**3
+        # The minus sign is because z points out while r points in
+        return -rl_2*cosPhil*( \
+                             (r*rlcosPsiLamb_l3*3*(rl*cosPsi - r)/l**2 + \
+                              rlcosPsiLamb_l3) / (r*cosPhi) )
 
     def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
         """
@@ -1222,6 +1276,19 @@ class TesseroidGyz(TesseroidGravity):
             cosPhil = cos(phil)
             cosPhi = cos(phi)
             cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGyz. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             cosPsiLamb = (-1)*cosPhi*cosPhil*sin(lamb - lambl)
             l1 = sqrt( r_2 + r1_2 - (2*r*r1*cosPsi) )
             l2 = sqrt( r_2 + r2_2 - (2*r*r2*cosPsi) )
@@ -1315,6 +1382,19 @@ class TesseroidGzz(TesseroidGravity):
             cosPhil = cos(phil)
             cosPhi = cos(phi)
             cosPsi = sin(phi)*sin(phil) + cosPhi*cosPhil*cos(lamb - lambl)
+            # Check if cosPsi is above the minimum for a 'safe' 2D GLQ
+            # If it's bellow this, raise a SingularityError to force a 3D GLQ
+            # This is necessary because the proximity of the GLQ node to the
+            # calculation point causes some term to be too big and a strange
+            # very high value to apear in the resulting field.
+            if cosPsi >= self.minimum_cosPsi:
+                rad2deg = 180.0/pi
+                msg = "Singularity occured due to computation point " + \
+                  "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
+                  "being too close to a GLQ node in TesseroidGzz. This " + \
+                  "could cause the 2D algorithm to fail."
+                raise SingularityError, msg
+
             l1 = sqrt( r_2 + r1_2 - (2*r*r1*cosPsi) )
             l2 = sqrt( r_2 + r2_2 - (2*r*r2*cosPsi) )
             r1l1 = (r1_2*r1) / (2*l1)

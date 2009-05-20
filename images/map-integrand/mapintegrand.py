@@ -100,15 +100,15 @@ def mapint(lon, lat, height, order, folder):
     names.append("Gzz")
 
     # Create a tesseroid
-    tess = ts.Tesseroid(-1, 1, 44, 46, 0, 30000, 0.2, '1')
+    tess = ts.Tesseroid(-0.5, 0.5, 44.5, 45.5, 0, 10000, 200, '1')
     r1 = tessgxx.R - tess['bottom']
     r2 = tessgxx.R - tess['top']
     r = tessgxx.R + height
 
     # For each calculator, map the integrand and plot
     index = [1,2,3,5,6,9]
-    intlons = np.arange(tess['w'], tess['e']+0.02, 0.02)
-    intlats = np.arange(tess['s'], tess['n']+0.02, 0.02)
+    intlons = np.arange(tess['w'], tess['e']+0.01, 0.01)
+    intlats = np.arange(tess['s'], tess['n']+0.01, 0.01)
     intlonsrad = deg2rad*intlons
     intlatsrad = deg2rad*intlats
     lonsgrid, latsgrid = pl.meshgrid(intlons, intlats)
@@ -147,176 +147,6 @@ def mapint(lon, lat, height, order, folder):
     pl.close()
 
 
-def drawmaps(height, folder, prof_lons, prof_lats):
-    """
-    Draw the tensor maps at height and save them in folder.
-    """
-
-    # Create a tesseroid
-    tess = ts.Tesseroid(-1, 1, 44, 46, 0, 30000, 0.2, '1')
-    model = [tess]
-    tesslons = [tess['w'], tess['e'], tess['e'], tess['w'], tess['w']]
-    tesslats = [tess['s'], tess['s'], tess['n'], tess['n'], tess['s']]
-
-    # Create a calculation grid
-    lons = np.arange(-20, -10, 1).tolist()
-    lons += np.arange(-10, -5, 0.2).tolist()
-    lons += np.arange(-5, 5, 0.1).tolist()
-    lons += np.arange(5, 10, 0.2).tolist()
-    lons += np.arange(10, 20+1, 1).tolist()
-    lats = np.arange(25, 35, 1).tolist()
-    lats += np.arange(35, 40, 0.2).tolist()
-    lats += np.arange(40, 50, 0.1).tolist()
-    lats += np.arange(50, 55, 0.2).tolist()
-    lats += np.arange(55, 65+1, 1).tolist()
-    lonslist = []
-    latslist = []
-    heights = []
-    # Iterate over the lats
-    for lat in lats:
-        # Iterate over the lons
-        for lon in lons:
-            lonslist.append(lon)
-            latslist.append(lat)
-            heights.append(height)
-    # Mesh a grid with lons, lats
-    glons, glats = pl.meshgrid(lons, lats)
-
-    names = []
-    names.append("Gxx")
-    names.append("Gxy")
-    names.append("Gxz")
-    names.append("Gyy")
-    names.append("Gyz")
-    names.append("Gzz")
-    low_order = 5
-    high_order = 30
-    orders = [low_order, high_order]
-    fields = {low_order:{}, high_order:{}}
-    for order in orders:
-
-        print "    Order: %d" % (order)
-        # Create a figure
-        pl.figure(figsize=(15,10))
-        pl.suptitle("Gradiente da Gravidade a %g km (Ordem:%d)" \
-                    % (height/1000.0, order), \
-                    fontsize=16)
-
-        # Create the abscissas and weights
-        abslon = glq.Abscissas(order)
-        abslat = glq.Abscissas(order)
-        absr = glq.Abscissas(order)
-        wlon = glq.Weights(abslon)
-        wlat = glq.Weights(abslat)
-        wr = glq.Weights(absr)
-
-        # Create a calculator class for the integrands of the GGT
-        calculators = []
-        tessgxx = tg.TesseroidGxx(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgxx)
-        tessgxy = tg.TesseroidGxy(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgxy)
-        tessgxz = tg.TesseroidGxz(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgxz)
-        tessgyy = tg.TesseroidGyy(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgyy)
-        tessgyz = tg.TesseroidGyz(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgyz)
-        tessgzz = tg.TesseroidGzz(abslon, wlon, abslat, wlat, absr, wr)
-        calculators.append(tessgzz)
-
-        # For each calculator, calculate the field and plot the map
-        index = [1,2,3,5,6,9]
-        for calc, name, i in zip(*[calculators, names, index]):
-            print "      %s" % (name)
-
-            # Calculate the field
-            field = calc.calculate(model, lonslist, latslist, heights)
-
-            # Convert the field to a matrix
-            fieldlist = []
-            for j in range(len(lons),len(field)+1,len(lons)):
-                fieldlist.append(field[j-len(lons):j])
-            # Make a Numpy array
-            fieldgrd = np.array(fieldlist)
-            fields[order][name] = fieldgrd
-
-            # Plot the integrand
-            pl.subplot(3,3,i)
-            #pl.title(name)
-            #pl.xlabel('Longitude')
-            #pl.ylabel('Latitude')
-            pc = pl.pcolor(glons, glats, fieldgrd, cmap=pl.cm.jet)
-            pl.colorbar(orientation='vertical', format='%.1e')#,aspect=50)
-            pl.plot(tesslons,tesslats,'-w',linewidth=1)
-            pl.xlim(-20, 20)
-            pl.ylim(25, 65)
-
-        filename = folder + os.path.sep + 'ggt-h%g-o%d.png' % \
-                    (height/1000.0, order)
-        pl.savefig(filename, fmt='png')
-
-        # Make a zoomed plot
-        for i in index:
-            pl.subplot(3,3,i)
-            pl.xlim(-5, 5)
-            pl.ylim(40, 50)
-        filename = folder + os.path.sep + 'ggt-h%g-o%d-zoom.png' % \
-                    (height/1000.0, order)
-        pl.savefig(filename, fmt='png')
-
-        # Make a second plot with the points of the profiles
-        for i in index:
-            pl.subplot(3,3,i)
-            pl.plot(prof_lons, [45]*len(prof_lats), 'k,')
-            pl.plot([0]*len(prof_lons), prof_lats, 'k,')
-            pl.xlim(-20, 20)
-            pl.ylim(25, 65)
-        filename = folder + os.path.sep + 'ggt-h%g-o%d-prof.png' % \
-                    (height/1000.0, order)
-        pl.savefig(filename, fmt='png')
-        pl.close()
-
-    # Create a figure
-    pl.figure(figsize=(15,10))
-    pl.suptitle(r"Diferenca entre ordem %d e %d a %g km" \
-                % (low_order, high_order, height/1000.0), \
-                fontsize=16)
-
-    # Calculate the difference
-    print "    Calculating difference"
-    index = [1,2,3,5,6,9]
-    for name, i in zip(*[names, index]):
-
-        # Caculate the difference
-        diff = abs(fields[high_order][name] - fields[low_order][name])
-
-        # Plot the integrand
-        pl.subplot(3,3,i)
-        #pl.title(name)
-        #pl.xlabel('Longitude')
-        #pl.ylabel('Latitude')
-        pc = pl.pcolor(glons, glats, diff, cmap=pl.cm.jet)
-        pl.colorbar(orientation='vertical', format='%.1e')#,aspect=50)
-        pl.plot(tesslons,tesslats,'-w',linewidth=1)
-        pl.xlim(-20, 20)
-        pl.ylim(25, 65)
-
-    filename = folder + os.path.sep + 'ggt-h%g-diff.png' % \
-                (height/1000.0)
-    pl.savefig(filename, fmt='png')
-
-    # Make a zoomed plot
-    for i in index:
-        pl.subplot(3,3,i)
-        pl.xlim(-5, 5)
-        pl.ylim(40, 50)
-    filename = folder + os.path.sep + 'ggt-h%g-diff-zoom.png' % \
-                (height/1000.0)
-    pl.savefig(filename, fmt='png')
-
-    pl.close()
-
 if __name__ == '__main__':
 
 
@@ -335,7 +165,7 @@ if __name__ == '__main__':
     for height in heights:
         print "Height: %g km" % (height/1000.0)
         print "  Creating dir" 
-        folder = 'heigh-%g' % (height/1000.0)
+        folder = 'height-%g' % (height/1000.0)
         # Check if folder exists
         if not os.path.exists(folder):
             os.mkdir(folder)

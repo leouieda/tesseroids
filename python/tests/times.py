@@ -126,7 +126,7 @@ for w in range(-5, 5):
     e = w + 1
     for s in range(-5, 5):
         n = s + 1
-        tess = t.Tesseroid(w, e, s, n, 0, 40000, 1.0, 'TEST%d' % (i))
+        tess = t.Tesseroid(w, e, s, n, 0, 40000, 200, 'TEST%d' % (i))
         i += 1
         mod.append(tess) """ + \
 """

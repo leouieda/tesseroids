@@ -149,7 +149,7 @@ def main(opt, order):
 
     # Make the model
     print "Creating model..."
-    tess = t.Tesseroid(19, 21, -1, 1, 30000, 45000, -0.3, 'The One')
+    tess = t.Tesseroid(19, 21, -1, 1, 30000, 45000, -300, 'The One')
     model = [tess]
     tesslons = [tess['w'], tess['e'], tess['e'], tess['w'], tess['w']]
     tesslats = [tess['s'], tess['s'], tess['n'], tess['n'], tess['s']]
