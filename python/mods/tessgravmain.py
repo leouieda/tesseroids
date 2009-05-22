@@ -153,7 +153,7 @@ class Main:
         # Set the log file, if wanted
         if options.log:
             logging.basicConfig(level=logging.DEBUG,
-                format='\n%(asctime)s %(name)-20s %(levelname)-8s: %(message)s',
+                format='\n%(asctime)s %(name)-20s - %(levelname)-8s: %(message)s',
                 datefmt='%m-%d-%y %H:%M:%S',
                 filename=options.log,
                 filemode='w')
