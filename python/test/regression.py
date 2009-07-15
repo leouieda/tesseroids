@@ -1,5 +1,6 @@
 #! /usr/bin/python
-"""Regression testing framework.
+"""
+Regression testing framework.
 
 This module will search for scripts in the same directory named *_test.py. Each
 such script should be a test suite that tests a module through PyUnit (as of
@@ -20,7 +21,7 @@ import unittest
 def regressionTest():
     path = os.path.abspath(os.path.dirname(sys.argv[0]))
     files = os.listdir(path)
-    test = re.compile("_test\.py$", re.IGNORECASE)
+    test = re.compile("(^test\_).+(\.py$)", re.IGNORECASE)
     files = filter(test.search, files)
     filenameToModuleName = lambda f: os.path.splitext(f)[0]
     moduleNames = map(filenameToModuleName, files)

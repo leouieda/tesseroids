@@ -38,14 +38,6 @@ import unittest
 import os
 import sys
 
-# Get the path of where the test program is
-testpath = os.path.abspath(os.path.dirname(sys.argv[0]))
-# Get the path os the mods
-tmp = testpath + os.path.sep + os.path.pardir + os.path.sep + 'mods'
-modspath = os.path.abspath(tmp)
-# Add this path to the sys.path so that the modules can be imported
-sys.path.append(modspath)
-# Now the mod can be imported
 import tesseroid
 
 ################################################################################

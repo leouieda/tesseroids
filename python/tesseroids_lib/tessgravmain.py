@@ -49,7 +49,7 @@ class Main:
     all the input and output.
     """
 
-    def __init__(self, name, description, args, grav_calculator, version='0.1'):
+    def __init__(self, name, description, args, grav_calculator, version='0.3'):
         """
         name            - String with the name of the program;
         description     - String with a short description of the functionality
