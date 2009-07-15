@@ -108,9 +108,9 @@ class TesseroidGravity:
     si2eotvos = 10.0**9
     # Conversion factor from SI units to mGal: 1 m/s**2 = 10**5 mGal
     si2mgal = 10.0**5
-    # Minimum value of cos(Psi) to use the 2D algorithm without raising a
+    # Maximum value of cos(Psi) to use the 2D algorithm without raising a
     # SingularityError
-    minimum_cosPsi = 0.99999999
+    max_cosPsi = 0.99999999
 
 
     def __init__(self, ablon, wlon, ablat, wlat, abr, wr):
@@ -769,7 +769,7 @@ class TesseroidGxx(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
@@ -900,7 +900,7 @@ class TesseroidGxy(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
@@ -1033,7 +1033,7 @@ class TesseroidGxz(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
@@ -1152,7 +1152,7 @@ class TesseroidGyy(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
@@ -1281,7 +1281,7 @@ class TesseroidGyz(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \
@@ -1387,7 +1387,7 @@ class TesseroidGzz(TesseroidGravity):
             # This is necessary because the proximity of the GLQ node to the
             # calculation point causes some term to be too big and a strange
             # very high value to apear in the resulting field.
-            if cosPsi >= self.minimum_cosPsi:
+            if cosPsi >= self.max_cosPsi:
                 rad2deg = 180.0/pi
                 msg = "Singularity occured due to computation point " + \
                   "(lon=%g, lat=%g) " % (lamb*rad2deg, phi*rad2deg) + \

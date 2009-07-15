@@ -20,7 +20,7 @@
 #
 ################################################################################
 """
-    This module contains the class Main that is used the user interface for
+    This module contains the class Main that is used as the user interface for
     the tessgrav programs.
 """
 
