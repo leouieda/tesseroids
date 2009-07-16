@@ -22,3 +22,4 @@ test/plot.py
 test/regression.py
 test/sample.mod
 test/times.py
+gpl-3.0.txt
