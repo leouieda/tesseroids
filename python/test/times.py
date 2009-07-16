@@ -96,8 +96,8 @@ import scipy as sp
 import logging
 
 import glq
-import tesseroid as t
-import tesseroidgravity as tg
+from tesseroids_lib import tesseroid as t
+from tesseroids_lib import tesseroidgravity as tg
 
 # Create a logger for stokes
 logger = logging.getLogger()

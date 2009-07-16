@@ -38,7 +38,7 @@ import unittest
 import os
 import sys
 
-import tesseroid
+from tesseroids_lib import tesseroid
 
 ################################################################################
 # TEST FOR SUCCESS
