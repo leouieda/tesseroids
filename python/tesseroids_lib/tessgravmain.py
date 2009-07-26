@@ -324,8 +324,10 @@ class Main:
 
         # Create the TesseroidGravity class
         tessgrav = self.grav_calculator(abslon, wlon, abslat, wlat, absr, wr)
+        ########################################################################
 
-        # Calculate the gravity field
+        # CALCULATE THE GRAVITY FIELD
+        ########################################################################
         logger.info("Calculating gravitational field...")
         start = time.clock()
         field = tessgrav.calculate(model, lons, lats, heights)
