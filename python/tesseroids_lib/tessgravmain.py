@@ -337,9 +337,22 @@ class Main:
         ########################################################################
 
         # PRINT THE FIELD TO STDOUT
+        # Output is in the following format:
+        #    lon1 lat1 result11
+        #    lon1 lat2 result12
+        #    lon1 lat3 result13
+        #    ...
+        #    lon1 latn result1n
+        #                               <empty line>
+        #    lon2 lat1 result21
+        #    ...
         ########################################################################
         logger.info("Printing result to stdout...")
+        current_lon = lons[0]
         for lon, lat, f in zip(*[lons, lats, field]):
+            if lon != current_lon:
+                print ""
+                current_lon = lon
             print "% 3.8f % 2.8f % .8f" % (lon, lat, f)    
         ########################################################################
 

@@ -21,52 +21,52 @@ sample:
 	echo "" >> ${TESTOUTPUT}
 	echo "SAMPLES:" >> ${TESTOUTPUT}
 	echo "---------------------------------------" >> ${TESTOUTPUT}
-	tesspot ${OPTIONS} -l pot.log > pot.dat 2>> ${TESTOUTPUT}
+	python ../tesspot ${OPTIONS} -l pot.log > pot.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py pot.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgx ${OPTIONS} -l gx.log > gx.dat 2>> ${TESTOUTPUT}
+	python ../tessgx ${OPTIONS} -l gx.log > gx.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gx.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgy ${OPTIONS} -l gy.log > gy.dat 2>> ${TESTOUTPUT}
+	python ../tessgy ${OPTIONS} -l gy.log > gy.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gy.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgz ${OPTIONS} -l gz.log > gz.dat 2>> ${TESTOUTPUT}
+	python ../tessgz ${OPTIONS} -l gz.log > gz.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gz.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgxx ${OPTIONS} -l gxx.log > gxx.dat 2>> ${TESTOUTPUT}
+	python ../tessgxx ${OPTIONS} -l gxx.log > gxx.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gxx.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgxy ${OPTIONS} -l gxy.log > gxy.dat 2>> ${TESTOUTPUT}
+	python ../tessgxy ${OPTIONS} -l gxy.log > gxy.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gxy.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgxz ${OPTIONS} -l gxz.log > gxz.dat 2>> ${TESTOUTPUT}
+	python ../tessgxz ${OPTIONS} -l gxz.log > gxz.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gxz.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgyy ${OPTIONS} -l gyy.log > gyy.dat 2>> ${TESTOUTPUT}
+	python ../tessgyy ${OPTIONS} -l gyy.log > gyy.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gyy.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgyz ${OPTIONS} -l gyz.log > gyz.dat 2>> ${TESTOUTPUT}
+	python ../tessgyz ${OPTIONS} -l gyz.log > gyz.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gyz.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	
-	tessgzz ${OPTIONS} -l gzz.log > gzz.dat 2>> ${TESTOUTPUT}
+	python ../tessgzz ${OPTIONS} -l gzz.log > gzz.dat 2>> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
 	python plot.py gzz.dat ${NLAT} >> ${TESTOUTPUT}
 	echo "" >> ${TESTOUTPUT}
