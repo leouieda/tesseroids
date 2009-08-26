@@ -662,7 +662,7 @@ class TesseroidGz(TesseroidGravity):
         cosPhil = cos(phil)
         cosPsi = sin(phi)*sin(phil) + cos(phi)*cosPhil*cos(lamb - lambl)
         l = sqrt( (r**2) + (rl_2) - (2*r*rl*cosPsi) )
-        return rl_2*cosPhil*((r - (rl*cosPsi)) / (l**3))
+        return rl_2*cosPhil*(((rl*cosPsi) - r) / (l**3))
 
 
     def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
@@ -680,9 +680,9 @@ class TesseroidGz(TesseroidGravity):
             lntop = l2 + r2 - (r*cosPsi)
             lnbot = l1 + r1 - (r*cosPsi)
             ln = log( abs(lntop / lnbot) )
-            return (cosPhil/r)*( r1*l1 - r2*l2 - 3*r*cosPsi*(l2 - l1) - \
-                                    r_2*((3*cosPsi*cosPsi) - 1)*ln + (r2*r2_2)/l2 - \
-                                    (r1*r1_2)/l1 )
+            return (cosPhil/r)*(r2*l2 - r1*l1 + 3*r*cosPsi*(l2 - l1) + \
+                                   r_2*(3*(cosPsi**2) - 1)*ln - (r2*r2_2)/l2 + \
+                                   (r1*r1_2)/l1 )
         except ZeroDivisionError:
             rad2deg = 180.0/pi
             msg = "Singularity occured due to computation point " + \
@@ -1008,9 +1008,8 @@ class TesseroidGxz(TesseroidGravity):
         l = sqrt( (r_2) + (rl_2) - (2*r*rl*cosPsi) )
         l_3 = l**3
         rl_l3 = rl / l_3
-        return rl_2*cosPhil*(((r*rl_l3*cosPsiPhi)/r - \
-                              (rl_l3*cosPsiPhi*(3*r*(rl*cosPsi - r)/l**2 + 1)))\
-                             / r )
+        return rl_2*cosPhil*rl_l3*cosPsiPhi*( \
+                        (3*r*(rl*cosPsi-r)/l**2 + 1) - 1 ) / r
 
 
 
@@ -1062,7 +1061,7 @@ class TesseroidGxz(TesseroidGravity):
             KVphi = 0.5*cosPsiPhi*(rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
                                    6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
 
-            return cosPhil*( (KVphi/r - KVphir) / r )
+            return cosPhil*( (KVphir - KVphi/r) / r )
 
         except ZeroDivisionError:
             rad2deg = 180.0/pi
@@ -1261,9 +1260,9 @@ class TesseroidGyz(TesseroidGravity):
         l = sqrt( r_2 + rl_2 - (2*r*rl*cosPsi) )
         rlcosPsiLamb_l3 = (-rl*cosPhi*cosPhil*sin(lamb - lambl))/l**3
         # The minus sign is because z points out while r points in
-        return -rl_2*cosPhil*( \
-                             (r*rlcosPsiLamb_l3*3*(rl*cosPsi - r)/l**2 + \
-                              rlcosPsiLamb_l3) / (r*cosPhi) )
+        return rl_2*cosPhil*( \
+                            (r*rlcosPsiLamb_l3*3*(rl*cosPsi - r)/l**2 + \
+                             rlcosPsiLamb_l3) / (r*cosPhi) )
 
     def kernel(self, r, lamb, phi, r1, r2, lambl, phil):
         """
@@ -1311,7 +1310,7 @@ class TesseroidGyz(TesseroidGravity):
             KVlamb = 0.5*cosPsiLamb*(rr1_l1*r1 - rr2_l2*r2 + 3*r*sumt3 + \
                                      6*r_2*cosPsi*ln + r_2*r*cosPsi_2_1*sumt6)
 
-            return cosPhil*( (KVlamb/r - KVlambr)/(r*cosPhi) )
+            return cosPhil*( (KVlambr - KVlamb/r)/(r*cosPhi) )
 
         except ZeroDivisionError:
             rad2deg = 180.0/pi
@@ -1367,7 +1366,7 @@ class TesseroidGzz(TesseroidGravity):
         cosPsi = sin(phi)*sin(phil) + cos(phi)*cosPhil*cos(lamb - lambl)
         l = sqrt( (r**2) + rl_2 - (2*r*rl*cosPsi) )
         l_3 = l**3
-        rlcosPsi_r = r - (rl*cosPsi)
+        rlcosPsi_r = (rl*cosPsi) - r
         return rl_2*cosPhil*( ((3*rlcosPsi_r*rlcosPsi_r)/l**2 - 1)/l_3 )
 
 
