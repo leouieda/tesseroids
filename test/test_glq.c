@@ -16,40 +16,45 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /* *****************************************************************************
-This module contains functions for implementing a Gauss-Legendre Quadrature
-numerical integration. To do this, use the glq_nodes function to compute the
-discretization points for the function you want to integrate, next use the
-glq_weights to calculate the weighting coefficients. You will need to implement
-the integration loop(s) yourself but this allows for fast integration of any
-function.
+Unit tests for GLQ functions.
 
 Author: Leonardo Uieda
 Date: 24 Jan 2011
 ***************************************************************************** */
 
-#include <math.h>
-#include "glq.h"
+#include <stdio.h>
+#include "minunit.h"
+#include "../src/c/glq.h"
 
-/* Calculates the GLQ nodes using glq_next_root. */
-int glq_nodes(int order, double *nodes)
+int tests_run = 0, tests_passed = 0, tests_failed = 0;
+
+char msg[1000];
+
+static char *test_glq_nodes()
 {
-    return 1;
+    int rc;
+    double nodes[3];
+    
+    rc = glq_nodes(3, nodes);
+
+    sprintf(msg, "failed with return code %d", rc);
+    
+    mu_assert(rc == 0, msg);
+
+    return 0;
 }
 
-/* Put the GLQ nodes to the integration limits IN PLACE. */
-int glq_scale_nodes(double lower, double upper, int order, double *nodes)
+
+void glq_run_all()
 {
-    return 1;
+    mu_run_test(test_glq_nodes, "glq_nodes produces correct results");
 }
 
-/* Calculate the next Legendre polynomial root given the previous root found. */
-int glq_next_root(double initial, int root_index, double *next_root)
+int main()
 {
-    return 1;
-}
+    glq_run_all();
 
-/* Calculates the weighting coefficients for the GLQ integration. */
-int glq_weights(int order, double *nodes, double *weights)
-{
-    return 1;
+    mu_print_summary(0.0);
+    
+    return 0;
 }
