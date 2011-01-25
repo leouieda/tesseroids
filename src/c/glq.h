@@ -30,6 +30,15 @@ Date: 24 Jan 2011
 #ifndef _GLQ_H_
 #define _GLQ_H_
 
+/* Max iterations of the root-finder algorithm */
+#define GLQ_MAXIT 1000
+/* Max error allowed for the root-finder algorithm */
+#define GLQ_MAXERROR 0.000000000000001
+
+#define GLQ_PI 3.1415926535897932384626433832795
+
+#define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
+
 /* Calculates the GLQ nodes using glq_next_root. Nodes will be in the [-1,1]
 interval. To convert them to the integration limits use glq_scale_nodes.
 
@@ -41,6 +50,10 @@ Returns:
     * 0: if everything went OK
     * 1: if invalid order
     * 2: if NULL pointer for nodes
+    * 3: if number of maximum iterations was reached when calculating the root.
+         This usually means that the desired accuracy was not achieved. Default
+         desired accuracy is GLQ_MAXERROR. Default maximum iterations is
+         GLQ_MAXIT.
 */
 extern int glq_nodes(int order, double *nodes);
 
@@ -57,11 +70,10 @@ Returns:
     * 0: if everything went OK
     * 1: if invalid order
     * 2: if NULL pointer for nodes
-    * 3: if invalid integration limits
 */
 extern int glq_scale_nodes(double lower, double upper, int order,
-                            double *nodes);
-                            
+                           double *nodes);
+                           
 /* Calculate the next Legendre polynomial root given the previous root found.
 Uses the root-finder algorithm of:
   Barrera-Figueroa, V., Sosa-Pedroza, J. and López-Bonilla, J., 2006, 
@@ -70,21 +82,25 @@ Uses the root-finder algorithm of:
 
 Parameters:
     * double initial: initial estimate of the next root. I recommend the use of
-        cos(PI*((i + 1) - 0.25)/(order + 0.5)), where i is the index of the next
-        root
+        cos(PI*((order - i) - 0.25)/(order + 0.5)), where i is the index of the
+        next root
     * int root_index: index of the next root, starting from 0. So the first root
         of the polynomial is root 0, the next is root 1 and so forth.
-    * double *next_root: used to return the value of the next root.
+    * int order: order of the Legendre polynomial, ie number of roots.
+    * double *roots: array with the roots found so far. Will return the next
+        root in roots[root_index], so make sure to malloc enough space.
 
 Returns:
     * 0: if everything went OK
-    * 1: if root_index is not valid (negative)
-    * 2: if next_root is a NULL pointer
+    * 1: if order is not valid
+    * 2: if root_index is not valid (negative)
     * 3: if number of maximum iterations was reached when calculating the root.
          This usually means that the desired accuracy was not achieved. Default
-         desired accuracy is 10^(-15). Default maximum iterations is 1000.
+         desired accuracy is GLQ_MAXERROR. Default maximum iterations is
+         GLQ_MAXIT.
 */
-extern int glq_next_root(double initial, int root_index, double *next_root);
+extern int glq_next_root(double initial, int root_index, int order,
+                         double *roots);
 
 /* Calculates the weighting coefficients for the GLQ integration.
 
