@@ -10,12 +10,13 @@ test_dir = 'test'
 
 # Compile the various modules to objects
 constants = Object(join(c_dir, 'constants.c'))
+utils = Object(join(c_dir, 'utils.c'))
 glq = Object(join(c_dir, 'glq.c'))
 grav_prism = Object(join(c_dir, 'grav_prism.c'))
 grav_sphere = Object(join(c_dir, 'grav_sphere.c'))
 
-# Compile the test suite and link it to the testes moules
+# Compile the test suite and link it to the tested moules
 test = Object(join(test_dir, 'test.c'))
-Program(test + glq, LIBS=['m'])
+Program(test + constants + glq + utils, LIBS=['m'])
 
 

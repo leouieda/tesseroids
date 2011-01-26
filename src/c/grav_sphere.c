@@ -29,7 +29,7 @@ Date: 25 Jan 2011
 #include "constants.h"
 
 
-/* Calculates the gz gravity component */
+/* Calculates the gz component of gravitational attraction caused by a sphere */
 double sphere_gz(double dens, double radius, double xc, double yc, double zc,
                  double xp, double yp, double zp)
 {
@@ -48,8 +48,8 @@ double sphere_gz(double dens, double radius, double xc, double yc, double zc,
     return res;
 }
 
-/* Calculate the gravity gradient tensor components */
 
+/* Calculate the xx component of gravity gradient tensor cause by a sphere */
 double sphere_gxx(double dens, double radius, double xc, double yc, double zc,
                   double xp, double yp, double zp)
 {
@@ -69,6 +69,7 @@ double sphere_gxx(double dens, double radius, double xc, double yc, double zc,
 }
 
 
+/* Calculate the yy component of gravity gradient tensor cause by a sphere */
 double sphere_gyy(double dens, double radius, double xc, double yc, double zc,
                   double xp, double yp, double zp)
 {
@@ -88,6 +89,7 @@ double sphere_gyy(double dens, double radius, double xc, double yc, double zc,
 }
 
 
+/* Calculate the zz component of gravity gradient tensor cause by a sphere */
 double sphere_gzz(double dens, double radius, double xc, double yc, double zc,
                   double xp, double yp, double zp)
 {

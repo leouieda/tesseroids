@@ -26,8 +26,7 @@ Date: 24 Jan 2011
 #include <math.h>
 #include "minunit.h"
 #include "../src/c/glq.h"
-
-#define TEST_GLQ_PI 3.1415926535897932384626433832795
+#include "../src/c/constants.h"
 
 /* Test data taken from:
     http://mathworld.wolfram.com/Legendre-GaussQuadrature.html */
@@ -133,7 +132,7 @@ static char * test_glq_next_root()
     order = 2;
     for(i = 0; i < order; i++)
     {
-        initial = cos(TEST_GLQ_PI*((order - i) - 0.25)/(order + 0.5));
+        initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
         
         rc = glq_next_root(initial, i, order, root);
 
@@ -150,7 +149,7 @@ static char * test_glq_next_root()
     order = 3;
     for(i = 0; i < order; i++)
     {
-        initial = cos(TEST_GLQ_PI*((order - i) - 0.25)/(order + 0.5));
+        initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
 
         rc = glq_next_root(initial, i, order, root);
 
@@ -167,7 +166,7 @@ static char * test_glq_next_root()
     order = 4;
     for(i = 0; i < order; i++)
     {
-        initial = cos(TEST_GLQ_PI*((order - i) - 0.25)/(order + 0.5));
+        initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
 
         rc = glq_next_root(initial, i, order, root);
 
@@ -184,7 +183,7 @@ static char * test_glq_next_root()
     order = 5;
     for(i = 0; i < order; i++)
     {
-        initial = cos(TEST_GLQ_PI*((order - i) - 0.25)/(order + 0.5));
+        initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
 
         rc = glq_next_root(initial, i, order, root);
 
@@ -201,7 +200,7 @@ static char * test_glq_next_root()
     order = 19;
     for(i = 0; i < order; i++)
     {
-        initial = cos(TEST_GLQ_PI*((order - i) - 0.25)/(order + 0.5));
+        initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
 
         rc = glq_next_root(initial, i, order, root);
 
@@ -459,8 +458,8 @@ static char * test_glq_scale_nodes()
 static char * test_glq_intcos()
 {
     double nodes[25], weights[25], result, expected;
-    double angles[6] = {TEST_GLQ_PI*0.1, TEST_GLQ_PI, TEST_GLQ_PI*1.2,
-                        TEST_GLQ_PI*1.9, TEST_GLQ_PI*4.3, TEST_GLQ_PI*6.9};
+    double angles[6] = {PI*0.1, PI, PI*1.2,
+                        PI*1.9, PI*4.3, PI*6.9};
     int rc, i, t, orders[6] = {2, 3, 5, 8, 15, 25};
 
     for(t = 0; t < 6; t++)

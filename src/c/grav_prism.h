@@ -51,6 +51,7 @@ extern double prism_gy(double dens, double x1, double x2, double y1, double y2,
 extern double prism_gz(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
+                        
 /* Calculates the components gravity gradient tensor components caused by a
 right rectangular prism using the formulas given in Nagy et al. (2000).
 

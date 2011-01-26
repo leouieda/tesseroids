@@ -26,6 +26,9 @@ Date: 24 Jan 2011
 #ifndef _CONSTANTS_H_
 #define _CONSTANTS_H_
 
+/* Mean Earth radius (m) */
+extern const double MEAN_EARTH_RADIUS;
+
 /* The gravitational constant (m^3*kg^-1*s^-1) */
 extern const double G;
 
@@ -34,5 +37,8 @@ extern const double SI2EOTVOS;
 
 /* Conversion factor from SI units to mGal: 1 m/s**2 = 10**5 mGal */
 extern const double SI2MGAL;
+
+/* Pi ... */
+extern const double PI;
 
 #endif

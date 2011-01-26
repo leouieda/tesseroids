@@ -35,8 +35,6 @@ Date: 24 Jan 2011
 /* Max error allowed for the root-finder algorithm */
 #define GLQ_MAXERROR 0.000000000000001
 
-#define GLQ_PI 3.1415926535897932384626433832795
-
 #define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
 
 /* Calculates the GLQ nodes using glq_next_root. Nodes will be in the [-1,1]

@@ -30,6 +30,7 @@ Date: 24 Jan 2011
 #include <stdlib.h>
 #include <math.h>
 #include "glq.h"
+#include "constants.h"
 
 /* Calculates the GLQ nodes using glq_next_root. */
 int glq_nodes(int order, double *nodes)
@@ -49,8 +50,8 @@ int glq_nodes(int order, double *nodes)
 
     for(i = 0; i < order; i++)
     {
-        initial = cos(GLQ_PI*(order - i - 0.25)/(order + 0.5));
-        
+        initial = cos(PI*(order - i - 0.25)/(order + 0.5));
+
         if(glq_next_root(initial, i, order, nodes) == 3)
         {
             rc = 3;

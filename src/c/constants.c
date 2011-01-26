@@ -25,6 +25,9 @@ Date: 24 Jan 2011
 
 #include "constants.h"
 
+/* Mean Earth radius (m) */
+const double MEAN_EARTH_RADIUS = 6378137.0;
+
 /* The gravitational constant (m^3*kg^-1*s^-1) */
 const double G = 0.00000000006673;
 
@@ -33,3 +36,6 @@ const double SI2EOTVOS = 1000000000.0;
 
 /* Conversion factor from SI units to mGal: 1 m/s**2 = 10**5 mGal */
 const double SI2MGAL = 100000.0;
+
+/* Pi ... */
+const double PI = 3.1415926535897932384626433832795;

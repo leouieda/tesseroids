@@ -26,6 +26,7 @@ Date: 24 Jan 2011
 #include <time.h>
 #include "minunit.h"
 #include "test_glq.c"
+#include "test_utils.c"
 
 int tests_run = 0, tests_passed = 0, tests_failed = 0;
 
@@ -34,6 +35,7 @@ int main()
     clock_t start = clock();
     
     glq_run_all();
+    utils_run_all();
     
     mu_print_summary((double)(clock() - start)/CLOCKS_PER_SEC);
 

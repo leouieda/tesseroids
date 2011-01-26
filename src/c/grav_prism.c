@@ -29,8 +29,7 @@ Date: 01 March 2010
 #include "constants.h"
 
 
-/* Calculates the gravitational attraction cause by a prism. */
-
+/* Calculates the x component of gravitational attraction cause by a prism. */
 double prism_gx(double dens, double x1, double x2, double y1, double y2,
                 double z1, double z2, double xp, double yp, double zp)
 {
@@ -81,6 +80,7 @@ double prism_gx(double dens, double x1, double x2, double y1, double y2,
 }
 
 
+/* Calculates the y component of gravitational attraction cause by a prism. */
 double prism_gy(double dens, double x1, double x2, double y1, double y2,
                 double z1, double z2, double xp, double yp, double zp)
 {
@@ -131,6 +131,7 @@ double prism_gy(double dens, double x1, double x2, double y1, double y2,
 }
 
 
+/* Calculates the z component of gravitational attraction cause by a prism. */
 double prism_gz(double dens, double x1, double x2, double y1, double y2,
                 double z1, double z2, double xp, double yp, double zp)
 {
@@ -199,56 +200,53 @@ double prism_gz(double dens, double x1, double x2, double y1, double y2,
 double prism_gxx(double dens, double x1, double x2, double y1, double y2,
                 double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
+    /* Evaluate the integration limits */
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += 1*atan2(deltay1*deltaz1, deltax1*r);
+    res += 1*atan2(deltay1*deltaz1, deltax1*r);
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += -1*atan2(deltay1*deltaz1, deltax2*r);
+    res += -1*atan2(deltay1*deltaz1, deltax2*r);
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += -1*atan2(deltay2*deltaz1, deltax1*r);
+    res += -1*atan2(deltay2*deltaz1, deltax1*r);
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += 1*atan2(deltay2*deltaz1, deltax2*r);
+    res += 1*atan2(deltay2*deltaz1, deltax2*r);
 
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += -1*atan2(deltay1*deltaz2, deltax1*r);
+    res += -1*atan2(deltay1*deltaz2, deltax1*r);
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += 1*atan2(deltay1*deltaz2, deltax2*r);
+    res += 1*atan2(deltay1*deltaz2, deltax2*r);
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += 1*atan2(deltay2*deltaz2, deltax1*r);
+    res += 1*atan2(deltay2*deltaz2, deltax1*r);
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += -1*atan2(deltay2*deltaz2, deltax2*r);
+    res += -1*atan2(deltay2*deltaz2, deltax2*r);
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
@@ -259,22 +257,19 @@ double prism_gxx(double dens, double x1, double x2, double y1, double y2,
 double prism_gxy(double dens, double x1, double x2, double y1, double y2,
                  double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
+    /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
     res += 1*(-1*log(deltaz1 + r));
@@ -308,7 +303,7 @@ double prism_gxy(double dens, double x1, double x2, double y1, double y2,
     res += -1*(-1*log(deltaz2 + r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
@@ -319,56 +314,53 @@ double prism_gxy(double dens, double x1, double x2, double y1, double y2,
 double prism_gxz(double dens, double x1, double x2, double y1, double y2,
                  double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
+    /* Evaluate the integration limits */
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += 1*(-1*log(deltay1 + r));
+    res += 1*(-1*log(deltay1 + r));
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += -1*(-1*log(deltay1 + r));
+    res += -1*(-1*log(deltay1 + r));
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += -1*(-1*log(deltay2 + r));
+    res += -1*(-1*log(deltay2 + r));
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += 1*(-1*log(deltay2 + r));
+    res += 1*(-1*log(deltay2 + r));
 
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += -1*(-1*log(deltay1 + r));
+    res += -1*(-1*log(deltay1 + r));
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += 1*(-1*log(deltay1 + r));
+    res += 1*(-1*log(deltay1 + r));
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += 1*(-1*log(deltay2 + r));
+    res += 1*(-1*log(deltay2 + r));
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += -1*(-1*log(deltay2 + r));
+    res += -1*(-1*log(deltay2 + r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
@@ -379,56 +371,53 @@ double prism_gxz(double dens, double x1, double x2, double y1, double y2,
 double prism_gyy(double dens, double x1, double x2, double y1, double y2,
                  double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
+    /* Evaluate the integration limits */
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += 1*(atan2(deltaz1*deltax1, deltay1*r));
+    res += 1*(atan2(deltaz1*deltax1, deltay1*r));
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-	res += -1*(atan2(deltaz1*deltax2, deltay1*r));
+    res += -1*(atan2(deltaz1*deltax2, deltay1*r));
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += -1*(atan2(deltaz1*deltax1, deltay2*r));
+    res += -1*(atan2(deltaz1*deltax1, deltay2*r));
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-	res += 1*(atan2(deltaz1*deltax2, deltay2*r));
+    res += 1*(atan2(deltaz1*deltax2, deltay2*r));
 
-	r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += -1*(atan2(deltaz2*deltax1, deltay1*r));
+    res += -1*(atan2(deltaz2*deltax1, deltay1*r));
 
-	r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-	res += 1*(atan2(deltaz2*deltax2, deltay1*r));
+    res += 1*(atan2(deltaz2*deltax2, deltay1*r));
 
-	r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += 1*(atan2(deltaz2*deltax1, deltay2*r));
+    res += 1*(atan2(deltaz2*deltax1, deltay2*r));
 
-	r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
+    r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-	res += -1*(atan2(deltaz2*deltax2, deltay2*r));
+    res += -1*(atan2(deltaz2*deltax2, deltay2*r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
@@ -439,22 +428,19 @@ double prism_gyy(double dens, double x1, double x2, double y1, double y2,
 double prism_gyz(double dens, double x1, double x2, double y1, double y2,
                  double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
+    /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
     res += 1*(-1*log(deltax1 + r));
@@ -488,7 +474,7 @@ double prism_gyz(double dens, double x1, double x2, double y1, double y2,
     res += -1*(-1*log(deltax2 + r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
@@ -500,22 +486,19 @@ double prism_gyz(double dens, double x1, double x2, double y1, double y2,
 double prism_gzz(double dens, double x1, double x2, double y1, double y2,
                  double z1, double z2, double xp, double yp, double zp)
 {
-    /* Variables */
-	double r,
-		   res,
-		   deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
+    double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
-	/* First thing to do is make P the origin of the coordinate system */
-	deltax1 = x1 - xp;
-	deltax2 = x2 - xp;
-	deltay1 = y1 - yp;
-	deltay2 = y2 - yp;
-	deltaz1 = z1 - zp;
-	deltaz2 = z2 - zp;
+    /* First thing to do is make P the origin of the coordinate system */
+    deltax1 = x1 - xp;
+    deltax2 = x2 - xp;
+    deltay1 = y1 - yp;
+    deltay2 = y2 - yp;
+    deltaz1 = z1 - zp;
+    deltaz2 = z2 - zp;
 
-	res = 0;
+    res = 0;
 
-	/* Evaluate the integration limits */
+    /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
     res += 1*(atan2(deltax1*deltay1, deltaz1*r));
@@ -549,7 +532,7 @@ double prism_gzz(double dens, double x1, double x2, double y1, double y2,
     res += -1*(atan2(deltax2*deltay2, deltaz2*r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
-       density and convert it to Eotvos units */
+        density and convert it to Eotvos units */
     res *= G*SI2EOTVOS*dens;
 
     return res;
