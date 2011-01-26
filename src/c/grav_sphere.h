@@ -17,7 +17,13 @@
 
 /* *****************************************************************************
 This module contains a set of functions that calculate the gravitational
-potential and its first and second derivatives for the sphere.
+potential and its first and second derivatives for the sphere in spherical
+coordinates.
+
+The position of the sphere and computation point are in spherical coordinates.
+The derivatives of the potential are made with respect to the local coordinate
+system x->North, y->East, z->out. So it would be normal for a sphere of positive
+density to have negative gz
 
 Author: Leonardo Uieda
 Date: 25 Jan 2011
@@ -29,44 +35,56 @@ Date: 25 Jan 2011
 
 /* Calculates the components of the gravity attraction caused by a sphere.
 
-The coordinate system of the input parameters is assumed to be
-    x->north, y->east; z->down.
+The position of the sphere and computation point are in spherical coordinates.
+The derivatives of the potential are made with respect to the local coordinate
+system x->North, y->East, z->out
 
-Input values in SI units and returns values in mGal!
+Input values in SI units and degrees and returns values in mGal!
 
 Parameters:
     * double dens: density of the sphere;
     * double radius: of the sphere;
-    * double xc, yc, zc: coordinates of the center of the sphere;
-    * double xp, yp, zp: coordinates of the point P where the effect will be
+    * double lonc, latc, rc: coordinates of the center of the sphere;
+    * double lonp, latp, rp: coordinates of the point P where the effect will be
                          calculated;
 */
-extern double sphere_gz(double dens, double radius, double xc, double yc,
-                        double zc, double xp, double yp, double zp);
 
-                        
+extern double sphere_gz(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
+
 /* Calculates the components of the gravity gradient tensor caused by a sphere.
 
-The coordinate system of the input parameters is assumed to be
-    x->north, y->east; z->down.
+The position of the sphere and computation point are in spherical coordinates.
+The derivatives of the potential are made with respect to the local coordinate
+system x->North, y->East, z->out
 
-Input values in SI units and returns values in Eotvos!
+Input values in SI units and degrees and returns values in Eotvos!
 
 Parameters:
     * double dens: density of the sphere;
     * double radius: of the sphere;
-    * double xc, yc, zc: coordinates of the center of the sphere;
-    * double xp, yp, zp: coordinates of the point P where the effect will be
+    * double lonc, latc, rc: coordinates of the center of the sphere;
+    * double lonp, latp, rp: coordinates of the point P where the effect will be
                          calculated;
 */
-extern double sphere_gxx(double dens, double radius, double xc, double yc,
-                         double zc, double xp, double yp, double zp);
+extern double sphere_gxx(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
 
-extern double sphere_gyy(double dens, double radius, double xc, double yc,
-                         double zc, double xp, double yp, double zp);
+extern double sphere_gxy(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
 
-extern double sphere_gzz(double dens, double radius, double xc, double yc,
-                         double zc, double xp, double yp, double zp);
+extern double sphere_gxz(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
+extern double sphere_gyy(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
+extern double sphere_gyz(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
+extern double sphere_gzz(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
 /* ************************************************************************** */
 
 #endif

@@ -19,4 +19,8 @@ grav_sphere = Object(join(c_dir, 'grav_sphere.c'))
 test = Object(join(test_dir, 'test.c'))
 Program(test + constants + glq + utils, LIBS=['m'])
 
+testgrav = Object(join(test_dir, 'test_grav.c'))
+Program(testgrav + constants + grav_sphere, LIBS=['m'])
 
+# Clean up the docs build as well
+Clean(os.path.curdir, join('doc', 'build'))
