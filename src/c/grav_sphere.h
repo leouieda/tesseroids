@@ -15,74 +15,241 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/* *****************************************************************************
-This module contains a set of functions that calculate the gravitational
-potential and its first and second derivatives for the sphere in spherical
-coordinates.
+/** \file
+Functions that calculate the gravitational potential and its first and second
+derivatives for the sphere in spherical coordinates.
 
 The position of the sphere and computation point are in spherical coordinates.
-The derivatives of the potential are made with respect to the local coordinate
-system x->North, y->East, z->out. So it would be normal for a sphere of positive
-density to have negative gz
 
-Author: Leonardo Uieda
-Date: 25 Jan 2011
-***************************************************************************** */
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>. So it would be normal for a sphere of
+positive density to have negative gz.
+
+Used the generic formula for gravity gradient computation:
+
+\f[
+g_{ij}(r_p,\phi_p,\lambda_p) = G M \left(\frac{3\Delta x_i \Delta x_j}{\ell^5} -
+    \frac{\delta_{ij}}{\ell^3} \right)\ \ i,j \in \{1,2,3\}
+\f]
+
+where M is the mass of the sphere, the subscripts 1, 2, and 3 should be
+interpreted as the x, y, and z axis and
+
+\f{eqnarray*}{
+\Delta x_1 &=& r_c K_{\phi} \\
+\Delta x_2 &=& r_c \cos \phi_c \sin(\lambda_c - \lambda_p) \\
+\Delta x_3 &=& r_c \cos \psi - r_p\\
+\ell &=& \sqrt{r_c^2 + r_p^2 - 2 r_c r_p \cos \psi} \\
+\cos\psi &=& \sin\phi_p\sin\phi_c + \cos\phi_p\cos\phi_c
+             \cos(\lambda_c - \lambda_p) \\
+K_{\phi} &=& \cos\phi_p\sin\phi_c - \sin\phi_p\cos\phi_c
+             \cos(\lambda_c - \lambda_p)
+\f}
+
+\f$ \phi \f$ is latitude, \f$ \lambda \f$ is longitude, \f$ r \f$ is radius. The
+subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
+computation point.
+
+@author Leonardo Uieda
+@date 25 Jan 2011
+*/
 
 #ifndef _GRAV_SPHERE_H_
 #define _GRAV_SPHERE_H_
 
 
-/* Calculates the components of the gravity attraction caused by a sphere.
+/** Calculates gz caused by a sphere.
 
-The position of the sphere and computation point are in spherical coordinates.
+\f[
+g_z(r_p,\phi_p,\lambda_p) = G M \frac{r_c\cos\psi - r_p}{\ell^3}
+\f]
+
+The position of the sphere and computation point should be in spherical
+coordinates.
+
 The derivatives of the potential are made with respect to the local coordinate
-system x->North, y->East, z->out
+system <b>x->North, y->East, z->out</b>
 
-Input values in SI units and degrees and returns values in mGal!
+<b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-Parameters:
-    * double dens: density of the sphere;
-    * double radius: of the sphere;
-    * double lonc, latc, rc: coordinates of the center of the sphere;
-    * double lonp, latp, rp: coordinates of the point P where the effect will be
-                         calculated;
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
 */
-
 extern double sphere_gz(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
 
-/* Calculates the components of the gravity gradient tensor caused by a sphere.
+/** Calculates gxx caused by a sphere.
+
+\f[
+g_{xx}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c K_{\phi})^2 - \ell^2}{\ell^5}
+\f]
 
 The position of the sphere and computation point are in spherical coordinates.
+
 The derivatives of the potential are made with respect to the local coordinate
-system x->North, y->East, z->out
+system <b>x->North, y->East, z->out</b>
 
-Input values in SI units and degrees and returns values in Eotvos!
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-Parameters:
-    * double dens: density of the sphere;
-    * double radius: of the sphere;
-    * double lonc, latc, rc: coordinates of the center of the sphere;
-    * double lonp, latp, rp: coordinates of the point P where the effect will be
-                         calculated;
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
 */
 extern double sphere_gxx(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
+/** Calculates gxy caused by a sphere.
+
+\f[
+g_{xy}(r_p,\phi_p,\lambda_p) = G M \frac{3r_c^2 K_{\phi}\cos\phi_c
+    \sin(\lambda_c - \lambda_p)}{\ell^5}
+\f]
+
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
+*/
 extern double sphere_gxy(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
+/** Calculates gxz caused by a sphere.
+
+\f[
+g_{xz}(r_p,\phi_p,\lambda_p) = G M \frac{3 r_c K_{\phi}(r_c \cos\psi - r_p)}
+    {\ell^5}
+\f]
+
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
+*/
 extern double sphere_gxz(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
+/** Calculates gyy caused by a sphere.
+
+\f[
+g_{yy}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c\cos\phi_c
+    \sin(\lambda_c - \lambda_p))^2 - \ell^2}{\ell^5}
+\f]
+
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
+*/
 extern double sphere_gyy(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
+/** Calculates gyz caused by a sphere.
+
+\f[
+g_{yz}(r_p,\phi_p,\lambda_p) = G M \frac{3 r_c \cos\phi_c \sin(\lambda_c -
+    \lambda_p)(r_c\cos\psi - r_p)}{\ell^5}
+\f]
+
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
+*/
 extern double sphere_gyz(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 
+/** Calculates gzz caused by a sphere.
+
+\f[
+g_{zz}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c\cos\psi-r_p)^2 - \ell^2}{\ell^5}
+\f]
+
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return  field calculated at P
+*/
 extern double sphere_gzz(double dens, double radius, double lonc, double latc,
                         double rc, double lonp, double latp, double rp);
 /* ************************************************************************** */

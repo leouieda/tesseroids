@@ -15,14 +15,20 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/* *****************************************************************************
+/*
 This module contains a set of functions that calculate the gravitational
 potential and its first and second derivatives for the sphere in spherical
 coordinates.
 
-Author: Leonardo Uieda
-Date: 25 Jan 2011
-***************************************************************************** */
+The position of the sphere and computation point are in spherical coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system x->North, y->East, z->out. So it would be normal for a sphere of positive
+density to have negative gz
+
+@author Leonardo Uieda
+@date 25 Jan 2011
+*/
 
 
 #include <math.h>

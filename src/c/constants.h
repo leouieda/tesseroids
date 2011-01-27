@@ -15,30 +15,40 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/* *****************************************************************************
+/** \file
 Define constants used, like the gravitational constant and unit conversions.
-All values are in SI units!
 
-Author: Leonardo Uieda
-Date: 24 Jan 2011
-***************************************************************************** */
+Values are assigned in file constants.c
+
+<b>All values are in SI units!</b>
+
+@author Leonardo Uieda
+@date 24 Jan 2011
+*/
 
 #ifndef _CONSTANTS_H_
 #define _CONSTANTS_H_
 
-/* Mean Earth radius (m) */
+/** \var MEAN_EARTH_RADIUS
+Mean Earth radius [\f$ m \f$] */
 extern const double MEAN_EARTH_RADIUS;
 
-/* The gravitational constant (m^3*kg^-1*s^-1) */
+/** \var G
+The gravitational constant [\f$ m^3*kg^{-1}*s^{-1} \f$] */
 extern const double G;
 
-/* Conversion factor from SI units to Eotvos: 1 /s**2 = 10**9 Eotvos */
+/** \var SI2EOTVOS
+Conversion factor from SI units to Eotvos
+[\f$ \frac{1}{s^2} = 10^9\ Eotvos \f$] */
 extern const double SI2EOTVOS;
 
-/* Conversion factor from SI units to mGal: 1 m/s**2 = 10**5 mGal */
+/** \var SI2MGAL
+Conversion factor from SI units to mGal
+[\f$ 1 \frac{m}{s^2} = 10^5\ mGal \f$] */
 extern const double SI2MGAL;
 
-/* Pi ... */
+/** \var PI
+Pi */
 extern const double PI;
 
 #endif

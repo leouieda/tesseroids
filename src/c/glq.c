@@ -15,17 +15,19 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/* *****************************************************************************
-This module contains functions for implementing a Gauss-Legendre Quadrature
-numerical integration. To do this, use the glq_nodes function to compute the
-discretization points for the function you want to integrate, next use the
-glq_weights to calculate the weighting coefficients. You will need to implement
-the integration loop(s) yourself but this allows for fast integration of any
-function.
+/* 
+Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 
-Author: Leonardo Uieda
-Date: 24 Jan 2011
-***************************************************************************** */
+Usage:
+    -# Use the glq_nodes(...) function to compute the discretization points for
+       the function you want to integrate
+    -# use the glq_weights(...) function to calculate the weighting coefficients
+    -# implement the integration loop(s) yourself (this allows for custom
+       integration of any function)
+
+@author Leonardo Uieda
+@date 24 Jan 2011
+*/
 
 #include <stdlib.h>
 #include <math.h>

@@ -15,14 +15,19 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/* *****************************************************************************
-This module contains a set of functions that calculate the gravitational
-potential and its first and second derivatives for the rectangular prism
-using the formulas in Nagy et al. (2000).
+/*
+Functions that calculate the gravitational potential and its first and second
+derivatives for the rectangular prism
 
-Author: Leonardo Uieda
-Date: 01 March 2010
-***************************************************************************** */
+Using the formulas in Nagy et al. (2000).
+
+The coordinate system used is that of the article, ie:
+
+x -> North  y -> East  z -> Down
+
+@author Leonardo Uieda
+@date 01 March 2010
+*/
 
 #include <math.h>
 #include "grav_prism.h"

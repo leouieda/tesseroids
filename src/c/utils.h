@@ -15,86 +15,93 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/* *****************************************************************************
-This module contains a set of misc utilities. Also defines the TESSEROID, SPHERE
-and PRISM structures.
+/** \file
+\brief Set of misc utilities and data structures.
 
-Author: Leonardo Uieda
-Date: 25 Jan 2011
-***************************************************************************** */
+Defines the TESSEROID, SPHERE and PRISM structures.
+
+@author Leonardo Uieda
+@date 25 Jan 2011
+*/
 
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-
+/** Store information on a tesseroid */
 typedef struct tess_struct {
     /* s, n, w, e in degrees. r1 and r2 are the smaller and larger radius */
-    double density, s, n, w, e, r1, r2;
+    double density; /**< in SI units */
+    double s; /**< southern latitude border in degrees */
+    double n; /**< northern latitude border in degrees */
+    double w; /**< western longitude border in degrees */
+    double e; /**< eastern longitude border in degrees */
+    double r1; /**< smallest radius border in SI units */
+    double r2; /**< largest radius border in SI units */
 } TESSEROID;
 
-
+/** Store information on a rectangular prism */
 typedef struct prism_struct {
-    double density, x1, x2, y1, y2, z1, z2;
+    double density; /**< in SI units */
+    double x1; /**< in SI units */
+    double x2; /**< in SI units */
+    double y1; /**< in SI units */
+    double y2; /**< in SI units */
+    double z1; /**< in SI units */
+    double z2; /**< in SI units */
     /* Geodetic coordinates of the center of the top face of the prism */
     /* double lonc, latc, rc;*/
 } PRISM;
 
-
+/** Store information on a sphere */
 typedef struct sphere_struct {
-    /* lonc, latc, rc are spherical coordinates of the center of the sphere */
-    double density, r, lonc, latc, rc;
+    double density; /**< in SI units */
+    double r; /**< radius of the sphere in SI units */
+    double lonc; /**< longitude of the center of the sphere in degrees */
+    double latc; /**< latitude of the center of the sphere in degrees */
+    double rc; /**< radial coordinate of the center of the sphere in SI units */
 } SPHERE;
 
 
-/* Convert a tesseroid into a rectangular prism of equal volume.
+/** Convert a tesseroid into a rectangular prism of equal volume.
 
-Parameters:
-    * TESSEROID tess: data structure with the information on the tesseroid
-    * PRISM *prism: pointer to the prism structure to return the converted
-        tesseroid
+@param tess tesseroid to convert
+@param prism prism with equal volume of the tesseroid (used to return)
 */
 extern void tess2prism(TESSEROID tess, PRISM *prism);
 
 
-/* Convert a tesseroid into a sphere of equal volume.
+/** Convert a tesseroid into a sphere of equal volume.
 
 Parameters:
-    * TESSEROID tess: data structure with the information on the tesseroid
-    * PRISM *prism: pointer to the prism structure to return the converted
-        tesseroid
+@param tess tesseroid to convert
+@param sphere sphere with equal volume of the tesseroid (used to return)
 */
 extern void tess2sphere(TESSEROID tess, SPHERE *sphere);
 
 
-/* Calculate the volume of a tesseroid.
+/** Calculate the volume of a tesseroid.
 
-Parameters:
-    * TESSEROID tess: the tesseroid whose volume will be calculated
+@param tess the tesseroid whose volume will be calculated
 
-Returns:
-    the volume in the respective units
+@return the volume in the respective units
 */
 extern double tess_volume(TESSEROID tess);
 
 
-/* Calculate the volume of a sphere.
+/** Calculate the volume of a sphere.
 
-Parameters:
-    * TESSEROID tess: the tesseroid whose volume will be calculated
+@param sphere the sphere whose volume will be calculated
 
-Returns:
-    the volume in the respective units
+@return the volume in the respective units
 */
 extern double sphere_volume(SPHERE sphere);
 
 
-/* Calculate the volume of a prism
+/** Calculate the volume of a prism
 
-Parameters:
-    * PRISM prism: the prism whose volume will be calculated
+@param prism the prism whose volume will be calculated
 
-Returns:
-    the volume in the respective units
+@return the volume in the respective units
 */
 extern double prism_volume(PRISM prism);
 

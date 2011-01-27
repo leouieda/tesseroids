@@ -15,13 +15,14 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/* *****************************************************************************
-This module contains a set of misc utilities. Also defines the TESSEROID and
-PRISM structures.
+/*
+Set of misc utilities and data structures.
 
-Author: Leonardo Uieda
-Date: 25 Jan 2011
-***************************************************************************** */
+Defines the TESSEROID, SPHERE and PRISM structures.
+
+@author Leonardo Uieda
+@date 25 Jan 2011
+*/
 
 #include <math.h>
 #include "constants.h"
