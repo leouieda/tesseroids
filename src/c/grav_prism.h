@@ -25,8 +25,6 @@ The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
-\todo Change input arguments to PRISM struct
-
 @author Leonardo Uieda
 @date 01 March 2010
 */
@@ -39,179 +37,116 @@ x -> North  y -> East  z -> Down
 
 <b> Input values in SI units and returns values in mGal! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gx(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gx(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gy component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in mGal! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gy(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gy(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in mGal! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gz(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gz(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gxx component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gxx(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gxx(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gxy component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gxy(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gxy(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gxz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gxz(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gxz(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gyy component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gyy(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gyy(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gyz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gyz(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gyz(PRISM prism, double xp, double yp, double zp);
 
 
 /** Calculates gzz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
 
-@param dens density of the prism
-@param x1 southern x-axis border of the prism
-@param x2 northern x-axis border of the prism
-@param y1 western y-axis border of the prism
-@param y2 eastern y-axis border of the prism
-@param z1 up-most z-axis border of the prism
-@param z2 down-most z-axis border of the prism
+@param prism data structure describing the prism
 @param xp x coordinate of the computation point
 @param yp y coordinate of the computation point
 @param zp z coordinate of the computation point
 
 @return field calculated at P */
-extern double prism_gzz(double dens, double x1, double x2, double y1, double y2,
-                        double z1, double z2, double xp, double yp, double zp);
+extern double prism_gzz(PRISM prism, double xp, double yp, double zp);
 
 #endif

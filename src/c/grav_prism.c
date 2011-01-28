@@ -30,13 +30,13 @@ x -> North  y -> East  z -> Down
 */
 
 #include <math.h>
-#include "grav_prism.h"
+#include "utils.h"
 #include "constants.h"
+#include "grav_prism.h"
 
 
 /* Calculates the x component of gravitational attraction cause by a prism. */
-double prism_gx(double dens, double x1, double x2, double y1, double y2,
-                double z1, double z2, double xp, double yp, double zp)
+double prism_gx(PRISM prism, double xp, double yp, double zp)
 {
     /*
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
@@ -45,18 +45,18 @@ double prism_gx(double dens, double x1, double x2, double y1, double y2,
     register int i, j, k;
 
     /* First thing to do is make P the origin of the coordinate system */
-    /*deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;*/
-    x[0] = x1 - xp;
-    x[1] = x2 - xp;
-    y[0] = y1 - yp;
-    y[1] = y2 - yp;
-    z[0] = z1 - zp;
-    z[1] = z2 - zp;
+    /*deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;*/
+    x[0] = prism.x1 - xp;
+    x[1] = prism.x2 - xp;
+    y[0] = prism.y1 - yp;
+    y[1] = prism.y2 - yp;
+    z[0] = prism.z1 - zp;
+    z[1] = prism.z2 - zp;
 
     res = 0;
 
@@ -79,15 +79,14 @@ double prism_gx(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
        density and convert it to mGal units */
-    res *= G*SI2MGAL*dens;
+    res *= G*SI2MGAL*prism.density;
 
     return res;
 }
 
 
 /* Calculates the y component of gravitational attraction cause by a prism. */
-double prism_gy(double dens, double x1, double x2, double y1, double y2,
-                double z1, double z2, double xp, double yp, double zp)
+double prism_gy(PRISM prism, double xp, double yp, double zp)
 {
     /*
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
@@ -96,18 +95,18 @@ double prism_gy(double dens, double x1, double x2, double y1, double y2,
     register int i, j, k;
 
     /* First thing to do is make P the origin of the coordinate system */
-    /*deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;*/
-    x[0] = x1 - xp;
-    x[1] = x2 - xp;
-    y[0] = y1 - yp;
-    y[1] = y2 - yp;
-    z[0] = z1 - zp;
-    z[1] = z2 - zp;
+    /*deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;*/
+    x[0] = prism.x1 - xp;
+    x[1] = prism.x2 - xp;
+    y[0] = prism.y1 - yp;
+    y[1] = prism.y2 - yp;
+    z[0] = prism.z1 - zp;
+    z[1] = prism.z2 - zp;
 
     res = 0;
 
@@ -130,25 +129,24 @@ double prism_gy(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
        density and convert it to mGal units */
-    res *= G*SI2MGAL*dens;
+    res *= G*SI2MGAL*prism.density;
 
     return res;
 }
 
 
 /* Calculates the z component of gravitational attraction cause by a prism. */
-double prism_gz(double dens, double x1, double x2, double y1, double y2,
-                double z1, double z2, double xp, double yp, double zp)
+double prism_gz(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -195,25 +193,24 @@ double prism_gz(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
        density and convert it to mGal units */
-    res *= G*SI2MGAL*dens;
+    res *= G*SI2MGAL*prism.density;
 
     return res;
 }
 
 
 /* Calculates the gxx gravity gradient tensor component cause by a prism. */
-double prism_gxx(double dens, double x1, double x2, double y1, double y2,
-                double z1, double z2, double xp, double yp, double zp)
+double prism_gxx(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -252,25 +249,24 @@ double prism_gxx(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }
 
 
 /* Calculates the gxy gravity gradient tensor component cause by a prism. */
-double prism_gxy(double dens, double x1, double x2, double y1, double y2,
-                 double z1, double z2, double xp, double yp, double zp)
+double prism_gxy(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -309,25 +305,24 @@ double prism_gxy(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }
 
 
 /* Calculates the gxz gravity gradient tensor component cause by a prism. */
-double prism_gxz(double dens, double x1, double x2, double y1, double y2,
-                 double z1, double z2, double xp, double yp, double zp)
+double prism_gxz(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -366,25 +361,24 @@ double prism_gxz(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }
 
 
 /* Calculates the gyy gravity gradient tensor component cause by a prism. */
-double prism_gyy(double dens, double x1, double x2, double y1, double y2,
-                 double z1, double z2, double xp, double yp, double zp)
+double prism_gyy(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -423,25 +417,24 @@ double prism_gyy(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }
 
 
 /* Calculates the gyz gravity gradient tensor component cause by a prism. */
-double prism_gyz(double dens, double x1, double x2, double y1, double y2,
-                 double z1, double z2, double xp, double yp, double zp)
+double prism_gyz(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -480,7 +473,7 @@ double prism_gyz(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }
@@ -488,18 +481,17 @@ double prism_gyz(double dens, double x1, double x2, double y1, double y2,
 
 
 /* Calculates the gzz gravity gradient tensor component cause by a prism. */
-double prism_gzz(double dens, double x1, double x2, double y1, double y2,
-                 double z1, double z2, double xp, double yp, double zp)
+double prism_gzz(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
     /* First thing to do is make P the origin of the coordinate system */
-    deltax1 = x1 - xp;
-    deltax2 = x2 - xp;
-    deltay1 = y1 - yp;
-    deltay2 = y2 - yp;
-    deltaz1 = z1 - zp;
-    deltaz2 = z2 - zp;
+    deltax1 = prism.x1 - xp;
+    deltax2 = prism.x2 - xp;
+    deltay1 = prism.y1 - yp;
+    deltay2 = prism.y2 - yp;
+    deltaz1 = prism.z1 - zp;
+    deltaz2 = prism.z2 - zp;
 
     res = 0;
 
@@ -538,7 +530,7 @@ double prism_gzz(double dens, double x1, double x2, double y1, double y2,
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
-    res *= G*SI2EOTVOS*dens;
+    res *= G*SI2EOTVOS*prism.density;
 
     return res;
 }

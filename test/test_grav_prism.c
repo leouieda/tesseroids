@@ -43,8 +43,7 @@ static char * test_prism2sphere_gx()
 
     for(dist=10000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gx(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gx(prism,0,0,-dist);
         ressphere = sphere_gx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -68,8 +67,7 @@ static char * test_prism2sphere_gy()
 
     for(dist=10000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gy(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gy(prism,0,0,-dist);
         ressphere = sphere_gy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -93,8 +91,7 @@ static char * test_prism2sphere_gz()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gz(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gz(prism,0,0,-dist);
         ressphere = sphere_gz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -118,8 +115,7 @@ static char * test_prism2sphere_gxx()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gxx(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gxx(prism,0,0,-dist);
         ressphere = sphere_gxx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -143,8 +139,7 @@ static char * test_prism2sphere_gxy()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gxy(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gxy(prism,0,0,-dist);
         ressphere = sphere_gxy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -168,8 +163,7 @@ static char * test_prism2sphere_gxz()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gxz(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                            prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gxz(prism,0,0,-dist);
         ressphere = sphere_gxz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,0,dist);
 
@@ -193,8 +187,7 @@ static char * test_prism2sphere_gyy()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gyy(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                             prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gyy(prism,0,0,-dist);
         ressphere = sphere_gyy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                                sphere.rc,0,0,dist);
 
@@ -218,8 +211,7 @@ static char * test_prism2sphere_gyz()
 
     for(dist=50000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gyz(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                             prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gyz(prism,0,0,-dist);
         ressphere = sphere_gyz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                                sphere.rc,0,0,dist);
 
@@ -243,8 +235,7 @@ static char * test_prism2sphere_gzz()
 
     for(dist=60000; dist <= 500000; dist += 500)
     {
-        resprism = prism_gzz(prism.density,prism.x1,prism.x2,prism.y1,prism.y2,
-                             prism.z1,prism.z2,0,0,-dist);
+        resprism = prism_gzz(prism,0,0,-dist);
         ressphere = sphere_gzz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                                sphere.rc,0,0,dist);
 
