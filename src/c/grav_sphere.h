@@ -51,7 +51,7 @@ subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
 computation point.
 
 
-\todo Change input arguments to SPHERE struct
+\todo Replace sphere.rc with a local copy to clear syntax and see if speeds up
 
 @author Leonardo Uieda
 @date 25 Jan 2011
@@ -75,19 +75,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return field calculated at P
 */
-extern double sphere_gx(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gx(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gy caused by a sphere.
 
@@ -103,19 +99,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return field calculated at P
 */
-extern double sphere_gy(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gy(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gz caused by a sphere.
 
@@ -131,19 +123,14 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return field calculated at P
 */
-extern double sphere_gz(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gz(SPHERE sphere, double lonp, double latp, double rp);
 
 
 /** Calculates gxx caused by a sphere.
@@ -159,19 +146,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gxx(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gxx(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gxy caused by a sphere.
 
@@ -187,19 +170,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gxy(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gxy(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gxz caused by a sphere.
 
@@ -215,19 +194,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gxz(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gxz(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gyy caused by a sphere.
 
@@ -243,19 +218,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gyy(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gyy(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gyz caused by a sphere.
 
@@ -271,19 +242,15 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gyz(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
+extern double sphere_gyz(SPHERE sphere, double lonp, double latp, double rp);
+
 
 /** Calculates gzz caused by a sphere.
 
@@ -298,19 +265,14 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the sphere
-@param radius radius of the sphere
-@param lonc longitude of the center of the sphere
-@param latc latitude of the center of the sphere
-@param rc radial coordinate of the center of the sphere
+@param sphere data structure describing the sphere
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
 
 @return  field calculated at P
 */
-extern double sphere_gzz(double dens, double radius, double lonc, double latc,
-                        double rc, double lonp, double latp, double rp);
-/* ************************************************************************** */
+extern double sphere_gzz(SPHERE sphere, double lonp, double latp, double rp);
+
 
 #endif

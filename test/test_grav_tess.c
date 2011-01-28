@@ -62,8 +62,7 @@ static char * test_tess2sphere_gx()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gx(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,40,radius+dist);
+        ressphere = sphere_gx(sphere,0,40,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
                 restess, ressphere);
@@ -101,8 +100,7 @@ static char * test_tess2sphere_gy()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gy(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,5,45,radius+dist);
+        ressphere = sphere_gy(sphere,5,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
                 restess, ressphere);
@@ -140,8 +138,7 @@ static char * test_tess2sphere_gz()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,45,radius+dist);
+        ressphere = sphere_gz(sphere,0,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
                 restess, ressphere);
@@ -179,8 +176,7 @@ static char * test_tess2sphere_gxx()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gxx(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gxx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,45,radius+dist);
+        ressphere = sphere_gxx(sphere,0,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
@@ -218,8 +214,7 @@ static char * test_tess2sphere_gxy()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gxy(tess,5,50,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gxy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,5,50,radius+dist);
+        ressphere = sphere_gxy(sphere,5,50,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
@@ -257,8 +252,7 @@ static char * test_tess2sphere_gxz()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gxz(tess,0,50,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gxz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,50,radius+dist);
+        ressphere = sphere_gxz(sphere,0,50,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
@@ -296,8 +290,7 @@ static char * test_tess2sphere_gyy()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gyy(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gyy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,45,radius+dist);
+        ressphere = sphere_gyy(sphere,0,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
@@ -335,8 +328,7 @@ static char * test_tess2sphere_gyz()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gyz(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gyz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,5,45,radius+dist);
+        ressphere = sphere_gyz(sphere,5,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
@@ -374,8 +366,7 @@ static char * test_tess2sphere_gzz()
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
         restess = tess_gzz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
-        ressphere = sphere_gzz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,45,radius+dist);
+        ressphere = sphere_gzz(sphere,0,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);

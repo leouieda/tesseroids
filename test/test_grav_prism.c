@@ -44,8 +44,7 @@ static char * test_prism2sphere_gx()
     for(dist=10000; dist <= 500000; dist += 500)
     {
         resprism = prism_gx(prism,0,0,-dist);
-        ressphere = sphere_gx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gx(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.2lf  sphere = %.2lf", dist,
                 resprism, ressphere);
@@ -68,8 +67,7 @@ static char * test_prism2sphere_gy()
     for(dist=10000; dist <= 500000; dist += 500)
     {
         resprism = prism_gy(prism,0,0,-dist);
-        ressphere = sphere_gy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gy(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.2lf  sphere = %.2lf", dist,
                 resprism, ressphere);
@@ -92,8 +90,7 @@ static char * test_prism2sphere_gz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gz(prism,0,0,-dist);
-        ressphere = sphere_gz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gz(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -116,8 +113,7 @@ static char * test_prism2sphere_gxx()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxx(prism,0,0,-dist);
-        ressphere = sphere_gxx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gxx(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -140,8 +136,7 @@ static char * test_prism2sphere_gxy()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxy(prism,0,0,-dist);
-        ressphere = sphere_gxy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gxy(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -164,8 +159,7 @@ static char * test_prism2sphere_gxz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxz(prism,0,0,-dist);
-        ressphere = sphere_gxz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                              sphere.rc,0,0,dist);
+        ressphere = sphere_gxz(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -188,8 +182,7 @@ static char * test_prism2sphere_gyy()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gyy(prism,0,0,-dist);
-        ressphere = sphere_gyy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                               sphere.rc,0,0,dist);
+        ressphere = sphere_gyy(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -212,8 +205,7 @@ static char * test_prism2sphere_gyz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gyz(prism,0,0,-dist);
-        ressphere = sphere_gyz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                               sphere.rc,0,0,dist);
+        ressphere = sphere_gyz(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -236,8 +228,7 @@ static char * test_prism2sphere_gzz()
     for(dist=60000; dist <= 500000; dist += 500)
     {
         resprism = prism_gzz(prism,0,0,-dist);
-        ressphere = sphere_gzz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
-                               sphere.rc,0,0,dist);
+        ressphere = sphere_gzz(sphere,0,0,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
