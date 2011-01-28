@@ -79,6 +79,19 @@ Parameters:
 extern void tess2sphere(TESSEROID tess, SPHERE *sphere);
 
 
+/** Convert a rectangular prism into a sphere of equal volume.
+
+Parameters:
+@param prism prism to convert
+@param lonc longitude of the desired center of the sphere, in degrees
+@param latc latitude of the desired center of the sphere, in degrees
+@param rc radial coordinate of the desired center of the sphere, in SI units
+@param sphere sphere with equal volume of the prism (used to return)
+*/
+extern void prism2sphere(PRISM prism, double lonc, double latc, double rc,
+                         SPHERE *sphere);
+
+
 /** Calculate the volume of a tesseroid.
 
 @param tess the tesseroid whose volume will be calculated

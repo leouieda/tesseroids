@@ -72,12 +72,75 @@ positive density to have negative gz.
 #define _GRAV_TESS_H_
 
 
+/** Calculates gx caused by a tesseroid.
+
+\f[
+g_x(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
+    \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
+    \frac{r'K_{\phi}}{\ell^3}\kappa \ d r' d \phi' d \lambda'
+\f]
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
+
+@param dens density of the tesseroid
+@param s latitude of the southern border of the tesseroid
+@param n latitude of the northern border of the tesseroid
+@param w longitude of the western border of the tesseroid
+@param e longitude of the eastern border of the tesseroid
+@param r1 radial distance from the center of the Earth to the lower-most border
+          of the tesseroid
+@param r2 radial distance from the center of the Earth to the upper-most border
+          of the tesseroid
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
+*/
+extern double tess_gx(double dens, double s, double n, double w, double e,
+                    double r1, double r2, double lonp, double latp, double rp);
+                    
+/** Calculates gy caused by a tesseroid.
+
+\f[
+g_y(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
+    \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
+    \frac{r'\cos\phi'\sin(\lambda'-\lambda)}{\ell^3}\kappa
+    \ d r' d \phi' d \lambda'
+\f]
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
+
+@param dens density of the tesseroid
+@param s latitude of the southern border of the tesseroid
+@param n latitude of the northern border of the tesseroid
+@param w longitude of the western border of the tesseroid
+@param e longitude of the eastern border of the tesseroid
+@param r1 radial distance from the center of the Earth to the lower-most border
+          of the tesseroid
+@param r2 radial distance from the center of the Earth to the upper-most border
+          of the tesseroid
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
+*/
+extern double tess_gy(double dens, double s, double n, double w, double e,
+                    double r1, double r2, double lonp, double latp, double rp);
+                    
 /** Calculates gz caused by a tesseroid.
 
 \f[
 g_z(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-    \frac{r'\cos\psi - r_p}{\ell^3}\ d r' d \phi' d \lambda'
+    \frac{r'\cos\psi - r_p}{\ell^3}\kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -108,7 +171,7 @@ extern double tess_gz(double dens, double s, double n, double w, double e,
 \f[
 g_{xx}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-    \frac{3(r' K_{\phi})^2 - \ell^2}{\ell^5}\ d r' d \phi' d \lambda'
+    \frac{3(r' K_{\phi})^2 - \ell^2}{\ell^5}\kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -140,7 +203,7 @@ extern double tess_gxx(double dens, double s, double n, double w, double e,
 g_{xy}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
     \frac{3{r'}^2 K_{\phi}\cos\phi'\sin(\lambda' - \lambda_p)}{\ell^5}
-    \ d r' d \phi' d \lambda'
+    \kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -171,7 +234,8 @@ extern double tess_gxy(double dens, double s, double n, double w, double e,
 \f[
 g_{xz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-    \frac{3 r' K_{\phi}(r' \cos\psi - r_p)}{\ell^5}\ d r' d \phi' d \lambda'
+    \frac{3 r' K_{\phi}(r' \cos\psi - r_p)}{\ell^5}\kappa
+    \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -203,7 +267,7 @@ extern double tess_gxz(double dens, double s, double n, double w, double e,
 g_{yy}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
     \frac{3(r'\cos\phi'\sin(\lambda' - \lambda_p))^2 - \ell^2}{\ell^5}
-    \ d r' d \phi' d \lambda'
+    \kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -235,7 +299,7 @@ extern double tess_gyy(double dens, double s, double n, double w, double e,
 g_{yz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
     \frac{3 r' \cos\phi' \sin(\lambda' - \lambda_p)(r'\cos\psi - r_p)}{\ell^5}
-    \ d r' d \phi' d \lambda'
+    \kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate
@@ -266,7 +330,7 @@ extern double tess_gyz(double dens, double s, double n, double w, double e,
 \f[
 g_{zz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-    \frac{3(r'\cos\psi-r_p)^2 - \ell^2}{\ell^5}\ d r' d \phi' d \lambda'
+    \frac{3(r'\cos\psi-r_p)^2 - \ell^2}{\ell^5}\kappa \ d r' d \phi' d \lambda'
 \f]
 
 The derivatives of the potential are made with respect to the local coordinate

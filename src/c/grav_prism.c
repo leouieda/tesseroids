@@ -69,8 +69,8 @@ double prism_gx(double dens, double x1, double x2, double y1, double y2,
             {
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
-                kernel = y[i]*log(z[j] + r) + z[j]*log(y[i] + r)
-                        - x[k]*atan2(z[i]*y[j], x[k]*r);
+                kernel = y[j]*log(z[k] + r) + z[k]*log(y[j] + r)
+                        - x[i]*atan2(z[k]*y[j], x[i]*r);
 
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -120,8 +120,8 @@ double prism_gy(double dens, double x1, double x2, double y1, double y2,
             {
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
-                kernel = z[i]*log(x[j] + r) + x[j]*log(z[i] + r)
-                        - y[k]*atan2(z[i]*x[j], y[k]*r);
+                kernel = z[k]*log(x[i] + r) + x[i]*log(z[k] + r)
+                        - y[j]*atan2(z[k]*x[i], y[j]*r);
 
                 res += pow(-1, i + j + k)*kernel;
             }

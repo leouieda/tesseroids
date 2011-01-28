@@ -58,6 +58,62 @@ computation point.
 #define _GRAV_SPHERE_H_
 
 
+/** Calculates gx caused by a sphere.
+
+\f[
+g_x(r_p,\phi_p,\lambda_p) = G M \frac{r_c K_{\phi}}{\ell^3}
+\f]
+
+The position of the sphere and computation point should be in spherical
+coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
+*/
+extern double sphere_gx(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
+/** Calculates gy caused by a sphere.
+
+\f[
+g_y(r_p,\phi_p,\lambda_p) = G M \frac{r_c\cos\phi_c\sin(\phi_c-\phi_p)}{\ell^3}
+\f]
+
+The position of the sphere and computation point should be in spherical
+coordinates.
+
+The derivatives of the potential are made with respect to the local coordinate
+system <b>x->North, y->East, z->out</b>
+
+<b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
+
+@param dens density of the sphere
+@param radius radius of the sphere
+@param lonc longitude of the center of the sphere
+@param latc latitude of the center of the sphere
+@param rc radial coordinate of the center of the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
+*/
+extern double sphere_gy(double dens, double radius, double lonc, double latc,
+                        double rc, double lonp, double latp, double rp);
+
 /** Calculates gz caused by a sphere.
 
 \f[

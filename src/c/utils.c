@@ -61,6 +61,18 @@ void tess2sphere(TESSEROID tess, SPHERE *sphere)
 }
 
 
+/* Convert a rectangular prism into a sphere of equal volume. */
+void prism2sphere(PRISM prism, double lonc, double latc, double rc,
+                  SPHERE *sphere)
+{
+    sphere->density = prism.density;
+    sphere->lonc = lonc;
+    sphere->latc = latc;
+    sphere->rc = rc;
+    sphere->r = cbrt(3*prism_volume(prism)/(4.*PI));
+}
+
+
 /* Calculate the volume of a tesseroid */
 double tess_volume(TESSEROID tess)
 {

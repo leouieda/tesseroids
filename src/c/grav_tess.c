@@ -31,23 +31,39 @@ positive density to have negative gz.
 #include "constants.h"
 #include "grav_tess.h"
 
+/* Calculates gx caused by a tesseroid. */
+double tess_gx(double dens, double s, double n, double w, double e, double r1,
+    double r2, double lonp, double latp, double rp, double *nodes, int order)
+{
+    return 0;
+}
+
+
+/* Calculates gy caused by a tesseroid. */
+double tess_gy(double dens, double s, double n, double w, double e, double r1,
+    double r2, double lonp, double latp, double rp, double *nodes, int order)
+{
+    return 0;
+}
+
+
 /* Calculates gz caused by a tesseroid. */
 double tess_gz(double dens, double s, double n, double w, double e, double r1,
-               double r2, double lonp, double latp, double rp)
+    double r2, double lonp, double latp, double rp, double *nodes, int order)
 {
     return 0;
 }
 
 /* Calculates gxx caused by a tesseroid. */
 double tess_gxx(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+    double r2, double lonp, double latp, double rp, double *nodes, int order)
 {
     return 0;
 }
 
 /* Calculates gxy caused by a tesseroid. */
 double tess_gxy(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+    double r2, double lonp, double latp, double rp, double *nodes, int order)
 {
     return 0;
 }

@@ -27,6 +27,8 @@ Date: 24 Jan 2011
 #include "minunit.h"
 #include "test_glq.c"
 #include "test_utils.c"
+#include "test_grav_prism.c"
+#include "test_grav_tess.c"
 
 int tests_run = 0, tests_passed = 0, tests_failed = 0;
 
@@ -36,6 +38,8 @@ int main()
     
     glq_run_all();
     utils_run_all();
+    grav_prism_run_all();
+    grav_tess_run_all();
     
     mu_print_summary((double)(clock() - start)/CLOCKS_PER_SEC);
 

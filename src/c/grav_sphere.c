@@ -36,6 +36,50 @@ density to have negative gz
 #include "constants.h"
 
 
+
+
+/* Calculates the gx component of gravitational attraction caused by a sphere */
+double sphere_gx(double dens, double radius, double lonc, double latc,
+                 double rc, double lonp, double latp, double rp)
+{
+    double mass, l_sqr, d2r = PI/180., kphi, coslatp, coslatc, sinlatp, sinlatc,
+           coslon;
+
+    mass = (double)(dens*4.*PI*radius*radius*radius)/3.;
+    
+    coslatp = cos(d2r*latp);
+    coslatc = cos(d2r*latc);
+    sinlatp = sin(d2r*latp);
+    sinlatc = sin(d2r*latc);
+    coslon = cos(d2r*(lonp - lonc));
+
+    l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc + coslatp*coslatc*coslon);
+
+    kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
+
+    return G*SI2MGAL*mass*(rc*kphi)/pow(l_sqr, 1.5);
+}
+
+
+/* Calculates the gy component of gravitational attraction caused by a sphere */
+double sphere_gy(double dens, double radius, double lonc, double latc,
+                 double rc, double lonp, double latp, double rp)
+{
+    double mass, l_sqr, d2r = PI/180., cospsi, coslatc;
+
+    mass = (double)(dens*4.*PI*radius*radius*radius)/3.;
+
+    coslatc = cos(d2r*latc);
+    
+    cospsi = sin(d2r*latp)*sin(d2r*latc) +  cos(d2r*latp)*coslatc*
+                                            cos(d2r*(lonp - lonc));
+
+    l_sqr = rp*rp + rc*rc - 2*rp*rc*cospsi;
+
+    return G*SI2MGAL*mass*(rc*coslatc*sin(d2r*(lonc - lonp)))/pow(l_sqr, 1.5);
+}
+
+
 /* Calculates the gz component of gravitational attraction caused by a sphere */
 double sphere_gz(double dens, double radius, double lonc, double latc,
                  double rc, double lonp, double latp, double rp)
