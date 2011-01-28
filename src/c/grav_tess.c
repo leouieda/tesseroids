@@ -19,79 +19,83 @@
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
 
-The derivatives of the potential are made with respect to the local coordinate
-system <b>x->North, y->East, z->out</b>. So it would be normal for a tesseroid of
-positive density to have negative gz.
-
 @author Leonardo Uieda
 @date 27 Jan 2011
 */
 
 #include <math.h>
-#include "constants.h"
+#include "utils.h"
+#include "glq.h"
 #include "grav_tess.h"
 
+
 /* Calculates gx caused by a tesseroid. */
-double tess_gx(double dens, double s, double n, double w, double e, double r1,
-    double r2, double lonp, double latp, double rp, double *nodes, int order)
+double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+               GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
 
 
 /* Calculates gy caused by a tesseroid. */
-double tess_gy(double dens, double s, double n, double w, double e, double r1,
-    double r2, double lonp, double latp, double rp, double *nodes, int order)
+double tess_gy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+               GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
 
 
 /* Calculates gz caused by a tesseroid. */
-double tess_gz(double dens, double s, double n, double w, double e, double r1,
-    double r2, double lonp, double latp, double rp, double *nodes, int order)
+double tess_gz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+               GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
+
 
 /* Calculates gxx caused by a tesseroid. */
-double tess_gxx(double dens, double s, double n, double w, double e, double r1,
-    double r2, double lonp, double latp, double rp, double *nodes, int order)
+double tess_gxx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
+
 
 /* Calculates gxy caused by a tesseroid. */
-double tess_gxy(double dens, double s, double n, double w, double e, double r1,
-    double r2, double lonp, double latp, double rp, double *nodes, int order)
+double tess_gxy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
+
 
 /* Calculates gxz caused by a tesseroid. */
-double tess_gxz(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+double tess_gxz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
+
 
 /* Calculates gyy caused by a tesseroid. */
-double tess_gyy(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+double tess_gyy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
+
 
 /* Calculates gyz caused by a tesseroid. */
-double tess_gyz(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+double tess_gyz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }
 
+
 /* Calculates gzz caused by a tesseroid. */
-double tess_gzz(double dens, double s, double n, double w, double e, double r1,
-                double r2, double lonp, double latp, double rp)
+double tess_gzz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+                GLQ glq_lat, GLQ glq_r)
 {
     return 0;
 }

@@ -36,8 +36,6 @@ density to have negative gz
 #include "constants.h"
 
 
-
-
 /* Calculates the gx component of gravitational attraction caused by a sphere */
 double sphere_gx(double dens, double radius, double lonc, double latc,
                  double rc, double lonp, double latp, double rp)

@@ -50,6 +50,9 @@ K_{\phi} &=& \cos\phi_p\sin\phi_c - \sin\phi_p\cos\phi_c
 subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
 computation point.
 
+
+\todo Change input arguments to SPHERE struct
+
 @author Leonardo Uieda
 @date 25 Jan 2011
 */

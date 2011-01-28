@@ -54,10 +54,12 @@ Date: 25 Jan 2011
 /* Basic assertion. If fails, returns msg. If passes, returns 0 */
 #define mu_assert(test, msg) do { if (!(test)) return msg; } while (0)
 
+
 /* Assert if val equals expect within a certain precision prec */
 #define mu_assert_almost_equals(val, expect, prec, msg) do { \
     if(!(val <= expect + prec && val >= expect - prec)) { return msg; }\
     } while (0)
+
 
 /* Run a test case, print the verbose and check if passed or failed */
 #define mu_run_test(test, verbose) \
@@ -73,10 +75,12 @@ Date: 25 Jan 2011
     if(test_time) { printf(" in %g seconds", test_time); } \
     printf(". %d passed and %d failed.\n", tests_passed, tests_failed);
 
+
 /* Utility for copying one array onto another */
-#define mu_arraycopy(original, copy, size) \
+#define mu_arraycp(original, copy, size) \
     do { int c; for(c=0; c<size; c++){ copy[c]=original[c]; } } while (0)
-    
+
+        
 /* Global counters. WARNING: Don't forget to initialize in the main program
 before running the tests! */
 extern int tests_run, tests_passed, tests_failed;

@@ -23,6 +23,7 @@ Date: 24 Jan 2011
 ***************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "minunit.h"
 #include "../src/c/glq.h"
@@ -378,7 +379,7 @@ static char * test_glq_scale_nodes()
     order = 2;
     a = -2.54;
     b = 14.9;
-    mu_arraycopy(o2roots, scaled, order);
+    mu_arraycp(o2roots, scaled, order);
     
     rc = glq_scale_nodes(a, b, order, scaled);
     sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
@@ -397,7 +398,7 @@ static char * test_glq_scale_nodes()
     order = 3;
     a = 125.6; 
     b = 234.84;
-    mu_arraycopy(o3roots, scaled, order);
+    mu_arraycp(o3roots, scaled, order);
 
     rc = glq_scale_nodes(a, b, order, scaled);
     sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
@@ -416,7 +417,7 @@ static char * test_glq_scale_nodes()
     order = 4;
     a = 3.5;
     b = -12.4;
-    mu_arraycopy(o4roots, scaled, order);
+    mu_arraycp(o4roots, scaled, order);
 
     rc = glq_scale_nodes(a, b, order, scaled);
     sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
@@ -435,7 +436,7 @@ static char * test_glq_scale_nodes()
     order = 5;
     a = 0.0;
     b = 0.0;
-    mu_arraycopy(o5roots, scaled, order);
+    mu_arraycp(o5roots, scaled, order);
 
     rc = glq_scale_nodes(a, b, order, scaled);
     sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
@@ -457,39 +458,33 @@ static char * test_glq_scale_nodes()
 
 static char * test_glq_intcos()
 {
-    double nodes[25], weights[25], result, expected;
+    double result, expected;
     double angles[6] = {PI*0.1, PI, PI*1.2,
                         PI*1.9, PI*4.3, PI*6.9};
-    int rc, i, t, orders[6] = {2, 3, 5, 8, 15, 25};
-
+    int i, t, orders[6] = {2, 3, 5, 8, 15, 25};
+    GLQ *glq;
+    
     for(t = 0; t < 6; t++)
     {
-        expected = sin(angles[t]);
-    
-        rc = glq_nodes(orders[t], nodes);
-        sprintf(msg,
-                "(order %d, angle %g) glq_nodes return code %d, expected 0",
-                orders[t], angles[t], rc);
-        mu_assert(rc == 0, msg);
+        glq = glq_new(orders[t], 0., angles[t]);
 
-        rc = glq_weights(orders[t], nodes, weights);
-        sprintf(msg,
-                "(order %d, angle %g) glq_weights return code %d, expected 0",
-                orders[t], angles[t], rc);
-        mu_assert(rc == 0, msg);
+        if(glq == NULL)
+        {
+            sprintf(msg,
+                "(order %d, angle %g) failed to create new GLQ struct",
+                orders[t], angles[t]);
+            mu_assert(0, msg);
+        }
 
-        rc = glq_scale_nodes(0., angles[t], orders[t], nodes);
-        sprintf(msg,
-                "(order %d, angle %g) scale_nodes return code %d, expected 0",
-                orders[t], angles[t], rc);
-        mu_assert(rc == 0, msg);
-
-        /* Do the integration */
         for(i = 0, result = 0; i < orders[t]; i++)
         {
-            result += weights[i]*cos(nodes[i]);
+            result += glq->weights[i]*cos(glq->nodes[i]);
         }
         result *= 0.5*angles[t];
+
+        expected = sin(angles[t]);
+
+        glq_free(glq);
 
         sprintf(msg, "(order %d, angle %g) expected %lf, got %lf", orders[t],
                 angles[t], expected, result);

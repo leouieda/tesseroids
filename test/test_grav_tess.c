@@ -23,9 +23,11 @@ Date: 24 Jan 2011
 ***************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "../src/c/grav_sphere.h"
 #include "../src/c/grav_tess.h"
+#include "../src/c/glq.h"
 #include "../src/c/utils.h"
 #include "../src/c/constants.h"
 
@@ -38,6 +40,19 @@ static char * test_tess2sphere_gx()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
     
@@ -46,8 +61,7 @@ static char * test_tess2sphere_gx()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gx(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,40,radius+dist);
+        restess = tess_gx(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,40,radius+dist);
 
@@ -65,6 +79,19 @@ static char * test_tess2sphere_gy()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -73,8 +100,7 @@ static char * test_tess2sphere_gy()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gy(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,5,45,radius+dist);
+        restess = tess_gy(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,5,45,radius+dist);
 
@@ -92,6 +118,19 @@ static char * test_tess2sphere_gz()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -100,8 +139,7 @@ static char * test_tess2sphere_gz()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gz(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,45,radius+dist);
+        restess = tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,45,radius+dist);
 
@@ -119,6 +157,19 @@ static char * test_tess2sphere_gxx()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -127,8 +178,7 @@ static char * test_tess2sphere_gxx()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gxx(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,45,radius+dist);
+        restess = tess_gxx(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxx(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,45,radius+dist);
 
@@ -146,6 +196,19 @@ static char * test_tess2sphere_gxy()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -154,8 +217,7 @@ static char * test_tess2sphere_gxy()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gxy(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,5,50,radius+dist);
+        restess = tess_gxy(tess,5,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,5,50,radius+dist);
 
@@ -173,6 +235,19 @@ static char * test_tess2sphere_gxz()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -181,8 +256,7 @@ static char * test_tess2sphere_gxz()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gxz(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,50,radius+dist);
+        restess = tess_gxz(tess,0,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,50,radius+dist);
 
@@ -200,6 +274,19 @@ static char * test_tess2sphere_gyy()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -208,8 +295,7 @@ static char * test_tess2sphere_gyy()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gyy(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,45,radius+dist);
+        restess = tess_gyy(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyy(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,45,radius+dist);
 
@@ -227,6 +313,19 @@ static char * test_tess2sphere_gyz()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -235,8 +334,7 @@ static char * test_tess2sphere_gyz()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gyz(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,5,45,radius+dist);
+        restess = tess_gyz(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,5,45,radius+dist);
 
@@ -254,6 +352,19 @@ static char * test_tess2sphere_gzz()
     SPHERE sphere;
     TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
     double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
 
@@ -262,8 +373,7 @@ static char * test_tess2sphere_gzz()
 
     for(dist=200000; dist <= 1000000; dist += 1000)
     {
-        restess = tess_gzz(tess.density,tess.s,tess.n,tess.w,tess.e,tess.r1,
-                          tess.r2,0,45,radius+dist);
+        restess = tess_gzz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gzz(sphere.density,sphere.r,sphere.lonc,sphere.latc,
                               sphere.rc,0,45,radius+dist);
 

@@ -24,15 +24,40 @@ Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 
 \f$ N \f$ is the order of the quadrature.
 
-Usage (it is important to do in this order):
+Usage example:
 
-    -# Use the glq_nodes(...) function to compute the discretization points for
-       the function you want to integrate, ie the \f$ x_i \f$
-    -# use the glq_weights(...) function to calculate the weighting coefficients
-       \f$ w_i \f$
-    -# use glq_scale_nodes(...) to put the nodes in the correct interval [a,b]
-    -# implement the sum
-    -# multiply by the scale factor \f$ \frac{b-a}{2} \f$
+To integrate the cossine function from 0 to 90 degrees
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "src/c/glq.h"
+
+int main(){
+    // Create a new glq structure
+    GLQ *glq;
+    double result = 0, a = 0, b = 0.5*3.14;
+    int i;
+
+    glq = glq_new(5, a, b);
+
+    if(glq == NULL){
+        printf("malloc error");
+        return 1;
+    }
+
+    // Calculate the integral
+    for(i = 0; i < glq->order; i++)
+        result += glq->weights[i]*cos(glq->nodes[i]);
+
+    // Need to multiply by a scale factor of the integration limits
+    result *= 0.5*(b - a);
+
+    printf("Integral of cossine from 0 to 90 degrees = %lf\n", result);
+    return 0;
+}
+@endverbatim
 
 @author Leonardo Uieda
 @date 24 Jan 2011
@@ -49,6 +74,39 @@ Usage (it is important to do in this order):
 
 /** Compute the absolute value of x */
 #define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
+
+
+/** Store the nodes and weights needed for a GLQ integration */
+typedef struct glq_struct
+{
+    int order; /**< order of the quadrature, ie number of nodes */
+    double *nodes; /**< abscissas or discretization points of the quadrature */
+    double *weights; /**< weighting coefficients of the quadrature */
+    double *nodes_unscaled; /**< nodes in [-1,1] interval */
+} GLQ;
+
+
+/** Make a new GLQ structure and set all the parameters needed
+
+<b>WARNING</b>: Don't forget to free the memory malloced by this function using
+glq_free(...)!
+
+@param order order of the quadrature, ie number of nodes
+@param lower lower integration limit
+@param upper upper integration limit
+
+@return GLQ data structure with the nodes and weights calculated. NULL if there
+    was an error with allocation.
+*/
+extern GLQ * glq_new(int order, double lower, double upper);
+
+
+/** Free the memory allocated to make a GLQ structure
+
+@param glq pointer to the allocated memory
+*/
+extern void glq_free(GLQ *glq);
+
 
 /** Calculates the GLQ nodes using glq_next_root.
 
@@ -69,6 +127,7 @@ use glq_scale_nodes
 */
 extern int glq_nodes(int order, double *nodes);
 
+
 /** Put the GLQ nodes to the integration limits <b>IN PLACE</b>.
 
 @param lower lower integration limit
@@ -85,6 +144,7 @@ extern int glq_nodes(int order, double *nodes);
 extern int glq_scale_nodes(double lower, double upper, int order,
                            double *nodes);
 
+                           
 /** Calculate the next Legendre polynomial root given the previous root found.
 
 Uses the root-finder algorithm of:
@@ -113,6 +173,7 @@ Uses the root-finder algorithm of:
 extern int glq_next_root(double initial, int root_index, int order,
                          double *roots);
 
+                         
 /** Calculates the weighting coefficients for the GLQ integration.
 
 @param order order of the quadrature, ie number of nodes and weights.

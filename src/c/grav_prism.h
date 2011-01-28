@@ -25,6 +25,8 @@ The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
+\todo Change input arguments to PRISM struct
+
 @author Leonardo Uieda
 @date 01 March 2010
 */
@@ -52,6 +54,7 @@ x -> North  y -> East  z -> Down
 extern double prism_gx(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
+
 /** Calculates gy component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in mGal! </b>
@@ -70,6 +73,7 @@ extern double prism_gx(double dens, double x1, double x2, double y1, double y2,
 @return field calculated at P */
 extern double prism_gy(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
+
 
 /** Calculates gz component caused by a right rectangular prism.
 
@@ -91,7 +95,6 @@ extern double prism_gz(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
 
-
 /** Calculates gxx component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
@@ -110,6 +113,7 @@ extern double prism_gz(double dens, double x1, double x2, double y1, double y2,
 @return field calculated at P */
 extern double prism_gxx(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
+
 
 /** Calculates gxy component caused by a right rectangular prism.
 
@@ -130,6 +134,7 @@ extern double prism_gxx(double dens, double x1, double x2, double y1, double y2,
 extern double prism_gxy(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
+
 /** Calculates gxz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
@@ -148,6 +153,7 @@ extern double prism_gxy(double dens, double x1, double x2, double y1, double y2,
 @return field calculated at P */
 extern double prism_gxz(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
+
 
 /** Calculates gyy component caused by a right rectangular prism.
 
@@ -168,6 +174,7 @@ extern double prism_gxz(double dens, double x1, double x2, double y1, double y2,
 extern double prism_gyy(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
+
 /** Calculates gyz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
@@ -187,6 +194,7 @@ extern double prism_gyy(double dens, double x1, double x2, double y1, double y2,
 extern double prism_gyz(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
 
+
 /** Calculates gzz component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in Eotvos! </b>
@@ -205,5 +213,5 @@ extern double prism_gyz(double dens, double x1, double x2, double y1, double y2,
 @return field calculated at P */
 extern double prism_gzz(double dens, double x1, double x2, double y1, double y2,
                         double z1, double z2, double xp, double yp, double zp);
-                        
+
 #endif

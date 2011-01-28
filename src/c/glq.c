@@ -18,21 +18,97 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /* 
 Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 
-Usage:
-    -# Use the glq_nodes(...) function to compute the discretization points for
-       the function you want to integrate
-    -# use the glq_weights(...) function to calculate the weighting coefficients
-    -# implement the integration loop(s) yourself (this allows for custom
-       integration of any function)
-
 @author Leonardo Uieda
 @date 24 Jan 2011
 */
 
 #include <stdlib.h>
 #include <math.h>
-#include "glq.h"
 #include "constants.h"
+#include "utils.h"
+#include "glq.h"
+
+
+/* Make a new GLQ structure and set all the parameters needed */
+GLQ * glq_new(int order, double lower, double upper)
+{
+    GLQ *glq;
+
+    glq = (GLQ *)malloc(sizeof(GLQ));
+
+    if(glq == NULL)
+    {
+        return NULL;
+    }
+
+    glq->order = order;
+
+    glq->nodes = (double *)malloc(sizeof(double)*order);
+
+    if(glq->nodes == NULL)
+    {
+        free(glq);
+        return NULL;
+    }
+
+    glq->nodes_unscaled = (double *)malloc(sizeof(double)*order);
+
+    if(glq->nodes_unscaled == NULL)
+    {
+        free(glq);
+        free(glq->nodes);
+        return NULL;
+    }
+
+    glq->weights = (double *)malloc(sizeof(double)*order);
+
+    if(glq->weights == NULL)
+    {
+        free(glq);
+        free(glq->nodes);
+        free(glq->nodes_unscaled);
+        return NULL;
+    }
+
+    /** \todo Need to make a logger to log the error messages */
+    if(glq_nodes(order, glq->nodes_unscaled) != 0)
+    {
+        glq_free(glq);
+        return NULL;
+    }
+
+    if(glq_weights(order, glq->nodes_unscaled, glq->weights) != 0)
+    {
+        glq_free(glq);
+        return NULL;
+    }
+
+    int i;
+
+    for(i = 0; i < order; i++)
+    {
+        glq->nodes[i] = glq->nodes_unscaled[i];
+    }
+
+    if(glq_scale_nodes(lower, upper, order, glq->nodes) != 0)
+    {
+        glq_free(glq);
+        return NULL;
+    }
+    
+    return glq;
+}
+
+
+/* Free the memory allocated to make a GLQ structure */
+void glq_free(GLQ *glq)
+{
+    free(glq->nodes);
+    free(glq->nodes_unscaled);
+    free(glq->weights);
+    free(glq);
+}
+
 
 /* Calculates the GLQ nodes using glq_next_root. */
 int glq_nodes(int order, double *nodes)

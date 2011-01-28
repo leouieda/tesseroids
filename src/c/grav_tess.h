@@ -37,9 +37,10 @@ and solved using the Gauss-Legendre Quadrature rule:
 
 \f[
 g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho \frac{(\lambda_2 - \lambda_1)
-    (\phi_2 - \phi_1)(r_2 - r_1)}{8} \displaystyle\sum_{k=0}^{N_k - 1}
-    \displaystyle\sum_{j=0}^{N_j - 1} \displaystyle\sum_{i=1}^{N_i - 1}
-    I_{\alpha\beta}({r'}_i, {\phi'}_j, {\lambda'}_k )\kappa\ \ i,j \in \{1,2,3\}
+    (\phi_2 - \phi_1)(r_2 - r_1)}{8} \displaystyle\sum_{k=0}^{N^{\lambda} - 1}
+    \displaystyle\sum_{j=0}^{N^{\phi} - 1} \displaystyle\sum_{i=0}^{N^r - 1}
+    W^r_i W^{\phi}_j W^{\lambda}_k
+    I_{\alpha\beta}({r'}_i, {\phi'}_j, {\lambda'}_k )\kappa\ \ \alpha,\beta \in \{1,2,3\}
 \f]
 
 where \f$ \rho \f$ is density, the subscripts 1, 2, and 3 should be
@@ -85,23 +86,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
 @return field calculated at P
 */
-extern double tess_gx(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gx(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
                     
 /** Calculates gy caused by a tesseroid.
 
@@ -117,24 +116,22 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
 @return field calculated at P
 */
-extern double tess_gy(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
-                    
+extern double tess_gy(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
+
 /** Calculates gz caused by a tesseroid.
 
 \f[
@@ -148,23 +145,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
 @return field calculated at P
 */
-extern double tess_gz(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gz(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
 /** Calculates gxx caused by a tesseroid.
 
@@ -179,23 +174,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gxx(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gxx(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
 /** Calculates gxy caused by a tesseroid.
 
@@ -211,23 +204,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gxy(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gxy(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
 /** Calculates gxz caused by a tesseroid.
 
@@ -243,23 +234,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gxz(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gxz(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
 /** Calculates gyy caused by a tesseroid.
 
@@ -275,23 +264,21 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gyy(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
+extern double tess_gyy(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
 /** Calculates gyz caused by a tesseroid.
 
@@ -307,24 +294,22 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gyz(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
-   
+extern double tess_gyz(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
+
 /** Calculates gzz caused by a tesseroid.
 
 \f[
@@ -338,22 +323,20 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
-@param dens density of the tesseroid
-@param s latitude of the southern border of the tesseroid
-@param n latitude of the northern border of the tesseroid
-@param w longitude of the western border of the tesseroid
-@param e longitude of the eastern border of the tesseroid
-@param r1 radial distance from the center of the Earth to the lower-most border
-          of the tesseroid
-@param r2 radial distance from the center of the Earth to the upper-most border
-          of the tesseroid
+@param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
 @param rp radial coordinate of the computation point P
+@param glq_lon GLQ structure with the nodes, weights and integration limits set
+    for the longitudinal integration
+@param glq_lat GLQ structure with the nodes, weights and integration limits set
+    for the latitudinal integration
+@param glq_r GLQ structure with the nodes, weights and integration limits set
+    for the radial integration
 
-@return  field calculated at P
+@return field calculated at P
 */
-extern double tess_gzz(double dens, double s, double n, double w, double e,
-                    double r1, double r2, double lonp, double latp, double rp);
-                    
+extern double tess_gzz(TESSEROID tess, double lonp, double latp, double rp,
+                      GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
+
 #endif

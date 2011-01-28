@@ -7,3 +7,4 @@
 
 
 * (Done 27/Jan/2011) Include automatic documentation with doxygen
+* (Done 28/Jan/2011) Make integration test to compare tess to sphere and prism to sphere
