@@ -65,6 +65,47 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>. So it would be normal for a tesseroid of
 positive density to have negative gz.
 
+<b>Example</b>:
+
+To calculate the gzz component due to a tesseroid on a regular grid.
+
+\verbatim
+#include <stdio.h>
+#include "glq.h"
+/* utils.h has the definitions of the TESSEROID and GLQ data types */
+#include "utils.h"
+#include "constants.h"
+#include "grav_tess.h"
+
+int main()
+{
+    TESSEROID tess = {1000, 44, 46, -1, 1, MEAN_EARTH_RADIUS - 100000,
+                      MEAN_EARTH_RADIUS};
+    GLQ *glqlon, *glqlat, *glqr;
+    double lon, lat, r = MEAN_EARTH_RADIUS + 1500000, res;
+    int order = 8;
+    
+    glqlon = glq_new(order, tess.w, tess.e);
+    glqlat = glq_new(order, tess.s, tess.n);
+    glqr = glq_new(order, tess.r1, tess.r2);
+
+    for(lat = 20; lat <= 70; lat += 0.5)
+    {
+        for(lon = -25; lon <= 25; lon += 0.5)
+        {
+            res = tess_gzz(tess, lon, lat, r, *glqlon, *glqlat, *glqr);
+            printf("%g %g %g\n", lon, lat, res);
+        }
+    }
+
+    glq_free(glqlon);
+    glq_free(glqlat);
+    glq_free(glqr);
+
+    return 0;
+}
+\endverbatim 
+
 @author Leonardo Uieda
 @date 27 Jan 2011
 */
@@ -85,6 +126,12 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
+
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
 
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
@@ -116,6 +163,12 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
+
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
@@ -145,6 +198,12 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in mGal!</b>
 
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
+
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
@@ -173,6 +232,12 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
 
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
@@ -204,6 +269,12 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
+
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
@@ -233,6 +304,12 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
 
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
@@ -264,6 +341,12 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
+
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
@@ -294,6 +377,12 @@ system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
 
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
+
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
 @param latp latitude of the computation point P
@@ -322,6 +411,12 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>
 
 <b>Input values in SI units and <b>degrees</b> and returns values in Eotvos!</b>
+
+Use function glq_new() to create the GLQ parameters required. The integration
+limits should be set to:
+    - glq_lon: lower = tess.w and upper = tess.e  (in degrees)
+    - glq_lat: lower = tess.s and upper = tess.n  (in degrees)
+    - glq_r: lower = tess.r1 and upper = tess.r2
 
 @param tess data structure describing the tesseroid
 @param lonp longitude of the computation point P
