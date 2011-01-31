@@ -71,7 +71,7 @@ To calculate the gzz component due to a tesseroid on a regular grid.
 
 \verbatim
 #include <stdio.h>
-#include "glq.h"
+#include "glq.h"r
 #include "constants.h"
 #include "grav_tess.h"
 
@@ -116,6 +116,49 @@ int main()
 #include "utils.h"
 #include "glq.h"
 #include "constants.h"
+
+
+/** Calculates the field of a tesseroid model at a given point.
+
+Uses a function pointer to call one of the oapropriate field calculating
+functions:
+    - tess_gx()
+    - tess_gy()
+    - tess_gz()
+    - tess_gxx()
+    - tess_gxy()
+    - tess_gxz()
+    - tess_gyy()
+    - tess_gyz()
+    - tess_gzz()
+
+To pass a function pointer to a function use something like:
+
+\verbatim
+calc_tess_model(my_model, 10, 0, 10, 1, glqlon, glqlat, glqr, &tess_gx);
+\endverbatim
+
+This would calculate the gx effect of the model my_model with 10 tesseroids
+at lon=0 lat=10 r=1.
+
+Will re-use the same GLQ structures, and therefore the <b>same order, for all
+the tesseroids</b>.
+
+@param model TESSEROID array defining the model
+@param size number of tesseroids in the model
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+@param glq_lon pointer to GLQ structure used for the longitudinal integration
+@param glq_lat pointer to GLQ structure used for the latitudinal integration
+@param glq_r pointer to GLQ structure used for the radial integration
+@param field pointer to one of the field calculating functions
+
+@return the sum of the fields of all the tesseroids in the model
+*/
+extern double calc_tess_model(TESSEROID *model, int size, double lonp,
+    double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
+    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
 
 
 /** Calculates gx caused by a tesseroid.

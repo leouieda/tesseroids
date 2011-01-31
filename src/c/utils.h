@@ -44,6 +44,7 @@ typedef struct tess_struct {
     double r2; /**< largest radius border in SI units */
 } TESSEROID;
 
+
 /** Store information on a rectangular prism */
 typedef struct prism_struct {
     double density; /**< in SI units */
@@ -56,6 +57,7 @@ typedef struct prism_struct {
     /* Geodetic coordinates of the center of the top face of the prism */
     /* double lonc, latc, rc;*/
 } PRISM;
+
 
 /** Store information on a sphere */
 typedef struct sphere_struct {

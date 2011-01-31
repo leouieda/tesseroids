@@ -79,14 +79,7 @@ GLQ * glq_new(int order, double lower, double upper)
         return NULL;
     }
 
-    int i;
-
-    for(i = 0; i < order; i++)
-    {
-        glq->nodes[i] = glq->nodes_unscaled[i];
-    }
-
-    if(glq_scale_nodes(lower, upper, order, glq->nodes) != 0)
+    if(glq_set_limits(lower, upper, glq) != 0)
     {
         glq_free(glq);
         return NULL;
@@ -136,13 +129,17 @@ int glq_nodes(int order, double *nodes)
 
 
 /* Put the GLQ nodes to the integration limits IN PLACE. */
-int glq_scale_nodes(double lower, double upper, int order, double *nodes)
+int glq_set_limits(double lower, double upper, GLQ *glq)
 {
-    if(order < 2)
+    if(glq->order < 2)
     {
         return 1;
     }
-    if(nodes == NULL)
+    if(glq->nodes == NULL)
+    {
+        return 2;
+    }
+    if(glq->nodes_unscaled == NULL)
     {
         return 2;
     }
@@ -151,9 +148,9 @@ int glq_scale_nodes(double lower, double upper, int order, double *nodes)
     double tmpplus = 0.5*(upper + lower), tmpminus = 0.5*(upper - lower);
     register int i;
     
-    for(i = 0; i < order; i++)
+    for(i = 0; i < glq->order; i++)
     {
-        nodes[i] = tmpminus*nodes[i] + tmpplus;
+        glq->nodes[i] = tmpminus*glq->nodes_unscaled[i] + tmpplus;
     }
 
     return 0;

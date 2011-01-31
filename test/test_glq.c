@@ -371,85 +371,89 @@ static char * test_glq_nodes()
 }
 
 
-static char * test_glq_scale_nodes()
+static char * test_glq_set_limits()
 {
-    double prec = pow(10, -15), scaled[5], a, b, correct;
+    double prec = pow(10, -15), unscaled[5], scaled[5], a, b, correct;
     int order, rc, i;
+    GLQ glq;
+    
+    glq.nodes_unscaled = unscaled;
+    glq.nodes = scaled;
 
-    order = 2;
+    glq.order = 2;
     a = -2.54;
     b = 14.9;
-    mu_arraycp(o2roots, scaled, order);
+    mu_arraycp(o2roots, glq.nodes_unscaled, glq.order);
     
-    rc = glq_scale_nodes(a, b, order, scaled);
-    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
-            b, rc);
+    rc = glq_set_limits(a, b, &glq);
+    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", glq.order,
+            a, b, rc);
     mu_assert(rc == 0, msg);
     
-    for(i = 0; i < order; i++)
+    for(i = 0; i < glq.order; i++)
     {
         correct = 8.72*o2roots[i] + 6.18;
         sprintf(msg,
                 "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
-                order, i, a, b, correct, scaled[i]);
-        mu_assert_almost_equals(scaled[i], correct, prec, msg);
+                glq.order, i, a, b, correct, glq.nodes[i]);
+        mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
 
-    order = 3;
+    glq.order = 3;
     a = 125.6; 
     b = 234.84;
-    mu_arraycp(o3roots, scaled, order);
+    mu_arraycp(o3roots, glq.nodes_unscaled, glq.order);
 
-    rc = glq_scale_nodes(a, b, order, scaled);
-    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
-            b, rc);
+    rc = glq_set_limits(a, b, &glq);
+    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", glq.order,
+            a, b, rc);
     mu_assert(rc == 0, msg);
 
-    for(i = 0; i < order; i++)
+    for(i = 0; i < glq.order; i++)
     {
         correct = 54.62*o3roots[i] + 180.22;
         sprintf(msg,
                 "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
-                order, i, a, b, correct, scaled[i]);
-        mu_assert_almost_equals(scaled[i], correct, prec, msg);
+                glq.order, i, a, b, correct, glq.nodes[i]);
+        mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
 
-    order = 4;
+    glq.order = 4;
     a = 3.5;
     b = -12.4;
-    mu_arraycp(o4roots, scaled, order);
+    mu_arraycp(o4roots, glq.nodes_unscaled, glq.order);
 
-    rc = glq_scale_nodes(a, b, order, scaled);
-    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
-            b, rc);
+    rc = glq_set_limits(a, b, &glq);
+    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", glq.order,
+            a, b, rc);
     mu_assert(rc == 0, msg);
 
-    for(i = 0; i < order; i++)
+    for(i = 0; i < glq.order; i++)
     {
         correct = -7.95*o4roots[i] - 4.45;
         sprintf(msg,
                 "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
-                order, i, a, b, correct, scaled[i]);
-        mu_assert_almost_equals(scaled[i], correct, prec, msg);
+                glq.order, i, a, b, correct, glq.nodes[i]);
+        mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
 
-    order = 5;
+    glq.order = 5;
     a = 0.0;
     b = 0.0;
-    mu_arraycp(o5roots, scaled, order);
+    mu_arraycp(o5roots, glq.nodes_unscaled, glq.order);
 
-    rc = glq_scale_nodes(a, b, order, scaled);
-    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", order, a,
-            b, rc);
+    rc = glq_set_limits(a, b, &glq);
+    sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", glq.order,
+            a, b, rc);
     mu_assert(rc == 0, msg);
 
-    for(i = 0; i < order; i++)
+    for(i = 0; i < glq.order; i++)
     {
         correct = 0.0;
         sprintf(msg,
                 "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
-                order, i, a, b, correct, scaled[i]);
-        mu_assert_almost_equals(scaled[i], correct, prec, msg);
+                glq.order, i, a, b, correct, glq.nodes[i]);
+        mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
 
     return 0;
@@ -501,8 +505,8 @@ void glq_run_all()
                 "glq_next_root returns correct fail code");
     mu_run_test(test_glq_next_root, "glq_next_root produces correct results");
     mu_run_test(test_glq_nodes, "glq_nodes produces correct results");
-    mu_run_test(test_glq_scale_nodes,
-                "glq_scale_nodes produces correct results");
+    mu_run_test(test_glq_set_limits,
+                "glq_set_limits produces correct results");
     mu_run_test(test_glq_weights, "glq_weights produces correct results");
     mu_run_test(test_glq_intcos,
                 "glq cossine integration produces correct results");

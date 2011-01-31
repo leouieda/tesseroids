@@ -96,7 +96,7 @@ typedef struct glq_struct
 /** Make a new GLQ structure and set all the parameters needed
 
 <b>WARNING</b>: Don't forget to free the memory malloced by this function using
-glq_free(...)!
+glq_free()!
 
 @param order order of the quadrature, ie number of nodes
 @param lower lower integration limit
@@ -113,6 +113,27 @@ extern GLQ * glq_new(int order, double lower, double upper);
 @param glq pointer to the allocated memory
 */
 extern void glq_free(GLQ *glq);
+
+
+/** Put the GLQ nodes to the integration limits <b>IN PLACE</b>.
+
+Will replace the values of glq.nodes with ones in the specified integration
+limits.
+
+In case the GLQ structure was created with glq_new(), the integration limits can
+be reset using this function. 
+
+@param lower lower integration limit
+@param upper upper integration limit
+@param glq pointer to a GLQ structure created with glq_new() and with all
+           necessary memory allocated
+
+@return Return code:
+    - 0: if everything went OK
+    - 1: if invalid order
+    - 2: if NULL pointer for nodes or nodes_unscaled
+*/
+extern int glq_set_limits(double lower, double upper, GLQ *glq);
 
 
 /** Calculates the GLQ nodes using glq_next_root.
@@ -133,23 +154,6 @@ use glq_scale_nodes
          GLQ_MAXIT.
 */
 extern int glq_nodes(int order, double *nodes);
-
-
-/** Put the GLQ nodes to the integration limits <b>IN PLACE</b>.
-
-@param lower lower integration limit
-@param upper upper integration limit
-@param order order of the GLQ, ie how many nodes
-@param nodes array with the GLQ nodes in [-1,1] interval. <b>WARNING</b>: The
-             scaled nodes will be returned overwritting this array!
-
-@return Return code:
-    - 0: if everything went OK
-    - 1: if invalid order
-    - 2: if NULL pointer for nodes
-*/
-extern int glq_scale_nodes(double lower, double upper, int order,
-                           double *nodes);
 
                            
 /** Calculate the next Legendre polynomial root given the previous root found.

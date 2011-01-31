@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./mapper > data.txt
+time ./mapper > data.txt
 
-echo "set size ratio 1; set view map; splot 'data.txt' with pm3d" | gnuplot -persist
+time echo "set size ratio 1; set view map; splot 'data.txt' with pm3d" | gnuplot -persist

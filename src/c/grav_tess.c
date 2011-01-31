@@ -29,6 +29,29 @@ derivatives for the tesseroid.
 #include "grav_tess.h"
 
 
+/* Calculates the field of a tesseroid model at a given point. */
+double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
+    double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
+    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
+{
+    double res;
+    int tess;
+
+    res = 0;
+    
+    for(tess = 0; tess < size; tess++)
+    {
+        glq_set_limits(model[tess].w, model[tess].e, glq_lon);
+        glq_set_limits(model[tess].s, model[tess].n, glq_lat);
+        glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
+        
+        res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat, *glq_r);
+    }
+
+    return res;
+}
+
+
 /* Calculates gx caused by a tesseroid. */
 double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
                GLQ glq_lat, GLQ glq_r)
