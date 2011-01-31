@@ -61,6 +61,11 @@ computation point.
 #define _GRAV_SPHERE_H_
 
 
+#include <math.h>
+#include "utils.h"
+#include "constants.h"
+
+
 /** Calculates gx caused by a sphere.
 
 \f[

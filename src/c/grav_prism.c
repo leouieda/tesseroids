@@ -29,9 +29,7 @@ x -> North  y -> East  z -> Down
 @date 01 March 2010
 */
 
-#include <math.h>
-#include "utils.h"
-#include "constants.h"
+
 #include "grav_prism.h"
 
 

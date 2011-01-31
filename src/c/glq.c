@@ -22,10 +22,6 @@ Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 @date 24 Jan 2011
 */
 
-#include <stdlib.h>
-#include <math.h>
-#include "constants.h"
-#include "utils.h"
 #include "glq.h"
 
 

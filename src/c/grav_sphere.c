@@ -31,9 +31,6 @@ density to have negative gz
 */
 
 
-#include <math.h>
-#include "utils.h"
-#include "constants.h"
 #include "grav_sphere.h"
 
 

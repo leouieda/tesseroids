@@ -24,8 +24,7 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 @date 25 Jan 2011
 */
 
-#include <math.h>
-#include "constants.h"
+
 #include "utils.h"
 
 

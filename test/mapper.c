@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "../src/c/glq.h"
-#include "../src/c/utils.h"
 #include "../src/c/constants.h"
 #include "../src/c/grav_tess.h"
 

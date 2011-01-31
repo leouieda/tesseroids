@@ -72,8 +72,6 @@ To calculate the gzz component due to a tesseroid on a regular grid.
 \verbatim
 #include <stdio.h>
 #include "glq.h"
-/* utils.h has the definitions of the TESSEROID and GLQ data types */
-#include "utils.h"
 #include "constants.h"
 #include "grav_tess.h"
 
@@ -112,6 +110,12 @@ int main()
 
 #ifndef _GRAV_TESS_H_
 #define _GRAV_TESS_H_
+
+
+#include <math.h>
+#include "utils.h"
+#include "glq.h"
+#include "constants.h"
 
 
 /** Calculates gx caused by a tesseroid.

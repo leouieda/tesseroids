@@ -25,10 +25,7 @@ derivatives for the tesseroid.
 
 /** \todo Possible speed up, use pointers for weights and nodes */
 
-#include <math.h>
-#include "utils.h"
-#include "glq.h"
-#include "constants.h"
+
 #include "grav_tess.h"
 
 

@@ -66,6 +66,13 @@ int main(){
 #ifndef _GLQ_H_
 #define _GLQ_H_
 
+
+#include <stdlib.h>
+#include <math.h>
+#include "constants.h"
+#include "utils.h"
+
+
 /** Max iterations of the root-finder algorithm */
 #define GLQ_MAXIT 1000
 

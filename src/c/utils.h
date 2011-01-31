@@ -28,6 +28,10 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 #define _UTILS_H_
 
 
+#include <math.h>
+#include "constants.h"
+
+
 /** Store information on a tesseroid */
 typedef struct tess_struct {
     /* s, n, w, e in degrees. r1 and r2 are the smaller and larger radius */

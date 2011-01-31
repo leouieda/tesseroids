@@ -33,6 +33,11 @@ x -> North  y -> East  z -> Down
 #define _GRAV_PRISM_H_
 
 
+#include <math.h>
+#include "utils.h"
+#include "constants.h"
+
+
 /** Calculates gx component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in mGal! </b>
