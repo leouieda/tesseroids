@@ -23,3 +23,6 @@ Program(test + constants + glq + utils + grav_prism + grav_sphere + grav_tess,
 
 # Clean up the docs build as well
 Clean(os.path.curdir, join('doc', 'build'))
+
+mapper = Object(join(test_dir, 'mapper.c'))
+Program(mapper + glq + constants + utils + grav_tess, LIBS=['m'])

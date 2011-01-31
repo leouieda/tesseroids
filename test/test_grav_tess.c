@@ -38,7 +38,7 @@ char msg[1000];
 static char * test_tess2sphere_gx()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -59,7 +59,7 @@ static char * test_tess2sphere_gx()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1000000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gx(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gx(sphere,0,40,radius+dist);
@@ -76,7 +76,7 @@ static char * test_tess2sphere_gx()
 static char * test_tess2sphere_gy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -97,7 +97,7 @@ static char * test_tess2sphere_gy()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1000000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gy(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gy(sphere,5,45,radius+dist);
@@ -114,7 +114,7 @@ static char * test_tess2sphere_gy()
 static char * test_tess2sphere_gz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -135,7 +135,7 @@ static char * test_tess2sphere_gz()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gz(sphere,0,45,radius+dist);
@@ -152,7 +152,7 @@ static char * test_tess2sphere_gz()
 static char * test_tess2sphere_gxx()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -173,7 +173,7 @@ static char * test_tess2sphere_gxx()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1300000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gxx(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxx(sphere,0,45,radius+dist);
@@ -190,7 +190,7 @@ static char * test_tess2sphere_gxx()
 static char * test_tess2sphere_gxy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -211,7 +211,7 @@ static char * test_tess2sphere_gxy()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gxy(tess,5,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxy(sphere,5,50,radius+dist);
@@ -228,7 +228,7 @@ static char * test_tess2sphere_gxy()
 static char * test_tess2sphere_gxz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -249,7 +249,7 @@ static char * test_tess2sphere_gxz()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gxz(tess,0,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxz(sphere,0,50,radius+dist);
@@ -266,7 +266,7 @@ static char * test_tess2sphere_gxz()
 static char * test_tess2sphere_gyy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -287,7 +287,7 @@ static char * test_tess2sphere_gyy()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gyy(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyy(sphere,0,45,radius+dist);
@@ -304,7 +304,7 @@ static char * test_tess2sphere_gyy()
 static char * test_tess2sphere_gyz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -325,7 +325,7 @@ static char * test_tess2sphere_gyz()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gyz(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyz(sphere,5,45,radius+dist);
@@ -342,7 +342,7 @@ static char * test_tess2sphere_gyz()
 static char * test_tess2sphere_gzz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,6000000,6200000};
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
@@ -363,7 +363,7 @@ static char * test_tess2sphere_gzz()
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
-    for(dist=200000; dist <= 1000000; dist += 1000)
+    for(dist=1500000; dist <= 2000000; dist += 1000)
     {
         restess = tess_gzz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gzz(sphere,0,45,radius+dist);
