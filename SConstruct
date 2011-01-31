@@ -11,6 +11,7 @@ test_dir = 'test'
 # Compile the various modules to objects
 constants = Object(join(c_dir, 'constants.c'))
 utils = Object(join(c_dir, 'utils.c'))
+logger = Object(join(c_dir, 'logger.c'))
 glq = Object(join(c_dir, 'glq.c'))
 grav_prism = Object(join(c_dir, 'grav_prism.c'))
 grav_sphere = Object(join(c_dir, 'grav_sphere.c'))
@@ -26,3 +27,6 @@ Clean(os.path.curdir, join('doc', 'build'))
 
 mapper = Object(join(test_dir, 'mapper.c'))
 Program(mapper + glq + constants + utils + grav_tess, LIBS=['m'])
+
+logtest = Object(join(test_dir, 'logtest.c'))
+Program(logtest + logger)

@@ -66,7 +66,7 @@ GLQ * glq_new(int order, double lower, double upper)
         return NULL;
     }
 
-    /** \todo Need to make a logger to log the error messages */
+    /** \todo Enable to log the error messages */
     if(glq_nodes(order, glq->nodes_unscaled) != 0)
     {
         glq_free(glq);
