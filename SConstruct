@@ -24,7 +24,7 @@ Program(test + constants + glq + utils + grav_prism + grav_sphere + grav_tess +
         LIBS=['m'])
 
 # Clean up the docs build as well
-#Clean(os.path.curdir, join('doc', 'build'))
+Clean(os.path.curdir, join('doc', 'build'))
 
 # Compile the main programs
 tessmkgrd = Object(join(c_dir, 'tessmkgrd.c'))

@@ -5,6 +5,7 @@
 * Sediment depth varying density
 * Plot 3D model
 * Make minunit into functions and put variable arguments for messages like printf
+* Make doxygen groups to separate programs from api
 
 
 * (Done 27/Jan/2011) Include automatic documentation with doxygen
