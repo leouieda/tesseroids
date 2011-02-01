@@ -108,8 +108,8 @@ int main()
 @date 27 Jan 2011
 */
 
-#ifndef _GRAV_TESS_H_
-#define _GRAV_TESS_H_
+#ifndef _TESSEROIDS_GRAV_TESS_H_
+#define _TESSEROIDS_GRAV_TESS_H_
 
 
 #include <math.h>

@@ -66,15 +66,50 @@ GLQ * glq_new(int order, double lower, double upper)
         return NULL;
     }
 
-    /** \todo Enable to log the error messages */
-    if(glq_nodes(order, glq->nodes_unscaled) != 0)
+    int rc = glq_nodes(order, glq->nodes_unscaled);
+    
+    if(rc != 0 && rc != 3)
     {
+        switch(rc)
+        {
+            case 1:
+                log_error("glq_nodes invalid GLQ order %d. Should be >= 2.\n",
+                          order);
+                break;
+            case 2:
+                log_error("glq_nodes NULL pointer for nodes\n");
+                break;
+            default:
+                log_error("glq_nodes unknown error code %d\n", rc);
+                break;
+        }
         glq_free(glq);
         return NULL;
     }
-
-    if(glq_weights(order, glq->nodes_unscaled, glq->weights) != 0)
+    else if(rc == 3)
     {
+        log_warning("glq_nodes max iterations reached in root finder. Nodes \
+might not have desired accuracy of %g.\n", GLQ_MAXERROR);
+    }
+
+    if(rc = glq_weights(order, glq->nodes_unscaled, glq->weights) != 0)
+    {
+        switch(rc)
+        {
+            case 1:
+                log_error("glq_weights invalid GLQ order %d. Should be >= 2.\n",
+                          order);
+                break;
+            case 2:
+                log_error("glq_weights NULL pointer for nodes\n");
+                break;
+            case 3:
+                log_error("glq_weights NULL pointer for weights\n");
+                break;
+            default:
+                log_error("glq_weights unknown error code %d\n", rc);
+                break;
+        }
         glq_free(glq);
         return NULL;
     }

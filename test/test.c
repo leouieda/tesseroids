@@ -24,6 +24,7 @@ Date: 24 Jan 2011
 
 #include <stdio.h>
 #include <time.h>
+#include "../src/c/logger.h"
 #include "minunit.h"
 #include "test_glq.c"
 #include "test_utils.c"
@@ -34,6 +35,8 @@ int tests_run = 0, tests_passed = 0, tests_failed = 0;
 
 int main()
 {
+    log_init(LOG_DEBUG);
+    
     clock_t start = clock();
     
     glq_run_all();

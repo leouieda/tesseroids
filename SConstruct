@@ -5,7 +5,7 @@ from os.path import join
 
 # List the directories used
 c_dir = join('src', 'c')
-build_dir = 'bin'
+bin_dir = 'bin'
 test_dir = 'test'
 
 # Compile the various modules to objects
@@ -19,14 +19,22 @@ grav_tess = Object(join(c_dir, 'grav_tess.c'))
 
 # Compile the test suite and link it to the tested moules
 test = Object(join(test_dir, 'test.c'))
-Program(test + constants + glq + utils + grav_prism + grav_sphere + grav_tess,
+Program(test + constants + glq + utils + grav_prism + grav_sphere + grav_tess +
+        logger,
         LIBS=['m'])
 
 # Clean up the docs build as well
-Clean(os.path.curdir, join('doc', 'build'))
+#Clean(os.path.curdir, join('doc', 'build'))
 
+# Compile the main programs
+tessmkgrd = Object(join(c_dir, 'tessmkgrd.c'))
+Program(join(bin_dir, 'tessmkgrd'), tessmkgrd + logger)
+
+
+
+# Temp testing
 mapper = Object(join(test_dir, 'mapper.c'))
-Program(mapper + glq + constants + utils + grav_tess, LIBS=['m'])
+Program(mapper + glq + constants + utils + grav_tess + logger, LIBS=['m'])
 
 logtest = Object(join(test_dir, 'logtest.c'))
 Program(logtest + logger)

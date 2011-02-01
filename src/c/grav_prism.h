@@ -29,8 +29,8 @@ x -> North  y -> East  z -> Down
 @date 01 March 2010
 */
 
-#ifndef _GRAV_PRISM_H_
-#define _GRAV_PRISM_H_
+#ifndef _TESSEROIDS_GRAV_PRISM_H_
+#define _TESSEROIDS_GRAV_PRISM_H_
 
 
 #include <math.h>

@@ -63,14 +63,15 @@ int main(){
 @date 24 Jan 2011
 */
 
-#ifndef _GLQ_H_
-#define _GLQ_H_
+#ifndef _TESSEROIDS_GLQ_H_
+#define _TESSEROIDS_GLQ_H_
 
 
 #include <stdlib.h>
 #include <math.h>
 #include "constants.h"
 #include "utils.h"
+#include "logger.h"
 
 
 /** Max iterations of the root-finder algorithm */
@@ -97,6 +98,8 @@ typedef struct glq_struct
 
 <b>WARNING</b>: Don't forget to free the memory malloced by this function using
 glq_free()!
+
+Prints error and warning messages using the logging.h module.
 
 @param order order of the quadrature, ie number of nodes
 @param lower lower integration limit

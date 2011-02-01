@@ -16,39 +16,33 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Define constants used, like the gravitational constant and unit conversions.
-
-Values are assigned in file constants.c
-
-<b>All values are in SI units!</b>
+Hold the version number of the project.
 
 @author Leonardo Uieda
-@date 24 Jan 2011
+@date 01 Feb 2011
 */
 
-#ifndef _TESSEROIDS_CONSTANTS_H_
-#define _TESSEROIDS_CONSTANTS_H_
+#ifndef _TESSEROIDS_VERSION_H_
+#define _TESSEROIDS_VERSION_H_
 
-/** \var MEAN_EARTH_RADIUS
-Mean Earth radius [\f$ m \f$] */
-extern const double MEAN_EARTH_RADIUS;
+/** Current project version number */
+const char tesseroids_version[] = "1.0";
 
-/** \var G
-The gravitational constant [\f$ m^3*kg^{-1}*s^{-1} \f$] */
-extern const double G;
 
-/** \var SI2EOTVOS
-Conversion factor from SI units to Eotvos
-[\f$ \frac{1}{s^2} = 10^9\ Eotvos \f$] */
-extern const double SI2EOTVOS;
+/** Print version and license information
 
-/** \var SI2MGAL
-Conversion factor from SI units to mGal
-[\f$ 1 \frac{m}{s^2} = 10^5\ mGal \f$] */
-extern const double SI2MGAL;
-
-/** \var PI
-Pi */
-extern const double PI;
+@param progname name of the program
+*/
+void print_version(const char *progname)
+{
+    printf("%s (Tesseroids project) %s\n", progname, tesseroids_version);
+    printf("Copyright (C) 2011 Leonardo Uieda.\n");
+    printf("License GNU GPL version 3 or later: ");
+    printf("<http://www.gnu.org/licenses/gpl.html>\n");
+    printf("This is free software: ");
+    printf("you are free to change and redistribute it.\n");
+    printf("There is NO WARRANTY, to the extent permitted by law.\n\n");
+    printf("Developed by Leonardo Uieda.\n");
+}
 
 #endif

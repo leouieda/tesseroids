@@ -24,8 +24,8 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 @date 25 Jan 2011
 */
 
-#ifndef _UTILS_H_
-#define _UTILS_H_
+#ifndef _TESSEROIDS_UTILS_H_
+#define _TESSEROIDS_UTILS_H_
 
 
 #include <math.h>

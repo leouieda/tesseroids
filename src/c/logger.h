@@ -23,9 +23,6 @@ Example:
 \verbatim
 #include "logger.h"
 
-// This line is necessary for now. Don't change the name of the variable!
-LOGGER logger;
-
 void my_func(){
     log_info("From my_func!\n");
 }
@@ -49,12 +46,15 @@ WARNING: warning line. The code is 2
 ERROR: error line. The code is 3
 \endverbatim
 
+If function log_init() is not called than logging is disabled and no messages
+will be printed to stderr.
+
 @author Leonardo Uieda
 @date 31 Jan 2011
 */
 
-#ifndef _LOGGER_H_
-#define _LOGGER_H_
+#ifndef _TESSEROIDS_LOGGER_H_
+#define _TESSEROIDS_LOGGER_H_
 
 
 #include <stdio.h>

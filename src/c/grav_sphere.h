@@ -57,8 +57,8 @@ computation point.
 @date 25 Jan 2011
 */
 
-#ifndef _GRAV_SPHERE_H_
-#define _GRAV_SPHERE_H_
+#ifndef _TESSEROIDS_GRAV_SPHERE_H_
+#define _TESSEROIDS_GRAV_SPHERE_H_
 
 
 #include <math.h>
