@@ -6,7 +6,9 @@
 * Plot 3D model
 * Make minunit into functions and put variable arguments for messages like printf
 * Make doxygen groups to separate programs from api
+* Program to calculate the total mass of a model (with options for cut-off density values)
 
 
 * (Done 27/Jan/2011) Include automatic documentation with doxygen
 * (Done 28/Jan/2011) Make integration test to compare tess to sphere and prism to sphere
+* (Done 02/Feb/2011) Move grid generation to a separate program

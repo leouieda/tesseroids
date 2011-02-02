@@ -19,20 +19,24 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 Hold the version number of the project.
 
 @author Leonardo Uieda
-@date 01 Feb 2011
+@date 02 Feb 2011
 */
 
-#ifndef _TESSEROIDS_VERSION_H_
-#define _TESSEROIDS_VERSION_H_
+#include <stdio.h>
+#include "version.h"
 
-/** Current project version number */
-extern const char tesseroids_version[];
+/* Current project version number */
+const char tesseroids_version[] = "1.0";
 
-
-/** Print version and license information
-
-@param progname name of the program
-*/
-extern void print_version(const char *progname);
-
-#endif
+/* Print version and license information */
+void print_version(const char *progname)
+{
+    printf("%s (Tesseroids project) %s\n", progname, tesseroids_version);
+    printf("Copyright (C) 2011 Leonardo Uieda.\n");
+    printf("License GNU GPL version 3 or later: ");
+    printf("<http://www.gnu.org/licenses/gpl.html>\n");
+    printf("This is free software: ");
+    printf("you are free to change and redistribute it.\n");
+    printf("There is NO WARRANTY, to the extent permitted by law.\n\n");
+    printf("Developed by Leonardo Uieda.\n");
+}

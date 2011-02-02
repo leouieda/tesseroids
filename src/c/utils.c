@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/*
+/** \file
 Set of misc utilities and data structures.
 
 Defines the TESSEROID, SPHERE and PRISM structures.
@@ -25,6 +25,8 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 */
 
 
+#include <math.h>
+#include "constants.h"
 #include "utils.h"
 
 

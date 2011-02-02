@@ -67,13 +67,6 @@ int main(){
 #define _TESSEROIDS_GLQ_H_
 
 
-#include <stdlib.h>
-#include <math.h>
-#include "constants.h"
-#include "utils.h"
-#include "logger.h"
-
-
 /** Max iterations of the root-finder algorithm */
 #define GLQ_MAXIT 1000
 

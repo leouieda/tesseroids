@@ -15,7 +15,7 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/*
+/** \file
 This module contains a set of functions that calculate the gravitational
 potential and its first and second derivatives for the sphere in spherical
 coordinates.
@@ -31,6 +31,9 @@ density to have negative gz
 */
 
 
+#include <math.h>
+#include "utils.h"
+#include "constants.h"
 #include "grav_sphere.h"
 
 

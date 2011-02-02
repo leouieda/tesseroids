@@ -15,17 +15,21 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/*
+/** \file
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
+
+\todo Possible speed up, use pointers for weights and nodes
 
 @author Leonardo Uieda
 @date 27 Jan 2011
 */
 
-/** \todo Possible speed up, use pointers for weights and nodes */
 
-
+#include <math.h>
+#include "utils.h"
+#include "glq.h"
+#include "constants.h"
 #include "grav_tess.h"
 
 

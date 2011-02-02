@@ -15,13 +15,19 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/* 
+/** \file
 Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 
 @author Leonardo Uieda
 @date 24 Jan 2011
 */
 
+
+#include <stdlib.h>
+#include <math.h>
+#include "constants.h"
+#include "utils.h"
+#include "logger.h"
 #include "glq.h"
 
 

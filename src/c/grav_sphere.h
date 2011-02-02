@@ -61,9 +61,8 @@ computation point.
 #define _TESSEROIDS_GRAV_SPHERE_H_
 
 
-#include <math.h>
+/* Needed for definition of SPHERE */
 #include "utils.h"
-#include "constants.h"
 
 
 /** Calculates gx caused by a sphere.

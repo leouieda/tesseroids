@@ -33,9 +33,8 @@ x -> North  y -> East  z -> Down
 #define _TESSEROIDS_GRAV_PRISM_H_
 
 
-#include <math.h>
+/* Needed for definition of PRISM */
 #include "utils.h"
-#include "constants.h"
 
 
 /** Calculates gx component caused by a right rectangular prism.

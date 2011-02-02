@@ -56,10 +56,9 @@ will be printed to stderr.
 #ifndef _TESSEROIDS_LOGGER_H_
 #define _TESSEROIDS_LOGGER_H_
 
-
+/* Needed for definition of FILE */
 #include <stdio.h>
-#include <stdarg.h>
-#include <time.h>
+
 
 /** Logging level for debug messages */
 #define LOG_DEBUG   0

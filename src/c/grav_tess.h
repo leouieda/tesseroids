@@ -112,10 +112,10 @@ int main()
 #define _TESSEROIDS_GRAV_TESS_H_
 
 
-#include <math.h>
+/* Needed for definition of TESSEROID */
 #include "utils.h"
+/* Needed for definition of GLQ */
 #include "glq.h"
-#include "constants.h"
 
 
 /** Calculates the field of a tesseroid model at a given point.

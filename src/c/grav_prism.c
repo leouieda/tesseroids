@@ -15,7 +15,7 @@
  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
  **************************************************************************** */
 
-/*
+/** \file
 Functions that calculate the gravitational potential and its first and second
 derivatives for the rectangular prism
 
@@ -30,6 +30,9 @@ x -> North  y -> East  z -> Down
 */
 
 
+#include <math.h>
+#include "utils.h"
+#include "constants.h"
 #include "grav_prism.h"
 
 

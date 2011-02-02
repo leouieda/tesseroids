@@ -12,6 +12,8 @@ test_dir = 'test'
 constants = Object(join(c_dir, 'constants.c'))
 utils = Object(join(c_dir, 'utils.c'))
 logger = Object(join(c_dir, 'logger.c'))
+cmd = Object(join(c_dir, 'cmd.c'))
+version = Object(join(c_dir, 'version.c'))
 glq = Object(join(c_dir, 'glq.c'))
 grav_prism = Object(join(c_dir, 'grav_prism.c'))
 grav_sphere = Object(join(c_dir, 'grav_sphere.c'))
@@ -28,9 +30,12 @@ Clean(os.path.curdir, join('doc', 'build'))
 
 # Compile the main programs
 tessmkgrd = Object(join(c_dir, 'tessmkgrd.c'))
-Program(join(bin_dir, 'tessmkgrd'), tessmkgrd + logger)
+Program(join(bin_dir, 'tessmkgrd'), tessmkgrd + logger + cmd + version)
 
-
+tessgz = Object(join(c_dir, 'tessgz.c'))
+Program(join(bin_dir, 'tessgz'),
+        tessgz + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
 
 # Temp testing
 mapper = Object(join(test_dir, 'mapper.c'))

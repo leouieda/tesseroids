@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
-/*
+/** \file
 Functions to set up logging.
 
 @author Leonardo Uieda
@@ -23,6 +23,9 @@ Functions to set up logging.
 */
 
 
+#include <stdio.h>
+#include <stdarg.h>
+#include <time.h>
 #include "logger.h"
 
 /* Initialize the logger so that it doesn't print by default */
