@@ -73,14 +73,14 @@ GLQ * glq_new(int order, double lower, double upper)
         switch(rc)
         {
             case 1:
-                log_error("glq_nodes invalid GLQ order %d. Should be >= 2.\n",
+                log_error("glq_nodes invalid GLQ order %d. Should be >= 2.",
                           order);
                 break;
             case 2:
-                log_error("glq_nodes NULL pointer for nodes\n");
+                log_error("glq_nodes NULL pointer for nodes");
                 break;
             default:
-                log_error("glq_nodes unknown error code %d\n", rc);
+                log_error("glq_nodes unknown error code %g", rc);
                 break;
         }
         glq_free(glq);
@@ -88,8 +88,8 @@ GLQ * glq_new(int order, double lower, double upper)
     }
     else if(rc == 3)
     {
-        log_warning("glq_nodes max iterations reached in root finder. Nodes \
-might not have desired accuracy of %g.\n", GLQ_MAXERROR);
+        log_warning("glq_nodes max iterations reached in root finder");
+        log_warning("nodes might not have desired accuracy %g", GLQ_MAXERROR);
     }
 
     if(rc = glq_weights(order, glq->nodes_unscaled, glq->weights) != 0)
@@ -97,14 +97,14 @@ might not have desired accuracy of %g.\n", GLQ_MAXERROR);
         switch(rc)
         {
             case 1:
-                log_error("glq_weights invalid GLQ order %d. Should be >= 2.\n",
+                log_error("glq_weights invalid GLQ order %d. Should be >= 2.",
                           order);
                 break;
             case 2:
-                log_error("glq_weights NULL pointer for nodes\n");
+                log_error("glq_weights NULL pointer for nodes");
                 break;
             case 3:
-                log_error("glq_weights NULL pointer for weights\n");
+                log_error("glq_weights NULL pointer for weights");
                 break;
             default:
                 log_error("glq_weights unknown error code %d\n", rc);

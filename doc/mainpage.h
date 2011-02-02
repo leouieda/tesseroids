@@ -1,4 +1,7 @@
-/** \mainpage Tesseroids
+/** \file
+Main page of the documentation.
+
+\mainpage Tesseroids
  
 \section intro_sec Introduction
 

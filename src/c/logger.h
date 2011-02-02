@@ -29,10 +29,10 @@ void my_func(){
 
 int main(){
     log_init(LOG_DEBUG);
-    log_debug("debug line. The code is %d\n", LOG_DEBUG);
-    log_info("info line. The code is %d\n", LOG_INFO);
-    log_warning("warning line. The code is %d\n", LOG_WARNING);
-    log_error("error line. The code is %d\n", LOG_ERROR);
+    log_debug("debug line. The code is %d", LOG_DEBUG);
+    log_info("info line. The code is %d", LOG_INFO);
+    log_warning("warning line. The code is %d", LOG_WARNING);
+    log_error("error line. The code is %d", LOG_ERROR);
     return 0;
 }
 \endverbatim
@@ -61,20 +61,23 @@ will be printed to stderr.
 #include <stdarg.h>
 #include <time.h>
 
-
+/** Logging level for debug messages */
 #define LOG_DEBUG   0
+/** Logging level for general information */
 #define LOG_INFO    1
+/** Logging level for warning messages */
 #define LOG_WARNING 2
+/** Logging level for error messages */
 #define LOG_ERROR   3
 
 
 /** Keep the information on the global logger */
 typedef struct logger_struct
 {
-    int level;
-    int filelogging;
-    int file_level;
-    FILE *logfile;
+    int level; /**< level of logging */
+    int filelogging; /**< flag to know wether loggint to a file is enabled */
+    int file_level; /**< logging level for the file */
+    FILE *logfile; /**< file to log to */
 
 } LOGGER;
 
@@ -109,6 +112,8 @@ extern void log_tofile(FILE *logfile, int level);
 /** Log a message at debug level.
 
 Pass parameters in the same format as printf()
+
+Prints a newline at the end.
 */
 extern void log_debug(const char *fmt, ...);
 
@@ -118,6 +123,8 @@ extern void log_debug(const char *fmt, ...);
 Pass parameters in the same format as printf()
 
 Does not print "INFO: " in front of the message when logging
+
+Prints a newline at the end.
 */
 extern void log_info(const char *fmt, ...);
 
@@ -125,6 +132,8 @@ extern void log_info(const char *fmt, ...);
 /** Log a message at warning level.
 
 Pass parameters in the same format as printf()
+
+Prints a newline at the end.
 */
 extern void log_warning(const char *fmt, ...);
 
@@ -132,6 +141,8 @@ extern void log_warning(const char *fmt, ...);
 /** Log a message at error level.
 
 Pass parameters in the same format as printf()
+
+Prints a newline at the end.
 */
 extern void log_error(const char *fmt, ...);
 
