@@ -1,4 +1,7 @@
 syntax: glob
 
-./.sconsign.dblite
-./docs/build
+.sconsign.dblite
+build
+bin
+*.o
+
