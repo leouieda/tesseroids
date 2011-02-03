@@ -32,14 +32,54 @@ Clean(os.path.curdir, join('doc', 'build'))
 tessmkgrd = Object(join(c_dir, 'tessmkgrd.c'))
 Program(join(bin_dir, 'tessmkgrd'), tessmkgrd + logger + cmd + version)
 
+tessgx = Object(join(c_dir, 'tessgx.c'))
+Program(join(bin_dir, 'tessgx'),
+        tessgx + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+tessgy = Object(join(c_dir, 'tessgy.c'))
+Program(join(bin_dir, 'tessgy'),
+        tessgy + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
 tessgz = Object(join(c_dir, 'tessgz.c'))
 Program(join(bin_dir, 'tessgz'),
         tessgz + logger + cmd + version + glq + grav_tess + utils + constants,
         LIBS=['m'])
 
-# Temp testing
-mapper = Object(join(test_dir, 'mapper.c'))
-Program(mapper + glq + constants + utils + grav_tess + logger, LIBS=['m'])
+tessgxx = Object(join(c_dir, 'tessgxx.c'))
+Program(join(bin_dir, 'tessgxx'),
+        tessgxx + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
 
-logtest = Object(join(test_dir, 'logtest.c'))
-Program(logtest + logger)
+tessgxy = Object(join(c_dir, 'tessgxy.c'))
+Program(join(bin_dir, 'tessgxy'),
+        tessgxy + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+tessgxz = Object(join(c_dir, 'tessgxz.c'))
+Program(join(bin_dir, 'tessgxz'),
+        tessgxz + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+tessgyy = Object(join(c_dir, 'tessgyy.c'))
+Program(join(bin_dir, 'tessgyy'),
+        tessgyy + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+tessgyz = Object(join(c_dir, 'tessgyz.c'))
+Program(join(bin_dir, 'tessgyz'),
+        tessgyz + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+tessgzz = Object(join(c_dir, 'tessgzz.c'))
+Program(join(bin_dir, 'tessgzz'),
+        tessgzz + logger + cmd + version + glq + grav_tess + utils + constants,
+        LIBS=['m'])
+
+# Temp testing
+#mapper = Object(join(test_dir, 'mapper.c'))
+#Program(mapper + glq + constants + utils + grav_tess + logger, LIBS=['m'])
+
+#logtest = Object(join(test_dir, 'logtest.c'))
+#Program(logtest + logger)

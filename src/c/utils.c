@@ -25,8 +25,12 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 */
 
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "constants.h"
+#include "logger.h"
 #include "utils.h"
 
 
@@ -97,4 +101,109 @@ double sphere_volume(SPHERE sphere)
 double prism_volume(PRISM prism)
 {
     return (prism.x2 - prism.x1)*(prism.y2 - prism.y1)*(prism.z2 - prism.z1);
+}
+
+
+/* Strip trailing spaces and newlines from the end of a string */
+void strstrip(char *str)
+{
+    int i;
+    for(i = strlen(str) - 1; i >= 0; i--)
+    {
+        if(str[i] != ' ' && str[i] != '\n' && str[i] != '\r' && str[i] != '\0')
+            break;
+    }
+    str[i + 1] = '\0';
+}
+
+
+/* Read tesseroids from an open file and store them in an array */
+TESSEROID * read_tess_model(FILE *modelfile, int *size)
+{
+    TESSEROID *model;
+    int buffsize = 100;
+
+    /* Start with a single buffer allocation and expand later if necessary */
+    model = (TESSEROID *)malloc(buffsize*sizeof(TESSEROID));
+    if(model == NULL)
+    {
+        log_error("problem allocating initial memory to load tesseroid model");
+        return NULL;
+    }
+
+    int nread, nchars, line, badinput = 0;
+    char sbuff[10000];
+    double w, e, s, n, top, bot, dens;
+    TESSEROID *tmp;
+
+    *size = 0;
+    
+    for(line = 1; !feof(modelfile); line++)
+    {
+        if(fgets(sbuff, 10000, modelfile) != NULL)
+        {
+            /* Check for comments and blank lines */
+            if(sbuff[0] == '#' || sbuff[0] == '\r' || sbuff[0] == '\n')
+            {
+                continue;
+            }
+
+            /* Remove any trailing spaces or newlines */
+            strstrip(sbuff);
+
+            nread = sscanf(sbuff, "%lf %lf %lf %lf %lf %lf %lf%n", &w, &e, &s,
+                           &n, &top, &bot, &dens, &nchars);
+
+            if(nread != 7 || sbuff[nchars] != '\0')
+            {
+                log_warning("bad/invalid tesseroid at line %d", line);
+                badinput = 1;
+            }
+
+            if(*size == buffsize)
+            {
+                buffsize += buffsize;
+                tmp = (TESSEROID *)realloc(model, buffsize*sizeof(TESSEROID));
+                if(tmp == NULL)
+                {
+                    /* Need to free because realloc leaves unchanged in case of
+                       error */
+                    free(model);
+                    log_error("problem expanding memory for tesseroid model");
+                    return NULL;
+                }
+                model = tmp;
+            }
+
+            model[*size].w = w;
+            model[*size].e = e;
+            model[*size].s = s;
+            model[*size].n = n;
+            model[*size].r1 = MEAN_EARTH_RADIUS - bot;
+            model[*size].r2 = MEAN_EARTH_RADIUS - top;
+            model[*size].density = dens;
+
+            *size += 1;
+        }
+    }
+
+    if(badinput)
+    {
+        free(model);
+        return NULL;
+    }
+
+    /* Adjust the size of the model */
+    tmp = (TESSEROID *)realloc(model, (*size)*sizeof(TESSEROID));
+    if(tmp == NULL)
+    {
+        /* Need to free because realloc leaves unchanged in case of
+            error */
+        free(model);
+        log_error("problem freeing extra memory for tesseroid model");
+        return NULL;
+    }
+    model = tmp;
+    
+    return model;
 }

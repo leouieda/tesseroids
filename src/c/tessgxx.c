@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Program to calculate gz of a tesseroid model on a set of points.
+Program to calculate gxx of a tesseroid model on a set of points.
 
 @author Leonardo Uieda
 @date 02 Feb 2011
@@ -40,7 +40,7 @@ Program to calculate gz of a tesseroid model on a set of points.
 int main(int argc, char **argv)
 {
     log_init(LOG_INFO);
-    char progname[] = "tessgz";
+    char progname[] = "tessgxx";
     TESSG_ARGS args;
 
     int rc = parse_tessg_args(argc, argv, progname, &args);
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 
             res = calc_tess_model(model, modelsize, lon, lat,
                                   height + MEAN_EARTH_RADIUS, glq_lon, glq_lat,
-                                  glq_r, tess_gz);
+                                  glq_r, tess_gxx);
 
             printf("%s %g\n", buff, res);
             points++;
