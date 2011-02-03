@@ -59,6 +59,8 @@ int main(){
 }
 @endverbatim
 
+\todo Change defines to variables so that they can be altered using config file
+
 @author Leonardo Uieda
 @date 24 Jan 2011
 */

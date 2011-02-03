@@ -16,19 +16,39 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Program to calculate gy of a tesseroid model on a set of points.
+Generic main function for the tessg* programs.
 
 @author Leonardo Uieda
-@date 02 Feb 2011
+@date 03 Feb 2011
 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include "logger.h"
+#include "version.h"
 
 
-#include "grav_tess.h"
-#include "tessg_main.h"
+#ifndef _TESSEROIDS_TESSG_MAIN_H_
+#define _TESSEROIDS_TESSG_MAIN_H_
 
 
-/** Main */
-int main(int argc, char **argv)
-{
-    return run_tessg_main(argc, argv, "tessgy", tess_gy);
-}
+/* For the definitions of GLQ and TESSEROID */
+#include "glq.h"
+#include "utils.h"
+
+
+/** Run the main for a generic tessg* program
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the specific program
+@param tess_calculator pointer to function that calculates the field of a single
+                       tesseroidi
+
+@return 0 is all went well. 1 if failed.
+*/
+extern int run_tessg_main(int argc, char **argv, const char *progname,
+   double (*tess_calculator)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+
+#endif

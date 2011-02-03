@@ -55,24 +55,20 @@ void log_tofile(FILE *logfile, int level)
 /* Log a message at debug level */
 void log_debug(const char *fmt, ...)
 {
+    char msg[10000];
+    va_list args;
+    va_start(args, fmt);
+    vsprintf(msg, fmt, args);
+    va_end(args);
+    
     if(logger.level <= LOG_DEBUG)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(stderr, "DEBUG: ");
-        vfprintf(stderr, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(stderr, "DEBUG: %s\n", msg);
     }
     
     if(logger.filelogging && logger.file_level <= LOG_DEBUG)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(logger.logfile, "DEBUG: ");
-        vfprintf(logger.logfile, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(logger.logfile, "DEBUG: %s\n", msg);
     }
 }
 
@@ -80,23 +76,20 @@ void log_debug(const char *fmt, ...)
 /* Log a message at info level */
 void log_info(const char *fmt, ...)
 {
+    char msg[10000];
+    va_list args;
+    va_start(args, fmt);
+    vsprintf(msg, fmt, args);
+    va_end(args);
     
     if(logger.level <= LOG_INFO)
     {
-        va_list args;
-        va_start(args, fmt);
-        vfprintf(stderr, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(stderr, "%s\n", msg);
     }
     
     if(logger.filelogging && logger.file_level <= LOG_INFO)
     {
-        va_list args;
-        va_start(args, fmt);
-        vfprintf(logger.logfile, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(logger.logfile, "%s\n", msg);
     }
 }
 
@@ -104,24 +97,20 @@ void log_info(const char *fmt, ...)
 /* Log a message at warning level */
 void log_warning(const char *fmt, ...)
 {
+    char msg[10000];
+    va_list args;
+    va_start(args, fmt);
+    vsprintf(msg, fmt, args);
+    va_end(args);
+    
     if(logger.level <= LOG_WARNING)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(stderr, "WARNING: ");
-        vfprintf(stderr, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(stderr, "WARNING: %s\n", msg);
     }
     
     if(logger.filelogging && logger.file_level <= LOG_WARNING)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(logger.logfile, "WARNING: ");
-        vfprintf(logger.logfile, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(logger.logfile, "WARNING: %s\n", msg);
     }
 }
 
@@ -129,23 +118,19 @@ void log_warning(const char *fmt, ...)
 /* Log a message at error level */
 void log_error(const char *fmt, ...)
 {
+    char msg[10000];
+    va_list args;
+    va_start(args, fmt);
+    vsprintf(msg, fmt, args);
+    va_end(args);
+    
     if(logger.level <= LOG_ERROR)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(stderr, "ERROR: ");
-        vfprintf(stderr, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(stderr, "ERROR: %s\n", msg);
     }
     
     if(logger.filelogging && logger.file_level <= LOG_ERROR)
     {
-        va_list args;
-        va_start(args, fmt);
-        fprintf(logger.logfile, "ERROR: ");
-        vfprintf(logger.logfile, fmt, args);
-        fprintf(stderr, "\n");
-        va_end(args);
+        fprintf(logger.logfile, "ERROR: %s\n", msg);
     }
 }

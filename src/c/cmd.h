@@ -18,6 +18,8 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Command line parsing tools.
 
+\todo Check for repeated arguments
+
 @author Leonardo Uieda
 @date 02 Feb 2011
 */

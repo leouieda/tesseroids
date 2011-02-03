@@ -1,0 +1,4 @@
+syntax: glob
+
+./.sconsign.dblite
+./docs/build

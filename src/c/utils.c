@@ -20,6 +20,8 @@ Set of misc utilities and data structures.
 
 Defines the TESSEROID, SPHERE and PRISM structures.
 
+\todo Make functions that calculate the center of mass
+
 @author Leonardo Uieda
 @date 25 Jan 2011
 */
@@ -59,6 +61,7 @@ void tess2prism(TESSEROID tess, PRISM *prism)
 void tess2sphere(TESSEROID tess, SPHERE *sphere)
 {
     sphere->density = tess.density;
+    /** \todo Put sphere in center of mass, not geometrical center */
     sphere->lonc = 0.5*(tess.e + tess.w);
     sphere->latc = 0.5*(tess.n + tess.s);
     sphere->rc = 0.5*(tess.r1 + tess.r2);
