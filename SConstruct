@@ -31,8 +31,8 @@ Program(join(bin_dir, 'tesstest'),
 #Clean(os.path.curdir, join('doc', 'build'))
 
 # Compile the main programs
-tessmkgrd = Object(join(c_dir, 'tessmkgrd.c'))
-Program(join(bin_dir, 'tessmkgrd'), tessmkgrd + logger + cmd + version)
+tessgrd = Object(join(c_dir, 'tessgrd.c'))
+Program(join(bin_dir, 'tessgrd'), tessgrd + logger + cmd + version)
 
 tess2prism = Object(join(c_dir, 'tess2prism.c'))
 Program(join(bin_dir, 'tess2prism'),

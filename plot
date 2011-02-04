@@ -1,3 +1,5 @@
 #!/bin/bash
 
-echo "set view map; splot 'data.txt' with pm3d" | gnuplot -persist
+echo $1"meh"
+
+echo "set view map; splot 'data.txt' using 1:2:"$1" with pm3d" | gnuplot -persist

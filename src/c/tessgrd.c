@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Program to generate a regular grid of points in spherical coordinates.
+Program to generate a regular grid of points.
 
 @author Leonardo Uieda
 @date 01 Feb 2011
@@ -35,10 +35,10 @@ int main(int argc, char **argv)
 {
     log_init(LOG_INFO);
 
-    TESSMKGRD_ARGS args;
-    char progname[] = "tessmkgrd";
+    TESSGRD_ARGS args;
+    char progname[] = "tessgrd";
 
-    int rc = parse_tessmkgrd_args(argc, argv, &args);
+    int rc = parse_tessgrd_args(argc, argv, &args);
 
     if(rc == 2)
     {

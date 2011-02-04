@@ -285,11 +285,11 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
 }
 
 
-/* Parse command line arguments for tessgmkgrd program */
-int parse_tessmkgrd_args(int argc, char **argv, TESSMKGRD_ARGS *args)
+/* Parse command line arguments for tessgrd program */
+int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
 {
     int bad_args = 0, parsed_args = 0, total_args = 3;
-    char progname[] = "tessmkgrd";
+    char progname[] = "tessgrd";
 
     /* Default values for options */
     args->verbose = 0;
@@ -304,7 +304,7 @@ int parse_tessmkgrd_args(int argc, char **argv, TESSMKGRD_ARGS *args)
             switch(argv[i][1])
             {
                 case 'h':
-                    print_tessmkgrd_help();
+                    print_tessgrd_help();
                     return 2;
 
                 case 'v':
@@ -484,11 +484,11 @@ void print_tessg_help(const char *progname)
 }
 
 
-/* Print the help message for tessmkgrd program */
-void print_tessmkgrd_help()
+/* Print the help message for tessgrd program */
+void print_tessgrd_help()
 {
-    printf("Usage: tessmkgrd [PARAMS] [OPTIONS]\n\n");
-    printf("Make a regular grid of points in spherical coordinates.\n\n");
+    printf("Usage: tessgrd [PARAMS] [OPTIONS]\n\n");
+    printf("Make a regular grid of points.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Output:\n");
     printf("  Printed to standard output (stdout) in the format:\n");

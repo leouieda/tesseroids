@@ -18,8 +18,6 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Command line parsing tools.
 
-\todo Check for repeated arguments
-
 @author Leonardo Uieda
 @date 02 Feb 2011
 */
@@ -52,8 +50,8 @@ typedef struct tessg_args
 } TESSG_ARGS;
 
 
-/** Store input arguments and option flags for tessmkgrd program */
-typedef struct tessmkgrd_args
+/** Store input arguments and option flags for tessgrd program */
+typedef struct tessgrd_args
 {
     double w; /**< western border of the grid */
     double e; /**< eastern border of the grid */
@@ -65,7 +63,7 @@ typedef struct tessmkgrd_args
     int verbose; /**< flag to indicate if verbose printing is enabled */
     int logtofile; /**< flag to indicate if logging to a file is enabled */
     char *logfname; /**< name of the log file */
-} TESSMKGRD_ARGS;
+} TESSGRD_ARGS;
 
 
 /** Parse basic command line arguments for programs
@@ -107,7 +105,7 @@ extern int parse_tessg_args(int argc, char **argv, const char *progname,
                             TESSG_ARGS *args);
 
 
-/** Parse command line arguments for tessgmkgrd program
+/** Parse command line arguments for tessgrd program
 
 logs the bad argument warnings using logger.h
 
@@ -120,7 +118,7 @@ logs the bad argument warnings using logger.h
     - 1: if there were bad arguments and program should exit
     - 2: if printed help or version info and program should exit
 */
-extern int parse_tessmkgrd_args(int argc, char **argv, TESSMKGRD_ARGS *args);
+extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args);
 
 
 /** Print the help message for tessg* programs
@@ -135,6 +133,6 @@ extern void print_tessg_help(const char *progname);
 Prints to stdout.
 
 */
-extern void print_tessmkgrd_help();
+extern void print_tessgrd_help();
 
 #endif
