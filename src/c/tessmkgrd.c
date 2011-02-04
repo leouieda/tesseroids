@@ -153,9 +153,7 @@ int main(int argc, char **argv)
 
     /* Clean up */
     if(args.logtofile)
-    {
         fclose(logfile);
-    }
     
     return 0;
 }

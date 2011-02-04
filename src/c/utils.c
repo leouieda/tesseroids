@@ -36,6 +36,29 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 #include "utils.h"
 
 
+/* Change the coordinates of a point P from a global coordinate system to the
+   local system of a point Q */
+/*void chcoord_g2l(double lonp, double latp, double rp, double lonq, double latq,
+                 double rq, double *xp, double *yp, double *zp)
+{
+    double d2r = PI/180.0, cartq[3], cartp[3];
+
+    cartq[0] = rq*cos(d2r*latq)*cos(d2r*lonq);
+    cartq[1] = rq*cos(d2r*latq)*sin(d2r*lonq);
+    cartq[2] = rq*sin(d2r*latq);
+    
+    cartp[0] = rp*cos(d2r*latp)*cos(d2r*lonp);
+    cartp[1] = rp*cos(d2r*latp)*sin(d2r*lonp);
+    cartp[2] = rp*sin(d2r*latp);
+    
+    # Faz a matriz de tranformacao
+    g2l = P2()*R2(latO - 90.)*R3(lonO - 180.)
+
+    # Alinha os dois sistemas e desloca a origem para eO
+    eL = g2l*(eG - eO)
+}
+*/
+
 /* Convert a tesseroid to a rectangular prism of equal volume. */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {
@@ -120,6 +143,32 @@ void strstrip(char *str)
 }
 
 
+/* Read a single tesseroid from a string */
+int gets_tess(const char *str, TESSEROID *tess)
+{
+    double w, e, s, n, top, bot, dens;
+    int nread, nchars;
+    
+    nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &w, &e, &s,
+                    &n, &top, &bot, &dens, &nchars);
+
+    if(nread != 7 || str[nchars] != '\0')
+    {
+        return 1;
+    }
+
+    tess->w = w;
+    tess->e = e;
+    tess->s = s;
+    tess->n = n;
+    tess->r1 = MEAN_EARTH_RADIUS - bot;
+    tess->r2 = MEAN_EARTH_RADIUS - top;
+    tess->density = dens;
+    
+    return 0;
+}
+
+
 /* Read tesseroids from an open file and store them in an array */
 TESSEROID * read_tess_model(FILE *modelfile, int *size)
 {
@@ -134,7 +183,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         return NULL;
     }
 
-    int nread, nchars, line, badinput = 0;
+    int nread, nchars, line, badinput = 0, error_exit = 0;
     char sbuff[10000];
     double w, e, s, n, top, bot, dens;
     TESSEROID *tmp;
@@ -143,24 +192,21 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
     
     for(line = 1; !feof(modelfile); line++)
     {
-        if(fgets(sbuff, 10000, modelfile) != NULL)
+        if(fgets(sbuff, 10000, modelfile) == NULL)
+        {
+            if(ferror(modelfile))
+            {
+                log_error("problem encountered reading line %d", line);
+                error_exit = 1;
+                break;
+            }
+        }
+        else
         {
             /* Check for comments and blank lines */
             if(sbuff[0] == '#' || sbuff[0] == '\r' || sbuff[0] == '\n')
             {
                 continue;
-            }
-
-            /* Remove any trailing spaces or newlines */
-            strstrip(sbuff);
-
-            nread = sscanf(sbuff, "%lf %lf %lf %lf %lf %lf %lf%n", &w, &e, &s,
-                           &n, &top, &bot, &dens, &nchars);
-
-            if(nread != 7 || sbuff[nchars] != '\0')
-            {
-                log_warning("bad/invalid tesseroid at line %d", line);
-                badinput = 1;
             }
 
             if(*size == buffsize)
@@ -178,19 +224,21 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
                 model = tmp;
             }
 
-            model[*size].w = w;
-            model[*size].e = e;
-            model[*size].s = s;
-            model[*size].n = n;
-            model[*size].r1 = MEAN_EARTH_RADIUS - bot;
-            model[*size].r2 = MEAN_EARTH_RADIUS - top;
-            model[*size].density = dens;
+            /* Remove any trailing spaces or newlines */
+            strstrip(sbuff);
 
-            *size += 1;
+            if(gets_tess(sbuff, &model[*size]))
+            {
+                log_warning("bad/invalid tesseroid at line %d", line);
+                badinput = 1;
+                continue;
+            }
+            
+            (*size)++;
         }
     }
 
-    if(badinput)
+    if(badinput || error_exit)
     {
         free(model);
         return NULL;

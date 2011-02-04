@@ -32,11 +32,126 @@ Command line parsing tools.
 #include "cmd.h"
 
 
+/* Parse basic command line arguments for programs */
+int parse_basic_args(int argc, char **argv, const char *progname,
+                     BASIC_ARGS *args, void (*print_help)(void))
+{
+    int bad_args = 0, parsed_args = 0, total_args = 1;
+
+    /* Default values for options */
+    args->verbose = 0;
+    args->logtofile = 0;
+
+    /* Parse arguments */
+    int i;
+    for(i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                case 'h':
+                    print_help();
+                    return 2;
+
+                case 'v':
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
+                    args->verbose = 1;
+                    break;
+
+                case 'l':
+                {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    if(strlen(params) == 0)
+                    {
+                        log_error("bad input argument -l. Missing filename.");
+                        bad_args++;
+                    }
+                    else
+                    {
+                        args->logtofile = 1;
+                        args->logfname = params;
+                    }
+                    break;
+                }
+                case '-':
+                {
+                    char *params = &argv[i][2];
+                    if(strcmp(params, "version"))
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    else
+                    {
+                        print_version(progname);
+                        return 2;
+                    }
+                    break;
+                }
+                default:
+                    log_error("invalid argument '%s'", argv[i]);
+                    bad_args++;
+                    break;
+            }
+        }
+        else
+        {
+            if(parsed_args == 0)
+            {
+                args->inputfname = argv[i];
+                parsed_args++;
+            }
+            else
+            {
+                log_error("invalid argument '%s'. Already given model file %s",
+                          argv[i], args->inputfname);
+                bad_args++;
+            }
+        }
+    }
+
+    /* Check if parsing went well */
+    if(bad_args > 0 || parsed_args != total_args)
+    {
+        if(parsed_args < total_args)
+        {
+            log_info("%s: missing input arguments. given %d out of %d.\n",
+                     progname, parsed_args, total_args);
+        }
+        if(parsed_args > total_args)
+        {
+            log_info("%s: too many input arguments. given %d, max %d.\n",
+                     progname, parsed_args, total_args);
+        }
+        if(bad_args > 0)
+        {
+            log_info("%d bad input argument(s)", bad_args);
+        }
+        return 1;
+    }
+
+    return 0;
+}
+
+
 /* Parse command line arguments for tessg* programs */
 int parse_tessg_args(int argc, char **argv, const char *progname,
                       TESSG_ARGS *args)
 {
     int bad_args = 0, parsed_args = 0, total_args = 1;
+    int parsed_order = 0;
 
     /* Default values for options */
     args->verbose = 0;
@@ -58,11 +173,23 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                     return 2;
 
                 case 'v':
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
                     args->verbose = 1;
                     break;
 
                 case 'l':
                 {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
@@ -93,6 +220,12 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                 }
                 case 'o':
                 {
+                    if(parsed_order)
+                    {
+                        log_error("repeated option -o");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     int nchar = 0;
                     int nread = sscanf(params, "%d/%d/%d%n", &(args->lon_order),
@@ -102,6 +235,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         log_error("bad input argument '%s'", argv[i]);
                         bad_args++;
                     }
+                    parsed_order = 1;
                     break;
                 }
                 default:
@@ -127,11 +261,16 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     }
 
     /* Check if parsing went well */
-    if(bad_args > 0 || parsed_args < total_args)
+    if(bad_args > 0 || parsed_args > total_args)
     {
         if(parsed_args < total_args)
         {
             log_info("%s: missing input arguments. given %d out of %d.\n",
+                     progname, parsed_args, total_args);
+        }
+        if(parsed_args > total_args)
+        {
+            log_info("%s: too many input arguments. given %d, max %d.\n",
                      progname, parsed_args, total_args);
         }
         if(bad_args > 0)
@@ -169,11 +308,23 @@ int parse_tessmkgrd_args(int argc, char **argv, TESSMKGRD_ARGS *args)
                     return 2;
 
                 case 'v':
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
                     args->verbose = 1;
                     break;
 
                 case 'l':
                 {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
@@ -258,11 +409,16 @@ int parse_tessmkgrd_args(int argc, char **argv, TESSMKGRD_ARGS *args)
     }
 
     /* Check if parsing went well */
-    if(bad_args > 0 || parsed_args < total_args)
+    if(bad_args > 0 || parsed_args != total_args)
     {
         if(parsed_args < total_args)
         {
             log_info("%s: missing input arguments. given %d out of %d.\n",
+                     progname, parsed_args, total_args);
+        }
+        if(parsed_args > total_args)
+        {
+            log_info("%s: too many input arguments. given %d, max %d.\n",
                      progname, parsed_args, total_args);
         }
         if(bad_args > 0)
@@ -299,6 +455,8 @@ void print_tessg_help(const char *progname)
     printf("  ignored. In other words, the result is appended to the last\n");
     printf("  column of the input. Use this to pipe tessg* programs\n");
     printf("  together.\n\n");
+    printf("  * Comments about the provenance of the data are inserted into\n");
+    printf("    the top of the output\n\n");
     printf("MODELFILE: File containing the tesseroid model\n");
     printf("  * Each tesseroid is specified by the values of its borders\n");
     printf("    and density\n");
@@ -308,7 +466,9 @@ void print_tessg_help(const char *progname)
     printf("  * Top and Bottom should be read as 'depth to top' and \n");
     printf("    'depth to bottom' from the mean Earth radius. Use negative\n");
     printf("    values if above the surface, for example when modeling\n");
-    printf("    topography\n\n");
+    printf("    topography\n");
+    printf("  * If a line starts with # it will be considered a comment and\n");
+    printf("    will be ignored.\n\n");
     printf("Options:\n");
     printf("  -o           LONORDER/LATORDER/RORDER: the GLQ order to use\n");
     printf("               in the longitudinal, latitudinal and radial\n");
@@ -340,6 +500,8 @@ void print_tessmkgrd_help()
     printf("    ...     ...     ...\n");
     printf("    ...     ...     ...\n");
     printf("    lonNLON latNLAT height\n\n");
+    printf("  * Comments about the provenance of the data are inserted into\n");
+    printf("    the top of the output\n\n");
     printf("Parameters:\n");
     printf("  -r           W/E/S/N: Bounding region of the grid.\n");
     printf("  -b           NLON/NLAT: Number of grid points in the\n");

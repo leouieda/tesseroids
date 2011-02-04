@@ -1,16 +1,19 @@
-* Revise Cpp code
 * Error check for prism, sphere and tess (everton)
+* Check error in not rotating prism
 * Try change order/divide with distance to calc point
-* Model generator
 * Allow for tesseroids with depth varying density
-* 3D plotting with Mayavi2 and VTK
-* Make minunit into functions and put variable arguments for messages like printf
-* Make doxygen groups to separate programs from api
+* Generate VTK file to plot tesseroids in Mayavi2 or Paraview
+
+PROGRAMS
+* Program to generate tesseroid model from an interface map
 * Program to calculate the total mass of a model (with options for cut-off density values)
 * Programs to calculate the effect of a prism model in spherical coordinates
 * Programs to calculate the effect of a sphere model in spherical coordinates
 * Program to print default values for constants and set them using a config file
 
+API
+* Make minunit into functions and put variable arguments for messages like printf
+* Make doxygen groups to separate programs from api
 
 * (Done 27/Jan/2011) Include automatic documentation with doxygen
 * (Done 28/Jan/2011) Make integration test to compare tess to sphere and prism to sphere

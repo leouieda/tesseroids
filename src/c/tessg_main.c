@@ -18,6 +18,8 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Generic main function for the tessg* programs.
 
+\todo Doesn't catch errors in input points at the end of the line
+
 @author Leonardo Uieda
 @date 03 Feb 2011
 */
@@ -95,6 +97,8 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         log_error("failed to create required GLQ structures\n");
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
+        if(args.logtofile)
+            fclose(logfile);
         return 1;
     }
 
@@ -106,17 +110,21 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         log_error("failed to open model file %s\n", args.modelfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
+        if(args.logtofile)
+            fclose(logfile);
         return 1;
     }
     TESSEROID *model;
     int modelsize;
     model = read_tess_model(modelfile, &modelsize);
     fclose(modelfile);
-    if(modelsize == 0)
+    if(modelsize == 0 || model == NULL)
     {
         log_error("failed to read model from file %s\n", args.modelfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
+        if(args.logtofile)
+            fclose(logfile);
         return 1;
     }
     log_info("Total of %d tesseroid(s) read", modelsize);
@@ -132,7 +140,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     /* Read each computation point from stdin and calculate */
     log_info("Calculating %s component (this may take a while)...", progname+4);
     clock_t tstart = clock();
-    int line, points = 0, error_exit = 0;
+    int line, points = 0, error_exit = 0, bad_input = 0;
     char buff[10000];
     double lon, lat, height, res;
 
@@ -159,6 +167,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
             {
                 log_warning("bad/invalid computation point at line %d", line);
                 log_warning("skipping this line and continuing");
+                bad_input++;
                 continue;
             }
 
@@ -175,9 +184,15 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         }
     }
 
+    if(bad_input)
+    {
+        log_warning("Encountered %d bad computation points which were skipped",
+                    bad_input);
+    }
+
     if(error_exit)
     {
-        log_warning("Terminating due to bad input");
+        log_warning("Terminating due to error in input");
         log_warning("Try '%s -h' for instructions", progname);
     }
     else
@@ -195,9 +210,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     log_info("Done");
     
     if(args.logtofile)
-    {
         fclose(logfile);
-    }
 
     return 0;
 }

@@ -29,6 +29,16 @@ Command line parsing tools.
 #define _TESSEROIDS_CMD_H_
 
 
+/** Store basic input arguments and option flags */
+typedef struct basic_args
+{
+    char *inputfname; /**< name of the input file */
+    int verbose; /**< flag to indicate if verbose printing is enabled */
+    int logtofile; /**< flag to indicate if logging to a file is enabled */
+    char *logfname; /**< name of the log file */
+} BASIC_ARGS;
+
+
 /** Store input arguments and option flags for tessg* programs */
 typedef struct tessg_args
 {
@@ -38,24 +48,45 @@ typedef struct tessg_args
     char *modelfname; /**< name of the file with the tesseroid model */
     int verbose; /**< flag to indicate if verbose printing is enabled */
     int logtofile; /**< flag to indicate if logging to a file is enabled */
-    char *logfname;
+    char *logfname; /**< name of the log file */
 } TESSG_ARGS;
 
 
 /** Store input arguments and option flags for tessmkgrd program */
 typedef struct tessmkgrd_args
 {
-    double w;
-    double e;
-    double s;
-    double n;
-    int nlon;
-    int nlat;
-    double height;
+    double w; /**< western border of the grid */
+    double e; /**< eastern border of the grid */
+    double s; /**< southern border of the grid */
+    double n; /**< northern border of the grid */
+    int nlon; /**< number of grid points in the longitudinal direction */
+    int nlat; /**< number of grid points in the latitudinal direction */
+    double height; /**< height above geoid of the grid */
     int verbose; /**< flag to indicate if verbose printing is enabled */
     int logtofile; /**< flag to indicate if logging to a file is enabled */
-    char *logfname;
+    char *logfname; /**< name of the log file */
 } TESSMKGRD_ARGS;
+
+
+/** Parse basic command line arguments for programs
+
+Basic arguments are: -h (for help msg), -v (for verbose), -l (for log file),
+--version and an input file.
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the specific program
+@param args to return the parsed arguments
+@param print_help pointer to a function that prints the help message for the
+                  program
+
+@return Return code:
+    - 0: if all went well
+    - 1: if there were bad arguments and program should exit
+    - 2: if printed help or version info and program should exit
+*/
+extern int parse_basic_args(int argc, char **argv, const char *progname,
+                            BASIC_ARGS *args, void (*print_help)(void));
 
 
 /** Parse command line arguments for tessg* programs
