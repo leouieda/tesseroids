@@ -14,6 +14,7 @@ utils = Object(join(c_dir, 'utils.c'))
 logger = Object(join(c_dir, 'logger.c'))
 cmd = Object(join(c_dir, 'cmd.c'))
 tessg_main = Object(join(c_dir, 'tessg_main.c'))
+prismg_main = Object(join(c_dir, 'prismg_main.c'))
 version = Object(join(c_dir, 'version.c'))
 glq = Object(join(c_dir, 'glq.c'))
 grav_prism = Object(join(c_dir, 'grav_prism.c'))
@@ -39,6 +40,7 @@ Program(join(bin_dir, 'tess2prism'),
         tess2prism + logger + cmd + version + utils + constants,
         LIBS=['m'])
 
+# The tessg* programs
 tessgx = Object(join(c_dir, 'tessgx.c'))
 Program(join(bin_dir, 'tessgx'),
         tessgx + logger + cmd + version + glq + grav_tess + utils + constants +
@@ -91,6 +93,61 @@ tessgzz = Object(join(c_dir, 'tessgzz.c'))
 Program(join(bin_dir, 'tessgzz'),
         tessgzz + logger + cmd + version + glq + grav_tess + utils + constants +
         tessg_main,
+        LIBS=['m'])
+
+# The prismg* programs
+prismgx = Object(join(c_dir, 'prismgx.c'))
+Program(join(bin_dir, 'prismgx'),
+        prismgx + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+        
+prismgy = Object(join(c_dir, 'prismgy.c'))
+Program(join(bin_dir, 'prismgy'),
+        prismgy + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgz = Object(join(c_dir, 'prismgz.c'))
+Program(join(bin_dir, 'prismgz'),
+        prismgz + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgxx = Object(join(c_dir, 'prismgxx.c'))
+Program(join(bin_dir, 'prismgxx'),
+        prismgxx + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgxy = Object(join(c_dir, 'prismgxy.c'))
+Program(join(bin_dir, 'prismgxy'),
+        prismgxy + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgxz = Object(join(c_dir, 'prismgxz.c'))
+Program(join(bin_dir, 'prismgxz'),
+        prismgxz + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgyy = Object(join(c_dir, 'prismgyy.c'))
+Program(join(bin_dir, 'prismgyy'),
+        prismgyy + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgyz = Object(join(c_dir, 'prismgyz.c'))
+Program(join(bin_dir, 'prismgyz'),
+        prismgyz + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+
+prismgzz = Object(join(c_dir, 'prismgzz.c'))
+Program(join(bin_dir, 'prismgzz'),
+        prismgzz + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
         LIBS=['m'])
 
 # Temp testing

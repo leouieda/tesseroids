@@ -143,6 +143,86 @@ static char * test_prism2sphere()
 }
 
 
+static char * test_gets_tess()
+{
+    int i;
+    char str[1000];
+    TESSEROID res;
+
+    for(i = 0; i < NTESSES; i++)
+    {
+        sprintf(str, "%g %g %g %g %g %g %g", tesses[i].w, tesses[i].e,
+                tesses[i].s, tesses[i].n, MEAN_EARTH_RADIUS - tesses[i].r2,
+                MEAN_EARTH_RADIUS - tesses[i].r1, tesses[i].density);
+
+        gets_tess(str, &res);
+
+        sprintf(msg, "(tess %d) failed to read w. read=%g true=%g", i, res.w,
+                tesses[i].w);
+        mu_assert(res.w == tesses[i].w, msg);
+        sprintf(msg, "(tess %d) failed to read e. read=%g true=%g", i, res.e,
+                tesses[i].e);
+        mu_assert(res.e == tesses[i].e, msg);
+        sprintf(msg, "(tess %d) failed to read s. read=%g true=%g", i, res.s,
+                tesses[i].s);
+        mu_assert(res.s == tesses[i].s, msg);
+        sprintf(msg, "(tess %d) failed to read n. read=%g true=%g", i, res.n,
+                tesses[i].n);
+        mu_assert(res.n == tesses[i].n, msg);
+        sprintf(msg, "(tess %d) failed to read r2. read=%g true=%g", i, res.r2,
+                tesses[i].r2);
+        mu_assert(res.r2 == tesses[i].r2, msg);
+        sprintf(msg, "(tess %d) failed to read r1. read=%g true=%g", i, res.r1,
+                tesses[i].r1);
+        mu_assert(res.r1 == tesses[i].r1, msg);
+        sprintf(msg, "(tess %d) failed to read density. read=%g true=%g", i,
+                res.density, tesses[i].density);
+        mu_assert(res.density == tesses[i].density, msg);
+    }
+    return 0;
+}
+
+
+static char * test_gets_prism()
+{
+    int i;
+    char str[1000];
+    PRISM res;
+
+    for(i = 0; i < NPRISMS; i++)
+    {
+        sprintf(str, "%g %g %g %g %g %g %g", prisms[i].x1, prisms[i].x2,
+                prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
+                prisms[i].density);
+
+        gets_prism(str, &res);
+
+        sprintf(msg, "(prism %d) failed to read x1. read=%g true=%g", i, res.x1,
+                prisms[i].x1);
+        mu_assert(res.x1 == prisms[i].x1, msg);
+        sprintf(msg, "(prism %d) failed to read x2. read=%g true=%g", i, res.x2,
+                prisms[i].x2);
+        mu_assert(res.x2 == prisms[i].x2, msg);
+        sprintf(msg, "(prism %d) failed to read y1. read=%g true=%g", i, res.y1,
+                prisms[i].y1);
+        mu_assert(res.y1 == prisms[i].y1, msg);
+        sprintf(msg, "(prism %d) failed to read y2. read=%g true=%g", i, res.y2,
+                prisms[i].y2);
+        mu_assert(res.y2 == prisms[i].y2, msg);
+        sprintf(msg, "(prism %d) failed to read z1. read=%g true=%g", i, res.z1,
+                prisms[i].z1);
+        mu_assert(res.z1 == prisms[i].z1, msg);
+        sprintf(msg, "(prism %d) failed to read z2. read=%g true=%g", i, res.z2,
+                prisms[i].z2);
+        mu_assert(res.z2 == prisms[i].z2, msg);
+        sprintf(msg, "(prism %d) failed to read density. read=%g true=%g", i,
+                res.density, prisms[i].density);
+        mu_assert(res.density == prisms[i].density, msg);
+    }
+    return 0;
+}
+
+
 void utils_run_all()
 {
     mu_run_test(test_prism_volume, "prism_volume return correct results");
@@ -152,4 +232,6 @@ void utils_run_all()
                 "tess2sphere produces sphere with right volume");
     mu_run_test(test_prism2sphere,
                 "prism2sphere produces sphere with right volume");
+    mu_run_test(test_gets_tess, "gets_tess reads correctly from string");
+    mu_run_test(test_gets_prism, "gets_prism reads correctly from string");
 }

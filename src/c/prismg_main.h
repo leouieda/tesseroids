@@ -16,33 +16,36 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Generic main function for the tessg* programs.
+Generic main function for the prismg* programs.
 
 @author Leonardo Uieda
-@date 03 Feb 2011
+@date 08 Feb 2011
 */
 
 
-#ifndef _TESSEROIDS_TESSG_MAIN_H_
-#define _TESSEROIDS_TESSG_MAIN_H_
+#ifndef _TESSEROIDS_PRISMG_MAIN_H_
+#define _TESSEROIDS_PRISMG_MAIN_H_
 
 
-/* For the definitions of GLQ and TESSEROID */
-#include "glq.h"
+/* For the definitions of PRISM */
 #include "utils.h"
 
 
-/** Run the main for a generic tessg* program
+/** Print the help message
+*/
+extern void print_help();
+
+
+/** Run the main for a generic prismg* program
 
 @param argc number of command line arguments
 @param argv command line arguments
 @param progname name of the specific program
-@param tess_calculator pointer to function that calculates the field of a single
-                       tesseroidi
+@param field pointer to function that calculates the field of a single prism
 
 @return 0 is all went well. 1 if failed.
 */
-extern int run_tessg_main(int argc, char **argv, const char *progname,
-   double (*tess_calculator)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+extern int run_prismg_main(int argc, char **argv, const char *progname,
+                           double (*field)(PRISM, double, double, double));
 
 #endif

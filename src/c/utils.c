@@ -251,10 +251,134 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         /* Need to free because realloc leaves unchanged in case of
             error */
         free(model);
-        log_error("problem freeing extra memory for tesseroid model");
+        log_error("problem freeing excess memory for tesseroid model");
         return NULL;
     }
     model = tmp;
     
+    return model;
+}
+
+
+/* Read a single rectangular prism from a string */
+int gets_prism(const char *str, PRISM *prism)
+{
+    double x1, x2, y1, y2, z1, z2, dens;
+    int nread, nchars;
+
+    nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &x1, &x2, &y1, &y2,
+                   &z1, &z2, &dens, &nchars);
+    /*
+    if(nread != 7 || str[nchars] != '\0')
+    {
+        return 1;
+    }*/
+    /** \todo Read the position of the prism from the string 
+    Not caring if there are more chars in the line so that can read output of tess2prism
+    */
+    if(nread != 7)
+    {
+        return 1;
+    }
+
+    prism->x1 = x1;
+    prism->x2 = x2;
+    prism->y1 = y1;
+    prism->y2 = y2;
+    prism->z1 = z1;
+    prism->z2 = z2;
+    prism->density = dens;
+
+    return 0;
+}
+
+
+/* Read rectangular prisms from an open file and store them in an array. */
+PRISM * read_prism_model(FILE *modelfile, int *size)
+{
+    PRISM *model;
+    int buffsize = 100;
+
+    /* Start with a single buffer allocation and expand later if necessary */
+    model = (PRISM *)malloc(buffsize*sizeof(PRISM));
+    if(model == NULL)
+    {
+        log_error("problem allocating initial memory to load prism model");
+        return NULL;
+    }
+
+    int nread, nchars, line, badinput = 0, error_exit = 0;
+    char sbuff[10000];
+    double x1, x2, y1, y2, z1, z2, dens;
+    PRISM *tmp;
+
+    *size = 0;
+
+    for(line = 1; !feof(modelfile); line++)
+    {
+        if(fgets(sbuff, 10000, modelfile) == NULL)
+        {
+            if(ferror(modelfile))
+            {
+                log_error("problem encountered reading line %d", line);
+                error_exit = 1;
+                break;
+            }
+        }
+        else
+        {
+            /* Check for comments and blank lines */
+            if(sbuff[0] == '#' || sbuff[0] == '\r' || sbuff[0] == '\n')
+            {
+                continue;
+            }
+
+            if(*size == buffsize)
+            {
+                buffsize += buffsize;
+                tmp = (PRISM *)realloc(model, buffsize*sizeof(PRISM));
+                if(tmp == NULL)
+                {
+                    /* Need to free because realloc leaves unchanged in case of
+                       error */
+                    free(model);
+                    log_error("problem expanding memory for prism model");
+                    return NULL;
+                }
+                model = tmp;
+            }
+
+            /* Remove any trailing spaces or newlines */
+            strstrip(sbuff);
+
+            if(gets_prism(sbuff, &model[*size]))
+            {
+                log_warning("bad/invalid prism at line %d", line);
+                badinput = 1;
+                continue;
+            }
+
+            (*size)++;
+        }
+    }
+
+    if(badinput || error_exit)
+    {
+        free(model);
+        return NULL;
+    }
+
+    /* Adjust the size of the model */
+    tmp = (PRISM *)realloc(model, (*size)*sizeof(PRISM));
+    if(tmp == NULL)
+    {
+        /* Need to free because realloc leaves unchanged in case of
+            error */
+        free(model);
+        log_error("problem freeing excess memory for prism model");
+        return NULL;
+    }
+    model = tmp;
+
     return model;
 }

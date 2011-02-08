@@ -69,7 +69,7 @@ typedef struct sphere_struct {
 } SPHERE;
 
 
-/** Change the coordinates of a point P from a global coordinate system to the
+/* Change the coordinates of a point P from a global coordinate system to the
     local system of a point Q
 
 Coordinates given in SI and degrees!
@@ -89,9 +89,9 @@ Uses constant MEAN_EARTH_RADIUS.
 @param yp y coordinate of P in the local system of Q
 @param zp z coordinate of P in the local system of Q
 */
-extern void chcoord_g2l(double lonp, double latp, double rp, double lonq,
+/*extern void chcoord_g2l(double lonp, double latp, double rp, double lonq,
                     double latq, double rq, double *xp, double *yp, double *zp);
-
+*/
 
 /** Convert a tesseroid into a rectangular prism of equal volume.
 
@@ -179,5 +179,27 @@ Allocates memory. Don't forget to free 'model'!
 @return pointer to array with the model. NULL if there was an error
 */
 extern TESSEROID * read_tess_model(FILE *modelfile, int *size);
+
+
+/** Read a single rectangular prism from a string
+
+@param str string with the tesseroid parameters
+@param prism used to return the read prism
+
+@return 0 if all went well, 1 if failed to read.
+*/
+extern int gets_prism(const char *str, PRISM *prism);
+
+
+/** Read rectangular prisms from an open file and store them in an array.
+
+Allocates memory. Don't forget to free 'model'!
+
+@param modelfile open FILE for reading with the model
+@param size used to return the size of the model read
+
+@return pointer to array with the model. NULL if there was an error
+*/
+extern PRISM * read_prism_model(FILE *modelfile, int *size);
 
 #endif
