@@ -6,16 +6,15 @@ TESTS:
 * Adaptative tesseroid size when calculating with fixed GLQ order (use a pile)
 
 PROGRAMS
-* Program to generate tesseroid model from an interface map
 * Option for calculating on spherical coordinates in prismg* programs
 * Programs to calculate the effect of a sphere model in spherical coordinates
-* Program to print default values for constants (maybe: set them using a config file)
 
 API
 * Make minunit into functions and put variable arguments for messages like printf
 * Make doxygen groups to separate programs from api
 
 MAYBE:
+* Set them using a config file like .tessdefaults
 * Allow for tesseroids with depth varying density
 * Generate VTK file to plot tesseroids in Mayavi2 or Paraview
 
@@ -24,3 +23,5 @@ MAYBE:
 * (Done 02/Feb/2011) Move grid generation to a separate program
 * (Done 08/Feb/2011) Programs to calculate the effect of a prism model in cartesian coordinates
 * (Done 09/Feb/2011) Program to calculate the total mass of a model (with options for cut-off density values)
+* (Done 09/Feb/2011) Program to generate tesseroid model from an regular grid
+* (Done 09/Feb/2011) Program to print default values for constants

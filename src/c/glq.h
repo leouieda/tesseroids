@@ -59,8 +59,6 @@ int main(){
 }
 @endverbatim
 
-\todo Change defines to variables so that they can be altered using config file
-
 @author Leonardo Uieda
 @date 24 Jan 2011
 */
@@ -69,14 +67,14 @@ int main(){
 #define _TESSEROIDS_GLQ_H_
 
 
-/** Max iterations of the root-finder algorithm */
-#define GLQ_MAXIT 1000
+/** \var GLQ_MAXIT
+Max iterations of the root-finder algorithm */
+extern const int GLQ_MAXIT;
 
-/** Max error allowed for the root-finder algorithm */
-#define GLQ_MAXERROR 0.000000000000001
 
-/** Compute the absolute value of x */
-#define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
+/** \var GLQ_MAXERROR
+Max error allowed for the root-finder algorithm */
+extern const double GLQ_MAXERROR;
 
 
 /** Store the nodes and weights needed for a GLQ integration */

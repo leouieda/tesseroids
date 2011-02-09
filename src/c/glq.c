@@ -31,6 +31,16 @@ Functions for implementing a Gauss-Legendre Quadrature numerical integration.
 #include "glq.h"
 
 
+/** \var GLQ_MAXIT
+Max iterations of the root-finder algorithm */
+const int GLQ_MAXIT = 1000;
+
+
+/** \var GLQ_MAXERROR
+Max error allowed for the root-finder algorithm */
+const double GLQ_MAXERROR = 0.000000000000001;
+
+
 /* Make a new GLQ structure and set all the parameters needed */
 GLQ * glq_new(int order, double lower, double upper)
 {
@@ -246,7 +256,12 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
         /* Update the estimate for the root */
         x1 = x0 - (double)pn/(pn_line - pn*sum);
 
+    /** Compute the absolute value of x */
+    #define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
+
     } while(GLQ_ABS(x1 - x0) > GLQ_MAXERROR && ++it <= GLQ_MAXIT);
+
+    #undef GLQ_ABS
 
     roots[root_index] = x1;
 

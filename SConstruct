@@ -32,6 +32,10 @@ Program(join(bin_dir, 'tesstest'),
 #Clean(os.path.curdir, join('doc', 'build'))
 
 # Compile the main programs
+tessdefaults = Object(join(c_dir, 'tessdefaults.c'))
+Program(join(bin_dir, 'tessdefaults'),
+        tessdefaults + logger + version + glq + constants, LIBS=['m'])
+
 tessgrd = Object(join(c_dir, 'tessgrd.c'))
 Program(join(bin_dir, 'tessgrd'), tessgrd + logger + cmd + version)
 
