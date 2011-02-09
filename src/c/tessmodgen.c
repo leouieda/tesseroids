@@ -16,10 +16,12 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Convert a tesseroid model into a prism model in spherical coordinates
+Generate tesseroid model from a regular grid.
+
+\todo Allow a 4th column in input for the density value of each tess
 
 @author Leonardo Uieda
-@date 04 Feb 2011
+@date 09 Feb 2011
 */
 
 
@@ -34,20 +36,22 @@ Convert a tesseroid model into a prism model in spherical coordinates
 /** Print the help message */
 void print_help()
 {
-    printf("Usage: tess2prim TESSFILE [OPTIONS]\n\n");
-    printf("Convert a tesseroid model into a rectangular prism model.\n\n");
-    printf("The converted prism have the same volume as the tesseroid.\n");
-    printf("Along with each prism is given the spherical coordinates of the\n");
-    printf("center of the top face of the tesseroid (used as the origin of\n");
-    printf("the prisms coordinate system).\n\n");
+    printf("Usage: tessmodgen [ARGUMENTS] [OPTIONS]\n\n");
+    printf("Generate a tesseroid model from a regular grid.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
-    printf("  If TESSFILE is omited, will read from standard input (stdin)\n");
-    printf("  TESSFILE: File containing the tesseroid model\n");
+    printf("  Regular grid passed through standard input (stdin).\n");
+    printf("  Reads 3 values per line: longitude latitude height\n");
+    printf("  height should be read as 'height above the reference level'\n");
+    printf("  Lines that start with # are ignored as comments.\n");
+    printf("  Lines should be no longer than 10000 (ten thousand) characters.");
+    printf("  \n\n");
+    printf("Output:\n");
+    printf("  Tesseroids printed to standard output (stdout)\n");
     printf("   * Each tesseroid is specified by the values of its borders\n");
     printf("     and density\n");
-    printf("   * The file should contain one tesseroid per line\n");
-    printf("   * Each line should have the following column format:\n");
+    printf("   * Will print one tesseroid per line\n");
+    printf("   * Each line has the following column format:\n");
     printf("       West East South North Top Bottom Density\n");
     printf("   * Top and Bottom should be read as 'depth to top' and \n");
     printf("     'depth to bottom' from the mean Earth radius. Use negative\n");
@@ -55,17 +59,19 @@ void print_help()
     printf("     topography\n");
     printf("   * If a line starts with # it will be considered a comment\n");
     printf("     and will be ignored\n\n");
-    printf("Output:\n");
-    printf("  Printed to standard output (stdout) one prism per line in the\n");
-    printf("  format:\n");
-    printf("    x1 x2 y1 y2 z1 z2 density lon lat r\n\n");
-    printf("  * Comments about the provenance of the data are inserted into\n");
-    printf("    the top of the output\n\n");
+    printf("Arguments:\n");
+    printf("  -s  DLON/DLAT: grid spacing in the longitude and latitude\n");
+    printf("                 directions, respectively. In DECIMAL DEGREES.\n");
+    printf("  -d  DENS: density of the tesseroids. Tesseroids above the\n");
+    printf("            reference will have density DENS, and bellow will\n");
+    printf("            have density -DENS.\n");
+    printf("  -z  REF: depth of the reference level with respect to the\n");
+    printf("           mean Earth radius.\n\n");
     printf("Options:\n");
-    printf("  -h           Print instructions.\n");
-    printf("  --version    Print version and license information.\n");
-    printf("  -v           Enable verbose printing to stderr.\n");
-    printf("  -l           FILENAME: Print log messages to file FILENAME.\n");
+    printf("  -h         Print instructions.\n");
+    printf("  --version  Print version and license information.\n");
+    printf("  -v         Enable verbose printing to stderr.\n");
+    printf("  -l         FILENAME: Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
     printf("Project site: <http://code.google.com/p/tesseroids>\n");
     printf("Report bugs at: ");
@@ -77,10 +83,10 @@ void print_help()
 int main(int argc, char **argv)
 {
     log_init(LOG_INFO);
-    char *progname = "tess2prism";
-    BASIC_ARGS args;
+    char *progname = "tessmodgen";
+    TESSMODGEN_ARGS args;
 
-    int rc = parse_basic_args(argc, argv, progname, &args, &print_help);
+    int rc = parse_tessmodgen_args(argc, argv, progname, &args, &print_help);
 
     if(rc == 2)
     {
@@ -96,7 +102,7 @@ int main(int argc, char **argv)
 
     /* Set the appropriate logging level and log to file if necessary */
     if(!args.verbose) { log_init(LOG_WARNING); }
-    
+
     FILE *logfile;
     if(args.logtofile)
     {
@@ -119,44 +125,23 @@ int main(int argc, char **argv)
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
 
-    /* If an input file is not given, read from stdin. Else open the file */
-    FILE *modelfile;
-    if(rc == 3)
-    {
-        log_info("Reading tesseroids from stdin");
-        modelfile = stdin;
-    }
-    else
-    {
-        log_info("Reading tesseroids from file %s", args.inputfname);
-        modelfile = fopen(args.inputfname, "r");
-        if(modelfile == NULL)
-        {
-            log_error("failed to open file %s\n", args.inputfname);
-            log_warning("Terminating due to bad input");
-            log_warning("Try '%s -h' for instructions", progname);
-            if(args.logtofile)
-                fclose(logfile);
-            return 1;
-        }
-    }
-
-    /* Print provenance data to stdout */
-    printf("# Prisms converted from tesseroid model with %s %s\n", progname,
+    /* Print a header on the output with provenance information */
+    printf("# Tesseroid model generated by %s %s:\n", progname,
            tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
-    printf("#   tesseroids file: %s\n", rc == 3 ? "stdin" : args.inputfname);
-    printf("#   format: x1 x2 y1 y2 z1 z2 density lon lat r\n");
-    
-    /* Read the tesseroids, convert and print to stdout */
-    int line, converted = 0, error_exit = 0, bad_input = 0;
+    printf("#   grid spacing: %g deg lon / %g deg lat\n", args.dlon, args.dlat);
+    printf("#   reference level (depth): %g\n", args.ref);
+    printf("#   density: %g\n", args.dens);
+
+    /* Read each regular grid from stdin and generate the tesseroids */
+    int line, error_exit = 0, bad_input = 0, size = 0;
     char buff[10000];
-    TESSEROID tess;
-    PRISM prism;
-    
-    for(line = 1; !feof(modelfile); line++)
+    double lon, lat, height, w, e, s, n, top, bot, dens;
+    int nchars, nread;
+
+    for(line = 1; !feof(stdin); line++)
     {
-        if(fgets(buff, 10000, modelfile) == NULL)
+        if(fgets(buff, 10000, stdin) == NULL)
         {
             if(ferror(stdin))
             {
@@ -170,34 +155,50 @@ int main(int argc, char **argv)
             /* Check for comments and blank lines */
             if(buff[0] == '#' || buff[0] == '\r' || buff[0] == '\n')
             {
-                printf("%s", buff);
                 continue;
             }
 
-            /* Remove any trailing spaces or newlines */
             strstrip(buff);
 
-            if(gets_tess(buff, &tess))
+            nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height, &nchars);
+            
+            if(nread != 3 || buff[nchars] != '\0')
             {
-                log_warning("bad/invalid tesseroid at line %d", line);
+                log_warning("bad/invalid grid point at line %d", line);
+                log_warning("skipping this line and continuing");
                 bad_input++;
                 continue;
             }
 
-            tess2prism(tess, &prism);
+            /* Need to remove \n and \r from end of buff first to print the
+               result in the end */
+            strstrip(buff);
 
-            printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n", prism.x1,
-                   prism.x2, prism.y1, prism.y2, prism.z1, prism.z2,
-                   prism.density,
-                   0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
+            w = lon - 0.5*args.dlon;
+            e = lon + 0.5*args.dlon;
+            s = lat - 0.5*args.dlat;
+            n = lat + 0.5*args.dlat;
+            if(height >= 0)
+            {
+                top = args.ref - height;
+                bot = args.ref;
+                dens = args.dens;
+            }
+            else
+            {
+                top = args.ref;
+                bot = args.ref - height;
+                dens = -args.dens;
+            }
 
-            converted++;
+            printf("%g %g %g %g %g %g %g\n", w, e, s, n, top, bot, dens);
+            size++;
         }
     }
 
     if(bad_input)
     {
-        log_warning("Encountered %d bad input line(s) which were skipped",
+        log_warning("Encountered %d bad grid points which were skipped",
                     bad_input);
     }
 
@@ -208,14 +209,12 @@ int main(int argc, char **argv)
     }
     else
     {
-        log_info("Converted %d tesseroids", converted);
+        log_info("Generated %d tesseroids.", size);
     }
 
     /* Clean up */
-    fclose(modelfile);
-    
     if(args.logtofile)
         fclose(logfile);
-    
+
     return 0;
 }

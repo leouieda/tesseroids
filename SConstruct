@@ -37,8 +37,15 @@ Program(join(bin_dir, 'tessgrd'), tessgrd + logger + cmd + version)
 
 tess2prism = Object(join(c_dir, 'tess2prism.c'))
 Program(join(bin_dir, 'tess2prism'),
-        tess2prism + logger + cmd + version + utils + constants,
-        LIBS=['m'])
+        tess2prism + logger + cmd + version + utils + constants, LIBS=['m'])
+
+tessmass = Object(join(c_dir, 'tessmass.c'))
+Program(join(bin_dir, 'tessmass'),
+        tessmass + logger + cmd + version + utils + constants, LIBS=['m'])
+
+tessmodgen = Object(join(c_dir, 'tessmodgen.c'))
+Program(join(bin_dir, 'tessmodgen'),
+        tessmodgen + logger + cmd + version + utils + constants, LIBS=['m'])
 
 # The tessg* programs
 tessgx = Object(join(c_dir, 'tessgx.c'))

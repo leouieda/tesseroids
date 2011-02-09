@@ -69,18 +69,59 @@ static char * test_prism_volume()
 
 static char * test_tess_volume()
 {
-    TESSEROID tesses[4] = {{0,-90,90,0,360,0,1}, {0,0,90,0,360,0,1},
-                           {0,0,90,180,360,0,1}, {0,-90,0,0,90,0,1}};
+    TESSEROID local_tesses[4] = {{0,-90,90,0,360,0,1}, {0,0,90,0,360,0,1},
+                                 {0,0,90,180,360,0,1}, {0,-90,0,0,90,0,1}};
     double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
     double res;
     int i;
 
     for(i = 0; i < 4; i++)
     {
-        res = tess_volume(tesses[i]);
+        res = tess_volume(local_tesses[i]);
         sprintf(msg, "(tess %d) expected %g, got %g", i, tvolumes[i], res);
         mu_assert_almost_equals(res, tvolumes[i], pow(10, -8), msg);
     }
+
+    return 0;
+}
+
+
+static char * test_tess_total_mass()
+{
+    TESSEROID local_tesses[4] = {{1,-90,90,0,360,0,1}, {1,0,90,0,360,0,1},
+                                 {1,0,90,180,360,0,1}, {1,-90,0,0,90,0,1}};
+    double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
+    double res, expect;
+    int i;
+
+    res = tess_total_mass(local_tesses, 4);
+
+    for(expect = 0, i = 0; i < 4; i++)
+    {
+        expect += tvolumes[i];
+    }
+    
+    sprintf(msg, "(tess %d) expected %g, got %g", i, expect, res);
+    mu_assert_almost_equals(res, expect, pow(10, -6), msg);
+
+    return 0;
+}
+
+
+static char * test_tess_range_mass()
+{
+    TESSEROID local_tesses[4] = {{1,-90,90,0,360,0,1}, {-1,0,90,0,360,0,1},
+                                 {-1,0,90,180,360,0,1}, {1,-90,0,0,90,0,1}};
+    double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
+    double res, expect;
+    int i;
+
+    res = tess_range_mass(local_tesses, 4, 0, 1);
+
+    expect = tvolumes[0] + tvolumes[3];
+
+    sprintf(msg, "(tess %d) expected %g, got %g", i, expect, res);
+    mu_assert_almost_equals(res, expect, pow(10, -6), msg);
 
     return 0;
 }
@@ -227,6 +268,8 @@ void utils_run_all()
 {
     mu_run_test(test_prism_volume, "prism_volume return correct results");
     mu_run_test(test_tess_volume, "tess_volume return correct results");
+    mu_run_test(test_tess_total_mass, "tess_total_mass returns correct result");
+    mu_run_test(test_tess_range_mass, "tess_range_mass returns correct result");
     mu_run_test(test_tess2prism, "tess2prism produces prism with right volume");
     mu_run_test(test_tess2sphere,
                 "tess2sphere produces sphere with right volume");

@@ -37,6 +37,32 @@ typedef struct basic_args
 } BASIC_ARGS;
 
 
+/** Store input arguments and option flags for tessmass program */
+typedef struct tessmass_args
+{
+    char *inputfname; /**< name of the input file */
+    int verbose; /**< flag to indicate if verbose printing is enabled */
+    int logtofile; /**< flag to indicate if logging to a file is enabled */
+    char *logfname; /**< name of the log file */
+    int use_range; /**< flag to indicate wether to use a density range or not */
+    double low_dens; /**< lower bound for density range */
+    double high_dens; /**< upper bound for density range */
+} TESSMASS_ARGS;
+
+
+/** Store input arguments and option flags for tessmodgen program */
+typedef struct tessmodgen_args
+{
+    int verbose; /**< flag to indicate if verbose printing is enabled */
+    int logtofile; /**< flag to indicate if logging to a file is enabled */
+    char *logfname; /**< name of the log file */
+    double dlon; /**< grid spacing in longitude */
+    double dlat; /**< grid spacing in latitude */
+    double ref; /**< depth of the reference level */
+    double dens; /**< density of the tesseroids */
+} TESSMODGEN_ARGS;
+
+
 /** Store input arguments and option flags for tessg* programs */
 typedef struct tessg_args
 {
@@ -82,9 +108,47 @@ Basic arguments are: -h (for help msg), -v (for verbose), -l (for log file),
     - 0: if all went well
     - 1: if there were bad arguments and program should exit
     - 2: if printed help or version info and program should exit
+    - 3: if input file was missing (doesn't log an error)
 */
 extern int parse_basic_args(int argc, char **argv, const char *progname,
                             BASIC_ARGS *args, void (*print_help)(void));
+
+
+/** Parse command line arguments for tessmass program
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the program
+@param args to return the parsed arguments
+@param print_help pointer to a function that prints the help message for the
+                  program
+
+@return Return code:
+    - 0: if all went well
+    - 1: if there were bad arguments and program should exit
+    - 2: if printed help or version info and program should exit
+    - 3: if input file was missing (doesn't log an error)
+*/
+extern int parse_tessmass_args(int argc, char **argv, const char *progname,
+                               TESSMASS_ARGS *args, void (*print_help)(void));
+
+
+/** Parse command line arguments for tessmodgen program
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the program
+@param args to return the parsed arguments
+@param print_help pointer to a function that prints the help message for the
+                  program
+
+@return Return code:
+    - 0: if all went well
+    - 1: if there were bad arguments and program should exit
+    - 2: if printed help or version info and program should exit
+*/
+extern int parse_tessmodgen_args(int argc, char **argv, const char *progname,
+                            TESSMODGEN_ARGS *args, void (*print_help)(void));
 
 
 /** Parse command line arguments for tessg* programs
@@ -108,6 +172,8 @@ extern int parse_tessg_args(int argc, char **argv, const char *progname,
 /** Parse command line arguments for tessgrd program
 
 logs the bad argument warnings using logger.h
+
+\todo Catch wrong order of -r, ie w>e
 
 @param argc number of command line arguments
 @param argv command line arguments

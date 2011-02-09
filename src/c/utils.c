@@ -59,6 +59,41 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 }
 */
 
+
+/* Calculate the total mass of a tesseroid model. */
+double tess_total_mass(TESSEROID *model, int size)
+{
+    double mass;
+    int i;
+
+    for(mass = 0, i = 0; i < size; i++)
+    {
+        mass += model[i].density*tess_volume(model[i]);
+    }
+    
+    return mass;
+}
+
+
+/* Calculate the mass of a tesseroid model within a density range. */
+double tess_range_mass(TESSEROID *model, int size, double low_dens,
+                       double high_dens)
+{
+    double mass;
+    int i;
+
+    for(mass = 0, i = 0; i < size; i++)
+    {
+        if(model[i].density >= low_dens && model[i].density <= high_dens)
+        {
+            mass += model[i].density*tess_volume(model[i]);
+        }
+    }
+
+    return mass;
+}
+
+
 /* Convert a tesseroid to a rectangular prism of equal volume. */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {

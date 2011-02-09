@@ -93,6 +93,34 @@ Uses constant MEAN_EARTH_RADIUS.
                     double latq, double rq, double *xp, double *yp, double *zp);
 */
 
+
+/** Calculate the total mass of a tesseroid model.
+
+Give all in SI units and degrees!
+
+@param model array of tesseroids
+@param size size of the model
+
+@return The calculated mass
+*/
+extern double tess_total_mass(TESSEROID *model, int size);
+
+
+/** Calculate the mass of a tesseroid model within a density range.
+
+Give all in SI units and degrees!
+
+@param model array of tesseroids
+@param size size of the model
+@param low_dens lower bound of the density range
+@param high_dens upper bound of the density range
+
+@return The calculated mass
+*/
+extern double tess_range_mass(TESSEROID *model, int size, double low_dens,
+                              double high_dens);
+
+
 /** Convert a tesseroid into a rectangular prism of equal volume.
 
 @param tess tesseroid to convert

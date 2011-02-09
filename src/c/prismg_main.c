@@ -97,6 +97,13 @@ int run_prismg_main(int argc, char **argv, const char *progname,
 
     int rc = parse_basic_args(argc, argv, progname, &args, &print_help);
 
+    if(rc == 3)
+    {
+        log_error("%s: missing input file.\n", progname);
+        log_warning("Terminating due to bad input");
+        log_warning("Try '%s -h' for instructions", progname);
+        return 1;
+    }
     if(rc == 2)
     {
         return 0;
@@ -105,7 +112,6 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     {
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
-
         return 1;
     }
 

@@ -51,10 +51,22 @@ int parse_basic_args(int argc, char **argv, const char *progname,
             switch(argv[i][1])
             {
                 case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     print_help();
                     return 2;
 
                 case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     if(args->verbose)
                     {
                         log_error("repeated option -v");
@@ -123,21 +135,355 @@ int parse_basic_args(int argc, char **argv, const char *progname,
     }
 
     /* Check if parsing went well */
+    if(parsed_args > total_args)
+    {
+        log_error("%s: too many input arguments. given %d, max %d.",
+                    progname, parsed_args, total_args);
+    }
+    if(bad_args > 0)
+    {
+        log_error("%d bad input argument(s)", bad_args);
+        return 1;
+    }
+    if(parsed_args < total_args)
+    {
+        return 3;
+    }
+
+    return 0;
+}
+
+
+/* Parse command line arguments for tessmass program */
+int parse_tessmass_args(int argc, char **argv, const char *progname,
+                        TESSMASS_ARGS *args, void (*print_help)(void))
+{
+    int bad_args = 0, parsed_args = 0, total_args = 1, parsed_r = 0;
+    
+
+    /* Default values for options */
+    args->verbose = 0;
+    args->logtofile = 0;
+    args->use_range = 0;
+
+    /* Parse arguments */
+    int i;
+    for(i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    print_help();
+                    return 2;
+
+                case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
+                    args->verbose = 1;
+                    break;
+
+                case 'l':
+                {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    if(strlen(params) == 0)
+                    {
+                        log_error("bad input argument -l. Missing filename.");
+                        bad_args++;
+                    }
+                    else
+                    {
+                        args->logtofile = 1;
+                        args->logfname = params;
+                    }
+                    break;
+                }
+                case '-':
+                {
+                    char *params = &argv[i][2];
+                    if(strcmp(params, "version"))
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    else
+                    {
+                        print_version(progname);
+                        return 2;
+                    }
+                    break;
+                }
+                case 'r':
+                {
+                    if(parsed_r)
+                    {
+                        log_error("repeated argument -r");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    int nchar = 0;
+                    int nread = sscanf(params, "%lf/%lf%n", &(args->low_dens),
+                                       &(args->high_dens), &nchar);
+                    if(nread != 2 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_r = 1;
+                    args->use_range = 1;
+                    break;
+                }
+                default:
+                    log_error("invalid argument '%s'", argv[i]);
+                    bad_args++;
+                    break;
+            }
+        }
+        else
+        {
+            if(parsed_args == 0)
+            {
+                args->inputfname = argv[i];
+                parsed_args++;
+            }
+            else
+            {
+                log_error("invalid argument '%s'. Already given model file %s",
+                          argv[i], args->inputfname);
+                bad_args++;
+            }
+        }
+    }
+
+    /* Check if parsing went well */
+    if(parsed_args > total_args)
+    {
+        log_error("%s: too many input arguments. given %d, max %d.",
+                    progname, parsed_args, total_args);
+    }
+    if(bad_args > 0)
+    {
+        log_error("%d bad input argument(s)", bad_args);
+        return 1;
+    }
+    if(parsed_args < total_args)
+    {
+        return 3;
+    }
+    
+    return 0;
+}
+
+
+/** Parse command line arguments for tessmodgen program
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the program
+@param args to return the parsed arguments
+@param print_help pointer to a function that prints the help message for the
+                  program
+
+@return Return code:
+    - 0: if all went well
+    - 1: if there were bad arguments and program should exit
+    - 2: if printed help or version info and program should exit
+*/
+int parse_tessmodgen_args(int argc, char **argv, const char *progname,
+                          TESSMODGEN_ARGS *args, void (*print_help)(void))
+{
+    int bad_args = 0, parsed_args = 0, total_args = 3,
+        parsed_s = 0, parsed_z = 0, parsed_d = 0;
+
+
+    /* Default values for options */
+    args->verbose = 0;
+    args->logtofile = 0;
+
+    /* Parse arguments */
+    int i;
+    for(i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    print_help();
+                    return 2;
+
+                case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
+                    args->verbose = 1;
+                    break;
+
+                case 'l':
+                {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    if(strlen(params) == 0)
+                    {
+                        log_error("bad input argument -l. Missing filename.");
+                        bad_args++;
+                    }
+                    else
+                    {
+                        args->logtofile = 1;
+                        args->logfname = params;
+                    }
+                    break;
+                }
+                case '-':
+                {
+                    char *params = &argv[i][2];
+                    if(strcmp(params, "version"))
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    else
+                    {
+                        print_version(progname);
+                        return 2;
+                    }
+                    break;
+                }
+                case 's':
+                {
+                    if(parsed_s)
+                    {
+                        log_error("repeated argument -s");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    int nchar = 0;
+                    int nread = sscanf(params, "%lf/%lf%n", &(args->dlon),
+                                       &(args->dlat), &nchar);
+                    if(nread != 2 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_s = 1;
+                    parsed_args++;
+                    break;
+                }
+                case 'z':
+                {
+                    if(parsed_z)
+                    {
+                        log_error("repeated argument -z");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    int nchar = 0;
+                    int nread = sscanf(params, "%lf%n", &(args->ref), &nchar);
+                    if(nread != 1 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_z = 1;
+                    parsed_args++;
+                    break;
+                }
+                case 'd':
+                {
+                    if(parsed_d)
+                    {
+                        log_error("repeated argument -d");
+                        bad_args++;
+                        break;
+                    }
+                    char *params = &argv[i][2];
+                    int nchar = 0;
+                    int nread = sscanf(params, "%lf%n", &(args->dens), &nchar);
+                    if(nread != 1 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_d = 1;
+                    parsed_args++;
+                    break;
+                }
+                default:
+                    log_error("invalid argument '%s'", argv[i]);
+                    bad_args++;
+                    break;
+            }
+        }
+        else
+        {
+            log_error("invalid argument '%s'", argv[i]);
+            bad_args++;
+        }
+    }
+
+    /* Check if parsing went well */
     if(bad_args > 0 || parsed_args != total_args)
     {
         if(parsed_args < total_args)
         {
-            log_info("%s: missing input arguments. given %d out of %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: missing input arguments. given %d out of %d.",
+                      progname, parsed_args, total_args);
         }
         if(parsed_args > total_args)
         {
-            log_info("%s: too many input arguments. given %d, max %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: too many input arguments. given %d, max %d.",
+                      progname, parsed_args, total_args);
         }
         if(bad_args > 0)
         {
-            log_info("%d bad input argument(s)", bad_args);
+            log_error("%d bad input argument(s)", bad_args);
         }
         return 1;
     }
@@ -169,10 +515,22 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
             switch(argv[i][1])
             {
                 case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     print_tessg_help(progname);
                     return 2;
 
                 case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     if(args->verbose)
                     {
                         log_error("repeated option -v");
@@ -265,19 +623,18 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     {
         if(parsed_args < total_args)
         {
-            log_info("%s: missing input arguments. given %d out of %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: missing input file.",
+                      progname, parsed_args, total_args);
         }
         if(parsed_args > total_args)
         {
-            log_info("%s: too many input arguments. given %d, max %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: too many input arguments. given %d, max %d.",
+                      progname, parsed_args, total_args);
         }
         if(bad_args > 0)
         {
-            log_info("%d bad input argument(s)", bad_args);
+            log_error("%d bad input argument(s)", bad_args);
         }
-
         return 1;
     }
 
@@ -288,7 +645,9 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
 /* Parse command line arguments for tessgrd program */
 int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
 {
-    int bad_args = 0, parsed_args = 0, total_args = 3;
+    int bad_args = 0, parsed_args = 0, total_args = 3,
+        parsed_r = 0, parsed_b = 0, parsed_z = 0;
+    
     char progname[] = "tessgrd";
 
     /* Default values for options */
@@ -304,10 +663,22 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
             switch(argv[i][1])
             {
                 case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     print_tessgrd_help();
                     return 2;
 
                 case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
                     if(args->verbose)
                     {
                         log_error("repeated option -v");
@@ -355,6 +726,12 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                 }
                 case 'r':
                 {
+                    if(parsed_r)
+                    {
+                        log_error("repeated argument -r");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     int nchar = 0;
                     int nread = sscanf(params, "%lf/%lf/%lf/%lf%n", &(args->w),
@@ -365,10 +742,17 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                     }
                     parsed_args++;
+                    parsed_r = 1;
                     break;
                 }
                 case 'b':
                 {
+                    if(parsed_b)
+                    {
+                        log_error("repeated argument -b");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     int nchar = 0;
                     int nread = sscanf(params, "%d/%d%n", &(args->nlon),
@@ -379,10 +763,17 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                     }
                     parsed_args++;
+                    parsed_b = 1;
                     break;
                 }
                 case 'z':
                 {
+                    if(parsed_z)
+                    {
+                        log_error("repeated argument -z");
+                        bad_args++;
+                        break;
+                    }
                     char *params = &argv[i][2];
                     int nchar = 0;
                     int nread = sscanf(params, "%lf%n", &(args->height), &nchar);
@@ -393,6 +784,7 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                     }
                     parsed_args++;
+                    parsed_z = 1;
                     break;
                 }
                 default:
@@ -413,19 +805,18 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
     {
         if(parsed_args < total_args)
         {
-            log_info("%s: missing input arguments. given %d out of %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: missing input arguments. given %d out of %d.",
+                      progname, parsed_args, total_args);
         }
         if(parsed_args > total_args)
         {
-            log_info("%s: too many input arguments. given %d, max %d.\n",
-                     progname, parsed_args, total_args);
+            log_error("%s: too many input arguments. given %d, max %d.",
+                      progname, parsed_args, total_args);
         }
         if(bad_args > 0)
         {
-            log_info("%d bad input argument(s)", bad_args);
+            log_error("%d bad input argument(s)", bad_args);
         }
-
         return 1;
     }
 
