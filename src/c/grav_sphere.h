@@ -52,6 +52,7 @@ computation point.
 
 
 \todo Replace sphere.rc with a local copy to clear syntax and see if speeds up
+\todo Put reference for formulas
 
 @author Leonardo Uieda
 @date 25 Jan 2011

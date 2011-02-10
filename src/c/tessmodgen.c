@@ -18,7 +18,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Generate tesseroid model from a regular grid.
 
-\todo Allow a 4th column in input for the density value of each tess
+\todo Allow for density grid.
 
 @author Leonardo Uieda
 @date 09 Feb 2011
@@ -38,27 +38,34 @@ void print_help()
 {
     printf("Usage: tessmodgen [ARGUMENTS] [OPTIONS]\n\n");
     printf("Generate a tesseroid model from a regular grid.\n\n");
+    printf("Each tesseroid has its top face centered of the respective grid\n");
+    printf("point. The top and bottom of the tesseroid are define as:\n");
+    printf("  * top = height of grid point and bottom = reference level\n");
+    printf("    if height of grid point > reference level\n");
+    printf("  * other way around if otherwise\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
     printf("  Regular grid passed through standard input (stdin).\n");
     printf("  Reads 3 values per line: longitude latitude height\n");
-    printf("  height should be read as 'height above the reference level'\n");
+    printf("  height should be read as 'height above the mean Earth radius'\n");
+    printf("  If bellow the Earth radius use negative heights.\n");
     printf("  Lines that start with # are ignored as comments.\n");
     printf("  Lines should be no longer than 10000 (ten thousand) characters.");
     printf("  \n\n");
     printf("Output:\n");
     printf("  Tesseroids printed to standard output (stdout)\n");
-    printf("   * Each tesseroid is specified by the values of its borders\n");
-    printf("     and density\n");
-    printf("   * Will print one tesseroid per line\n");
-    printf("   * Each line has the following column format:\n");
+    printf("  * Each tesseroid is specified by the values of its borders\n");
+    printf("    and density\n");
+    printf("  * Will print one tesseroid per line\n");
+    printf("  * Each line has the following column format:\n");
     printf("       West East South North Top Bottom Density\n");
-    printf("   * Top and Bottom should be read as 'depth to top' and \n");
-    printf("     'depth to bottom' from the mean Earth radius. Use negative\n");
-    printf("     values if above the surface, for example when modeling\n");
-    printf("     topography\n");
-    printf("   * If a line starts with # it will be considered a comment\n");
-    printf("     and will be ignored\n\n");
+    printf("  * Top and Bottom should be read as 'height to top' and \n");
+    printf("    'height to bottom' from the mean Earth radius. Use negative\n");
+    printf("    values if bellow the surface, for example when modeling\n");
+    printf("    deep structures, and positive if above the surface, for\n");
+    printf("    example when modeling topography.\n");
+    printf("  * If a line starts with # it will be considered a comment\n");
+    printf("    and will be ignored\n\n");
     printf("Arguments:\n");
     printf("  -s  DLON/DLAT: grid spacing in the longitude and latitude\n");
     printf("                 directions, respectively. In DECIMAL DEGREES.\n");
@@ -178,16 +185,16 @@ int main(int argc, char **argv)
             e = lon + 0.5*args.dlon;
             s = lat - 0.5*args.dlat;
             n = lat + 0.5*args.dlat;
-            if(height >= 0)
+            if(height >= args.ref)
             {
-                top = args.ref - height;
+                top = height;
                 bot = args.ref;
                 dens = args.dens;
             }
             else
             {
                 top = args.ref;
-                bot = args.ref - height;
+                bot = height;
                 dens = -args.dens;
             }
 

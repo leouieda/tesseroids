@@ -86,14 +86,14 @@ int main(int argc, char **argv)
        be in the grid */
     double dlon = (args.e - args.w)/(args.nlon - 1),
            dlat = (args.n - args.s)/(args.nlat - 1);
-    log_info("Grid spacing: %g longitude / %g latitude", dlon, dlat);
+    log_info("Grid spacing: %.10lf lon / %.10lf lat", dlon, dlat);
 
     /* Print a header on the output with provenance information */
     printf("# Grid generated with %s %s:\n", progname, tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   args: -r%g/%g/%g/%g -b%d/%d -z%g\n", args.w, args.e, args.s,
            args.n, args.nlon, args.nlat, args.height);
-    printf("#   grid spacing: %g lon / %g lat\n", dlon, dlat);
+    printf("#   grid spacing: %.10lf lon / %.10lf lat\n", dlon, dlat);
     printf("#   total %d points\n", args.nlon*args.nlat);
     
     /* Make the grid points. Print lon first as x */

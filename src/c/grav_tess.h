@@ -62,8 +62,10 @@ K_{\phi} &=& \cos\phi_p\sin\phi' - \sin\phi_p\cos\phi'
 subscript \f$ p \f$ is for the computation point.
 
 The derivatives of the potential are made with respect to the local coordinate
-system <b>x->North, y->East, z->out</b>. So it would be normal for a tesseroid of
-positive density to have negative gz.
+system <b>x->North, y->East, z->Up</b> (away from center of the Earth).
+
+To maintain the standard convention, only for component gz the z axis is
+inverted, so a positive density results in positive gz.
 
 <b>Example</b>:
 
@@ -102,7 +104,7 @@ int main()
 
     return 0;
 }
-\endverbatim 
+\endverbatim
 
 @author Leonardo Uieda
 @date 27 Jan 2011

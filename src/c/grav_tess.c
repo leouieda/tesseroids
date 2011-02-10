@@ -182,7 +182,8 @@ double tess_gz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
     res *= SI2MGAL*G*tess.density*d2r*(tess.e - tess.w)*d2r*(tess.n - tess.s)*
            (tess.r2 - tess.r1)*0.125;
 
-    return res;
+    /* Used this to make z point down */
+    return -1*res;
 }
 
 

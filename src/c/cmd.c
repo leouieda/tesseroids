@@ -831,6 +831,11 @@ void print_tessg_help(const char *progname)
     printf("Calculate the %s component due to a tesseroid model on\n",
            progname + 4);
     printf("specified observation points.\n\n");
+    printf("Values are calculated in the local coordinate system of the\n");
+    printf("observation point: x-> North  y-> East  z-> Up (away from the\n");
+    printf("center of the Earth).\n");
+    printf("In order to maintain mainstream convention, component gz is\n");
+    printf("calculated with z-> Down.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
     printf("  Computation points passed through standard input (stdin).\n");
@@ -845,7 +850,7 @@ void print_tessg_help(const char *progname)
     printf("  ... represents any values that were read from input and\n");
     printf("  ignored. In other words, the result is appended to the last\n");
     printf("  column of the input. Use this to pipe tessg* programs\n");
-    printf("  together.\n\n");
+    printf("  together.\n");
     printf("  * Comments about the provenance of the data are inserted into\n");
     printf("    the top of the output\n\n");
     printf("MODELFILE: File containing the tesseroid model\n");
@@ -854,10 +859,11 @@ void print_tessg_help(const char *progname)
     printf("  * The file should contain one tesseroid per line\n");
     printf("  * Each line should have the following column format:\n");
     printf("      West East South North Top Bottom Density\n");
-    printf("  * Top and Bottom should be read as 'depth to top' and \n");
-    printf("    'depth to bottom' from the mean Earth radius. Use negative\n");
-    printf("    values if above the surface, for example when modeling\n");
-    printf("    topography\n");
+    printf("  * Top and Bottom should be read as 'height to top' and \n");
+    printf("    'height to bottom' from the mean Earth radius. Use negative\n");
+    printf("    values if bellow the surface, for example when modeling\n");
+    printf("    deep structures, and positive if above the surface, for\n");
+    printf("    example when modeling topography.\n");
     printf("  * If a line starts with # it will be considered a comment and\n");
     printf("    will be ignored.\n\n");
     printf("Options:\n");

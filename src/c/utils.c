@@ -196,8 +196,8 @@ int gets_tess(const char *str, TESSEROID *tess)
     tess->e = e;
     tess->s = s;
     tess->n = n;
-    tess->r1 = MEAN_EARTH_RADIUS - bot;
-    tess->r2 = MEAN_EARTH_RADIUS - top;
+    tess->r1 = MEAN_EARTH_RADIUS + bot;
+    tess->r2 = MEAN_EARTH_RADIUS + top;
     tess->density = dens;
     
     return 0;

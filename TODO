@@ -25,3 +25,4 @@ MAYBE:
 * (Done 09/Feb/2011) Program to calculate the total mass of a model (with options for cut-off density values)
 * (Done 09/Feb/2011) Program to generate tesseroid model from an regular grid
 * (Done 09/Feb/2011) Program to print default values for constants
+* (Done 10/Feb/2011) Fix local z axis positive upward. Change all depths when defining tesseroids to negative heights.
