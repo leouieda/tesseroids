@@ -74,6 +74,8 @@ typedef struct tessg_args
     int verbose; /**< flag to indicate if verbose printing is enabled */
     int logtofile; /**< flag to indicate if logging to a file is enabled */
     char *logfname; /**< name of the log file */
+    int adaptative; /**< flat to indicate wether to use the adaptative size
+                         of tesseroid algorithm */
 } TESSG_ARGS;
 
 

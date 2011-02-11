@@ -37,12 +37,11 @@ Generic main function for the tessg* programs.
 @param argc number of command line arguments
 @param argv command line arguments
 @param progname name of the specific program
-@param tess_calculator pointer to function that calculates the field of a single
-                       tesseroidi
+@param field pointer to function that calculates the field of a single tesseroid
 
 @return 0 is all went well. 1 if failed.
 */
 extern int run_tessg_main(int argc, char **argv, const char *progname,
-   double (*tess_calculator)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+   double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
 
 #endif

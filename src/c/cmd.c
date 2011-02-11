@@ -493,6 +493,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     args->lon_order = 2;
     args->lat_order = 2;
     args->r_order = 2;
+    args->adaptative = 0;
 
     /* Parse arguments */
     int i;
@@ -511,7 +512,6 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                     }
                     print_tessg_help(progname);
                     return 2;
-
                 case 'v':
                     if(argv[i][2] != '\0')
                     {
@@ -527,7 +527,6 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                     }
                     args->verbose = 1;
                     break;
-
                 case 'l':
                 {
                     if(args->logtofile)
@@ -564,6 +563,21 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                     }
                     break;
                 }
+                case 'a':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    if(args->adaptative)
+                    {
+                        log_error("repeated option -a");
+                        bad_args++;
+                        break;
+                    }
+                    args->adaptative = 1;
+                    break;
                 case 'o':
                 {
                     if(parsed_order)

@@ -122,7 +122,7 @@ int main()
 
 /** Calculates the field of a tesseroid model at a given point.
 
-Uses a function pointer to call one of the oapropriate field calculating
+Uses a function pointer to call one of the apropriate field calculating
 functions:
     - tess_gx()
     - tess_gy()
@@ -162,6 +162,31 @@ extern double calc_tess_model(TESSEROID *model, int size, double lonp,
     double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
     double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
 
+
+/** Adaptatively calculate the field of a tesseroid model at a given point by
+splitting the tesseroids if necessary to maintain GLQ stability.
+
+See calc_tess_model() for more details.
+
+Will re-use the same GLQ structures, and therefore the <b>same order, for all
+the tesseroids</b>.
+
+@param model TESSEROID array defining the model
+@param size number of tesseroids in the model
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+@param glq_lon pointer to GLQ structure used for the longitudinal integration
+@param glq_lat pointer to GLQ structure used for the latitudinal integration
+@param glq_r pointer to GLQ structure used for the radial integration
+@param field pointer to one of the field calculating functions
+
+@return the sum of the fields of all the tesseroids in the model
+*/
+extern double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
+    double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
+    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+    
 
 /** Calculates gx caused by a tesseroid.
 

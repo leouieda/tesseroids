@@ -56,6 +56,54 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
 }
 
 
+/* Adaptatively calculate the field of a tesseroid model at a given point */
+double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
+              double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
+              double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
+{
+    double res, dist, lont, latt, rt, fact = 1.5, d2r = PI/180.;
+    int tess;
+    TESSEROID split[8];
+
+    res = 0;
+
+    for(tess = 0; tess < size; tess++)
+    {
+        /* Check if the computation point is at an acceptable distance. If not
+           split the tesseroid into 8 */
+        rt = model[tess].r2;
+        lont = 0.5*(model[tess].w + model[tess].e);
+        latt = 0.5*(model[tess].s + model[tess].n);
+        dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
+                    cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
+
+        if(dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
+           dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
+           dist < fact*(model[tess].r2 - model[tess].r1))
+        {
+            log_debug("Splitting tesseroid %d: %g %g %g %g %g %g %g at point: %g %g %g",
+                      tess, model[tess].w, model[tess].e, model[tess].s,
+                      model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
+                      model[tess].r1 - MEAN_EARTH_RADIUS, model[tess].density,
+                      lonp, latp, rp - MEAN_EARTH_RADIUS);
+            split_tess(model[tess], split);
+            res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,
+                                         glq_lat, glq_r, field);
+        }
+        else
+        {
+            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
+            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
+            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
+            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
+                         *glq_r);
+        }
+    }
+
+    return res;
+}
+
+    
 /* Calculates gx caused by a tesseroid. */
 double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
                GLQ glq_lat, GLQ glq_r)

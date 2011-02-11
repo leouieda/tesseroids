@@ -3,7 +3,7 @@ Main page of the documentation.
 
 \mainpage Tesseroids
  
-\section intro_sec Introduction
+\chapter intro_sec Introduction
 
 <i>Tesseroids</i> is a software package for the direct modeling of gravitational
 fields in spherical coordinates.

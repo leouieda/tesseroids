@@ -35,9 +35,9 @@ char msg[1000];
 #define NTESSES 4
 TESSEROID tesses[NTESSES] = {
     {0,0,1,0,1,6000000,6001000},
-    {0,80,85,180,190,6300000,6301000},
-    {0,-90,-70,160,200,5500000,6000000},
-    {0,-7,15,-10,5,6500000,6505000}};
+    {0,180,190,80,85,6300000,6301000},
+    {0,160,200,-90,-70,5500000,6000000},
+    {0,-10,5,-7,15,6500000,6505000}};
 
 #define NPRISMS 4
 PRISM prisms[NPRISMS] = {
@@ -69,8 +69,8 @@ static char * test_prism_volume()
 
 static char * test_tess_volume()
 {
-    TESSEROID local_tesses[4] = {{0,-90,90,0,360,0,1}, {0,0,90,0,360,0,1},
-                                 {0,0,90,180,360,0,1}, {0,-90,0,0,90,0,1}};
+    TESSEROID local_tesses[4] = {{0,0,360,-90,90,0,1}, {0,0,360,0,90,0,1},
+                                 {0,180,360,0,90,0,1}, {0,0,90,-90,0,0,1}};
     double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
     double res;
     int i;
@@ -88,8 +88,8 @@ static char * test_tess_volume()
 
 static char * test_tess_total_mass()
 {
-    TESSEROID local_tesses[4] = {{1,-90,90,0,360,0,1}, {1,0,90,0,360,0,1},
-                                 {1,0,90,180,360,0,1}, {1,-90,0,0,90,0,1}};
+    TESSEROID local_tesses[4] = {{1,0,360,-90,90,0,1}, {1,0,360,0,90,0,1},
+                                 {1,180,360,0,90,0,1}, {1,0,90,-90,0,0,1}};
     double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
     double res, expect;
     int i;
@@ -110,8 +110,8 @@ static char * test_tess_total_mass()
 
 static char * test_tess_range_mass()
 {
-    TESSEROID local_tesses[4] = {{1,-90,90,0,360,0,1}, {-1,0,90,0,360,0,1},
-                                 {-1,0,90,180,360,0,1}, {1,-90,0,0,90,0,1}};
+    TESSEROID local_tesses[4] = {{1,0,360,-90,90,0,1}, {-1,0,360,0,90,0,1},
+                                 {-1,180,360,0,90,0,1}, {1,0,90,-90,0,0,1}};
     double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
     double res, expect;
     int i;
@@ -264,6 +264,33 @@ static char * test_gets_prism()
 }
 
 
+static char * test_split_tess()
+{
+    TESSEROID tess = {1, 2, 4, -1, 1, 5, 7},
+              expect[] = {{1, 2, 3, -1, 0, 5, 6}, {1, 3, 4, -1, 0, 5, 6},
+                        {1, 2, 3, 0, 1, 5, 6}, {1, 3, 4, 0, 1, 5, 6},
+                        {1, 2, 3, -1, 0, 6, 7}, {1, 3, 4, -1, 0, 6, 7},
+                        {1, 2, 3, 0, 1, 6, 7}, {1, 3, 4, 0, 1, 6, 7}},
+              res[8];
+
+    split_tess(tess, res);
+    
+    int i;
+    for(i = 0; i < 8; i++)
+    {
+        sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
+                res[i].e, res[i].s, res[i].n, res[i].r1, res[i].r2,
+                res[i].density);
+        mu_assert(res[i].w == expect[i].w && res[i].e == expect[i].e &&
+                  res[i].s == expect[i].s && res[i].n == expect[i].n &&
+                  res[i].r1 == expect[i].r1 && res[i].r2 == expect[i].r2 &&
+                  res[i].density == expect[i].density, msg);
+    }
+
+    return 0;
+}
+
+
 void utils_run_all()
 {
     mu_run_test(test_prism_volume, "prism_volume return correct results");
@@ -277,4 +304,5 @@ void utils_run_all()
                 "prism2sphere produces sphere with right volume");
     mu_run_test(test_gets_tess, "gets_tess reads correctly from string");
     mu_run_test(test_gets_prism, "gets_prism reads correctly from string");
+    mu_run_test(test_split_tess, "split_tess returns correct results");
 }

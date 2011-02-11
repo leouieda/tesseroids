@@ -41,7 +41,7 @@ Generic main function for the tessg* programs.
 
 /* Run the main for a generic tessg* program */
 int run_tessg_main(int argc, char **argv, const char *progname,
-    double (*tess_calculator)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
+    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
 {
     log_init(LOG_INFO);
     TESSG_ARGS args;
@@ -74,7 +74,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
             log_warning("Try '%s -h' for instructions", progname);
             return 1;
         }
-        log_tofile(logfile, LOG_INFO);
+        log_tofile(logfile, LOG_DEBUG);
     }
 
     /* Print standard verbose */
@@ -136,6 +136,8 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     printf("#   model file: %s (%d tesseroids)\n", args.modelfname, modelsize);
     printf("#   GLQ order: %d lon / %d lat / %d r\n", args.lon_order,
            args.lat_order, args.r_order);
+    printf("#   Use adaptative algorithm: %s\n",
+           args.adaptative ? "True" : "False");
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating %s component (this may take a while)...", progname+4);
@@ -175,10 +177,18 @@ int run_tessg_main(int argc, char **argv, const char *progname,
                result in the end */
             strstrip(buff);
 
-            res = calc_tess_model(model, modelsize, lon, lat,
-                                  height + MEAN_EARTH_RADIUS, glq_lon, glq_lat,
-                                  glq_r, tess_calculator);
-
+            if(args.adaptative)
+            {
+                res = calc_tess_model_adapt(model, modelsize, lon, lat,
+                                            height + MEAN_EARTH_RADIUS, glq_lon,
+                                            glq_lat, glq_r, field);
+            }
+            else
+            {
+                res = calc_tess_model(model, modelsize, lon, lat,
+                                      height + MEAN_EARTH_RADIUS, glq_lon,
+                                      glq_lat, glq_r, field);
+            }
             printf("%s %g\n", buff, res);
             points++;
         }

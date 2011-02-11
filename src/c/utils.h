@@ -36,10 +36,10 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 typedef struct tess_struct {
     /* s, n, w, e in degrees. r1 and r2 are the smaller and larger radius */
     double density; /**< in SI units */
-    double s; /**< southern latitude border in degrees */
-    double n; /**< northern latitude border in degrees */
     double w; /**< western longitude border in degrees */
     double e; /**< eastern longitude border in degrees */
+    double s; /**< southern latitude border in degrees */
+    double n; /**< northern latitude border in degrees */
     double r1; /**< smallest radius border in SI units */
     double r2; /**< largest radius border in SI units */
 } TESSEROID;
@@ -92,6 +92,14 @@ Uses constant MEAN_EARTH_RADIUS.
 /*extern void chcoord_g2l(double lonp, double latp, double rp, double lonq,
                     double latq, double rq, double *xp, double *yp, double *zp);
 */
+
+
+/** Split a tesseroid into 8.
+
+@param tess tesseroid that will be split
+@param split array of 8 tesseroids with memory allocated. Used to return.
+*/
+extern void split_tess(TESSEROID tess, TESSEROID *split);
 
 
 /** Calculate the total mass of a tesseroid model.
