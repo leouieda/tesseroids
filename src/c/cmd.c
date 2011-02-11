@@ -299,30 +299,18 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
 }
 
 
-/** Parse command line arguments for tessmodgen program
-
-@param argc number of command line arguments
-@param argv command line arguments
-@param progname name of the program
-@param args to return the parsed arguments
-@param print_help pointer to a function that prints the help message for the
-                  program
-
-@return Return code:
-    - 0: if all went well
-    - 1: if there were bad arguments and program should exit
-    - 2: if printed help or version info and program should exit
-*/
+/* Parse command line arguments for tessmodgen program */
 int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                           TESSMODGEN_ARGS *args, void (*print_help)(void))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 3,
+    int bad_args = 0, parsed_args = 0, total_args = 2,
         parsed_s = 0, parsed_z = 0, parsed_d = 0;
 
 
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
+    args->fix_density = 0;
 
     /* Parse arguments */
     int i;
@@ -452,7 +440,7 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                         bad_args++;
                     }
                     parsed_d = 1;
-                    parsed_args++;
+                    args->fix_density = 1;
                     break;
                 }
                 default:

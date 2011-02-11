@@ -60,6 +60,7 @@ typedef struct tessmodgen_args
     double dlat; /**< grid spacing in latitude */
     double ref; /**< depth of the reference level */
     double dens; /**< density of the tesseroids */
+    int fix_density; /**< flag to tell wether using value passed by -d */
 } TESSMODGEN_ARGS;
 
 

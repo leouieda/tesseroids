@@ -18,8 +18,6 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Generate tesseroid model from a regular grid.
 
-\todo Allow for density grid.
-
 @author Leonardo Uieda
 @date 09 Feb 2011
 */
@@ -69,9 +67,10 @@ void print_help()
     printf("Arguments:\n");
     printf("  -s  DLON/DLAT: grid spacing in the longitude and latitude\n");
     printf("                 directions, respectively. In DECIMAL DEGREES.\n");
-    printf("  -d  DENS: density of the tesseroids. Tesseroids above the\n");
-    printf("            reference will have density DENS, and bellow will\n");
-    printf("            have density -DENS.\n");
+    printf("  -d  DENS: density of the tesseroids. If ommited will expect a\n");
+    printf("            4th column on the input with DENS values for each\n");
+    printf("            point. Tesseroids above the reference will have\n");
+    printf("            density DENS, and bellow will have density -DENS.\n");
     printf("  -z  REF: depth of the reference level with respect to the\n");
     printf("           mean Earth radius.\n\n");
     printf("Options:\n");
@@ -138,7 +137,16 @@ int main(int argc, char **argv)
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   grid spacing: %g deg lon / %g deg lat\n", args.dlon, args.dlat);
     printf("#   reference level (depth): %g\n", args.ref);
-    printf("#   density: %g\n", args.dens);
+    if(args.fix_density)
+    {
+        printf("#   density: %g\n", args.dens);
+        log_info("Using fixed density value: %g", args.dens);
+    }
+    else
+    {
+        printf("#   density: read from input\n");
+        log_info("Reading density values from input grid");
+    }
 
     /* Read each regular grid from stdin and generate the tesseroids */
     int line, error_exit = 0, bad_input = 0, size = 0;
@@ -167,14 +175,29 @@ int main(int argc, char **argv)
 
             strstrip(buff);
 
-            nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height, &nchars);
-            
-            if(nread != 3 || buff[nchars] != '\0')
+            if(args.fix_density)
             {
-                log_warning("bad/invalid grid point at line %d", line);
-                log_warning("skipping this line and continuing");
-                bad_input++;
-                continue;
+                nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height,
+                               &nchars);
+                if(nread != 3 || buff[nchars] != '\0')
+                {
+                    log_warning("bad/invalid grid point at line %d", line);
+                    log_warning("skipping this line and continuing");
+                    bad_input++;
+                    continue;
+                }
+            }
+            else
+            {
+                nread = sscanf(buff, "%lf %lf %lf %lf%n", &lon, &lat, &height,
+                               &dens, &nchars);
+                if(nread != 4 || buff[nchars] != '\0')
+                {
+                    log_warning("bad/invalid grid point at line %d", line);
+                    log_warning("skipping this line and continuing");
+                    bad_input++;
+                    continue;
+                }
             }
 
             /* Need to remove \n and \r from end of buff first to print the
@@ -189,13 +212,15 @@ int main(int argc, char **argv)
             {
                 top = height;
                 bot = args.ref;
-                dens = args.dens;
+                if(args.fix_density)
+                    dens = args.dens;
             }
             else
             {
                 top = args.ref;
                 bot = height;
-                dens = -args.dens;
+                if(args.fix_density)
+                    dens = -args.dens;
             }
 
             printf("%g %g %g %g %g %g %g\n", w, e, s, n, top, bot, dens);

@@ -137,7 +137,7 @@ static char * test_tess2sphere_gz()
 
     for(dist=1500000; dist <= 2000000; dist += 1000)
     {
-        restess = tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
+        restess = -tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gz(sphere,0,45,radius+dist);
 
         sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,

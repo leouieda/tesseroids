@@ -193,8 +193,8 @@ static char * test_gets_tess()
     for(i = 0; i < NTESSES; i++)
     {
         sprintf(str, "%g %g %g %g %g %g %g", tesses[i].w, tesses[i].e,
-                tesses[i].s, tesses[i].n, MEAN_EARTH_RADIUS - tesses[i].r2,
-                MEAN_EARTH_RADIUS - tesses[i].r1, tesses[i].density);
+                tesses[i].s, tesses[i].n, tesses[i].r2 - MEAN_EARTH_RADIUS,
+                tesses[i].r1 - MEAN_EARTH_RADIUS, tesses[i].density);
 
         gets_tess(str, &res);
 
