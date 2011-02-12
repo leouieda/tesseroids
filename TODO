@@ -3,8 +3,6 @@ TESTS:
 * Check error in not rotating prism
 * Check error os using tesseroid in poles
 
-* Adaptative tesseroid size when calculating with fixed GLQ order (use a pile)
-
 PROGRAMS
 * Option for calculating on spherical coordinates in prismg* programs
 * Programs to calculate the effect of a sphere model in spherical coordinates
@@ -13,8 +11,12 @@ API
 * Make minunit into functions and put variable arguments for messages like printf
 * Make doxygen groups to separate programs from api
 
+DOC
+* Write tutorial for programs
+* Write about the coordinate systems
+* Write about the speed test
+
 MAYBE:
-* Set them using a config file like .tessdefaults
 * Allow for tesseroids with depth varying density
 * Generate VTK file to plot tesseroids in Mayavi2 or Paraview
 
@@ -26,3 +28,4 @@ MAYBE:
 * (Done 09/Feb/2011) Program to generate tesseroid model from an regular grid
 * (Done 09/Feb/2011) Program to print default values for constants
 * (Done 10/Feb/2011) Fix local z axis positive upward. Change all depths when defining tesseroids to negative heights.
+* (Done 11/Feb/2011) Adaptatively resize tesseroid when too close to computation point (with fixed GLQ order)
