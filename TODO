@@ -12,9 +12,9 @@ API
 * Make doxygen groups to separate programs from api
 
 DOC
-* Write tutorial for programs
-* Write about the coordinate systems
 * Write about the speed test
+* Write about model generator
+* Write about prismg* programs
 
 MAYBE:
 * Allow for tesseroids with depth varying density
