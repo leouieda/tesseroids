@@ -20,7 +20,7 @@ Functions to set up logging.
 
 Example:
 
-\verbatim
+\code
 #include "logger.h"
 
 void my_func(){
@@ -35,7 +35,7 @@ int main(){
     log_error("error line. The code is %d", LOG_ERROR);
     return 0;
 }
-\endverbatim
+\endcode
 
 Will print:
 

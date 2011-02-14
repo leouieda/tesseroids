@@ -160,10 +160,3 @@ Program(join(bin_dir, 'prismgzz'),
         prismgzz + logger + cmd + version + grav_prism + utils + constants +
         prismg_main,
         LIBS=['m'])
-
-# Temp testing
-#mapper = Object(join(test_dir, 'mapper.c'))
-#Program(mapper + glq + constants + utils + grav_tess + logger, LIBS=['m'])
-
-#logtest = Object(join(test_dir, 'logtest.c'))
-#Program(logtest + logger)

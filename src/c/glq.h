@@ -28,7 +28,7 @@ Usage example:
 
 To integrate the cossine function from 0 to 90 degrees
 
-@verbatim
+@code
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -57,7 +57,7 @@ int main(){
     printf("Integral of cossine from 0 to 90 degrees = %lf\n", result);
     return 0;
 }
-@endverbatim
+@endcode
 
 @author Leonardo Uieda
 @date 24 Jan 2011

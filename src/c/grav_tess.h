@@ -71,7 +71,7 @@ inverted, so a positive density results in positive gz.
 
 To calculate the gzz component due to a tesseroid on a regular grid.
 
-\verbatim
+\code
 #include <stdio.h>
 #include "glq.h"r
 #include "constants.h"
@@ -104,7 +104,7 @@ int main()
 
     return 0;
 }
-\endverbatim
+\endcode
 
 @author Leonardo Uieda
 @date 27 Jan 2011
