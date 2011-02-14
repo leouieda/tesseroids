@@ -49,10 +49,10 @@ To run the tests, executed "tesstest".
 \section src-docs Compiling the documentation
 
 Tesseroids uses <a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>
-to generate the documentation. Run the command "doxygen" from the "doc" folder
+to generate the documentation. Run the command "make" from the "doc" folder
 to generate the HTML and Latex code for the documentation. To compile the Latex code,
-go to "doc/build/latex" and run "make" (you will need
-<a href="http://www.gnu.org/software/make/">make</a> installed for this.).
+go to "doc/build/latex" and run "make". You will need
+<a href="http://www.gnu.org/software/make/">make</a> installed for this.
 
 To view the HTML documentation open "doc/build/html/index.html" in any internet
 browser. The Latex documentation is compiled to "doc/build/latex/refman.pdf".

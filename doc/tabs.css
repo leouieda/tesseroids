@@ -5,6 +5,13 @@
     font-size: 16px;
 }
 
+.supertabs ul li.current a {
+    background-image: url('tab_a.png');
+    background-repeat:repeat-x;
+    color: #fff;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 1.0);
+}
+
 .tabs {
     background-image: url('subtab_b.png');
     width: 100%;

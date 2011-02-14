@@ -27,6 +27,10 @@ Tesseroids is coded in the C programming language, making it portable to
 GNU/Linux and Windows systems.
 </p>
 
+<p>
+This software is developed by Leonardo Uieda in cooperation with Carla Braitenberg.
+</p>
+
 \image html tesseroid_coordsys.png "View of a tesseroid, the computation P and it's local coordinate system."
 
 <p>
@@ -42,6 +46,17 @@ Tesseroids can be downloaded from our
 project site as both precompiled binaries and source code.
 </p>
 
+\section license License
+
+Tesseroids is free software available under the GNU General Public License v3+.
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE. See the <a href="http://www.gnu.org/licenses/gpl.html">GNU General
+Public License</a> for more details.
+
+\section contact Contact
+
+In case of doubts, suggestions, help, etc., contact Leonardo Uieda: leouieda@gmail.com
 
 \htmlonly
 </td>

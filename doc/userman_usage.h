@@ -98,7 +98,7 @@ date, etc.
 Included in the package is program "tessgrd" which creates a regular grid of
 points and prints them to standard output.
 
-Example:
+\subsection grdiexample Example
 
 \verbatim
 tessgrd -r-10/10/-10/10 -b100/100 -z250e03 -v > points.txt
@@ -117,17 +117,30 @@ Write programs to handle text streams, because that is a universal interface.
 Therefore, all tessg* and tessgrd programs can be piped together to calculate
 many components on a regular grid.
 
-Example:
+\subsection pipe-example Example
+
+Given a tesseroids file "model.txt" as follows:
 
 \verbatim
-tessgrd -r-10/10/-10/10 -b100/100 -z250e03 | tessgz model.txt -a | tessgzz model.txt -a > output.txt
+-5 5 -5 5 0 -10e03 -500
 \endverbatim
 
-This would calculate the \f$ g_z \f$ and \f$ g_{zz} \f$ effect of tesseroids in "model.txt"
-of a regular grid from -10W to 10E and -10S to 10N on 100x100 points at 250 km height.
+Running the following would calculate \f$ g_z \f$ and gradient tensor of
+tesseroids in "model.txt" of a regular grid from -10W to 10E and -10S
+to 10N on 100x100 points at 250 km height.
 And the best of all is that it is done in parallel! If your system has multiple cores
 this would mean a great increase in the computation time.
 
+\verbatim
+tessgrd -r-10/10/-10/10 -b100/100 -z250e03 | tessgz model.txt -a | \
+tessgxx model.txt -a | tessgxy model.txt -a | tessgxz model.txt -a | \
+tessgyy model.txt -a | tessgyz model.txt -a | tessgzz model.txt -a > output.txt
+\endverbatim
+
+The result of this should look something like:
+
+\image html example.png
+\image latex example.png "Gravitational fields produced by a one tesseroid model." width=15cm
 
 
 \htmlonly
