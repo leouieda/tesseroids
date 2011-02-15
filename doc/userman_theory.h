@@ -95,7 +95,7 @@ g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho \frac{(\lambda_2 - \lambda_
 
 where \f$ W^r \f$,\f$ W^{\phi} \f$, and \f$ W^{\lambda} \f$ are weighting
 coefficients and \f$ N^r \f$,\f$ N^{\phi} \f$, and \f$ N^{\lambda} \f$ are the
-number of quadrature nodes, or order of the quadrature.
+number of quadrature nodes, ie the order of the quadrature.
 
 
 \htmlonly

@@ -30,5 +30,5 @@ Program to calculate gz of a tesseroid model on a set of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_tessg_main(argc, argv, "tessgz", tess_gz);
+    return run_tessg_main(argc, argv, "tessgz", &tess_gz);
 }

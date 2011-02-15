@@ -30,5 +30,5 @@ Program to calculate gxx of a tesseroid model on a set of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_tessg_main(argc, argv, "tessgxx", tess_gxx);
+    return run_tessg_main(argc, argv, "tessgxx", &tess_gxx);
 }

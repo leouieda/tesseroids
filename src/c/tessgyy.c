@@ -30,5 +30,5 @@ Program to calculate gyy of a tesseroid model on a set of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_tessg_main(argc, argv, "tessgyy", tess_gyy);
+    return run_tessg_main(argc, argv, "tessgyy", &tess_gyy);
 }
