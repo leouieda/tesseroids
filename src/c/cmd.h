@@ -176,8 +176,6 @@ extern int parse_tessg_args(int argc, char **argv, const char *progname,
 
 logs the bad argument warnings using logger.h
 
-\todo Catch wrong order of -r, ie w>e
-
 @param argc number of command line arguments
 @param argv command line arguments
 @param args to return the parsed arguments

@@ -25,6 +25,10 @@ The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
+\todo Include formulas in function descriptions
+\todo Put reference for formulas
+\todo Unroll loops in gx and gy
+
 @author Leonardo Uieda
 @date 01 March 2010
 */

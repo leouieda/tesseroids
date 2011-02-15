@@ -106,6 +106,10 @@ int main()
 }
 \endcode
 
+\todo Possible speed up: use pointers for weights and nodes
+\todo Put reference for formulas
+\todo Allow for tesseroids with depth varying density
+
 @author Leonardo Uieda
 @date 27 Jan 2011
 */

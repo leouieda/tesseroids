@@ -50,8 +50,7 @@ K_{\phi} &=& \cos\phi_p\sin\phi_c - \sin\phi_p\cos\phi_c
 subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
 computation point.
 
-
-\todo Replace sphere.rc with a local copy to clear syntax and see if speeds up
+\todo Possible speedup: Replace sphere.rc with a local copy
 \todo Put reference for formulas
 
 @author Leonardo Uieda

@@ -18,6 +18,8 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Program to generate a regular grid of points.
 
+\todo Catch wrong order of -r arguments ie. w > e or s > n
+
 @author Leonardo Uieda
 @date 01 Feb 2011
 */

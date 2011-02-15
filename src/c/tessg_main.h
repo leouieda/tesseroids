@@ -18,6 +18,8 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Generic main function for the tessg* programs.
 
+\todo Catch errors in input points that occur at the end of the line
+
 @author Leonardo Uieda
 @date 03 Feb 2011
 */

@@ -69,31 +69,6 @@ typedef struct sphere_struct {
 } SPHERE;
 
 
-/* Change the coordinates of a point P from a global coordinate system to the
-    local system of a point Q
-
-Coordinates given in SI and degrees!
-
-Uses constant MEAN_EARTH_RADIUS.
-
-\image latex coordinate_sys.pdf "Points P and Q in the global coordinate system and their local systems"
-\image html coordinate_sys.png "Points P and Q in the global coordinate system and their local systems"
-
-@param lonp longitude of point P
-@param latp latitude of point P
-@param rp radial coordinate of point P
-@param lonq longitude of point Q (origin of the local system)
-@param latq latitude of point Q (origin of the local system)
-@param rq radial coordinate of point Q (origin of the local system)
-@param xp x coordinate of P in the local system of Q
-@param yp y coordinate of P in the local system of Q
-@param zp z coordinate of P in the local system of Q
-*/
-/*extern void chcoord_g2l(double lonp, double latp, double rp, double lonq,
-                    double latq, double rq, double *xp, double *yp, double *zp);
-*/
-
-
 /** Split a tesseroid into 8.
 
 @param tess tesseroid that will be split

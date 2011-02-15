@@ -20,8 +20,6 @@ Set of misc utilities and data structures.
 
 Defines the TESSEROID, SPHERE and PRISM structures.
 
-\todo Make functions that calculate the center of mass
-
 @author Leonardo Uieda
 @date 25 Jan 2011
 */
@@ -34,30 +32,6 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 #include "constants.h"
 #include "logger.h"
 #include "utils.h"
-
-
-/* Change the coordinates of a point P from a global coordinate system to the
-   local system of a point Q */
-/*void chcoord_g2l(double lonp, double latp, double rp, double lonq, double latq,
-                 double rq, double *xp, double *yp, double *zp)
-{
-    double d2r = PI/180.0, cartq[3], cartp[3];
-
-    cartq[0] = rq*cos(d2r*latq)*cos(d2r*lonq);
-    cartq[1] = rq*cos(d2r*latq)*sin(d2r*lonq);
-    cartq[2] = rq*sin(d2r*latq);
-    
-    cartp[0] = rp*cos(d2r*latp)*cos(d2r*lonp);
-    cartp[1] = rp*cos(d2r*latp)*sin(d2r*lonp);
-    cartp[2] = rp*sin(d2r*latp);
-    
-    # Faz a matriz de tranformacao
-    g2l = P2()*R2(latO - 90.)*R3(lonO - 180.)
-
-    # Alinha os dois sistemas e desloca a origem para eO
-    eL = g2l*(eG - eO)
-}
-*/
 
 
 /* Split a tesseroid into 8. */
@@ -134,6 +108,8 @@ double tess_range_mass(TESSEROID *model, int size, double low_dens,
 /* Convert a tesseroid to a rectangular prism of equal volume. */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {
+    /** \todo Put reference for formulas */
+    
     double deg2rad = PI/180., r0, dx, dy;
 
     r0 = 0.5*(tess.r1 + tess.r2);
@@ -156,7 +132,6 @@ void tess2prism(TESSEROID tess, PRISM *prism)
 void tess2sphere(TESSEROID tess, SPHERE *sphere)
 {
     sphere->density = tess.density;
-    /** \todo Put sphere in center of mass, not geometrical center */
     sphere->lonc = 0.5*(tess.e + tess.w);
     sphere->latc = 0.5*(tess.n + tess.s);
     sphere->rc = 0.5*(tess.r1 + tess.r2);
@@ -218,6 +193,9 @@ void strstrip(char *str)
 /* Read a single tesseroid from a string */
 int gets_tess(const char *str, TESSEROID *tess)
 {
+    /** \todo Catch wrong order of model inputs, ie. w > e or s > n or
+    top < bottom */
+    
     double w, e, s, n, top, bot, dens;
     int nread, nchars;
     
@@ -335,19 +313,22 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
 /* Read a single rectangular prism from a string */
 int gets_prism(const char *str, PRISM *prism)
 {
+    /** \todo Catch wrong order of model inputs, ie. x1 > x2 etc */
+    /** \todo Read the position of the prism from the string */
+    
     double x1, x2, y1, y2, z1, z2, dens;
     int nread, nchars;
 
     nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &x1, &x2, &y1, &y2,
                    &z1, &z2, &dens, &nchars);
+
+    /* Not caring if there are more chars in the line so that can read output of
+    tess2prism */
     /*
     if(nread != 7 || str[nchars] != '\0')
     {
         return 1;
     }*/
-    /** \todo Read the position of the prism from the string 
-    Not caring if there are more chars in the line so that can read output of tess2prism
-    */
     if(nread != 7)
     {
         return 1;

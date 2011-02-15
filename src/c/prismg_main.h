@@ -18,6 +18,9 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Generic main function for the prismg* programs.
 
+\todo Option for calculating on spherical coordinates
+\todo Catch errors in input points that occur at the end of the line
+
 @author Leonardo Uieda
 @date 08 Feb 2011
 */

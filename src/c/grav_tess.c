@@ -19,8 +19,6 @@
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
 
-\todo Possible speed up, use pointers for weights and nodes
-
 @author Leonardo Uieda
 @date 27 Jan 2011
 */
