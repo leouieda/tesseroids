@@ -621,7 +621,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     }
 
     /* Check if parsing went well */
-    if(bad_args > 0 || parsed_args > total_args)
+    if(bad_args > 0 || parsed_args != total_args)
     {
         if(parsed_args < total_args)
         {

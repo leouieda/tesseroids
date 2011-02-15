@@ -16,11 +16,6 @@ If you downloaded a pre-compiled binary distribution, simply unpack in the desir
 directory. The executables will be in the "bin" folder and the HTML and PDF documentation
 in the "doc" folder.
 
-\subsection bin-win Windows installer
-
-The Windows installer should be very straight-forward. Simply follow the instructions
-and reboot.
-
 \section src From source
 
 Tesseroids uses the build tool <a href="http://www.scons.org/">SCons</a>.
@@ -49,8 +44,8 @@ To run the tests, executed "tesstest".
 \section src-docs Compiling the documentation
 
 Tesseroids uses <a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>
-to generate the documentation. Run the command "make" from the "doc" folder
-to generate the HTML and Latex code for the documentation. To compile the Latex code,
+to generate the documentation. On GNU/Linux run the command "make" from the "doc" folder
+to generate the HTML and Latex code for the documentation. On Windows, run "make win". To compile the Latex code,
 go to "doc/build/latex" and run "make". You will need
 <a href="http://www.gnu.org/software/make/">make</a> installed for this.
 
