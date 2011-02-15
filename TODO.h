@@ -2,7 +2,6 @@
 To do list.
 
 TESTS:
-\todo Error check for prism, sphere and tess (everton is doing)
 \todo Check error in not rotating prism
 \todo Check error os using tesseroid in poles
 
@@ -14,9 +13,6 @@ API:
 
 DOC:
 \todo Make doxygen groups to separate programs from api
-\todo Write about the speed test
-\todo Write about model generator
-\todo Write about prismg* programs
 
 MAYBE:
 \todo Generate VTK file to plot tesseroids in Mayavi2 or Paraview
