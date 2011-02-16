@@ -14,6 +14,7 @@
 # 
 #  You should have received a copy of the GNU General Public License
 #  along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
+#
 ################################################################################
 
 
@@ -34,15 +35,22 @@ INSTALLATION
 Pre-compiled binary:
 
 If you downloaded a pre-compiled binary distribution, simply unpack in the desired
-directory. The executables will be in the "bin" folder and the HTML and PDF
-documentation in the "doc" folder.
+directory. The executables will be in the "bin" folder and the HTML and PDF documentation
+in the "doc" folder. To view the HTML docs open "index.html" from the "html" folder
+in a web browser.
 
 From souce:
 
-Tesseroids uses the build tool SCons. A SConstruct file (Makefile equivalent) to
-define the compilation rules. You will have to download and install SCons in order
-to easily compile Tesseroids. SCons is available for both GNU/Linux and Windows
-and building should work the same on both platforms.
+Tesseroids uses the build tool SCons. A SConstruct file (Makefile equivalent) is used
+to define the compilation rules. You will have to download and install SCons in order
+to easily compile Tesseroids. SCons is available for both GNU/Linux and Windows and
+building should work the same on both platforms. SCons requires that you have Python
+installed. Check the SCons website for more information. Python is usually installed by
+default on most GNU/Linux systems. Under Windows you will have to put SCons on your PATH
+environment variable in order to use it from the command line. It is usually located in
+the Scripts directory of your Python installation.
+On GNU/Linux SCons will use the GCC compiler to compile sources. On Windows it will search
+for an existing compiler. We recomment that you install GCC on Windows using MinGW.
 To compile, type in a terminal (cmd.exe on Windows):
 
     scons

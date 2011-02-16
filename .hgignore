@@ -1,7 +1,7 @@
 syntax: glob
 
 .sconsign.dblite
-latex
+build
 bin
 *.o
 
