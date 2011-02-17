@@ -1,7 +1,7 @@
 /** \file
 Main page of the documentation.
 
-\mainpage Welcolme
+\mainpage Welcome
 
 \htmlonly
 <table border=0>
