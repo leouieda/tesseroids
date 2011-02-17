@@ -43,6 +43,17 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
     
     for(tess = 0; tess < size; tess++)
     {
+        if(lonp >= model[tess].w && lonp <= model[tess].e &&
+           latp >= model[tess].s && latp <= model[tess].n &&
+           rp >= model[tess].r1 && rp <= model[tess].r2)
+        {
+            log_warning("Point (%g %g %g) is on tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
+                        lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
+                        model[tess].w, model[tess].e, model[tess].s,
+                        model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
+                        model[tess].r1 - MEAN_EARTH_RADIUS,
+                        model[tess].density);
+        }
         glq_set_limits(model[tess].w, model[tess].e, glq_lon);
         glq_set_limits(model[tess].s, model[tess].n, glq_lat);
         glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
@@ -59,10 +70,9 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
               double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
               double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
 {
-
     /** \todo Make integration test against calc_tess_model */
 
-    double res, dist, lont, latt, rt, fact = 1.5, d2r = PI/180.;
+    double res, dist, lont, latt, rt, fact = 5.0, d2r = PI/180.;
     int tess;
     TESSEROID split[8];
 
@@ -78,16 +88,37 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
         dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
                     cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
 
-        /** \todo Guard against inifite loop is dist = 0 */
-        if(dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
-           dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
-           dist < fact*(model[tess].r2 - model[tess].r1))
+        /* Would get stuck in infinite loop if dist = 0 and get wrong results if
+           inside de tesseroid. Still do the calculation but warn user that it's
+           probably wrong. */
+        if(lonp >= model[tess].w && lonp <= model[tess].e &&
+           latp >= model[tess].s && latp <= model[tess].n &&
+           rp >= model[tess].r1 && rp <= model[tess].r2)
+        {
+            log_warning("Point (%g %g %g) is on tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
+                        lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
+                        model[tess].w, model[tess].e, model[tess].s,
+                        model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
+                        model[tess].r1 - MEAN_EARTH_RADIUS,
+                        model[tess].density);
+            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
+            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
+            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
+            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
+                         *glq_r);
+        }
+        else if(
+            dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
+            dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
+            dist < fact*(model[tess].r2 - model[tess].r1))
         {
             log_debug("Splitting tesseroid %d: %g %g %g %g %g %g %g at point: %g %g %g",
                       tess, model[tess].w, model[tess].e, model[tess].s,
                       model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
                       model[tess].r1 - MEAN_EARTH_RADIUS, model[tess].density,
                       lonp, latp, rp - MEAN_EARTH_RADIUS);
+            /* Recursively split the tesseroid in 8 unil size is smaller than
+               distance */
             split_tess(model[tess], split);
             res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,
                                          glq_lat, glq_r, field);

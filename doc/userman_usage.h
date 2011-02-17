@@ -65,6 +65,10 @@ and negavitive if bellow. Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!
 
 Use the command line option -h to view a list of all commands available.
 
+<b>WARNING</b>: Do not calculate directly on top or inside of a tesseroid. The
+computations will not be correct even using the -a option. If tried, will print a warning
+message but will calculate anyway.
+
 \subsection tess-example Example:
 
 Calculate the \f$ g_z \f$ field of a tesseroid model having verbose printed and
@@ -107,9 +111,13 @@ date, etc.
 \section grid Generating a regular grid
 
 Included in the package is program "tessgrd" which creates a regular grid of
-points and prints them to standard output.
+points and prints them to standard output. This program is unit independent and
+can be used to generate grids in spherical or Cartesian coordinates.
 
 \subsection grdiexample Example
+
+To generate a grid in the range -10W, 10E, -10S, 10N with 100x100 points at
+250 km height:
 
 \verbatim
 tessgrd -r-10/10/-10/10 -b100/100 -z250e03 -v > points.txt
@@ -180,6 +188,16 @@ a file. The model file should have the column format:
 X1 X2 Y1 Y2 Z1 Z2 DENSITY
 \endverbatim
 
+\subsection prism-ex Example
+
+Calculate the \f$ g_z \f$ field of a prism model having verbose printed and
+logged to file "prismgz.log".
+
+\verbatim
+prismgz modelfile.txt -v -lprismgz.log < points.txt > gz_data.txt
+\endverbatim
+
+
 \subsection prism-coords A note on the coordinate system
 
 As in Nagy <i> et al.</i> (2000), the coordinate system for the rectangular prism
@@ -205,7 +223,7 @@ Write programs to handle text streams, because that is a universal interface.
 Therefore, all tessg* and tessgrd programs can be piped together to calculate
 many components on a regular grid.
 
-\subsection pipe-example Example
+\subsection pipe-example Example with tesseroids
 
 Given a tesseroids file "model.txt" as follows:
 
@@ -229,6 +247,31 @@ The result of this should look something like:
 
 \image html example.png "Plot of columns in result file output.txt (values in mGal and Eotvos)."
 \image latex example.png "Plot of columns in result file output.txt (values in mGal and Eotvos)." width=15cm
+
+
+\subsection pipe-example-prism Example with rectangular prisms
+
+Given a prism file "prism_model.txt" as follows:
+
+\verbatim
+4e03 6e03 2e03 8e03 0 2e03 500
+\endverbatim
+
+Running the following would calculate \f$ g_z \f$ and gradient tensor of
+prisms in "prism_model.txt" of a regular grid from 0km W to 10km E and 0km S
+to 10km N on 100x100 points at 1 km height.
+
+\verbatim
+tessgrd -r0/10e03/0/10e03 -b100/100 -z1e03 | prismgz prism_model.txt | \
+prismgxx prism_model.txt | prismgxy prism_model.txt | prismgxz prism_model.txt | \
+prismgyy prism_model.txt | prismgyz prism_model.txt | prismgzz prism_model.txt > prism_output.txt
+\endverbatim
+
+Note that we could re-use "tessgrd" for this since it's calculations are unit independent.
+The result of this should look something like:
+
+\image html example-prism.png "Plot of columns in result file prism_output.txt (values in mGal and Eotvos)."
+\image latex example-prism.png "Plot of columns in result file prism_output.txt (values in mGal and Eotvos)." width=15cm
 
 
 \section refs References
