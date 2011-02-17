@@ -40,7 +40,6 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
     int tess;
 
     res = 0;
-    
     for(tess = 0; tess < size; tess++)
     {
         if(lonp >= model[tess].w && lonp <= model[tess].e &&
@@ -57,10 +56,8 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
         glq_set_limits(model[tess].w, model[tess].e, glq_lon);
         glq_set_limits(model[tess].s, model[tess].n, glq_lat);
         glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
-        
         res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat, *glq_r);
     }
-
     return res;
 }
 
@@ -77,7 +74,6 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     TESSEROID split[8];
 
     res = 0;
-
     for(tess = 0; tess < size; tess++)
     {
         /* Check if the computation point is at an acceptable distance. If not
@@ -132,11 +128,10 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
                          *glq_r);
         }
     }
-
     return res;
 }
 
-    
+
 /* Calculates gx caused by a tesseroid. */
 double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
                GLQ glq_lat, GLQ glq_r)
@@ -144,12 +139,11 @@ double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
     double d2r = PI/180., l_sqr, kphi, coslatp, coslatc, sinlatp, sinlatc,
            coslon, rc, kappa, res;
     register int i, j, k;
-    
+
     coslatp = cos(d2r*latp);
     sinlatp = sin(d2r*latp);
 
     res = 0;
-    
     for(k = 0; k < glq_lon.order; k++)
     {
         for(j = 0; j < glq_lat.order; j++)

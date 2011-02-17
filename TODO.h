@@ -14,6 +14,8 @@ API:
 
 DOC:
 \todo Make doxygen groups to separate programs from api
+\todo Better plot for ggt in DEM example
+\todo Write page about DEM example
 
 MAYBE:
 \todo Generate VTK file to plot tesseroids in Mayavi2 or Paraview
