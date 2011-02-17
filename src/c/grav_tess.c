@@ -59,6 +59,9 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
               double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
               double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
 {
+
+    /** \todo Make integration test against calc_tess_model */
+
     double res, dist, lont, latt, rt, fact = 1.5, d2r = PI/180.;
     int tess;
     TESSEROID split[8];
@@ -75,6 +78,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
         dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
                     cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
 
+        /** \todo Guard against inifite loop is dist = 0 */
         if(dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
            dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
            dist < fact*(model[tess].r2 - model[tess].r1))

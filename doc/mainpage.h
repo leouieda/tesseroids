@@ -28,7 +28,8 @@ GNU/Linux and Windows systems.
 </p>
 
 <p>
-This software is developed by Leonardo Uieda in cooperation with Carla Braitenberg.
+This software is developed by Leonardo Uieda in cooperation with Carla Braitenberg
+with some funding from <a href="http://www.goceitaly.asi.it/GoceIT">GOCE Italy</a>.
 </p>
 
 \image html tesseroid_coordsys.png "View of a tesseroid, the computation P and it's local coordinate system."
