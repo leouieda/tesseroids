@@ -55,6 +55,10 @@ int main(){
     result *= 0.5*(b - a);
 
     printf("Integral of cossine from 0 to 90 degrees = %lf\n", result);
+    
+    // Free allocated memory
+    glq_free(glq);
+    
     return 0;
 }
 @endcode

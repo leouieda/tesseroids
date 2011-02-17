@@ -75,6 +75,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
         dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
                     cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
 
+        /** \todo Stop entering infinite loop if dist = 0 */
         if(dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
            dist < fact*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
            dist < fact*(model[tess].r2 - model[tess].r1))

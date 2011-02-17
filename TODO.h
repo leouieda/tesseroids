@@ -13,6 +13,9 @@ API:
 
 DOC:
 \todo Make doxygen groups to separate programs from api
+\todo Example for prismg*
+\todo Include link to GOCE Italy
+\todo Strip full path name from docs repo
 
 MAYBE:
 \todo Generate VTK file to plot tesseroids in Mayavi2 or Paraview

@@ -1,7 +1,7 @@
 /** \file
 Main page of the documentation.
 
-\mainpage Welcolme
+\mainpage Welcome
 
 \htmlonly
 <table border=0>
@@ -28,7 +28,7 @@ GNU/Linux and Windows systems.
 </p>
 
 <p>
-This software is developed by Leonardo Uieda in cooperation with Carla Braitenberg.
+This software is developed by Leonardo Uieda in cooperation with Carla Braitenberg (GOCE Italy).
 </p>
 
 \image html tesseroid_coordsys.png "View of a tesseroid, the computation P and it's local coordinate system."
