@@ -221,6 +221,8 @@ int main(int argc, char **argv)
                 bot = height;
                 if(args.fix_density)
                     dens = -args.dens;
+                else
+                    dens *= -1;
             }
 
             printf("%g %g %g %g %g %g %g\n", w, e, s, n, top, bot, dens);
