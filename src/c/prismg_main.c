@@ -169,7 +169,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     log_info("Total of %d prism(s) read", modelsize);
 
     /* Print a header on the output with provenance information */
-    printf("# %s component calculated with %s %s:\n", progname + 4, progname,
+    printf("# %s component calculated with %s %s:\n", progname + 5, progname,
            tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   model file: %s (%d prisms)\n", args.inputfname, modelsize);

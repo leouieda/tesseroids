@@ -4,4 +4,4 @@ syntax: glob
 build
 bin
 *.o
-
+*.pyc
