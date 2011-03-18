@@ -155,42 +155,42 @@ double prism_gz(PRISM prism, double xp, double yp, double zp)
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
     res += 1*(deltax1*log(deltay1 + r) + deltay1*log(deltax1 + r) -
-    		deltaz1*atan2(deltax1*deltay1, deltaz1*r));
+            deltaz1*atan2(deltax1*deltay1, deltaz1*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
     res += -1*(deltax2*log(deltay1 + r) + deltay1*log(deltax2 + r) -
-    		deltaz1*atan2(deltax2*deltay1, deltaz1*r));
+            deltaz1*atan2(deltax2*deltay1, deltaz1*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
     res += -1*(deltax1*log(deltay2 + r) + deltay2*log(deltax1 + r) -
-    		deltaz1*atan2(deltax1*deltay2, deltaz1*r));
+            deltaz1*atan2(deltax1*deltay2, deltaz1*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
     res += 1*(deltax2*log(deltay2 + r) + deltay2*log(deltax2 + r) -
-    		deltaz1*atan2(deltax2*deltay2, deltaz1*r));
+            deltaz1*atan2(deltax2*deltay2, deltaz1*r));
 
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
     res += -1*(deltax1*log(deltay1 + r) + deltay1*log(deltax1 + r) -
-    		deltaz2*atan2(deltax1*deltay1, deltaz2*r));
+            deltaz2*atan2(deltax1*deltay1, deltaz2*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
     res += 1*(deltax2*log(deltay1 + r) + deltay1*log(deltax2 + r) -
-    		deltaz2*atan2(deltax2*deltay1, deltaz2*r));
+            deltaz2*atan2(deltax2*deltay1, deltaz2*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
     res += 1*(deltax1*log(deltay2 + r) + deltay2*log(deltax1 + r) -
-    		deltaz2*atan2(deltax1*deltay2, deltaz2*r));
+            deltaz2*atan2(deltax1*deltay2, deltaz2*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
     res += -1*(deltax2*log(deltay2 + r) + deltay2*log(deltax2 + r) -
-    		deltaz2*atan2(deltax2*deltay2, deltaz2*r));
+            deltaz2*atan2(deltax2*deltay2, deltaz2*r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
        density and convert it to mGal units */
