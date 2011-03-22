@@ -124,7 +124,10 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     /* r1 is not z1 because r1 is the bottom face */
     prism->z1 = MEAN_EARTH_RADIUS - tess.r2;
     prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
-    prism->density = tess.density;
+
+    /* Calculate the density of the prism so that they will have exactly
+       the same mass */
+    prism->density = (double)tess.density*tess_volume(tess)/prism_volume(*prism);
 }
 
 
