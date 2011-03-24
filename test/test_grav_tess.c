@@ -35,6 +35,44 @@ Date: 24 Jan 2011
 char msg[1000];
 
 
+static char * test_tess2sphere_pot()
+{
+    SPHERE sphere;
+    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    double radius, dist, restess, ressphere;
+    GLQ *glqlon, *glqlat, *glqr;
+
+    glqlon = glq_new(8, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    radius = tess.r2;
+
+    /* Make a sphere with the same mass as the tesseroid */
+    tess2sphere(tess, &sphere);
+
+    for(dist=1000000; dist <= 2000000; dist += 1000)
+    {
+        restess = tess_pot(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
+        ressphere = sphere_pot(sphere,0,40,radius+dist);
+
+        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+                restess, ressphere);
+        mu_assert_almost_equals(restess, ressphere, 0.01, msg);
+    }
+
+    return 0;
+}
+
+
 static char * test_tess2sphere_gx()
 {
     SPHERE sphere;
@@ -64,7 +102,7 @@ static char * test_tess2sphere_gx()
         restess = tess_gx(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gx(sphere,0,40,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -102,7 +140,7 @@ static char * test_tess2sphere_gy()
         restess = tess_gy(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gy(sphere,5,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -140,7 +178,7 @@ static char * test_tess2sphere_gz()
         restess = -tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gz(sphere,0,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.2lf  sphere = %.2lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -379,6 +417,8 @@ static char * test_tess2sphere_gzz()
 
 void grav_tess_run_all()
 {
+    mu_run_test(test_tess2sphere_pot,
+                "tess_pot results equal to sphere of same mass at distance");
     mu_run_test(test_tess2sphere_gx,
                 "tess_gx results equal to sphere of same mass at distance");
     mu_run_test(test_tess2sphere_gy,

@@ -42,8 +42,15 @@ char global_progname[100];
 void print_help()
 {
     printf("Usage: %s MODELFILE [OPTIONS]\n\n", global_progname);
-    printf("Calculate the %s component due to a rectangular prism model on\n",
-           global_progname + 5);
+    if(strcmp(global_progname + 5, "pot") == 0)
+    {
+        printf("Calculate the potential due to a rectangular prism model on\n");
+    }
+    else
+    {
+        printf("Calculate the %s component due to a rectangular prism model on\n",
+                global_progname + 5);
+    }
     printf("specified observation points using Cartesian coordinates.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Coordinates:\n");
@@ -169,13 +176,21 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     log_info("Total of %d prism(s) read", modelsize);
 
     /* Print a header on the output with provenance information */
-    printf("# %s component calculated with %s %s:\n", progname + 5, progname,
-           tesseroids_version);
+    if(strcmp(progname + 5, "pot") == 0)
+    {
+        printf("# Potential calculated with %s %s:\n", progname,
+               tesseroids_version);
+    }
+    else
+    {
+        printf("# %s component calculated with %s %s:\n", progname+5, progname,
+               tesseroids_version);
+    }
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   model file: %s (%d prisms)\n", args.inputfname, modelsize);
 
     /* Read each computation point from stdin and calculate */
-    log_info("Calculating %s component (this may take a while)...", progname+5);
+    log_info("Calculating (this may take a while)...");
     clock_t tstart = clock();
     int line, points = 0, error_exit = 0, bad_input = 0, i;
     char buff[10000];

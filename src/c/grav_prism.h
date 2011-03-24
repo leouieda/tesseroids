@@ -41,6 +41,19 @@ x -> North  y -> East  z -> Down
 #include "utils.h"
 
 
+/** Calculates potential caused by a right rectangular prism.
+
+<b> Input and output values in SI units! </b>
+
+@param prism data structure describing the prism
+@param xp x coordinate of the computation point
+@param yp y coordinate of the computation point
+@param zp z coordinate of the computation point
+
+@return field calculated at P */
+extern double prism_pot(PRISM prism, double xp, double yp, double zp);
+
+
 /** Calculates gx component caused by a right rectangular prism.
 
 <b> Input values in SI units and returns values in mGal! </b>

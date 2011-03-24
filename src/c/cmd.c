@@ -830,8 +830,15 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
 void print_tessg_help(const char *progname)
 {
     printf("Usage: %s MODELFILE [OPTIONS]\n\n", progname);
-    printf("Calculate the %s component due to a tesseroid model on\n",
-           progname + 4);
+    if(strcmp(progname + 4, "pot") == 0)
+    {
+        printf("Calculate the potential due to a tesseroid model on\n");
+    }
+    else
+    {
+        printf("Calculate the %s component due to a tesseroid model on\n",
+               progname + 4);
+    }
     printf("specified observation points.\n\n");
     printf("Values are calculated in the local coordinate system of the\n");
     printf("observation point: x-> North  y-> East  z-> Up (away from the\n");

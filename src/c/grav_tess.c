@@ -131,6 +131,45 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
 }
 
 
+/* Calculates potential caused by a tesseroid. */
+double tess_pot(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
+               GLQ glq_lat, GLQ glq_r)
+{
+    double d2r = PI/180., l_sqr, coslatp, coslatc, sinlatp, sinlatc,
+           coslon, rc, kappa, res;
+    register int i, j, k;
+
+    coslatp = cos(d2r*latp);
+    sinlatp = sin(d2r*latp);
+
+    res = 0;
+    for(k = 0; k < glq_lon.order; k++)
+    {
+        for(j = 0; j < glq_lat.order; j++)
+        {
+            for(i = 0; i < glq_r.order; i++)
+            {
+                rc = glq_r.nodes[i];
+                sinlatc = sin(d2r*glq_lat.nodes[j]);
+                coslatc = cos(d2r*glq_lat.nodes[j]);
+                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
+                l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
+                                                 coslatp*coslatc*coslon);
+                kappa = rc*rc*coslatc;
+
+                res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
+                       kappa/sqrt(l_sqr);
+            }
+        }
+    }
+
+    res *= G*tess.density*d2r*(tess.e - tess.w)*d2r*(tess.n - tess.s)*
+           (tess.r2 - tess.r1)*0.125;
+
+    return res;
+}
+
+
 /* Calculates gx caused by a tesseroid. */
 double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
                GLQ glq_lat, GLQ glq_r)

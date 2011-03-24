@@ -128,8 +128,16 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     log_info("Total of %d tesseroid(s) read", modelsize);
 
     /* Print a header on the output with provenance information */
-    printf("# %s component calculated with %s %s:\n", progname + 4, progname,
-           tesseroids_version);
+    if(strcmp(progname + 4, "pot") == 0)
+    {
+        printf("# Potential calculated with %s %s:\n", progname,
+               tesseroids_version);
+    }
+    else
+    {
+        printf("# %s component calculated with %s %s:\n", progname+4, progname,
+               tesseroids_version);
+    }
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   model file: %s (%d tesseroids)\n", args.modelfname, modelsize);
     printf("#   GLQ order: %d lon / %d lat / %d r\n", args.lon_order,
@@ -138,7 +146,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
            args.adaptative ? "True" : "False");
 
     /* Read each computation point from stdin and calculate */
-    log_info("Calculating %s component (this may take a while)...", progname+4);
+    log_info("Calculating (this may take a while)...");
     clock_t tstart = clock();
     int line, points = 0, error_exit = 0, bad_input = 0;
     char buff[10000];

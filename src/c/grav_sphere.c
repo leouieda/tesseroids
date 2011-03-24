@@ -37,6 +37,27 @@ density to have negative gz
 #include "grav_sphere.h"
 
 
+/* Calculates the potential caused by a sphere */
+double sphere_pot(SPHERE sphere, double lonp, double latp, double rp)
+{
+    double mass, l_sqr, d2r = PI/180., kphi, coslatp, coslatc, sinlatp, sinlatc,
+           coslon;
+
+    mass = (double)(sphere.density*4.*PI*sphere.r*sphere.r*sphere.r)/3.;
+
+    coslatp = cos(d2r*latp);
+    coslatc = cos(d2r*sphere.latc);
+    sinlatp = sin(d2r*latp);
+    sinlatc = sin(d2r*sphere.latc);
+    coslon = cos(d2r*(lonp - sphere.lonc));
+
+    l_sqr = rp*rp + sphere.rc*sphere.rc - 2*rp*sphere.rc*(
+                                      sinlatp*sinlatc + coslatp*coslatc*coslon);
+
+    return G*mass/sqrt(l_sqr);
+}
+
+
 /* Calculates the gx component of gravitational attraction caused by a sphere */
 double sphere_gx(SPHERE sphere, double lonp, double latp, double rp)
 {

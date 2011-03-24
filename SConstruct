@@ -52,6 +52,12 @@ Program(join(bin_dir, 'tessmodgen'),
         tessmodgen + logger + cmd + version + utils + constants, LIBS=['m'])
 
 # The tessg* programs
+tesspot = Object(join(c_dir, 'tesspot.c'))
+Program(join(bin_dir, 'tesspot'),
+        tesspot + logger + cmd + version + glq + grav_tess + utils + constants +
+        tessg_main,
+        LIBS=['m'])
+        
 tessgx = Object(join(c_dir, 'tessgx.c'))
 Program(join(bin_dir, 'tessgx'),
         tessgx + logger + cmd + version + glq + grav_tess + utils + constants +
@@ -107,6 +113,12 @@ Program(join(bin_dir, 'tessgzz'),
         LIBS=['m'])
 
 # The prismg* programs
+prismpot = Object(join(c_dir, 'prismpot.c'))
+Program(join(bin_dir, 'prismpot'),
+        prismpot + logger + cmd + version + grav_prism + utils + constants +
+        prismg_main,
+        LIBS=['m'])
+        
 prismgx = Object(join(c_dir, 'prismgx.c'))
 Program(join(bin_dir, 'prismgx'),
         prismgx + logger + cmd + version + grav_prism + utils + constants +

@@ -65,6 +65,27 @@ computation point.
 #include "utils.h"
 
 
+/** Calculates potential caused by a sphere.
+
+\f[
+V(r_p,\phi_p,\lambda_p) = \frac{G M}{\ell}
+\f]
+
+The position of the sphere and computation point should be in spherical
+coordinates.
+
+<b>Input and output values in SI units and degrees</b>
+
+@param sphere data structure describing the sphere
+@param lonp longitude of the computation point P
+@param latp latitude of the computation point P
+@param rp radial coordinate of the computation point P
+
+@return field calculated at P
+*/
+extern double sphere_pot(SPHERE sphere, double lonp, double latp, double rp);
+
+
 /** Calculates gx caused by a sphere.
 
 \f[

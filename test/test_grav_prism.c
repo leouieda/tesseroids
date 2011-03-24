@@ -32,6 +32,28 @@ Date: 24 Jan 2011
 
 char msg[1000];
 
+static char * test_prism2sphere_pot()
+{
+    SPHERE sphere;
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    double dist, resprism, ressphere;
+
+    /* Make a sphere with the same mass as the prism and put it at the origin */
+    prism2sphere(prism, 0, 0, 0, &sphere);
+
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        resprism = prism_pot(prism,0,0,-dist);
+        ressphere = sphere_pot(sphere,0,90,dist);
+
+        sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
+                resprism, ressphere);
+        mu_assert_almost_equals(resprism, ressphere, 0.001, msg);
+    }
+
+    return 0;
+}
+
 static char * test_prism2sphere_gx()
 {
     SPHERE sphere;
@@ -44,9 +66,9 @@ static char * test_prism2sphere_gx()
     for(dist=10000; dist <= 500000; dist += 500)
     {
         resprism = prism_gx(prism,0,0,-dist);
-        ressphere = sphere_gx(sphere,0,0,dist);
+        ressphere = sphere_gx(sphere,0,90,dist);
 
-        sprintf(msg, "(distance %g m) prism = %.2lf  sphere = %.2lf", dist,
+        sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
         mu_assert_almost_equals(resprism, ressphere, 0.00000001, msg);
     }
@@ -67,9 +89,9 @@ static char * test_prism2sphere_gy()
     for(dist=10000; dist <= 500000; dist += 500)
     {
         resprism = prism_gy(prism,0,0,-dist);
-        ressphere = sphere_gy(sphere,0,0,dist);
+        ressphere = sphere_gy(sphere,0,90,dist);
 
-        sprintf(msg, "(distance %g m) prism = %.2lf  sphere = %.2lf", dist,
+        sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
         mu_assert_almost_equals(resprism, ressphere, 0.00000001, msg);
     }
@@ -90,7 +112,7 @@ static char * test_prism2sphere_gz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gz(prism,0,0,-dist);
-        ressphere = sphere_gz(sphere,0,0,dist);
+        ressphere = sphere_gz(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -113,7 +135,7 @@ static char * test_prism2sphere_gxx()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxx(prism,0,0,-dist);
-        ressphere = sphere_gxx(sphere,0,0,dist);
+        ressphere = sphere_gxx(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -136,7 +158,7 @@ static char * test_prism2sphere_gxy()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxy(prism,0,0,-dist);
-        ressphere = sphere_gxy(sphere,0,0,dist);
+        ressphere = sphere_gxy(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -159,11 +181,11 @@ static char * test_prism2sphere_gxz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gxz(prism,0,0,-dist);
-        ressphere = sphere_gxz(sphere,0,0,dist);
+        ressphere = sphere_gxz(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
-        mu_assert_almost_equals(resprism, ressphere, 0.001, msg);
+        mu_assert_almost_equals(resprism, -1*ressphere, 0.001, msg);
     }
 
     return 0;
@@ -182,7 +204,7 @@ static char * test_prism2sphere_gyy()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gyy(prism,0,0,-dist);
-        ressphere = sphere_gyy(sphere,0,0,dist);
+        ressphere = sphere_gyy(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -205,11 +227,11 @@ static char * test_prism2sphere_gyz()
     for(dist=50000; dist <= 500000; dist += 500)
     {
         resprism = prism_gyz(prism,0,0,-dist);
-        ressphere = sphere_gyz(sphere,0,0,dist);
+        ressphere = sphere_gyz(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
-        mu_assert_almost_equals(resprism, ressphere, 0.001, msg);
+        mu_assert_almost_equals(resprism, -1*ressphere, 0.001, msg);
     }
 
     return 0;
@@ -228,7 +250,7 @@ static char * test_prism2sphere_gzz()
     for(dist=60000; dist <= 500000; dist += 500)
     {
         resprism = prism_gzz(prism,0,0,-dist);
-        ressphere = sphere_gzz(sphere,0,0,dist);
+        ressphere = sphere_gzz(sphere,0,90,dist);
 
         sprintf(msg, "(distance %g m) prism = %.5lf  sphere = %.5lf", dist,
                 resprism, ressphere);
@@ -241,6 +263,8 @@ static char * test_prism2sphere_gzz()
 
 void grav_prism_run_all()
 {
+    mu_run_test(test_prism2sphere_pot,
+                "prism_pot results equal to sphere of same mass at distance");
     mu_run_test(test_prism2sphere_gx,
                 "prism_gx results equal to sphere of same mass at distance");
     mu_run_test(test_prism2sphere_gy,
