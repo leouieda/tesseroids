@@ -7,6 +7,7 @@ TESTS:
 
 PROGRAMS:
 \todo Programs to calculate the effect of a sphere model in spherical coordinates
+\todo Program to calculate geoid height from potential using different ellipsoids
 
 API:
 \todo Make minunit into functions and put variable arguments for messages like printf
