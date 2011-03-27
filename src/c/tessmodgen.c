@@ -225,7 +225,8 @@ int main(int argc, char **argv)
                     dens *= -1;
             }
 
-            printf("%g %g %g %g %g %g %g\n", w, e, s, n, top, bot, dens);
+            printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n", w, e, s, n,
+                   top, bot, dens);
             size++;
         }
     }

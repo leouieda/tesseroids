@@ -193,7 +193,7 @@ int main(int argc, char **argv)
     {
         log_info("Total mass:");
     }
-    printf("%lf\n", mass);
+    printf("%.15g\n", mass);
 
     if(bad_input)
     {

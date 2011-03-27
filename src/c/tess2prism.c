@@ -187,8 +187,8 @@ int main(int argc, char **argv)
 
             tess2prism(tess, &prism);
 
-            printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf\n", prism.x1,
-                   prism.x2, prism.y1, prism.y2, prism.z1, prism.z2,
+            printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
+                   prism.x1, prism.x2, prism.y1, prism.y2, prism.z1, prism.z2,
                    prism.density,
                    0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
 

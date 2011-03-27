@@ -195,7 +195,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
                                       height + MEAN_EARTH_RADIUS, glq_lon,
                                       glq_lat, glq_r, field);
             }
-            printf("%s %g\n", buff, res);
+            printf("%s %.15g\n", buff, res);
             points++;
         }
     }

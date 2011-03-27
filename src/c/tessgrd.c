@@ -108,7 +108,7 @@ int main(int argc, char **argv)
         lons = 0;
         for(lon = args.w; lon <= args.e; lon += dlon)
         {
-            printf("%lf %lf %lf\n", lon, lat, args.height);
+            printf("%.15g %.15g %.15g\n", lon, lat, args.height);
             lons++;
             total++;
         }
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
         /* Sometimes prints one less because of rounding errors */
         if(lons != args.nlon)
         {
-            printf("%lf %lf %lf\n", lon, lat, args.height);
+            printf("%.15g %.15g %.15g\n", lon, lat, args.height);
             lons++;
             total++;
         }
@@ -132,14 +132,14 @@ int main(int argc, char **argv)
         lons = 0;
         for(lon = args.w; lon <= args.e; lon += dlon)
         {
-            printf("%lf %lf %lf\n", lon, lat, args.height);
+            printf("%.15g %.15g %.15g\n", lon, lat, args.height);
             lons++;
             total++;
         }
 
         if(lons != args.nlon)
         {
-            printf("%lf %lf %lf\n", lon, lat, args.height);
+            printf("%.15g %.15g %.15g\n", lon, lat, args.height);
             lons++;
             total++;
         }

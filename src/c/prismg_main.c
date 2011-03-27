@@ -232,7 +232,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
                 res += field(model[i], x, y, -height);
             }
 
-            printf("%s %g\n", buff, res);
+            printf("%s %.15g\n", buff, res);
             points++;
         }
     }
