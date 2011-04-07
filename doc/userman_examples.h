@@ -15,7 +15,7 @@ Click on the images for a document explaining the example.
 <table border=0 cellspacing=20px>
 <tr>
 <td align="center">
-    <a href="dem_brasil_example.pdf"><img src="dem-10min.png" width="40%"></a>
+    <a href="dem_brasil_example.pdf"><img src="dem-10min.png" width="200"></a>
 </td>
 </table>
 
