@@ -17,6 +17,14 @@ directory. The executables will be in the "bin" folder and the HTML and PDF docu
 in the "doc" folder. To view the HTML docs open "index.html" from the "html" folder
 in a web browser.
 
+The "examples" folder contains a few usage examples. The "run_examples.sh" scripts
+contain the commands to run each example.
+Included are also some <a href="http://www.python.org/download/">Python</a>
+scripts that do the plotting. These are not necessary for running the examples, so don't
+worry if you don't know Python or have it installed.
+If you want to know more about Python and scientific computing in general, I recommend
+the excelent <a href="http://software-carpentry.org">Software Carpentry</a> course.
+
 \section src From source
 
 Tesseroids uses the build tool <a href="http://www.scons.org/">SCons</a>.
@@ -35,7 +43,8 @@ On GNU/Linux SCons will use the GCC compiler to compile sources. On Windows it w
 search for an existing compiler. We recomment that you install GCC on Windows using
 <a href="http://www.mingw.org/">MinGW</a>.
 
-To compile, in the type in a terminal (cmd.exe on Windows):
+To compile, open a terminal (cmd.exe on Windows) and go to the directory where you
+unpacked the source distribution. Once there, simply type:
 
 \verbatim
 scons

@@ -29,9 +29,14 @@ Programming Interface (API).
     <a href="userman-instal.html"><font size=4><u>Installation</u></font></a><br>
     <font size=2><i>Installation and compilation instructions</i></font>
 </td>
+<tr>
 <td>
     <a href="userman-usage.html"><font size=4><u>Usage</u></font></a><br>
     <font size=2><i>How to use the programs and some examples</i></font>
+</td>
+<td>
+    <a href="userman-examples.html"><font size=4><u>Examples</u></font></a><br>
+    <font size=2><i>Some more realistic usage cases</i></font>
 </td>
 </table>
 
