@@ -69,7 +69,13 @@ to generate the documentation. You will need Doxygen installed as well as
 documentation you will also need <a href="http://www.latex-project.org/">Latex</a> installed.
 make comes pre-installed on most GNU/Linux systems.
 
-On GNU/Linux run the command "make" from the "doc" folder to generate the HTML and Latex
+The source for the documentation doesn't come with the regular source code distribution.
+If you want to get it, go to the
+<a href="http://code.google.com/p/tesseroids/source/checkout">Source tab</a> in the project
+site and see how you can get a copy of the source code from the version control repository.
+
+To build the docs, on GNU/Linux run the command "make" from the "doc" folder to
+generate the HTML and Latex
 code for the documentation. On Windows, run "make win". To compile the Latex code,
 go to "doc/build/latex" and run "make". To view the HTML documentation open
 "doc/build/html/index.html" in an internet browser. The Latex documentation is compiled
