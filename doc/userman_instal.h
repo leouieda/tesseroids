@@ -13,8 +13,8 @@ User manual: Installation
 \section bin Binary distribution
 
 If you downloaded a pre-compiled binary distribution, simply unpack in the desired
-directory. The executables will be in the "bin" folder and the HTML and PDF documentation
-in the "doc" folder. To view the HTML docs open "index.html" from the "html" folder
+directory. The executables will be in the "bin" folder and the HTML documentation
+in the "doc" folder. To view the docs open "index.html" from the "html" folder
 in a web browser.
 
 The "examples" folder contains a few usage examples. The "run_examples.sh" scripts

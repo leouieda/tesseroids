@@ -15,13 +15,13 @@ API:
 
 DOC:
 \todo Make doxygen groups to separate programs from api
-\todo Better plot for ggt in DEM example
-\todo Write page about DEM example
 
 MAYBE:
 \todo Generate VTK file to plot tesseroids in Mayavi2 or Paraview
 
 DONE:
+- (Done 07/Apr/2011) Better plot for ggt in DEM example
+- (Done 07/Apr/2011) Write page about DEM example
 - (Done 27/Jan/2011) Include automatic documentation with doxygen
 - (Done 28/Jan/2011) Make integration test to compare tess to sphere and prism to sphere
 - (Done 02/Feb/2011) Move grid generation to a separate program

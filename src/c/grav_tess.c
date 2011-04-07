@@ -67,8 +67,6 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
               double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
               double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
 {
-    /** \todo Make integration test against calc_tess_model */
-
     double res, dist, lont, latt, rt, d2r = PI/180.;
     int tess, ratio = TESSEROID_SIZE_RATIO;
     TESSEROID split[8];
