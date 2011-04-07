@@ -51,4 +51,8 @@ extern const double SI2MGAL;
 Pi */
 extern const double PI;
 
+/** \var TESSEROID_SIZE_RATIO
+Minimum distance-to-size ratio for computations to be accurate */
+extern const int TESSEROID_SIZE_RATIO;
+
 #endif

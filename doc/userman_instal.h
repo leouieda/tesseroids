@@ -35,7 +35,7 @@ On GNU/Linux SCons will use the GCC compiler to compile sources. On Windows it w
 search for an existing compiler. We recomment that you install GCC on Windows using
 <a href="http://www.mingw.org/">MinGW</a>.
 
-To compile, type in a terminal (cmd.exe on Windows):
+To compile, in the type in a terminal (cmd.exe on Windows):
 
 \verbatim
 scons

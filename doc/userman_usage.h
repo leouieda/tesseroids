@@ -24,8 +24,10 @@ are in mGal and Eotvos. All other output is also in SI and decimal degrees.
 
 All programs accept the -h and --version flags. -h will print a help message
 describing the usage, input and output formats and options accepted.
---verbose prints version and license information about the program.
+--version prints version and license information about the program.
 
+Program <i>tessdefaults</i> prints the default values of constants used in the computations
+such as: mean Earth radius, pi, gravitational constant, etc.
 
 \section tessg Computing the gravitational effect of a tesseroid
 
@@ -80,14 +82,15 @@ tessgz modelfile.txt -v -lgz.log -o3/3/3 < points.txt > gz_data.txt
 
 \subsection tess-adapt The -a flag
 
-The -a flag on tessg* programs enables the automatic re-sizing of tesseroids
-when it is needed to maintain the GLQ precision desired. As a general rule,
-the tesseroid should be no bigger than it's distance from the computation point.
-Using this flag breaks the tesseroids automatically when this criterion is breached.
+The -a flag on tessg* programs disables the automatic subdividing of tesseroids
+when needed to maintain the GLQ accuracy desired. As a general rule,
+the tesseroid should be no bigger than a ratio times the distance from the computation point
+(program tessdefaults prints the value of the size ratio used).
+The tessg* programs automatically break the tesseroids when this criterion is breached.
 This means that the computations can be performed with order 2/2/2 (default) which is
-much faster and still maintain correctness. Some preliminary tests show that using
-the -a flag with order 2/2/2 is up to 5 times faster than increasing the GLQ order.
-<b>It is strongly recommended using this flag and 2/2/2 order always</b>.
+much faster and still maintain correctness.
+<b>It is strongly recommended that you don't use this flag unless you know what you are
+doing! It is also recommended that you keep 2/2/2 order always</b>.
 
 
 \section verbose Verbose and logging to files
@@ -228,19 +231,23 @@ many components on a regular grid.
 Given a tesseroids file "model.txt" as follows:
 
 \verbatim
--5 5 -5 5 0 -10e03 -500
+-1 1 -1 1 0 -10e03 -500
 \endverbatim
 
-Running the following would calculate \f$ g_z \f$ and gradient tensor of
-tesseroids in "model.txt" of a regular grid from -10W to 10E and -10S
-to 10N on 100x100 points at 250 km height.
+Running the following would calculate \f$ g_z \f$ and gradient tensor of tesseroids
+in "model.txt" of a regular grid from -5W to 5E and -5S to 5N on 100x100 points at
+250 km height.
 And the best of all is that it is done in parallel! If your system has multiple cores
-this would mean a great increase in the computation time.
+this would mean a great increase in the computation time. All information regarding the
+computations will be logged to files gz.log, gxx.log, etc. These should include the
+information about how many times the tesseroid had to be split into smaller ones
+to guarantee GLQ accuracy.
 
 \verbatim
-tessgrd -r-10/10/-10/10 -b100/100 -z250e03 | tessgz model.txt -a | \
-tessgxx model.txt -a | tessgxy model.txt -a | tessgxz model.txt -a | \
-tessgyy model.txt -a | tessgyz model.txt -a | tessgzz model.txt -a > output.txt
+tessgrd -r-5/5/-5/5 -b100/100 -z250e03 | tessgz model.txt -lgz.log | \
+tessgxx model.txt -lgxx.log | tessgxy model.txt -lgxy.log | \
+tessgxz model.txt -lgxz.log | tessgyy model.txt -lgyy.log | \
+tessgyz model.txt -lgyz.log | tessgzz model.txt -lgzz.log > output.txt
 \endverbatim
 
 The result of this should look something like:

@@ -69,8 +69,8 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
 {
     /** \todo Make integration test against calc_tess_model */
 
-    double res, dist, lont, latt, rt, ratio = 6.0, d2r = PI/180.;
-    int tess;
+    double res, dist, lont, latt, rt, d2r = PI/180.;
+    int tess, ratio = TESSEROID_SIZE_RATIO;
     TESSEROID split[8];
 
     res = 0;
@@ -89,7 +89,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
            latp >= model[tess].s && latp <= model[tess].n &&
            rp >= model[tess].r1 && rp <= model[tess].r2)
         {
-            log_warning("Point (%g %g %g) is on tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
+            log_warning("Point (%g %g %g) is on top of tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
                         lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
                         model[tess].w, model[tess].e, model[tess].s,
                         model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,

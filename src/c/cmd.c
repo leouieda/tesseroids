@@ -493,7 +493,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     args->lon_order = 2;
     args->lat_order = 2;
     args->r_order = 2;
-    args->adaptative = 0;
+    args->adaptative = 1;
 
     /* Parse arguments */
     int i;
@@ -570,13 +570,13 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    if(args->adaptative)
+                    if(!args->adaptative)
                     {
                         log_error("repeated option -a");
                         bad_args++;
                         break;
                     }
-                    args->adaptative = 1;
+                    args->adaptative = 0;
                     break;
                 case 'o':
                 {
@@ -846,6 +846,12 @@ void print_tessg_help(const char *progname)
     printf("In order to maintain mainstream convention, component gz is\n");
     printf("calculated with z-> Down.\n\n");
     printf("All units either SI or degrees!\n\n");
+    printf("The computation of the gravitational effect of the tesseroids\n");
+    printf("is done using the Gauss-Legendre Quadrature (GLQ) numerical\n");
+    printf("integration method.\n\n");
+    printf("WARNING: Avoid computing directly on top or inside the\n");
+    printf("         tesseroids! This will break the GLQ and the formulas!\n");
+    printf("\n");
     printf("Input:\n");
     printf("  Computation points passed through standard input (stdin).\n");
     printf("  Reads 3 or more values per line and inteprets the first 3 as\n");
@@ -876,9 +882,15 @@ void print_tessg_help(const char *progname)
     printf("  * If a line starts with # it will be considered a comment and\n");
     printf("    will be ignored.\n\n");
     printf("Options:\n");
+    printf("  -a           Disable the automatic subdividing of tesseroids.\n");
+    printf("               Subdividing is done to ensure the GLQ gives\n");
+    printf("               accurate results. Only use this option if you\n");
+    printf("               know what you are doing!\n");
     printf("  -o           LONORDER/LATORDER/RORDER: the GLQ order to use\n");
     printf("               in the longitudinal, latitudinal and radial\n");
     printf("               integrations, respectively. Defaults to 2/2/2.\n");
+    printf("               Subdividing of tesseroids works best with the\n");
+    printf("               default order.\n");
     printf("  -h           Print instructions.\n");
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");

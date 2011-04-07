@@ -415,6 +415,46 @@ static char * test_tess2sphere_gzz()
 }
 
 
+static char * test_adaptative()
+{
+    /* Check if the adaptative is dividing properly and returning the same thing
+       as the non-adaptative (do spliting by hand) */
+    TESSEROID tess = {1000.,-0.5,0.5,-0.5,0.5,MEAN_EARTH_RADIUS-10000,MEAN_EARTH_RADIUS},
+              split[8];
+    GLQ *glqlon, *glqlat, *glqr;
+    double mindist, resadapt, resnormal;
+
+    glqlon = glq_new(2, tess.w, tess.e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(2, tess.s, tess.n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(2, tess.r1, tess.r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    mindist = TESSEROID_SIZE_RATIO*111110.*(tess.e - tess.w);
+
+    /* If at half mindist should only divide once */
+    resadapt = calc_tess_model_adapt(&tess, 1, 0, 0,
+                                     0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
+                                     glqlat, glqr, tess_gzz);
+
+    split_tess(tess, split);
+    resnormal = calc_tess_model(split, 8, 0, 0,
+                                0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
+                                glqlat, glqr, tess_gzz);
+
+    sprintf(msg, "adapt = %.10lf  normal = %.10lf", resadapt, resnormal);
+    mu_assert_almost_equals(resadapt, resnormal, pow(10, -10), msg);
+
+    return 0;
+}
+
+
 void grav_tess_run_all()
 {
     mu_run_test(test_tess2sphere_pot,
@@ -437,4 +477,6 @@ void grav_tess_run_all()
                 "tess_gyz results equal to sphere of same mass at distance");
     mu_run_test(test_tess2sphere_gzz,
                 "tess_gzz results equal to sphere of same mass at distance");
+    mu_run_test(test_adaptative,
+            "calc_tess_model_adapt results as non-adapt with split by hand");
 }

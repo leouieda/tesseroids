@@ -47,3 +47,7 @@ const double SI2MGAL = 100000.0;
 /** \var PI
 Pi */
 const double PI = 3.1415926535897932384626433832795;
+
+/** \var TESSEROID_SIZE_RATIO
+Minimum distance-to-size ratio for computations to be accurate */
+const int TESSEROID_SIZE_RATIO = 4;
