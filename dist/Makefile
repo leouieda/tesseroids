@@ -5,7 +5,7 @@ all:
 	@echo "Commands:"
 	@echo "    make src for a source distribution"
 	@echo "    make bin for a linux binary distribution"
-	@echo "    make win for a windows binary distribution"
+	@echo "    make win32 for a windows binary distribution"
 
 src:
 	scons -C ../ -c
@@ -34,13 +34,18 @@ bin:
 	tar -zcvf ${DIRBASE}-bin.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-win:
+win32:
 	scons -C ..
 	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}\doc
-	copy -r ..\examples ${DIRBASE}
-	copy -r ..\bin ${DIRBASE}
-	copy -r ..\doc\build\html ${DIRBASE}\doc\html
+	mkdir ${DIRBASE}\examples
+	mkdir ${DIRBASE}\examples\dem_brasil
+	mkdir ${DIRBASE}\examples\prism
+	mkdir ${DIRBASE}\examples\tess
+	copy ..\examples\dem_brasil ${DIRBASE}\examples\dem_brasil
+	copy ..\examples\prism ${DIRBASE}\examples\prism
+	copy ..\examples\tess ${DIRBASE}\examples\tess
+	mkdir ${DIRBASE}\bin
+	copy ..\bin ${DIRBASE}\bin
 	copy ..\README ${DIRBASE}
 	copy ..\LICENSE ${DIRBASE}
 
