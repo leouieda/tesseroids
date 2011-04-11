@@ -15,13 +15,13 @@ API:
 
 DOC:
 \todo Make doxygen groups to separate programs from api
-\todo Example for prismg*
-\todo Strip full path name from docs repo
 
 MAYBE:
 \todo Generate VTK file to plot tesseroids in Mayavi2 or Paraview
 
 DONE:
+- (Done 11/Apr/2011) Example for prismg*
+- (Done 11/Apr/2011) Strip full path name from docs repo
 - (Done 11/Apr/2011) Include link to GOCE Italy
 - (Done 07/Apr/2011) Better plot for ggt in DEM example
 - (Done 07/Apr/2011) Write page about DEM example
