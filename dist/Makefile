@@ -9,12 +9,14 @@ all:
 
 src:
 	scons -C ../ -c
+	make -C ../doc
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../src ${DIRBASE}
 	cp -r ../test ${DIRBASE}
 	cp -r ../examples ${DIRBASE}
 	cp -r ../doc/build/html ${DIRBASE}/doc/html
+	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
 	cp ../README ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
 	cp ../SConstruct ${DIRBASE}
@@ -24,11 +26,13 @@ src:
 
 bin:
 	scons -C ..
+	make -C ../doc
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../examples ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
 	cp -r ../doc/build/html ${DIRBASE}/doc/html
+	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
 	cp ../README ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin.tar.gz ${DIRBASE}
@@ -37,6 +41,7 @@ bin:
 win32:
 	scons -C ..
 	mkdir ${DIRBASE}
+	mkdir ${DIRBASE}\doc
 	mkdir ${DIRBASE}\examples
 	mkdir ${DIRBASE}\examples\dem_brasil
 	mkdir ${DIRBASE}\examples\prism

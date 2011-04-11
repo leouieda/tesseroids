@@ -35,8 +35,8 @@ INSTALLATION
 Pre-compiled binary:
 
 If you downloaded a pre-compiled binary distribution, simply unpack in the desired
-directory. The executables will be in the "bin" folder and the HTML and PDF documentation
-in the "doc" folder. To view the HTML docs open "index.html" from the "html" folder
+directory. The executables will be in the "bin" folder and the HTML documentation
+in the "doc" folder. To view the HTML docs open "user-manual-v1_0.html"
 in a web browser.
 
 From souce:
