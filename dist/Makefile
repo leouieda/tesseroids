@@ -4,7 +4,8 @@ DIRBASE = tesseroids-${VERSION}
 all:
 	@echo "Commands:"
 	@echo "    make src for a source distribution"
-	@echo "    make bin for a linux binary distribution"
+	@echo "    make bin32 for a linux binary distribution"
+	@echo "    make bin64 for a linux binary distribution"
 	@echo "    make win32 for a windows binary distribution"
 
 src:
@@ -24,7 +25,7 @@ src:
 	tar -zcvf ${DIRBASE}-src.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-bin:
+bin32:
 	scons -C ..
 	make -C ../doc
 	mkdir ${DIRBASE}
@@ -35,7 +36,21 @@ bin:
 	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
 	cp ../README ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
-	tar -zcvf ${DIRBASE}-bin.tar.gz ${DIRBASE}
+	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
+	rm -r ${DIRBASE}
+
+bin64:
+	scons -C ..
+	make -C ../doc
+	mkdir ${DIRBASE}
+	mkdir ${DIRBASE}/doc
+	cp -r ../examples ${DIRBASE}
+	cp -r ../bin ${DIRBASE}
+	cp -r ../doc/build/html ${DIRBASE}/doc/html
+	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
+	cp ../README ${DIRBASE}
+	cp ../LICENSE ${DIRBASE}
+	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
 win32:
