@@ -1,0 +1,3 @@
+The Tesseroids setup wizard automatically sets your PATH environment variable so that you can use Tesseroids from any folder.
+Unfortunately, this requires that you restart your computer after installation. 
+We apologize for the inconvenience.
