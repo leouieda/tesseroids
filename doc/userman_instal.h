@@ -12,13 +12,28 @@ User manual: Installation
 
 \section bin Binary distribution
 
-If you downloaded a pre-compiled binary distribution, simply unpack in the desired
-directory. The executables will be in the "bin" folder and the HTML documentation
-in the "doc" folder. To view the docs open "user-manual-v1_0.html" 
-in a web browser.
+\subsection win32 Windows
 
-The "examples" folder contains a few usage examples. The "run_examples.sh" scripts
-contain the commands to run each example.
+Download the Windows installer from the
+<a href="http://code.google.com/p/tesseroids/downloads/list">Downloads</a> section. To install
+simply run it and follow the instructions.
+
+\subsection linux GNU/Linux
+
+Pre-compiled binaries for GNU/Linux are available in both 64bit and 32bit packages.
+<a href="http://code.google.com/p/tesseroids/downloads/list">Download</a> the one
+that best suites your system and unpack in the desired
+directory. The executables will be in the "bin" folder.
+
+\subsection docs Documentation
+
+Both Windows and GNU/Linux versions contain the HTML documentation
+in the "doc" folder in the installation directory. To view the docs open "user-manual-v1_0.html" 
+in a web browser. Windows users can find a link to the online documentation in the
+Start menu folder of the program.
+
+Usage examples are in the "examples" folder in the installation folder. The "run_examples.sh"
+shell scripts contain the commands to run each example.
 Included are also some <a href="http://www.python.org/download/">Python</a>
 scripts that do the plotting. These are not necessary for running the examples, so don't
 worry if you don't know Python or have it installed.
