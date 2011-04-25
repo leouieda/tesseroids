@@ -25,8 +25,11 @@ The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
+<b>References</b>
+
+- Nagy, D., Papp, G., Benedek, J. (2000): The gravitational potential and its derivatives for the prism. Journal of Geodesy, 74, 552–560.
+
 \todo Include formulas in function descriptions
-\todo Put reference for formulas
 \todo Unroll loops in gx and gy
 
 @author Leonardo Uieda

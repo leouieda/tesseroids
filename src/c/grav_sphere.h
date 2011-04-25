@@ -25,7 +25,7 @@ The derivatives of the potential are made with respect to the local coordinate
 system <b>x->North, y->East, z->out</b>. So it would be normal for a sphere of
 positive density to have negative gz.
 
-Used the generic formula for gravity gradient computation:
+Used the generic formula for gravity gradient computation (Grombein et al., 2010):
 
 \f[
 g_{ij}(r_p,\phi_p,\lambda_p) = G M \left(\frac{3\Delta x_i \Delta x_j}{\ell^5} -
@@ -50,8 +50,17 @@ K_{\phi} &=& \cos\phi_p\sin\phi_c - \sin\phi_p\cos\phi_c
 subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
 computation point.
 
+<b>References</b>
+
+- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE.
+KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
+Karlsruhe, Germany.
+(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
+http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
+
 \todo Possible speedup: Replace sphere.rc with a local copy
-\todo Put reference for formulas
 
 @author Leonardo Uieda
 @date 25 Jan 2011
@@ -86,7 +95,7 @@ coordinates.
 extern double sphere_pot(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gx caused by a sphere.
+/** Calculates gx caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_x(r_p,\phi_p,\lambda_p) = G M \frac{r_c K_{\phi}}{\ell^3}
@@ -110,7 +119,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gx(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gy caused by a sphere.
+/** Calculates gy caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_y(r_p,\phi_p,\lambda_p) = G M \frac{r_c\cos\phi_c\sin(\phi_c-\phi_p)}{\ell^3}
@@ -134,7 +143,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gy(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gz caused by a sphere.
+/** Calculates gz caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_z(r_p,\phi_p,\lambda_p) = G M \frac{r_c\cos\psi - r_p}{\ell^3}
@@ -158,7 +167,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gz(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gxx caused by a sphere.
+/** Calculates gxx caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{xx}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c K_{\phi})^2 - \ell^2}{\ell^5}
@@ -181,7 +190,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gxx(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gxy caused by a sphere.
+/** Calculates gxy caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{xy}(r_p,\phi_p,\lambda_p) = G M \frac{3r_c^2 K_{\phi}\cos\phi_c
@@ -205,7 +214,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gxy(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gxz caused by a sphere.
+/** Calculates gxz caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{xz}(r_p,\phi_p,\lambda_p) = G M \frac{3 r_c K_{\phi}(r_c \cos\psi - r_p)}
@@ -229,7 +238,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gxz(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gyy caused by a sphere.
+/** Calculates gyy caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{yy}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c\cos\phi_c
@@ -253,7 +262,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gyy(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gyz caused by a sphere.
+/** Calculates gyz caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{yz}(r_p,\phi_p,\lambda_p) = G M \frac{3 r_c \cos\phi_c \sin(\lambda_c -
@@ -277,7 +286,7 @@ system <b>x->North, y->East, z->out</b>
 extern double sphere_gyz(SPHERE sphere, double lonp, double latp, double rp);
 
 
-/** Calculates gzz caused by a sphere.
+/** Calculates gzz caused by a sphere (Grombein et al., 2010).
 
 \f[
 g_{zz}(r_p,\phi_p,\lambda_p) = G M \frac{3(r_c\cos\psi-r_p)^2 - \ell^2}{\ell^5}

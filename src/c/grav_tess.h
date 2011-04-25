@@ -19,7 +19,8 @@
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
 
-The gravity gradients can be calculated using the general formula:
+The gravity gradients can be calculated using the general formula
+(Grombein et al., 2010):
 
 \f[
 g_{\alpha\beta}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -33,7 +34,7 @@ I_{\alpha\beta} = \left(\frac{3\Delta x_i \Delta x_j}{\ell^5} -
     \frac{\delta_{ij}}{\ell^3} \right)\kappa\
 \f]
 
-and solved using the Gauss-Legendre Quadrature rule:
+and solved using the Gauss-Legendre Quadrature rule (Asgharzadeh et al., 2007):
 
 \f[
 g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho \frac{(\lambda_2 - \lambda_1)
@@ -84,7 +85,7 @@ int main()
     GLQ *glqlon, *glqlat, *glqr;
     double lon, lat, r = MEAN_EARTH_RADIUS + 1500000, res;
     int order = 8;
-    
+
     glqlon = glq_new(order, tess.w, tess.e);
     glqlat = glq_new(order, tess.s, tess.n);
     glqr = glq_new(order, tess.r1, tess.r2);
@@ -106,8 +107,21 @@ int main()
 }
 \endcode
 
+<b>References</b>
+
+- Asgharzadeh, M.F., von Frese, R.R.B., Kim, H.R., Leftwich, T.E. & Kim, J.W.
+(2007): Spherical prism gravity effects by Gauss-Legendre quadrature integration.
+Geophysical Journal International, 169, 1-11.
+
+- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE.
+KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
+Karlsruhe, Germany.
+(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
+http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
+
 \todo Possible speed up: use pointers for weights and nodes
-\todo Put reference for formulas
 \todo Allow for tesseroids with depth varying density
 
 @author Leonardo Uieda
@@ -200,7 +214,7 @@ V(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
     \frac{1}{\ell}\kappa \ d r' d \phi' d \lambda'
 \f]
 
-<b>Input and output values in SI units and <b>degrees</b>!
+<b>Input and output values in SI units and degrees</b>!
 
 Use function glq_new() to create the GLQ parameters required. The integration
 limits should be set to:
@@ -223,9 +237,9 @@ limits should be set to:
 */
 extern double tess_pot(TESSEROID tess, double lonp, double latp, double rp,
                        GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
-    
 
-/** Calculates gx caused by a tesseroid.
+
+/** Calculates gx caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_x(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -259,8 +273,8 @@ limits should be set to:
 */
 extern double tess_gx(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
-                    
-/** Calculates gy caused by a tesseroid.
+
+/** Calculates gy caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_y(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -296,7 +310,7 @@ limits should be set to:
 extern double tess_gy(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gz caused by a tesseroid.
+/** Calculates gz caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_z(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -331,7 +345,7 @@ limits should be set to:
 extern double tess_gz(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gxx caused by a tesseroid.
+/** Calculates gxx caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{xx}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -366,7 +380,7 @@ limits should be set to:
 extern double tess_gxx(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gxy caused by a tesseroid.
+/** Calculates gxy caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{xy}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -402,7 +416,7 @@ limits should be set to:
 extern double tess_gxy(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gxz caused by a tesseroid.
+/** Calculates gxz caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{xz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -438,7 +452,7 @@ limits should be set to:
 extern double tess_gxz(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gyy caused by a tesseroid.
+/** Calculates gyy caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{yy}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -474,7 +488,7 @@ limits should be set to:
 extern double tess_gyy(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gyz caused by a tesseroid.
+/** Calculates gyz caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{yz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -510,7 +524,7 @@ limits should be set to:
 extern double tess_gyz(TESSEROID tess, double lonp, double latp, double rp,
                       GLQ glq_lon, GLQ glq_lat, GLQ glq_r);
 
-/** Calculates gzz caused by a tesseroid.
+/** Calculates gzz caused by a tesseroid (Grombein et al., 2010).
 
 \f[
 g_{zz}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}

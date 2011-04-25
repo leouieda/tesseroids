@@ -81,7 +81,7 @@ double tess_total_mass(TESSEROID *model, int size)
     {
         mass += model[i].density*tess_volume(model[i]);
     }
-    
+
     return mass;
 }
 
@@ -108,8 +108,6 @@ double tess_range_mass(TESSEROID *model, int size, double low_dens,
 /* Convert a tesseroid to a rectangular prism of equal volume. */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {
-    /** \todo Put reference for formulas */
-    
     double deg2rad = PI/180., r0, dx, dy;
 
     r0 = 0.5*(tess.r1 + tess.r2);
@@ -198,10 +196,10 @@ int gets_tess(const char *str, TESSEROID *tess)
 {
     /** \todo Catch wrong order of model inputs, ie. w > e or s > n or
     top < bottom */
-    
+
     double w, e, s, n, top, bot, dens;
     int nread, nchars;
-    
+
     nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &w, &e, &s,
                     &n, &top, &bot, &dens, &nchars);
 
@@ -217,7 +215,7 @@ int gets_tess(const char *str, TESSEROID *tess)
     tess->r1 = MEAN_EARTH_RADIUS + bot;
     tess->r2 = MEAN_EARTH_RADIUS + top;
     tess->density = dens;
-    
+
     return 0;
 }
 
@@ -242,7 +240,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
     TESSEROID *tmp;
 
     *size = 0;
-    
+
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(sbuff, 10000, modelfile) == NULL)
@@ -286,7 +284,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
                 badinput = 1;
                 continue;
             }
-            
+
             (*size)++;
         }
     }
@@ -308,7 +306,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         return NULL;
     }
     model = tmp;
-    
+
     return model;
 }
 
@@ -318,7 +316,7 @@ int gets_prism(const char *str, PRISM *prism)
 {
     /** \todo Catch wrong order of model inputs, ie. x1 > x2 etc */
     /** \todo Read the position of the prism from the string */
-    
+
     double x1, x2, y1, y2, z1, z2, dens;
     int nread, nchars;
 

@@ -283,7 +283,7 @@ The result of this should look something like:
 
 \section refs References
 
-- Nagy, D., Papp, G., Benedek, J. [2000]. The gravitational potential and its derivatives for the prism. Journal of Geodesy, 74, 552–560.
+- Nagy, D., Papp, G., Benedek, J. (2000): The gravitational potential and its derivatives for the prism. Journal of Geodesy, 74, 552–560.
 
 
 \htmlonly

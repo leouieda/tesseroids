@@ -16,7 +16,8 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Functions for implementing a Gauss-Legendre Quadrature numerical integration.
+Functions for implementing a Gauss-Legendre Quadrature numerical integration
+(Hildebrand, 1987).
 
 \f[
 \int_a^b f(x) dx \approx \frac{b-a}{2} \displaystyle\sum_{i=0}^{N-1} w_i f(x_i)
@@ -58,12 +59,16 @@ int main(){
 
     // Free allocated memory
     glq_free(glq);
-    
+
     return 0;
 }
 @endcode
 
-\todo Put reference for formulas
+<b>References</b>
+
+- Hildebrand, F.B (1987): Introduction to numerical analysis.
+Courier Dover Publications, 2. ed.
+
 
 @author Leonardo Uieda
 @date 24 Jan 2011
@@ -123,7 +128,7 @@ Will replace the values of glq.nodes with ones in the specified integration
 limits.
 
 In case the GLQ structure was created with glq_new(), the integration limits can
-be reset using this function. 
+be reset using this function.
 
 @param lower lower integration limit
 @param upper upper integration limit
@@ -157,12 +162,12 @@ use glq_scale_nodes
 */
 extern int glq_nodes(int order, double *nodes);
 
-                           
+
 /** Calculate the next Legendre polynomial root given the previous root found.
 
 Uses the root-finder algorithm of:
 
-  Barrera-Figueroa, V., Sosa-Pedroza, J. and López-Bonilla, J., 2006, 
+  Barrera-Figueroa, V., Sosa-Pedroza, J. and López-Bonilla, J., 2006,
   "Multiple root finder algorithm for Legendre and Chebyshev polynomials via
   Newton's method", 2006, Annales mathematicae et Informaticae, 33, pp 3-13
 
@@ -186,7 +191,7 @@ Uses the root-finder algorithm of:
 extern int glq_next_root(double initial, int root_index, int order,
                          double *roots);
 
-                         
+
 /** Calculates the weighting coefficients for the GLQ integration.
 
 @param order order of the quadrature, ie number of nodes and weights.

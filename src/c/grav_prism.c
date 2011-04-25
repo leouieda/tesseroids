@@ -25,6 +25,10 @@ The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
+<b>References</b>
+
+- Nagy, D., Papp, G., Benedek, J. (2000): The gravitational potential and its derivatives for the prism. Journal of Geodesy, 74, 552–560.
+
 \todo Figure out why gz and pot fail when calculating bellow the prism
 
 @author Leonardo Uieda

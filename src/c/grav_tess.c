@@ -19,6 +19,16 @@
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
 
+<b>References</b>
+
+- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE.
+KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
+Karlsruhe, Germany.
+(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
+http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
+
 @author Leonardo Uieda
 @date 27 Jan 2011
 */
@@ -328,7 +338,7 @@ double tess_gxx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
                 kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
 
                 kappa = rc*rc*coslatc;
-                
+
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*rc*kphi*rc*kphi - l_sqr)/pow(l_sqr, 2.5);
             }

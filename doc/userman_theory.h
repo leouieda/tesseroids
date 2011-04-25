@@ -12,7 +12,7 @@ User manual: Theoretical background
 \endhtmlonly
 
 \section coordsys About Coordinate Systems
- 
+
 The two coordinate systems involved in the computations are the Global and Local
 coordinate systems.
 
@@ -23,22 +23,25 @@ completing a right-handed system.
 
 The Local system has origin on the computation point. It's z is oriented
 along the radial direction and points away from the center of the Earth. The x
-and y axis are contained on a plane normal to the z axis and x points North and y East.
+and y axis are contained on a plane normal to the z axis and x points North and
+y East.
 
-The tesseroids are defined using the Global Coordinate system with spherical coordinates, while
-the gravitational fields are calculated on the Local Coordinate system of the
-computation point.
+The tesseroids are defined using the Global Coordinate system with spherical
+coordinates, while the gravitational fields are calculated on the Local
+Coordinate system of the computation point.
 
-<b>WARNING</b>: The \f$ g_z \f$ component is an exception to this. In order to conform
-with the regular convention of z-axis pointing toward the center of the Earth,
-this component ONLY is calculated with an inverted z axis.
+<b>WARNING</b>: The \f$ g_z \f$ component is an exception to this. In order to
+conform with the regular convention of z-axis pointing toward the center of the
+Earth, this component ONLY is calculated with an inverted z axis.
 
 \image latex tesseroid_coordsys.pdf "View of a tesseroid, the integration point Q, the global coordinate system, the computation P and it's local coordinate system."
+
 \image html tesseroid_coordsys.png "Figure1: View of a tesseroid, the integration point Q, the global coordinate system, the computation P and it's local coordinate system."
 
 \section formulas Gravitational Fields of a Tesseroid
 
-The gravitational attraction of a tesseroid can be calculated using the formula:
+The gravitational attraction of a tesseroid can be calculated using the formula
+(Grombein et al., 2010):
 
 \f[
 g_{\alpha}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -47,7 +50,8 @@ g_{\alpha}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda
     \ \ \alpha \in \{1,2,3\}
 \f]
 
-The gravity gradients can be calculated using the general formula:
+The gravity gradients can be calculated using the general formula
+(Grombein et al., 2010):
 
 \f[
 g_{\alpha\beta}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
@@ -83,7 +87,8 @@ subscript \f$ p \f$ is for the computation point.
 
 \section glq Numerical Integration
 
-The above integrals are solved using the Gauss-Legendre Quadrature rule:
+The above integrals are solved using the Gauss-Legendre Quadrature rule
+(Asgharzadeh et al., 2007):
 
 \f[
 g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho \frac{(\lambda_2 - \lambda_1)
@@ -97,10 +102,23 @@ where \f$ W^r \f$,\f$ W^{\phi} \f$, and \f$ W^{\lambda} \f$ are weighting
 coefficients and \f$ N^r \f$,\f$ N^{\phi} \f$, and \f$ N^{\lambda} \f$ are the
 number of quadrature nodes, ie the order of the quadrature.
 
+\section theory-refs References
+
+- Asgharzadeh, M.F., von Frese, R.R.B., Kim, H.R., Leftwich, T.E. & Kim, J.W.
+(2007): Spherical prism gravity effects by Gauss-Legendre quadrature integration.
+Geophysical Journal International, 169, 1-11.
+
+- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE.
+KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
+Karlsruhe, Germany.
+(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
+http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
 
 \htmlonly
 </td>
 <td width="15%"></td>
-</table>
+</table
 \endhtmlonly
 */

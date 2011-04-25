@@ -26,6 +26,16 @@ The derivatives of the potential are made with respect to the local coordinate
 system x->North, y->East, z->out. So it would be normal for a sphere of positive
 density to have negative gz
 
+<b>References</b>
+
+- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE.
+KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
+Karlsruhe, Germany.
+(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
+http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
+
 @author Leonardo Uieda
 @date 25 Jan 2011
 */
@@ -65,7 +75,7 @@ double sphere_gx(SPHERE sphere, double lonp, double latp, double rp)
            coslon;
 
     mass = (double)(sphere.density*4.*PI*sphere.r*sphere.r*sphere.r)/3.;
-    
+
     coslatp = cos(d2r*latp);
     coslatc = cos(d2r*sphere.latc);
     sinlatp = sin(d2r*latp);
@@ -89,7 +99,7 @@ double sphere_gy(SPHERE sphere, double lonp, double latp, double rp)
     mass = (double)(sphere.density*4.*PI*sphere.r*sphere.r*sphere.r)/3.;
 
     coslatc = cos(d2r*sphere.latc);
-    
+
     cospsi = sin(d2r*latp)*sin(d2r*sphere.latc) +  cos(d2r*latp)*coslatc*
                                             cos(d2r*(lonp - sphere.lonc));
 
@@ -137,7 +147,7 @@ double sphere_gxx(SPHERE sphere, double lonp, double latp, double rp)
     kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
 
     kern = (3*sphere.rc*kphi*sphere.rc*kphi - l_sqr)/pow(l_sqr, 2.5);
-    
+
     return G*SI2EOTVOS*mass*kern;
 }
 
