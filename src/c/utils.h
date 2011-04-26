@@ -104,7 +104,7 @@ extern double tess_range_mass(TESSEROID *model, int size, double low_dens,
                               double high_dens);
 
 
-/** Convert a tesseroid into a rectangular prism of equal volume (Wilf-Pfeiffer, 2008).
+/** Convert a tesseroid into a rectangular prism of equal volume (Wild-Pfeiffer, 2008).
 
 \f[
 \Delta x = \frac{r_1 + r_2}{2} \Delta \phi,
@@ -118,7 +118,7 @@ extern double tess_range_mass(TESSEROID *model, int size, double low_dens,
 
 <b>References</b>
 
-- Wilf-Pfeiffer, F. (2008). A comparison of different mass elements for use in
+- Wild-Pfeiffer, F. (2008). A comparison of different mass elements for use in
 gravity gradiometry. Journal of Geodesy, 82(10), 637-653.
 
 @param tess tesseroid to convert
