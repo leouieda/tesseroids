@@ -18,7 +18,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 /** \file
 Functions to set up logging.
 
-Example:
+Logging to stderr:
 
 \code
 #include "logger.h"
@@ -28,11 +28,14 @@ void my_func(){
 }
 
 int main(){
+    // Enable logging to stderr in debug level
+    // will only print messages of level DEBUG or higher
     log_init(LOG_DEBUG);
     log_debug("debug line. The code is %d", LOG_DEBUG);
     log_info("info line. The code is %d", LOG_INFO);
     log_warning("warning line. The code is %d", LOG_WARNING);
     log_error("error line. The code is %d", LOG_ERROR);
+    my_func();
     return 0;
 }
 \endcode
@@ -44,10 +47,49 @@ DEBUG: debug line. The code is 0
 info line. The code is 1
 WARNING: warning line. The code is 2
 ERROR: error line. The code is 3
+From my_func!
 \endverbatim
 
-If function log_init() is not called than logging is disabled and no messages
-will be printed to stderr.
+If function log_init() is not called than logging to stderr is disabled and no messages
+will be printed.
+
+Logging to a file:
+
+\code
+#include <stdio.h>
+#include "logger.h"
+
+void my_func(){
+    log_info("From my_func!\n");
+    log_debug("Should not appear in log file\n");
+}
+
+int main(){
+    // Enable logging to file "log.txt" in info level
+    // will not print DEBUG level messages
+    // since log_init was not called, there is no logging to stderr
+    FILE *logfile = fopen("log.txt", "w");
+    log_tofile(logfile, LOG_INFO);
+    log_debug("debug line. The code is %d", LOG_DEBUG);
+    log_info("info line. The code is %d", LOG_INFO);
+    log_warning("warning line. The code is %d", LOG_WARNING);
+    log_error("error line. The code is %d", LOG_ERROR);
+    my_func();
+    return 0;
+}
+\endcode
+
+File log.txt will look like:
+
+\verbatim
+info line. The code is 1
+WARNING: warning line. The code is 2
+ERROR: error line. The code is 3
+From my_func!
+\endverbatim
+
+Note that you can combine loggin to stderr and to a file with different
+levels in the same program.
 
 @author Leonardo Uieda
 @date 31 Jan 2011

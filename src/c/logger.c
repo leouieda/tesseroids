@@ -39,7 +39,6 @@ LOGGER logger = {.level = 100,
 void log_init(int level)
 {
     logger.level = level;
-    logger.filelogging = 0;
 }
 
 
