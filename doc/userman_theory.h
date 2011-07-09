@@ -2,7 +2,7 @@
 User manual: Theoretical background
 
 
-\page userman-theory Theoretical background
+\page userman-theory
 
 \htmlonly
 <table border=0>
@@ -36,7 +36,9 @@ Earth, this component ONLY is calculated with an inverted z axis.
 
 \image latex tesseroid_coordsys.pdf "View of a tesseroid, the integration point Q, the global coordinate system, the computation P and it's local coordinate system."
 
+<center>
 \image html tesseroid_coordsys.png "Figure1: View of a tesseroid, the integration point Q, the global coordinate system, the computation P and it's local coordinate system."
+</center>
 
 \section formulas Gravitational Fields of a Tesseroid
 

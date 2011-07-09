@@ -1,16 +1,20 @@
 /** \file
 Examples
 
-\page userman-examples Examples
+\page userman-examples
 
 \htmlonly
+
+<center>
+<p>
+Click on the images for a document explaining the example.
+</p>
+</center>
 
 <table border=0>
 <tr>
 <td width="15%"></td>
 <td>
-
-Click on the images for a document explaining the example.
 
 <table border=0 cellspacing=20px>
 <tr>

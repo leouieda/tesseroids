@@ -1,7 +1,7 @@
 /** \file
 User manual: Installation
 
-\page userman-instal Installation
+\page userman-instal
 
 \htmlonly
 <table border=0>

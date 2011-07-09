@@ -1,7 +1,7 @@
 /** \file
 API documentation summary
 
-\page apidocs API Documentation
+\page apidocs
 
 \htmlonly
 <table border=0>

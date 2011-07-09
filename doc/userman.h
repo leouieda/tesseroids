@@ -2,7 +2,7 @@
 User manual sumary
 
 
-\page userman User manual
+\page userman
 
 \htmlonly
 <table border=0>

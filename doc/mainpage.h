@@ -32,7 +32,9 @@ This software is developed by Leonardo Uieda in cooperation with Carla Braitenbe
 with some funding from <a href="http://www.goceitaly.asi.it/GoceIT">GOCE Italy</a>.
 </p>
 
+<center>
 \image html tesseroid_coordsys.png "View of a tesseroid, the computation P and it's local coordinate system."
+</center>
 
 <p>
 For more information on the theoretical aspects of the computations, see the

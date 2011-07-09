@@ -1,5 +1,4 @@
 /** \file
-To do list.
 
 TESTS:
 \todo Check error in not rotating prism

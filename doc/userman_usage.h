@@ -1,7 +1,7 @@
 /** \file
 User manual: Usage
 
-\page userman-usage Usage
+\page userman-usage
 
 \htmlonly
 <table border=0>
