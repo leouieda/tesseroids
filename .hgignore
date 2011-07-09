@@ -1,10 +1,10 @@
 syntax: glob
 
 .sconsign.dblite
-build
 bin
 *.o
 *.pyc
+doc/build/latex
 examples/dem_brasil/dem_brasil_example.aux
 examples/dem_brasil/dem_brasil_example.log
 examples/dem_brasil/dem_brasil_example.out

@@ -10,7 +10,6 @@ all:
 
 src:
 	scons -C ../ -c
-	make -C ../doc
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../src ${DIRBASE}
@@ -27,7 +26,6 @@ src:
 
 bin32:
 	scons -C ..
-	make -C ../doc
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../examples ${DIRBASE}
@@ -41,7 +39,6 @@ bin32:
 
 bin64:
 	scons -C ..
-	make -C ../doc
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../examples ${DIRBASE}
@@ -55,20 +52,19 @@ bin64:
 
 win32:
 	scons -C ..
-	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}\doc
-	mkdir ${DIRBASE}\examples
-	mkdir ${DIRBASE}\examples\dem_brasil
-	mkdir ${DIRBASE}\examples\prism
-	mkdir ${DIRBASE}\examples\tess
-	copy ..\examples\dem_brasil ${DIRBASE}\examples\dem_brasil
-	copy ..\examples\prism ${DIRBASE}\examples\prism
-	copy ..\examples\tess ${DIRBASE}\examples\tess
-	mkdir ${DIRBASE}\bin
-	copy ..\bin ${DIRBASE}\bin
-	copy ..\README ${DIRBASE}
-	copy ..\LICENSE ${DIRBASE}
-
-clean:
-	rm ${DIRBASE}-*.zip
-	rm ${DIRBASE}-*.tar.gz
+	mkdir ${DIRBASE}-win32
+	mkdir ${DIRBASE}-win32\doc
+	mkdir ${DIRBASE}-win32\doc\html
+	copy ..\doc\build\html ${DIRBASE}-win32\doc\html
+	copy ..\doc\build\user-manual-v1_0.html ${DIRBASE}-win32\doc
+	mkdir ${DIRBASE}-win32\examples
+	mkdir ${DIRBASE}-win32\examples\dem_brasil
+	mkdir ${DIRBASE}-win32\examples\prism
+	mkdir ${DIRBASE}-win32\examples\tess
+	copy ..\examples\dem_brasil ${DIRBASE}-win32\examples\dem_brasil
+	copy ..\examples\prism ${DIRBASE}-win32\examples\prism
+	copy ..\examples\tess ${DIRBASE}-win32\examples\tess
+	mkdir ${DIRBASE}-win32\bin
+	copy ..\bin ${DIRBASE}-win32\bin
+	copy ..\README ${DIRBASE}-win32
+	copy ..\LICENSE ${DIRBASE}-win32

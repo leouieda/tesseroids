@@ -12,25 +12,18 @@ User manual: Installation
 
 \section bin Binary distribution
 
-\subsection win32 Windows
-
-Download the Windows installer from the
-<a href="http://code.google.com/p/tesseroids/downloads/list">Downloads</a> section. To install
-simply run it and follow the instructions.
-
-\subsection linux GNU/Linux
-
-Pre-compiled binaries for GNU/Linux are available in both 64bit and 32bit packages.
-<a href="http://code.google.com/p/tesseroids/downloads/list">Download</a> the one
-that best suites your system and unpack in the desired
+Pre-compiled binaries for GNU/Linux (32 and 64bit) and Windows (32bit) are available in the
+<a href="http://code.google.com/p/tesseroids/downloads/list">Downloads</a> section.
+Choose the one that best suites your system and unpack in the desired
 directory. The executables will be in the "bin" folder.
+
+<b><i>Note</i></b>: The Windows installer has been deprecated and is no longer available.
 
 \subsection docs Documentation
 
 Both Windows and GNU/Linux versions contain the HTML documentation
 in the "doc" folder in the installation directory. To view the docs open "user-manual-v1_0.html" 
-in a web browser. Windows users can find a link to the online documentation in the
-Start menu folder of the program.
+in a web browser. 
 
 Usage examples are in the "examples" folder in the installation folder. The "run_examples.sh"
 shell scripts contain the commands to run each example.
