@@ -26,8 +26,8 @@ Date: 24 Jan 2011
 #include <stdlib.h>
 #include <math.h>
 #include "minunit.h"
-#include "../src/c/glq.h"
-#include "../src/c/constants.h"
+#include "../src/lib/glq.h"
+#include "../src/lib/constants.h"
 
 /* Test data taken from:
     http://mathworld.wolfram.com/Legendre-GaussQuadrature.html */

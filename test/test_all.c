@@ -24,7 +24,7 @@ Date: 24 Jan 2011
 
 #include <stdio.h>
 #include <time.h>
-#include "../src/c/logger.h"
+#include "../src/lib/logger.h"
 #include "minunit.h"
 #include "test_glq.c"
 #include "test_utils.c"

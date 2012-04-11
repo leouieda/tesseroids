@@ -25,8 +25,8 @@ Date: 24 Jan 2011
 #include <stdio.h>
 #include <math.h>
 #include "minunit.h"
-#include "../src/c/utils.h"
-#include "../src/c/constants.h"
+#include "../src/lib/utils.h"
+#include "../src/lib/constants.h"
 
 /* To store fail messages */
 char msg[1000];

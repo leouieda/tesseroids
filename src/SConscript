@@ -1,0 +1,4 @@
+# Build the Tesseroids programs
+env = Environment(CFLAGS='', LIBS=['m'], CPPPATH='.')
+
+#env.Program('tessgx', source=Split(''))

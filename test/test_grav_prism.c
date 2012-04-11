@@ -24,10 +24,10 @@ Date: 24 Jan 2011
 
 #include <stdio.h>
 #include <math.h>
-#include "../src/c/grav_sphere.h"
-#include "../src/c/grav_prism.h"
-#include "../src/c/utils.h"
-#include "../src/c/constants.h"
+#include "../src/lib/grav_sphere.h"
+#include "../src/lib/grav_prism.h"
+#include "../src/lib/utils.h"
+#include "../src/lib/constants.h"
 
 
 char msg[1000];

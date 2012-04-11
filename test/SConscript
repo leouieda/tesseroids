@@ -1,0 +1,5 @@
+# Build the Tesseroids programs
+env = Environment(CFLAGS='-O3', LIBS=['m'])
+sources = ['test_all.c']
+sources.extend(Glob("../src/lib/*.c"))
+tesstest = env.Program('../bin/tesstest', source=sources, CPPPATH='.')
