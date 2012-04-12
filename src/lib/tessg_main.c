@@ -41,11 +41,20 @@ Generic main function for the tessg* programs.
 int run_tessg_main(int argc, char **argv, const char *progname,
     double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
 {
-    log_init(LOG_INFO);
     TESSG_ARGS args;
+    GLQ *glq_lon, *glq_lat, *glq_r;
+    TESSEROID *model;
+    int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0;
+    char buff[10000];
+    double lon, lat, height, res;
+    FILE *logfile, *modelfile;
+    time_t rawtime;
+    clock_t tstart;
+    struct tm * timeinfo;
+    
+    log_init(LOG_INFO);
 
-    int rc = parse_tessg_args(argc, argv, progname, &args);
-
+    rc = parse_tessg_args(argc, argv, progname, &args);
     if(rc == 2)
     {
         return 0;
@@ -59,9 +68,10 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     }
 
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -77,8 +87,6 @@ int run_tessg_main(int argc, char **argv, const char *progname,
 
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
@@ -86,7 +94,6 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     /* Make the necessary GLQ structures */
     log_info("Using GLQ orders: %d lon / %d lat / %d r", args.lon_order,
              args.lat_order, args.r_order);
-    GLQ *glq_lon, *glq_lat, *glq_r;
     glq_lon = glq_new(args.lon_order, -1, 1);
     glq_lat = glq_new(args.lat_order, -1, 1);
     glq_r = glq_new(args.r_order, -1, 1);
@@ -102,7 +109,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
 
     /* Read the tesseroid model file */
     log_info("Reading tesseroid model from file %s", args.modelfname);
-    FILE *modelfile = fopen(args.modelfname, "r");
+    modelfile = fopen(args.modelfname, "r");
     if(modelfile == NULL)
     {
         log_error("failed to open model file %s\n", args.modelfname);
@@ -112,8 +119,6 @@ int run_tessg_main(int argc, char **argv, const char *progname,
             fclose(logfile);
         return 1;
     }
-    TESSEROID *model;
-    int modelsize;
     model = read_tess_model(modelfile, &modelsize);
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
@@ -147,11 +152,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
-    clock_t tstart = clock();
-    int line, points = 0, error_exit = 0, bad_input = 0;
-    char buff[10000];
-    double lon, lat, height, res;
-
+    tstart = clock();
     for(line = 1; !feof(stdin); line++)
     {
         if(fgets(buff, 10000, stdin) == NULL)
@@ -178,11 +179,9 @@ int run_tessg_main(int argc, char **argv, const char *progname,
                 bad_input++;
                 continue;
             }
-
             /* Need to remove \n and \r from end of buff first to print the
                result in the end */
             strstrip(buff);
-
             if(args.adaptative)
             {
                 res = calc_tess_model_adapt(model, modelsize, lon, lat,
@@ -199,13 +198,11 @@ int run_tessg_main(int argc, char **argv, const char *progname,
             points++;
         }
     }
-
     if(bad_input)
     {
         log_warning("Encountered %d bad computation points which were skipped",
                     bad_input);
     }
-
     if(error_exit)
     {
         log_warning("Terminating due to error in input");
@@ -216,17 +213,13 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         log_info("Calculated on %d points in %.5g seconds", points,
                  (double)(clock() - tstart)/CLOCKS_PER_SEC);
     }
-
     /* Clean up */
     free(model);
     glq_free(glq_lon);
     glq_free(glq_lat);
     glq_free(glq_r);
-
-    log_info("Done");
-    
+    log_info("Done");    
     if(args.logtofile)
         fclose(logfile);
-
     return 0;
 }
