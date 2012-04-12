@@ -45,35 +45,28 @@ const double GLQ_MAXERROR = 0.000000000000001;
 GLQ * glq_new(int order, double lower, double upper)
 {
     GLQ *glq;
+    int rc;
 
     glq = (GLQ *)malloc(sizeof(GLQ));
-
     if(glq == NULL)
     {
         return NULL;
     }
-
     glq->order = order;
-
     glq->nodes = (double *)malloc(sizeof(double)*order);
-
     if(glq->nodes == NULL)
     {
         free(glq);
         return NULL;
     }
-
     glq->nodes_unscaled = (double *)malloc(sizeof(double)*order);
-
     if(glq->nodes_unscaled == NULL)
     {
         free(glq);
         free(glq->nodes);
         return NULL;
     }
-
     glq->weights = (double *)malloc(sizeof(double)*order);
-
     if(glq->weights == NULL)
     {
         free(glq);
@@ -81,9 +74,7 @@ GLQ * glq_new(int order, double lower, double upper)
         free(glq->nodes_unscaled);
         return NULL;
     }
-
-    int rc = glq_nodes(order, glq->nodes_unscaled);
-    
+    rc = glq_nodes(order, glq->nodes_unscaled);    
     if(rc != 0 && rc != 3)
     {
         switch(rc)
@@ -107,8 +98,8 @@ GLQ * glq_new(int order, double lower, double upper)
         log_warning("glq_nodes max iterations reached in root finder");
         log_warning("nodes might not have desired accuracy %g", GLQ_MAXERROR);
     }
-
-    if((rc = glq_weights(order, glq->nodes_unscaled, glq->weights)) != 0)
+    rc = glq_weights(order, glq->nodes_unscaled, glq->weights);
+    if(rc != 0)
     {
         switch(rc)
         {
@@ -129,13 +120,11 @@ GLQ * glq_new(int order, double lower, double upper)
         glq_free(glq);
         return NULL;
     }
-
     if(glq_set_limits(lower, upper, glq) != 0)
     {
         glq_free(glq);
         return NULL;
-    }
-    
+    }    
     return glq;
 }
 
@@ -153,6 +142,10 @@ void glq_free(GLQ *glq)
 /* Calculates the GLQ nodes using glq_next_root. */
 int glq_nodes(int order, double *nodes)
 {
+    register int i;
+    int rc = 0;
+    double initial;
+    
     if(order < 2)
     {
         return 1;
@@ -161,15 +154,9 @@ int glq_nodes(int order, double *nodes)
     {
         return 2;
     }
-
-    register int i;
-    int rc = 0;
-    double initial;
-
     for(i = 0; i < order; i++)
     {
         initial = cos(PI*(order - i - 0.25)/(order + 0.5));
-
         if(glq_next_root(initial, i, order, nodes) == 3)
         {
             rc = 3;
@@ -182,6 +169,10 @@ int glq_nodes(int order, double *nodes)
 /* Put the GLQ nodes to the integration limits IN PLACE. */
 int glq_set_limits(double lower, double upper, GLQ *glq)
 {
+    /* Only calculate once to optimize the code */
+    double tmpplus = 0.5*(upper + lower), tmpminus = 0.5*(upper - lower);
+    register int i;
+    
     if(glq->order < 2)
     {
         return 1;
@@ -193,17 +184,11 @@ int glq_set_limits(double lower, double upper, GLQ *glq)
     if(glq->nodes_unscaled == NULL)
     {
         return 2;
-    }
-
-    /* Only calculate once to optimize the code */
-    double tmpplus = 0.5*(upper + lower), tmpminus = 0.5*(upper - lower);
-    register int i;
-    
+    }    
     for(i = 0; i < glq->order; i++)
     {
         glq->nodes[i] = tmpminus*glq->nodes_unscaled[i] + tmpplus;
     }
-
     return 0;
 }
 
@@ -211,6 +196,9 @@ int glq_set_limits(double lower, double upper, GLQ *glq)
 /* Calculate the next Legendre polynomial root given the previous root found. */
 int glq_next_root(double initial, int root_index, int order, double *roots)
 {
+    double x1, x0, pn, pn_2, pn_1, pn_line, sum;
+    int it = 0;
+    register int n; 
     
     if(order < 2)
     {
@@ -220,11 +208,6 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
     {
         return 2;
     }
-
-    double x1, x0, pn, pn_2, pn_1, pn_line, sum;
-    int it = 0;
-    register int n; 
-
     x1 = initial;
     do
     {
@@ -242,35 +225,29 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
             pn_1 = pn;
             pn = ( ((2*n - 1)*x0*pn_1) - ((n - 1)*pn_2) )/n;
         }
-
         /* Now calculate Pn'(x0) using another recursive relation: */
         /*     Pn'(x)=n(xPn(x)-Pn_1(x))/(x*x-1)                    */
         pn_line = order*(x0*pn - pn_1)/(x0*x0 - 1);
-
         /* Sum the roots found so far */
         for(n = 0, sum = 0; n < root_index; n++)
         {
             sum += 1./(x0 - roots[n]);
         }
-
         /* Update the estimate for the root */
         x1 = x0 - (double)pn/(pn_line - pn*sum);
-
+        
     /** Compute the absolute value of x */
     #define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
-
     } while(GLQ_ABS(x1 - x0) > GLQ_MAXERROR && ++it <= GLQ_MAXIT);
-
     #undef GLQ_ABS
-
+    
     roots[root_index] = x1;
-
+    
     /* Tell the user if stagnation occurred */
     if(it > GLQ_MAXIT)
     {
         return 3;
     }
-
     return 0;
 }
 
@@ -278,6 +255,9 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
 /* Calculates the weighting coefficients for the GLQ integration. */
 int glq_weights(int order, double *nodes, double *weights)
 {
+    register int i, n;
+    double xi, pn, pn_2, pn_1, pn_line;
+    
     if(order < 2)
     {
         return 1;
@@ -290,10 +270,6 @@ int glq_weights(int order, double *nodes, double *weights)
     {
         return 3;
     }
-
-    register int i, n;
-    double xi, pn, pn_2, pn_1, pn_line; 
-
     for(i = 0; i < order; i++){
 
         xi = nodes[i];
@@ -311,12 +287,9 @@ int glq_weights(int order, double *nodes, double *weights)
             pn_1 = pn;
             pn = ((2*n - 1)*xi*pn_1 - (n - 1)*pn_2)/n;
         }
-
         pn_line = order*(xi*pn - pn_1)/(xi*xi - 1.);
-
         /* ith weight is: wi = 2/(1 - xi^2)(Pn'(xi)^2) */
         weights[i] = 2./((1 - xi*xi)*pn_line*pn_line);
-    }
-    
+    }    
     return 0;
 }
