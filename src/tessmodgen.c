@@ -88,12 +88,18 @@ void print_help()
 /** Main */
 int main(int argc, char **argv)
 {
-    log_init(LOG_INFO);
     char *progname = "tessmodgen";
     TESSMODGEN_ARGS args;
+    int rc, line, error_exit = 0, bad_input = 0, size = 0, nchars, nread;
+    char buff[10000];
+    double lon, lat, height, w, e, s, n, top, bot, dens;
+    FILE *logfile;
+    time_t rawtime;
+    struct tm * timeinfo;
+    
+    log_init(LOG_INFO);
 
-    int rc = parse_tessmodgen_args(argc, argv, progname, &args, &print_help);
-
+    rc = parse_tessmodgen_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
         return 0;
@@ -107,9 +113,10 @@ int main(int argc, char **argv)
     }
 
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -125,8 +132,6 @@ int main(int argc, char **argv)
 
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
@@ -149,11 +154,6 @@ int main(int argc, char **argv)
     }
 
     /* Read each regular grid from stdin and generate the tesseroids */
-    int line, error_exit = 0, bad_input = 0, size = 0;
-    char buff[10000];
-    double lon, lat, height, w, e, s, n, top, bot, dens;
-    int nchars, nread;
-
     for(line = 1; !feof(stdin); line++)
     {
         if(fgets(buff, 10000, stdin) == NULL)
@@ -172,9 +172,7 @@ int main(int argc, char **argv)
             {
                 continue;
             }
-
             strstrip(buff);
-
             if(args.fix_density)
             {
                 nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height,
@@ -199,11 +197,9 @@ int main(int argc, char **argv)
                     continue;
                 }
             }
-
             /* Need to remove \n and \r from end of buff first to print the
                result in the end */
             strstrip(buff);
-
             w = lon - 0.5*args.dlon;
             e = lon + 0.5*args.dlon;
             s = lat - 0.5*args.dlat;
@@ -224,19 +220,16 @@ int main(int argc, char **argv)
                 else
                     dens *= -1;
             }
-
             printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n", w, e, s, n,
                    top, bot, dens);
             size++;
         }
     }
-
     if(bad_input)
     {
         log_warning("Encountered %d bad grid points which were skipped",
                     bad_input);
     }
-
     if(error_exit)
     {
         log_warning("Terminating due to error in input");
@@ -246,10 +239,8 @@ int main(int argc, char **argv)
     {
         log_info("Generated %d tesseroids.", size);
     }
-
     /* Clean up */
     if(args.logtofile)
         fclose(logfile);
-
     return 0;
 }

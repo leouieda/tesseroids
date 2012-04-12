@@ -34,10 +34,10 @@ Date: 24 Jan 2011
 int tests_run = 0, tests_passed = 0, tests_failed = 0;
 
 int main()
-{
-    log_init(LOG_DEBUG);
-    
+{    
     clock_t start = clock();
+    
+    log_init(LOG_DEBUG);
     
     glq_run_all();
     utils_run_all();
