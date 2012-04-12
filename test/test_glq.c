@@ -141,7 +141,7 @@ static char * test_glq_next_root()
                 rc);
         mu_assert(rc == 0, msg);
 
-        sprintf(msg, "(order %d, root %d) expected %.15lf got %.15lf", order, i,
+        sprintf(msg, "(order %d, root %d) expected %.15f got %.15f", order, i,
                 o2roots[i], root[i]);
         mu_assert_almost_equals(root[i], o2roots[i], prec, msg);
     }
@@ -158,7 +158,7 @@ static char * test_glq_next_root()
                 rc);
         mu_assert(rc == 0, msg);
 
-        sprintf(msg, "(order %d, root %d) expected %.15lf got %.15lf", order, i,
+        sprintf(msg, "(order %d, root %d) expected %.15f got %.15f", order, i,
                 o3roots[i], root[i]);
         mu_assert_almost_equals(root[i], o3roots[i], prec, msg);
     }
@@ -175,7 +175,7 @@ static char * test_glq_next_root()
                 rc);
         mu_assert(rc == 0, msg);
 
-        sprintf(msg, "(order %d, root %d) expected %.15lf got %.15lf", order, i,
+        sprintf(msg, "(order %d, root %d) expected %.15f got %.15f", order, i,
                 o4roots[i], root[i]);
         mu_assert_almost_equals(root[i], o4roots[i], prec, msg);
     }
@@ -192,7 +192,7 @@ static char * test_glq_next_root()
                 rc);
         mu_assert(rc == 0, msg);
 
-        sprintf(msg, "(order %d, root %d) expected %.15lf got %.15lf", order, i,
+        sprintf(msg, "(order %d, root %d) expected %.15f got %.15f", order, i,
                 o5roots[i], root[i]);
         mu_assert_almost_equals(root[i], o5roots[i], prec, msg);
     }
@@ -209,7 +209,7 @@ static char * test_glq_next_root()
                 rc);
         mu_assert(rc == 0, msg);
 
-        sprintf(msg, "(order %d, root %d) expected %.15lf got %.15lf", order, i,
+        sprintf(msg, "(order %d, root %d) expected %.15f got %.15f", order, i,
                 o19roots[i], root[i]);
         mu_assert_almost_equals(root[i], o19roots[i], prec, msg);
     }
@@ -233,7 +233,7 @@ static char * test_glq_weights()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, weight %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, weight %d) expected %.15f got %.15f", order,
                 i, o2weights[i], weights[i]);
         mu_assert_almost_equals(weights[i], o2weights[i], prec, msg);
     }
@@ -248,7 +248,7 @@ static char * test_glq_weights()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, weight %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, weight %d) expected %.15f got %.15f", order,
                 i, o3weights[i], weights[i]);
         mu_assert_almost_equals(weights[i], o3weights[i], prec, msg);
     }
@@ -263,7 +263,7 @@ static char * test_glq_weights()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, weight %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, weight %d) expected %.15f got %.15f", order,
                 i, o4weights[i], weights[i]);
         mu_assert_almost_equals(weights[i], o4weights[i], prec, msg);
     }
@@ -278,7 +278,7 @@ static char * test_glq_weights()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, weight %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, weight %d) expected %.15f got %.15f", order,
                 i, o5weights[i], weights[i]);
         mu_assert_almost_equals(weights[i], o5weights[i], prec, msg);
     }
@@ -302,7 +302,7 @@ static char * test_glq_nodes()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, node %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, node %d) expected %.15f got %.15f", order,
                 i, o2roots[i], nodes[i]);
         mu_assert_almost_equals(nodes[i], o2roots[i], prec, msg);
     }
@@ -317,7 +317,7 @@ static char * test_glq_nodes()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, node %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, node %d) expected %.15f got %.15f", order,
                 i, o3roots[i], nodes[i]);
         mu_assert_almost_equals(nodes[i], o3roots[i], prec, msg);
     }
@@ -332,7 +332,7 @@ static char * test_glq_nodes()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, node %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, node %d) expected %.15f got %.15f", order,
                 i, o4roots[i], nodes[i]);
         mu_assert_almost_equals(nodes[i], o4roots[i], prec, msg);
     }
@@ -347,7 +347,7 @@ static char * test_glq_nodes()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, node %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, node %d) expected %.15f got %.15f", order,
                 i, o5roots[i], nodes[i]);
         mu_assert_almost_equals(nodes[i], o5roots[i], prec, msg);
     }
@@ -362,7 +362,7 @@ static char * test_glq_nodes()
 
     for(i = 0; i < order; i++)
     {
-        sprintf(msg, "(order %d, node %d) expected %.15lf got %.15lf", order,
+        sprintf(msg, "(order %d, node %d) expected %.15f got %.15f", order,
                 i, o19roots[i], nodes[i]);
         mu_assert_almost_equals(nodes[i], o19roots[i], prec, msg);
     }
@@ -394,7 +394,7 @@ static char * test_glq_set_limits()
     {
         correct = 8.72*o2roots[i] + 6.18;
         sprintf(msg,
-                "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
+                "(order %d, index %d, a %g, b %g) expected %.15f, got %.15f",
                 glq.order, i, a, b, correct, glq.nodes[i]);
         mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
@@ -413,7 +413,7 @@ static char * test_glq_set_limits()
     {
         correct = 54.62*o3roots[i] + 180.22;
         sprintf(msg,
-                "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
+                "(order %d, index %d, a %g, b %g) expected %.15f, got %.15f",
                 glq.order, i, a, b, correct, glq.nodes[i]);
         mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
@@ -432,7 +432,7 @@ static char * test_glq_set_limits()
     {
         correct = -7.95*o4roots[i] - 4.45;
         sprintf(msg,
-                "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
+                "(order %d, index %d, a %g, b %g) expected %.15f, got %.15f",
                 glq.order, i, a, b, correct, glq.nodes[i]);
         mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
@@ -451,7 +451,7 @@ static char * test_glq_set_limits()
     {
         correct = 0.0;
         sprintf(msg,
-                "(order %d, index %d, a %g, b %g) expected %.15lf, got %.15lf",
+                "(order %d, index %d, a %g, b %g) expected %.15f, got %.15f",
                 glq.order, i, a, b, correct, glq.nodes[i]);
         mu_assert_almost_equals(glq.nodes[i], correct, prec, msg);
     }
@@ -490,7 +490,7 @@ static char * test_glq_intcos()
 
         glq_free(glq);
 
-        sprintf(msg, "(order %d, angle %g) expected %lf, got %lf", orders[t],
+        sprintf(msg, "(order %d, angle %g) expected %f, got %f", orders[t],
                 angles[t], expected, result);
         mu_assert_almost_equals(result, expected, pow(10, -5), msg);
     }

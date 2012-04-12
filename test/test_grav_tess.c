@@ -38,14 +38,22 @@ char msg[1000];
 static char * test_tess2sphere_pot()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
-
+        
     glqlat = glq_new(8, tess.s, tess.n);
     if(glqlat == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -58,17 +66,14 @@ static char * test_tess2sphere_pot()
 
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
-
     for(dist=1000000; dist <= 2000000; dist += 1000)
     {
         restess = tess_pot(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_pot(sphere,0,40,radius+dist);
-
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.01, msg);
     }
-
     return 0;
 }
 
@@ -76,10 +81,18 @@ static char * test_tess2sphere_pot()
 static char * test_tess2sphere_gx()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -101,8 +114,7 @@ static char * test_tess2sphere_gx()
     {
         restess = tess_gx(tess,0,40,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gx(sphere,0,40,radius+dist);
-
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -114,10 +126,18 @@ static char * test_tess2sphere_gx()
 static char * test_tess2sphere_gy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -140,7 +160,7 @@ static char * test_tess2sphere_gy()
         restess = tess_gy(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gy(sphere,5,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -152,10 +172,18 @@ static char * test_tess2sphere_gy()
 static char * test_tess2sphere_gz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -178,7 +206,7 @@ static char * test_tess2sphere_gz()
         restess = -tess_gz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gz(sphere,0,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
@@ -190,10 +218,18 @@ static char * test_tess2sphere_gz()
 static char * test_tess2sphere_gxx()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -216,7 +252,7 @@ static char * test_tess2sphere_gxx()
         restess = tess_gxx(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxx(sphere,0,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -228,10 +264,18 @@ static char * test_tess2sphere_gxx()
 static char * test_tess2sphere_gxy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -254,7 +298,7 @@ static char * test_tess2sphere_gxy()
         restess = tess_gxy(tess,5,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxy(sphere,5,50,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -266,10 +310,18 @@ static char * test_tess2sphere_gxy()
 static char * test_tess2sphere_gxz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -292,7 +344,7 @@ static char * test_tess2sphere_gxz()
         restess = tess_gxz(tess,0,50,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gxz(sphere,0,50,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -304,10 +356,18 @@ static char * test_tess2sphere_gxz()
 static char * test_tess2sphere_gyy()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -330,7 +390,7 @@ static char * test_tess2sphere_gyy()
         restess = tess_gyy(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyy(sphere,0,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -342,10 +402,18 @@ static char * test_tess2sphere_gyy()
 static char * test_tess2sphere_gyz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
 
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
+    
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -368,7 +436,7 @@ static char * test_tess2sphere_gyz()
         restess = tess_gyz(tess,5,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gyz(sphere,5,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -380,9 +448,17 @@ static char * test_tess2sphere_gyz()
 static char * test_tess2sphere_gzz()
 {
     SPHERE sphere;
-    TESSEROID tess = {1000,44,46,-1,1,MEAN_EARTH_RADIUS-100000,MEAN_EARTH_RADIUS};
+    TESSEROID tess;
     double radius, dist, restess, ressphere;
     GLQ *glqlon, *glqlat, *glqr;
+
+    tess.density = 1000.;
+    tess.w = 44;
+    tess.e = 46;
+    tess.s = -1;
+    tess.n = 1;
+    tess.r1 = MEAN_EARTH_RADIUS - 100000;
+    tess.r2 = MEAN_EARTH_RADIUS;
 
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
@@ -406,7 +482,7 @@ static char * test_tess2sphere_gzz()
         restess = tess_gzz(tess,0,45,radius+dist,*glqlon,*glqlat,*glqr);
         ressphere = sphere_gzz(sphere,0,45,radius+dist);
 
-        sprintf(msg, "(distance %g m) tess = %.5lf  sphere = %.5lf", dist,
+        sprintf(msg, "(distance %g m) tess = %.5f  sphere = %.5f", dist,
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.001, msg);
     }
@@ -419,10 +495,18 @@ static char * test_adaptative()
 {
     /* Check if the adaptative is dividing properly and returning the same thing
        as the non-adaptative (do spliting by hand) */
-    TESSEROID tess = {1000.,-0.5,0.5,-0.5,0.5,MEAN_EARTH_RADIUS-10000,MEAN_EARTH_RADIUS},
+    TESSEROID tess,
               split[8];
     GLQ *glqlon, *glqlat, *glqr;
     double mindist, resadapt, resnormal;
+
+    tess.density = 1000.;
+    tess.w = -0.5;
+    tess.e = 0.5;
+    tess.s = -0.5;
+    tess.n = 0.5;
+    tess.r1 = MEAN_EARTH_RADIUS - 10000;
+    tess.r2 = MEAN_EARTH_RADIUS;
 
     glqlon = glq_new(2, tess.w, tess.e);
     if(glqlon == NULL)
@@ -448,7 +532,7 @@ static char * test_adaptative()
                                 0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
                                 glqlat, glqr, tess_gzz);
 
-    sprintf(msg, "adapt = %.10lf  normal = %.10lf", resadapt, resnormal);
+    sprintf(msg, "adapt = %.10f  normal = %.10f", resadapt, resnormal);
     mu_assert_almost_equals(resadapt, resnormal, pow(10, -10), msg);
 
     return 0;

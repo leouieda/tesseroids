@@ -62,11 +62,24 @@ Date: 25 Jan 2011
 
 
 /* Run a test case, print the verbose and check if passed or failed */
-#define mu_run_test(test, verbose) \
-    do { printf("\n%s... ", verbose); char *msg = test(); tests_run++; \
-         if(msg){ tests_failed++; printf("FAIL:%s", msg); } \
-         else { tests_passed++; printf("pass"); } \
-    } while (0)
+int mu_run_test(static char *(*test)(), char *verbose)
+{
+    char *msg;
+    
+    printf("\n%s... ", verbose);
+    msg = test();
+    tests_run++; 
+    if(msg)
+    {
+        tests_failed++;
+        printf("FAIL:%s", msg);
+    }
+    else
+    {
+        tests_passed++;
+        printf("pass");
+    }
+}
 
 /* Print a summary of the tests ran and how long it took */
 #define mu_print_summary(test_time) \
@@ -77,8 +90,11 @@ Date: 25 Jan 2011
 
 
 /* Utility for copying one array onto another */
+int mu_counter;
 #define mu_arraycp(original, copy, size) \
-    do { int c; for(c=0; c<size; c++){ copy[c]=original[c]; } } while (0)
+    do {for(mu_counter=0; mu_counter<size; mu_counter++){ \
+        copy[mu_counter]=original[mu_counter]; } \
+    } while (0)
 
         
 /* Global counters. WARNING: Don't forget to initialize in the main program
