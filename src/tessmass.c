@@ -70,12 +70,19 @@ void print_help()
 /** Main */
 int main(int argc, char **argv)
 {
-    log_init(LOG_INFO);
     char *progname = "tessmass";
     TESSMASS_ARGS args;
-
-    int rc = parse_tessmass_args(argc, argv, progname, &args, &print_help);
-
+    TESSEROID tess;
+    double mass = 0;
+    int rc, line, size = 0, error_exit = 0, bad_input = 0;
+    FILE *logfile, *modelfile;
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buff[10000];
+    
+    log_init(LOG_INFO);
+    
+    rc = parse_tessmass_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
         return 0;
@@ -89,9 +96,10 @@ int main(int argc, char **argv)
     }
 
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -107,14 +115,11 @@ int main(int argc, char **argv)
 
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
 
     /* If an input file is not given, read from stdin. Else open the file */
-    FILE *modelfile;
     if(rc == 3)
     {
         log_info("Reading tesseroids from stdin");
@@ -136,11 +141,6 @@ int main(int argc, char **argv)
     }
 
     /* Read the tesseroids, convert and print to stdout */
-    int line, size = 0, error_exit = 0, bad_input = 0;
-    char buff[10000];
-    TESSEROID tess;
-    double mass = 0;
-
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(buff, 10000, modelfile) == NULL)
@@ -159,17 +159,14 @@ int main(int argc, char **argv)
             {
                 continue;
             }
-
             /* Remove any trailing spaces or newlines */
             strstrip(buff);
-
             if(gets_tess(buff, &tess))
             {
                 log_warning("bad/invalid tesseroid at line %d", line);
                 bad_input++;
                 continue;
             }
-
             if(args.use_range)
             {
                 mass += tess_range_mass(&tess, 1, args.low_dens,
@@ -183,7 +180,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
     if(args.use_range)
     {
         log_info("Mass within density range %g/%g:", args.low_dens,
@@ -193,8 +189,9 @@ int main(int argc, char **argv)
     {
         log_info("Total mass:");
     }
+    
     printf("%.15g\n", mass);
-
+    
     if(bad_input)
     {
         log_warning("Encountered %d bad input line(s) which were skipped",
@@ -213,9 +210,7 @@ int main(int argc, char **argv)
     /* Clean up */
     if(rc != 3)
         fclose(modelfile);
-
     if(args.logtofile)
         fclose(logfile);
-
     return 0;
 }
