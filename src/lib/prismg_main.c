@@ -97,13 +97,19 @@ void print_help()
 int run_prismg_main(int argc, char **argv, const char *progname,
                     double (*field)(PRISM, double, double, double))
 {
-    log_init(LOG_INFO);
     BASIC_ARGS args;
-
+    PRISM *model;
+    int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0, i;
+    char buff[10000];
+    double x, y, height, res;
+    FILE *logfile, *modelfile;
+    time_t rawtime;
+    clock_t tstart;
+    struct tm * timeinfo;
+    
+    log_init(LOG_INFO);
     strcpy(global_progname, progname);
-
-    int rc = parse_basic_args(argc, argv, progname, &args, &print_help);
-
+    rc = parse_basic_args(argc, argv, progname, &args, &print_help);
     if(rc == 3)
     {
         log_error("%s: missing input file.\n", progname);
@@ -121,11 +127,11 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         log_warning("Try '%s -h' for instructions", progname);
         return 1;
     }
-
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -138,18 +144,16 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         }
         log_tofile(logfile, LOG_INFO);
     }
-
+    
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
-
+    
     /* Read the model file */
     log_info("Reading prism model from file %s", args.inputfname);
-    FILE *modelfile = fopen(args.inputfname, "r");
+    modelfile = fopen(args.inputfname, "r");
     if(modelfile == NULL)
     {
         log_error("failed to open model file %s\n", args.inputfname);
@@ -158,10 +162,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         if(args.logtofile)
             fclose(logfile);
         return 1;
-    }
-    
-    PRISM *model;
-    int modelsize;
+    }    
     model = read_prism_model(modelfile, &modelsize);
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
@@ -174,7 +175,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         return 1;
     }
     log_info("Total of %d prism(s) read", modelsize);
-
+    
     /* Print a header on the output with provenance information */
     if(strcmp(progname + 5, "pot") == 0)
     {
@@ -191,11 +192,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
-    clock_t tstart = clock();
-    int line, points = 0, error_exit = 0, bad_input = 0, i;
-    char buff[10000];
-    double x, y, height, res;
-
+    tstart = clock();
     for(line = 1; !feof(stdin); line++)
     {
         if(fgets(buff, 10000, stdin) == NULL)
@@ -222,27 +219,22 @@ int run_prismg_main(int argc, char **argv, const char *progname,
                 bad_input++;
                 continue;
             }
-
             /* Need to remove \n and \r from end of buff first to print the
                result in the end */
             strstrip(buff);
-
             for(res = 0, i = 0; i < modelsize; i++)
             {
                 res += field(model[i], x, y, -height);
             }
-
             printf("%s %.15g\n", buff, res);
             points++;
         }
     }
-
     if(bad_input)
     {
         log_warning("Encountered %d bad computation points which were skipped",
                     bad_input);
     }
-
     if(error_exit)
     {
         log_warning("Terminating due to error in input");
@@ -253,14 +245,10 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         log_info("Calculated on %d points in %.5g seconds", points,
                  (double)(clock() - tstart)/CLOCKS_PER_SEC);
     }
-
     /* Clean up */
     free(model);
-
     log_info("Done");
-
     if(args.logtofile)
         fclose(logfile);
-
     return 0;
 }
