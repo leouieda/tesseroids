@@ -35,13 +35,20 @@ Program to generate a regular grid of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    log_init(LOG_INFO);
-
     TESSGRD_ARGS args;
     char progname[] = "tessgrd";
+    int rc;
+    FILE *logfile;
+    time_t rawtime;
+    struct tm * timeinfo;
+    double dlon, dlat;
+    double lon, lat;
+    /* Keep track of how many printed. Used to check if produced right amount */
+    int lons = 0, lats = 0, total = 0;
+    
+    log_init(LOG_INFO);
 
-    int rc = parse_tessgrd_args(argc, argv, &args);
-
+    rc = parse_tessgrd_args(argc, argv, &args);
     if(rc == 2)
     {
         return 0;
@@ -52,11 +59,11 @@ int main(int argc, char **argv)
         log_warning("Try '%s -h' for instructions", progname);
         return 1;
     }
-
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-    
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }    
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -72,8 +79,6 @@ int main(int argc, char **argv)
 
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
@@ -86,23 +91,19 @@ int main(int argc, char **argv)
 
     /* Define the grid spacing. used nlon or nlat -1 because the borders should
        be in the grid */
-    double dlon = (args.e - args.w)/(args.nlon - 1),
-           dlat = (args.n - args.s)/(args.nlat - 1);
-    log_info("Grid spacing: %.10lf lon / %.10lf lat", dlon, dlat);
+    dlon = (args.e - args.w)/(args.nlon - 1);
+    dlat = (args.n - args.s)/(args.nlat - 1);
+    log_info("Grid spacing: %.10f lon / %.10f lat", dlon, dlat);
 
     /* Print a header on the output with provenance information */
     printf("# Grid generated with %s %s:\n", progname, tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   args: -r%g/%g/%g/%g -b%d/%d -z%g\n", args.w, args.e, args.s,
            args.n, args.nlon, args.nlat, args.height);
-    printf("#   grid spacing: %.10lf lon / %.10lf lat\n", dlon, dlat);
+    printf("#   grid spacing: %.10f lon / %.10f lat\n", dlon, dlat);
     printf("#   total %d points\n", args.nlon*args.nlat);
     
-    /* Make the grid points. Print lon first as x */
-    double lon, lat;
-    /* Keep track of how many printed. Used to check if produced right amount */
-    int lons = 0, lats = 0, total = 0;
-    
+    /* Make the grid points. Print lon first as x */    
     for(lat = args.s; lat <= args.n; lat += dlat)
     {
         lons = 0;
@@ -112,7 +113,6 @@ int main(int argc, char **argv)
             lons++;
             total++;
         }
-
         /* Sometimes prints one less because of rounding errors */
         if(lons != args.nlon)
         {
@@ -120,12 +120,9 @@ int main(int argc, char **argv)
             lons++;
             total++;
         }
-
         lats++;
-
         printf("\n"); /* To ease plotting in Gnuplot */
     }
-
     /* Sometimes prints one less because of rounding errors */
     if(lats != args.nlat)
     {
@@ -136,26 +133,21 @@ int main(int argc, char **argv)
             lons++;
             total++;
         }
-
         if(lons != args.nlon)
         {
             printf("%.15g %.15g %.15g\n", lon, lat, args.height);
             lons++;
             total++;
         }
-    }
-    
+    }    
     if(total != args.nlat*args.nlon)
     {
         log_warning("%d total points made instead of required %d", total,
                     args.nlat*args.nlon);
     }
-
     log_info("Total points generated: %d", total);
-
     /* Clean up */
     if(args.logtofile)
-        fclose(logfile);
-    
+        fclose(logfile);    
     return 0;
 }
