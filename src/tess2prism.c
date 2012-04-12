@@ -77,12 +77,18 @@ void print_help()
 /** Main */
 int main(int argc, char **argv)
 {
-    log_init(LOG_INFO);
     char *progname = "tess2prism";
     BASIC_ARGS args;
-
-    int rc = parse_basic_args(argc, argv, progname, &args, &print_help);
-
+    int rc, line, converted = 0, error_exit = 0, bad_input = 0;
+    char buff[10000];
+    TESSEROID tess;
+    PRISM prism;
+    FILE *logfile, *modelfile;
+    time_t rawtime;
+    struct tm * timeinfo;
+    
+    log_init(LOG_INFO);
+    rc = parse_basic_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
         return 0;
@@ -91,14 +97,13 @@ int main(int argc, char **argv)
     {
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
-
         return 1;
     }
-
     /* Set the appropriate logging level and log to file if necessary */
-    if(!args.verbose) { log_init(LOG_WARNING); }
-    
-    FILE *logfile;
+    if(!args.verbose)
+    {
+        log_init(LOG_WARNING);
+    }    
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -111,17 +116,14 @@ int main(int argc, char **argv)
         }
         log_tofile(logfile, LOG_INFO);
     }
-
+    
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
-    time_t rawtime;
-    struct tm * timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
 
     /* If an input file is not given, read from stdin. Else open the file */
-    FILE *modelfile;
     if(rc == 3)
     {
         log_info("Reading tesseroids from stdin");
@@ -149,12 +151,7 @@ int main(int argc, char **argv)
     printf("#   tesseroids file: %s\n", rc == 3 ? "stdin" : args.inputfname);
     printf("#   format: x1 x2 y1 y2 z1 z2 density lon lat r\n");
     
-    /* Read the tesseroids, convert and print to stdout */
-    int line, converted = 0, error_exit = 0, bad_input = 0;
-    char buff[10000];
-    TESSEROID tess;
-    PRISM prism;
-    
+    /* Read the tesseroids, convert and print to stdout */    
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(buff, 10000, modelfile) == NULL)
@@ -174,34 +171,27 @@ int main(int argc, char **argv)
                 printf("%s", buff);
                 continue;
             }
-
             /* Remove any trailing spaces or newlines */
             strstrip(buff);
-
             if(gets_tess(buff, &tess))
             {
                 log_warning("bad/invalid tesseroid at line %d", line);
                 bad_input++;
                 continue;
             }
-
             tess2prism(tess, &prism);
-
             printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
                    prism.x1, prism.x2, prism.y1, prism.y2, prism.z1, prism.z2,
                    prism.density,
                    0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
-
             converted++;
         }
     }
-
     if(bad_input)
     {
         log_warning("Encountered %d bad input line(s) which were skipped",
                     bad_input);
     }
-
     if(error_exit)
     {
         log_warning("Terminating due to error in input");
@@ -211,12 +201,9 @@ int main(int argc, char **argv)
     {
         log_info("Converted %d tesseroids", converted);
     }
-
     /* Clean up */
-    fclose(modelfile);
-    
+    fclose(modelfile);    
     if(args.logtofile)
-        fclose(logfile);
-    
+        fclose(logfile);    
     return 0;
 }
