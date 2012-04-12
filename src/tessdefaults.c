@@ -55,12 +55,13 @@ void print_help()
 /** Main */
 int main(int argc, char **argv)
 {
-    log_init(LOG_INFO);
     char progname[] = "tessdefaults";
-
-    /* Parse arguments */
     int i, bad_args = 0;
+    char *params;    
+
+    log_init(LOG_INFO);
     
+    /* Parse arguments */    
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
                     return 0;
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -103,7 +104,6 @@ int main(int argc, char **argv)
             bad_args++;
         }
     }
-
     /* Check if parsing went well */
     if(bad_args > 0)
     {
@@ -112,35 +112,26 @@ int main(int argc, char **argv)
         log_warning("Try '%s -h' for instructions", progname);
         return 1;
     }
-
     /* Print the constants from constants.c */
     printf("# Mean Earth radius (m)\n");
-    printf("MEAN_EARTH_RADIUS = %.1lf\n\n", MEAN_EARTH_RADIUS);
-    
+    printf("MEAN_EARTH_RADIUS = %.1f\n\n", MEAN_EARTH_RADIUS);    
     printf("# Gravitational constant (m^3 kg^-1 s^-1)\n");
     printf("G = %.4g\n\n", G);
-
     printf("# Conversion factor from SI units to Eotvos s^-2 = 10^9 Eotvos\n");
     printf("SI2EOTVOS = %g\n\n", SI2EOTVOS);
-
     printf("# Conversion factor from SI units to mGal m s^-2} = 10^5 mGal\n");
     printf("SI2MGAL = %g\n\n", SI2MGAL);
-
     printf("# Just pi\n");
-    printf("PI = %.31lf\n\n", PI);
-
+    printf("PI = %.31f\n\n", PI);
     printf("# Minimum distance-to-size ratio for computations to be\n");
     printf("# accurate. Used to know when to subdivide the tesseroids.\n");
     printf("TESSEROID_SIZE_RATIO = %d\n\n", TESSEROID_SIZE_RATIO);
-
     /* Print the constants from glq.c */
     printf("# Max iterations of the Legendre polynomial root-finder \
 algorithm\n");
     printf("GLQ_MAXIT = %d\n\n", GLQ_MAXIT);
-
     printf("# Max error allowed for the Legendre polynomial root-finder \
 algorithm\n");
     printf("GLQ_MAXERROR = %g\n", GLQ_MAXERROR);
-
     return 0;
 }
