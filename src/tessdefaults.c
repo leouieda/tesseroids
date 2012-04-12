@@ -24,6 +24,7 @@ Print the default values of the constants used in the calculations.
 
 
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include "version.h"
 #include "logger.h"

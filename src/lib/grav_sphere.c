@@ -50,7 +50,7 @@ http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
 /* Calculates the potential caused by a sphere */
 double sphere_pot(SPHERE sphere, double lonp, double latp, double rp)
 {
-    double mass, l_sqr, d2r = PI/180., kphi, coslatp, coslatc, sinlatp, sinlatc,
+    double mass, l_sqr, d2r = PI/180., coslatp, coslatc, sinlatp, sinlatc,
            coslon;
 
     mass = (double)(sphere.density*4.*PI*sphere.r*sphere.r*sphere.r)/3.;

@@ -114,13 +114,10 @@ static char * test_tess_range_mass()
                                  {-1,180,360,0,90,0,1}, {1,0,90,-90,0,0,1}};
     double tvolumes[4] = {4.188790205, 2.094395102, 1.047197551, 0.523598776};
     double res, expect;
-    int i;
 
     res = tess_range_mass(local_tesses, 4, 0, 1);
-
     expect = tvolumes[0] + tvolumes[3];
-
-    sprintf(msg, "(tess %d) expected %g, got %g", i, expect, res);
+    sprintf(msg, "Expected %g, got %g", expect, res);
     mu_assert_almost_equals(res, expect, pow(10, -6), msg);
 
     return 0;

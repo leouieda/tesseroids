@@ -108,7 +108,7 @@ GLQ * glq_new(int order, double lower, double upper)
         log_warning("nodes might not have desired accuracy %g", GLQ_MAXERROR);
     }
 
-    if(rc = glq_weights(order, glq->nodes_unscaled, glq->weights) != 0)
+    if((rc = glq_weights(order, glq->nodes_unscaled, glq->weights)) != 0)
     {
         switch(rc)
         {

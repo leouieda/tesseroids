@@ -234,9 +234,8 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         return NULL;
     }
 
-    int nread, nchars, line, badinput = 0, error_exit = 0;
+    int line, badinput = 0, error_exit = 0;
     char sbuff[10000];
-    double w, e, s, n, top, bot, dens;
     TESSEROID *tmp;
 
     *size = 0;
@@ -361,9 +360,8 @@ PRISM * read_prism_model(FILE *modelfile, int *size)
         return NULL;
     }
 
-    int nread, nchars, line, badinput = 0, error_exit = 0;
+    int line, badinput = 0, error_exit = 0;
     char sbuff[10000];
-    double x1, x2, y1, y2, z1, z2, dens;
     PRISM *tmp;
 
     *size = 0;

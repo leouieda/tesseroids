@@ -35,6 +35,7 @@ http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
 
 
 #include <math.h>
+#include "logger.h"
 #include "utils.h"
 #include "glq.h"
 #include "constants.h"
