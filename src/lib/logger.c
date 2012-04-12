@@ -29,10 +29,7 @@ Functions to set up logging.
 #include "logger.h"
 
 /* Initialize the logger so that it doesn't print by default */
-LOGGER logger = {.level = 100,
-                 .file_level = 100,
-                 .filelogging = 0,
-                 .logfile = NULL};
+LOGGER logger = {100, 0, 100, NULL};
 
 
 /* Setup logging to stderr.*/

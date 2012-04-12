@@ -4,6 +4,7 @@ syntax: glob
 bin
 *.o
 *.pyc
+build
 doc/build/latex
 examples/dem_brasil/dem_brasil_example.aux
 examples/dem_brasil/dem_brasil_example.log

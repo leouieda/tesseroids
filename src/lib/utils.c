@@ -41,6 +41,7 @@ void split_tess(TESSEROID tess, TESSEROID *split)
            dlat = 0.5*(tess.n - tess.s),
            dr = 0.5*(tess.r2 - tess.r1),
            ws[2], ss[2], r1s[2];
+    int i, j, k, t = 0;
 
     ws[0] = tess.w;
     ws[1] = tess.w + dlon;
@@ -48,9 +49,6 @@ void split_tess(TESSEROID tess, TESSEROID *split)
     ss[1] = tess.s + dlat;
     r1s[0] = tess.r1;
     r1s[1] = tess.r1 + dr;
-
-    int i, j, k, t = 0;
-
     for(k = 0; k < 2; k++)
     {
         for(j = 0; j < 2; j++)
@@ -111,10 +109,8 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     double deg2rad = PI/180., r0, dx, dy;
 
     r0 = 0.5*(tess.r1 + tess.r2);
-
     dx = r0*deg2rad*(tess.n - tess.s);
     dy = r0*cos(deg2rad*0.5*(tess.n + tess.s))*deg2rad*(tess.e - tess.w);
-
     prism->x1 = -0.5*dx;
     prism->x2 = 0.5*dx;
     prism->y1 = -0.5*dy;
@@ -122,7 +118,6 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     /* r1 is not z1 because r1 is the bottom face */
     prism->z1 = MEAN_EARTH_RADIUS - tess.r2;
     prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
-
     /* Calculate the density of the prism so that they will have exactly
        the same mass */
     prism->density = (double)tess.density*tess_volume(tess)/prism_volume(*prism);
@@ -202,12 +197,10 @@ int gets_tess(const char *str, TESSEROID *tess)
 
     nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &w, &e, &s,
                     &n, &top, &bot, &dens, &nchars);
-
     if(nread != 7 || str[nchars] != '\0')
     {
         return 1;
     }
-
     tess->w = w;
     tess->e = e;
     tess->s = s;
@@ -215,7 +208,6 @@ int gets_tess(const char *str, TESSEROID *tess)
     tess->r1 = MEAN_EARTH_RADIUS + bot;
     tess->r2 = MEAN_EARTH_RADIUS + top;
     tess->density = dens;
-
     return 0;
 }
 
@@ -223,8 +215,9 @@ int gets_tess(const char *str, TESSEROID *tess)
 /* Read tesseroids from an open file and store them in an array */
 TESSEROID * read_tess_model(FILE *modelfile, int *size)
 {
-    TESSEROID *model;
-    int buffsize = 100;
+    TESSEROID *model, *tmp;
+    int buffsize = 100, line, badinput = 0, error_exit = 0;
+    char sbuff[10000];
 
     /* Start with a single buffer allocation and expand later if necessary */
     model = (TESSEROID *)malloc(buffsize*sizeof(TESSEROID));
@@ -233,13 +226,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         log_error("problem allocating initial memory to load tesseroid model");
         return NULL;
     }
-
-    int line, badinput = 0, error_exit = 0;
-    char sbuff[10000];
-    TESSEROID *tmp;
-
     *size = 0;
-
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(sbuff, 10000, modelfile) == NULL)
@@ -258,7 +245,6 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
             {
                 continue;
             }
-
             if(*size == buffsize)
             {
                 buffsize += buffsize;
@@ -273,27 +259,22 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
                 }
                 model = tmp;
             }
-
             /* Remove any trailing spaces or newlines */
             strstrip(sbuff);
-
             if(gets_tess(sbuff, &model[*size]))
             {
                 log_warning("bad/invalid tesseroid at line %d", line);
                 badinput = 1;
                 continue;
             }
-
             (*size)++;
         }
     }
-
     if(badinput || error_exit)
     {
         free(model);
         return NULL;
     }
-
     /* Adjust the size of the model */
     tmp = (TESSEROID *)realloc(model, (*size)*sizeof(TESSEROID));
     if(tmp == NULL)
@@ -305,7 +286,6 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         return NULL;
     }
     model = tmp;
-
     return model;
 }
 
@@ -321,7 +301,6 @@ int gets_prism(const char *str, PRISM *prism)
 
     nread = sscanf(str, "%lf %lf %lf %lf %lf %lf %lf%n", &x1, &x2, &y1, &y2,
                    &z1, &z2, &dens, &nchars);
-
     /* Not caring if there are more chars in the line so that can read output of
     tess2prism */
     /*
@@ -333,7 +312,6 @@ int gets_prism(const char *str, PRISM *prism)
     {
         return 1;
     }
-
     prism->x1 = x1;
     prism->x2 = x2;
     prism->y1 = y1;
@@ -341,7 +319,6 @@ int gets_prism(const char *str, PRISM *prism)
     prism->z1 = z1;
     prism->z2 = z2;
     prism->density = dens;
-
     return 0;
 }
 
@@ -349,8 +326,9 @@ int gets_prism(const char *str, PRISM *prism)
 /* Read rectangular prisms from an open file and store them in an array. */
 PRISM * read_prism_model(FILE *modelfile, int *size)
 {
-    PRISM *model;
-    int buffsize = 100;
+    PRISM *model, *tmp;
+    int buffsize = 100, line, badinput = 0, error_exit = 0;
+    char sbuff[10000];
 
     /* Start with a single buffer allocation and expand later if necessary */
     model = (PRISM *)malloc(buffsize*sizeof(PRISM));
@@ -359,13 +337,7 @@ PRISM * read_prism_model(FILE *modelfile, int *size)
         log_error("problem allocating initial memory to load prism model");
         return NULL;
     }
-
-    int line, badinput = 0, error_exit = 0;
-    char sbuff[10000];
-    PRISM *tmp;
-
     *size = 0;
-
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(sbuff, 10000, modelfile) == NULL)
@@ -384,7 +356,6 @@ PRISM * read_prism_model(FILE *modelfile, int *size)
             {
                 continue;
             }
-
             if(*size == buffsize)
             {
                 buffsize += buffsize;
@@ -399,27 +370,22 @@ PRISM * read_prism_model(FILE *modelfile, int *size)
                 }
                 model = tmp;
             }
-
             /* Remove any trailing spaces or newlines */
             strstrip(sbuff);
-
             if(gets_prism(sbuff, &model[*size]))
             {
                 log_warning("bad/invalid prism at line %d", line);
                 badinput = 1;
                 continue;
             }
-
             (*size)++;
         }
     }
-
     if(badinput || error_exit)
     {
         free(model);
         return NULL;
     }
-
     /* Adjust the size of the model */
     tmp = (PRISM *)realloc(model, (*size)*sizeof(PRISM));
     if(tmp == NULL)
@@ -431,6 +397,5 @@ PRISM * read_prism_model(FILE *modelfile, int *size)
         return NULL;
     }
     model = tmp;
-
     return model;
 }

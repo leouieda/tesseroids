@@ -1,5 +1,5 @@
 # Build the Tesseroids programs
-env = Environment(CFLAGS='', LIBS=['m'], CPPPATH='src/lib')
+env = Environment(CFLAGS='-ansi -pedantic-errors', LIBS=['m'], CPPPATH='src/lib')
 
 # Build the tessg* programs
 tesssrc = Split("""

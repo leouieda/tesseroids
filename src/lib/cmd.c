@@ -36,14 +36,13 @@ Command line parsing tools.
 int parse_basic_args(int argc, char **argv, const char *progname,
                      BASIC_ARGS *args, void (*print_help)(void))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 1;
+    int bad_args = 0, parsed_args = 0, total_args = 1, i;
+    char *params;
 
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
-
     /* Parse arguments */
-    int i;
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -59,7 +58,6 @@ int parse_basic_args(int argc, char **argv, const char *progname,
                     }
                     print_help();
                     return 2;
-
                 case 'v':
                     if(argv[i][2] != '\0')
                     {
@@ -75,7 +73,6 @@ int parse_basic_args(int argc, char **argv, const char *progname,
                     }
                     args->verbose = 1;
                     break;
-
                 case 'l':
                 {
                     if(args->logtofile)
@@ -84,7 +81,7 @@ int parse_basic_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
                         log_error("bad input argument -l. Missing filename.");
@@ -99,7 +96,7 @@ int parse_basic_args(int argc, char **argv, const char *progname,
                 }
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -133,7 +130,6 @@ int parse_basic_args(int argc, char **argv, const char *progname,
             }
         }
     }
-
     /* Check if parsing went well */
     if(parsed_args > total_args)
     {
@@ -149,7 +145,6 @@ int parse_basic_args(int argc, char **argv, const char *progname,
     {
         return 3;
     }
-
     return 0;
 }
 
@@ -158,16 +153,15 @@ int parse_basic_args(int argc, char **argv, const char *progname,
 int parse_tessmass_args(int argc, char **argv, const char *progname,
                         TESSMASS_ARGS *args, void (*print_help)(void))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 1, parsed_r = 0;
+    int bad_args = 0, parsed_args = 0, total_args = 1, parsed_r = 0, i, nchar,
+        nread;
+    char *params;
     
-
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
     args->use_range = 0;
-
     /* Parse arguments */
-    int i;
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -183,7 +177,6 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
                     }
                     print_help();
                     return 2;
-
                 case 'v':
                     if(argv[i][2] != '\0')
                     {
@@ -208,7 +201,7 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
                         log_error("bad input argument -l. Missing filename.");
@@ -223,7 +216,7 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
                 }
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -244,10 +237,10 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf/%lf%n", &(args->low_dens),
-                                       &(args->high_dens), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf/%lf%n", &(args->low_dens),
+                                   &(args->high_dens), &nchar);
                     if(nread != 2 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -278,7 +271,6 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
             }
         }
     }
-
     /* Check if parsing went well */
     if(parsed_args > total_args)
     {
@@ -293,8 +285,7 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
     if(parsed_args < total_args)
     {
         return 3;
-    }
-    
+    }    
     return 0;
 }
 
@@ -303,17 +294,15 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
 int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                           TESSMODGEN_ARGS *args, void (*print_help)(void))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 2,
-        parsed_s = 0, parsed_z = 0, parsed_d = 0;
-
+    int bad_args = 0, parsed_args = 0, total_args = 2, parsed_s = 0,
+        parsed_z = 0, parsed_d = 0, i, nchar, nread;
+    char *params;
 
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
     args->fix_density = 0;
-
     /* Parse arguments */
-    int i;
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -329,7 +318,6 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                     }
                     print_help();
                     return 2;
-
                 case 'v':
                     if(argv[i][2] != '\0')
                     {
@@ -345,7 +333,6 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                     }
                     args->verbose = 1;
                     break;
-
                 case 'l':
                 {
                     if(args->logtofile)
@@ -354,7 +341,7 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
                         log_error("bad input argument -l. Missing filename.");
@@ -369,7 +356,7 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                 }
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -390,10 +377,10 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf/%lf%n", &(args->dlon),
-                                       &(args->dlat), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf/%lf%n", &(args->dlon),
+                                   &(args->dlat), &nchar);
                     if(nread != 2 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -411,9 +398,9 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf%n", &(args->ref), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf%n", &(args->ref), &nchar);
                     if(nread != 1 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -431,9 +418,9 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf%n", &(args->dens), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf%n", &(args->dens), &nchar);
                     if(nread != 1 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -455,7 +442,6 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
             bad_args++;
         }
     }
-
     /* Check if parsing went well */
     if(bad_args > 0 || parsed_args != total_args)
     {
@@ -475,7 +461,6 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
         }
         return 1;
     }
-
     return 0;
 }
 
@@ -484,8 +469,9 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
 int parse_tessg_args(int argc, char **argv, const char *progname,
                       TESSG_ARGS *args)
 {
-    int bad_args = 0, parsed_args = 0, total_args = 1;
-    int parsed_order = 0;
+    int bad_args = 0, parsed_args = 0, total_args = 1,  parsed_order = 0, i,
+        nchar, nread;
+    char *params;
 
     /* Default values for options */
     args->verbose = 0;
@@ -494,9 +480,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     args->lat_order = 2;
     args->r_order = 2;
     args->adaptative = 1;
-
     /* Parse arguments */
-    int i;
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -535,7 +519,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
                         log_error("bad input argument -l. Missing filename.");
@@ -550,7 +534,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                 }
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -586,9 +570,9 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%d/%d/%d%n", &(args->lon_order),
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%d/%d/%d%n", &(args->lon_order),
                                 &(args->lat_order), &(args->r_order), &nchar);
                     if(nread != 3 || *(params + nchar) != '\0')
                     {
@@ -619,7 +603,6 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
             }
         }
     }
-
     /* Check if parsing went well */
     if(bad_args > 0 || parsed_args != total_args)
     {
@@ -639,7 +622,6 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
         }
         return 1;
     }
-
     return 0;
 }
 
@@ -647,17 +629,14 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
 /* Parse command line arguments for tessgrd program */
 int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
 {
-    int bad_args = 0, parsed_args = 0, total_args = 3,
-        parsed_r = 0, parsed_b = 0, parsed_z = 0;
-    
-    char progname[] = "tessgrd";
+    int bad_args = 0, parsed_args = 0, total_args = 3, parsed_r = 0,
+        parsed_b = 0, parsed_z = 0, i, nchar, nread;    
+    char progname[] = "tessgrd", *params;
 
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
-
     /* Parse arguments */
-    int i;
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -673,7 +652,6 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                     }
                     print_tessgrd_help();
                     return 2;
-
                 case 'v':
                     if(argv[i][2] != '\0')
                     {
@@ -698,7 +676,7 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strlen(params) == 0)
                     {
                         log_error("bad input argument -l. Missing filename.");
@@ -713,7 +691,7 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                 }
                 case '-':
                 {
-                    char *params = &argv[i][2];
+                    params = &argv[i][2];
                     if(strcmp(params, "version"))
                     {
                         log_error("invalid argument '%s'", argv[i]);
@@ -734,10 +712,10 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf/%lf/%lf/%lf%n", &(args->w),
-                                       &(args->e), &(args->s), &(args->n), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf/%lf/%lf/%lf%n", &(args->w),
+                                   &(args->e), &(args->s), &(args->n), &nchar);
                     if(nread != 4 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -755,10 +733,10 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%d/%d%n", &(args->nlon),
-                                       &(args->nlat), &nchar);
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%d/%d%n", &(args->nlon),
+                                   &(args->nlat), &nchar);
                     if(nread != 2 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -776,10 +754,9 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                         break;
                     }
-                    char *params = &argv[i][2];
-                    int nchar = 0;
-                    int nread = sscanf(params, "%lf%n", &(args->height), &nchar);
-
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf%n", &(args->height), &nchar);
                     if(nread != 1 || *(params + nchar) != '\0')
                     {
                         log_error("bad input argument '%s'", argv[i]);
@@ -801,7 +778,6 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
             bad_args++;
         }
     }
-
     /* Check if parsing went well */
     if(bad_args > 0 || parsed_args != total_args)
     {
@@ -821,7 +797,6 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
         }
         return 1;
     }
-
     return 0;
 }
 
