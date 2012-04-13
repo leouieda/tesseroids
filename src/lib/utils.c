@@ -131,7 +131,7 @@ void tess2sphere(TESSEROID tess, SPHERE *sphere)
     sphere->lonc = 0.5*(tess.e + tess.w);
     sphere->latc = 0.5*(tess.n + tess.s);
     sphere->rc = 0.5*(tess.r1 + tess.r2);
-    sphere->r = cbrt(3*tess_volume(tess)/(4.*PI));
+    sphere->r = pow(3*tess_volume(tess)/(4.*PI), (double)1./3.);
 }
 
 
@@ -143,7 +143,7 @@ void prism2sphere(PRISM prism, double lonc, double latc, double rc,
     sphere->lonc = lonc;
     sphere->latc = latc;
     sphere->rc = rc;
-    sphere->r = cbrt(3*prism_volume(prism)/(4.*PI));
+    sphere->r = pow(3*prism_volume(prism)/(4.*PI), (double)1./3.);
 }
 
 

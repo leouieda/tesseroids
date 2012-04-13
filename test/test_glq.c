@@ -31,16 +31,10 @@ Date: 24 Jan 2011
 
 /* Test data taken from:
     http://mathworld.wolfram.com/Legendre-GaussQuadrature.html */
-double o2roots[2] = {-(double)sqrt(3.)/3., (double)sqrt(3.)/3.},
-       o3roots[3] = {-(double)sqrt(15.)/5., 0., (double)sqrt(15.)/5.},
-       o4roots[4] = {-(double)sqrt(525. + 70.*sqrt(30.))/35.,
-                     -(double)sqrt(525. - 70.*sqrt(30.))/35.,
-                     (double)sqrt(525. - 70.*sqrt(30.))/35.,
-                     (double)sqrt(525. + 70.*sqrt(30.))/35.},
-       o5roots[5] = {-(double)sqrt(245. + 14.*sqrt(70.))/21.,
-                     -(double)sqrt(245. - 14.*sqrt(70.))/21., 0.,
-                     (double)sqrt(245. - 14.*sqrt(70.))/21.,
-                     (double)sqrt(245. + 14.*sqrt(70.))/21.},
+double o2roots[2] = {-0.577350269, 0.577350269},
+       o3roots[3] = {-0.774596669, 0., 0.774596669},
+       o4roots[4] = {-0.861136312, -0.339981044, 0.339981044, 0.861136312},
+       o5roots[5] = {-0.906179846, -0.53846931, 0., 0.53846931, 0.906179846},
        o19roots[19] = {-0.992406843843584350,
                        -0.960208152134830020,
                        -0.903155903614817900,
@@ -62,16 +56,10 @@ double o2roots[2] = {-(double)sqrt(3.)/3., (double)sqrt(3.)/3.},
                         0.992406843843584350};
 
 double o2weights[2] = {1., 1.},
-       o3weights[3] = {(double)5./9., (double)8./9., (double)5./9.},
-       o4weights[4] = {(double)(18. - sqrt(30.))/36.,
-                       (double)(18. + sqrt(30.))/36.,
-                       (double)(18. + sqrt(30.))/36.,
-                       (double)(18. - sqrt(30.))/36.},
-       o5weights[5] = {(double)(322. - 13*sqrt(70.))/900.,
-                       (double)(322. + 13*sqrt(70.))/900.,
-                       (double)128./225,
-                       (double)(322. + 13*sqrt(70.))/900.,
-                       (double)(322. - 13*sqrt(70.))/900.};
+       o3weights[3] = {0.555555556, 0.888888889, 0.555555556},
+       o4weights[4] = {0.347854845, 0.652145155, 0.652145155, 0.347854845},
+       o5weights[5] = {0.236926885, 0.47862867, 0.568888889, 0.47862867,
+            0.236926885};
 
 /* To store fail messages */
 char msg[1000];
@@ -126,7 +114,7 @@ static char * test_glq_next_root_fail()
 
 static char * test_glq_next_root()
 {
-    double prec = pow(10, -15), root[19], initial;
+    double prec = pow(10, -9), root[19], initial;
     int rc, i, order;
     
     /* Test order 2 */
@@ -220,7 +208,7 @@ static char * test_glq_next_root()
 
 static char * test_glq_weights()
 {
-    double prec = pow(10, -15), weights[5];
+    double prec = pow(10, -9), weights[5];
     int rc, i, order;
 
     /* Test order 2 */
@@ -289,7 +277,7 @@ static char * test_glq_weights()
 
 static char * test_glq_nodes()
 {
-    double prec = pow(10, -15), nodes[19];
+    double prec = pow(10, -9), nodes[19];
     int rc, i, order;
 
     /* Test order 2 */
@@ -373,7 +361,7 @@ static char * test_glq_nodes()
 
 static char * test_glq_set_limits()
 {
-    double prec = pow(10, -15), unscaled[5], scaled[5], a, b, correct;
+    double prec = pow(10, -9), unscaled[5], scaled[5], a, b, correct;
     int order, rc, i;
     GLQ glq;
     
@@ -463,10 +451,16 @@ static char * test_glq_set_limits()
 static char * test_glq_intcos()
 {
     double result, expected;
-    double angles[6] = {PI*0.1, PI, PI*1.2,
-                        PI*1.9, PI*4.3, PI*6.9};
+    double angles[6];
     int i, t, orders[6] = {2, 3, 5, 8, 15, 25};
     GLQ *glq;
+
+    angles[0] = PI*0.1;
+    angles[1] = PI;
+    angles[2] = PI*1.2;
+    angles[3] = PI*1.9;
+    angles[4] = PI*4.3;
+    angles[5] = PI*6.9;
     
     for(t = 0; t < 6; t++)
     {

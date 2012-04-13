@@ -269,10 +269,9 @@ static char * test_split_tess()
                         {1, 2, 3, -1, 0, 6, 7}, {1, 3, 4, -1, 0, 6, 7},
                         {1, 2, 3, 0, 1, 6, 7}, {1, 3, 4, 0, 1, 6, 7}},
               res[8];
-
-    split_tess(tess, res);
-    
     int i;
+
+    split_tess(tess, res);    
     for(i = 0; i < 8; i++)
     {
         sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
@@ -283,7 +282,6 @@ static char * test_split_tess()
                   res[i].r1 == expect[i].r1 && res[i].r2 == expect[i].r2 &&
                   res[i].density == expect[i].density, msg);
     }
-
     return 0;
 }
 

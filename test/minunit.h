@@ -50,6 +50,11 @@ Date: 25 Jan 2011
 #define _MINUNIT_H_
 
 #include <stdio.h>
+        
+/* Global counters. WARNING: Don't forget to initialize in the main program
+before running the tests! */
+extern int tests_run, tests_passed, tests_failed;
+
 
 /* Basic assertion. If fails, returns msg. If passes, returns 0 */
 #define mu_assert(test, msg) do { if (!(test)) return msg; } while (0)
@@ -62,7 +67,7 @@ Date: 25 Jan 2011
 
 
 /* Run a test case, print the verbose and check if passed or failed */
-int mu_run_test(static char *(*test)(), char *verbose)
+int mu_run_test(char *(*test)(void), char *verbose)
 {
     char *msg;
     
@@ -81,6 +86,7 @@ int mu_run_test(static char *(*test)(), char *verbose)
     }
 }
 
+
 /* Print a summary of the tests ran and how long it took */
 #define mu_print_summary(test_time) \
     printf("\n\n-----------------------------------------------------------"); \
@@ -95,10 +101,5 @@ int mu_counter;
     do {for(mu_counter=0; mu_counter<size; mu_counter++){ \
         copy[mu_counter]=original[mu_counter]; } \
     } while (0)
-
-        
-/* Global counters. WARNING: Don't forget to initialize in the main program
-before running the tests! */
-extern int tests_run, tests_passed, tests_failed;
 
 #endif
