@@ -26,13 +26,13 @@ Hold the version number of the project.
 #include "version.h"
 
 /* Current project version number */
-const char tesseroids_version[] = "1.0";
+const char tesseroids_version[] = "1.1dev";
 
 /* Print version and license information */
 void print_version(const char *progname)
 {
     printf("%s (Tesseroids project) %s\n", progname, tesseroids_version);
-    printf("Copyright (C) 2011 Leonardo Uieda.\n");
+    printf("Copyright (C) 2011, 2012 Leonardo Uieda.\n");
     printf("License GNU GPL version 3 or later: ");
     printf("<http://www.gnu.org/licenses/gpl.html>\n");
     printf("This is free software: ");
