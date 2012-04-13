@@ -1,0 +1,10 @@
+Goals for 1.1:
+
+* Move codebase to BSD license to be compatible with Fatiando
+* Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
+* Make tessmodgen accept 2 grids instead of just a reference and fill in between with tesseroids 
+* Separate the distance ratio for different fields
+* Make prismshg* programs to calculate the prism effects on spherical coordinates
+* Make the prismg* programs complain when the prism file came from tess2prism
+* Make tess2prism flag --flatten to make the prism model by flattening the tesseroids (1deg = 111km).
+  This way tess2prism can be used with both prismg* and prismshg*
