@@ -51,8 +51,15 @@ extern const double SI2MGAL;
 Pi */
 extern const double PI;
 
-/** \var TESSEROID_SIZE_RATIO
-Minimum distance-to-size ratio for computations to be accurate */
-extern const int TESSEROID_SIZE_RATIO;
+/** \var TESSEROID_POT_SIZE_RATIO
+Minimum distance-to-size ratio for potential computations to be accurate */
+extern const int TESSEROID_POT_SIZE_RATIO;
+/** \var TESSEROID_G_SIZE_RATIO
+Minimum distance-to-size ratio for gravity computations to be accurate */
+extern const int TESSEROID_G_SIZE_RATIO;
+/** \var TESSEROID_GG_SIZE_RATIO
+Minimum distance-to-size ratio for gravity gradient computations to be
+accurate */
+extern const int TESSEROID_GG_SIZE_RATIO;
 
 #endif

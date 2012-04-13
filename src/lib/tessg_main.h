@@ -40,10 +40,12 @@ Generic main function for the tessg* programs.
 @param argv command line arguments
 @param progname name of the specific program
 @param field pointer to function that calculates the field of a single tesseroid
+@param ratio distance-to-size ratio for doing adaptative resizing
 
 @return 0 is all went well. 1 if failed.
 */
 extern int run_tessg_main(int argc, char **argv, const char *progname,
-   double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+   double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
+   int ratio);
 
 #endif

@@ -124,8 +124,10 @@ int main(int argc, char **argv)
     printf("# Just pi\n");
     printf("PI = %.31f\n\n", PI);
     printf("# Minimum distance-to-size ratio for computations to be\n");
-    printf("# accurate. Used to know when to subdivide the tesseroids.\n");
-    printf("TESSEROID_SIZE_RATIO = %d\n\n", TESSEROID_SIZE_RATIO);
+    printf("# accurate. Used for knowing when to subdivide the tesseroids.\n");
+    printf("TESSEROID_POT_SIZE_RATIO = %d\n\n", TESSEROID_POT_SIZE_RATIO);
+    printf("TESSEROID_G_SIZE_RATIO = %d\n\n", TESSEROID_G_SIZE_RATIO);
+    printf("TESSEROID_GG_SIZE_RATIO = %d\n\n", TESSEROID_GG_SIZE_RATIO);
     /* Print the constants from glq.c */
     printf("# Max iterations of the Legendre polynomial root-finder \
 algorithm\n");

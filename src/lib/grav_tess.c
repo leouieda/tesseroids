@@ -76,10 +76,11 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
 /* Adaptatively calculate the field of a tesseroid model at a given point */
 double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
               double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
-              double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ))
+              double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
+              int ratio)
 {
     double res, dist, lont, latt, rt, d2r = PI/180.;
-    int tess, ratio = TESSEROID_SIZE_RATIO;
+    int tess;
     TESSEROID split[8];
 
     res = 0;
@@ -111,7 +112,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
                          *glq_r);
         }
         /* Check if the computation point is at an acceptable distance. If not
-           split the tesseroid into 8 */
+           split the tesseroid using the given ratio */
         else if(
             dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
             dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
@@ -125,7 +126,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             /* Do it recursively until ratio*size is smaller than distance */
             split_tess(model[tess], split);
             res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,
-                                         glq_lat, glq_r, field);
+                                         glq_lat, glq_r, field, ratio);
         }
         else
         {

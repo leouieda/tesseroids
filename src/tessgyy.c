@@ -23,12 +23,14 @@ Program to calculate gyy of a tesseroid model on a set of points.
 */
 
 
-#include "grav_tess.h"
-#include "tessg_main.h"
+#include "lib/constants.h"
+#include "lib/grav_tess.h"
+#include "lib/tessg_main.h"
 
 
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_tessg_main(argc, argv, "tessgyy", &tess_gyy);
+    return run_tessg_main(argc, argv, "tessgyy", &tess_gyy,
+                          TESSEROID_GG_SIZE_RATIO);
 }

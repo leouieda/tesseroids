@@ -198,12 +198,14 @@ the tesseroids</b>.
 @param glq_lat pointer to GLQ structure used for the latitudinal integration
 @param glq_r pointer to GLQ structure used for the radial integration
 @param field pointer to one of the field calculating functions
+@param ratio distance-to-size ratio for doing adaptative resizing
 
 @return the sum of the fields of all the tesseroids in the model
 */
 extern double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
-    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ));
+    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
+    int ratio);
 
 
 /** Calculates potential caused by a tesseroid.

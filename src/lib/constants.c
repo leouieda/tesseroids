@@ -48,6 +48,13 @@ const double SI2MGAL = 100000.0;
 Pi */
 const double PI = 3.1415926535897932384626433832795;
 
-/** \var TESSEROID_SIZE_RATIO
-Minimum distance-to-size ratio for computations to be accurate */
-const int TESSEROID_SIZE_RATIO = 4;
+/** \var TESSEROID_POT_SIZE_RATIO
+Minimum distance-to-size ratio for potential computations to be accurate */
+const int TESSEROID_POT_SIZE_RATIO = 1;
+/** \var TESSEROID_G_SIZE_RATIO
+Minimum distance-to-size ratio for gravity computations to be accurate */
+const int TESSEROID_G_SIZE_RATIO = 2;
+/** \var TESSEROID_GG_SIZE_RATIO
+Minimum distance-to-size ratio for gravity gradient computations to be
+accurate */
+const int TESSEROID_GG_SIZE_RATIO = 4;

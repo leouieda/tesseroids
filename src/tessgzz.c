@@ -23,12 +23,14 @@ Program to calculate gzz of a tesseroid model on a set of points.
 */
 
 
-#include "grav_tess.h"
-#include "tessg_main.h"
+#include "lib/constants.h"
+#include "lib/grav_tess.h"
+#include "lib/tessg_main.h"
 
 
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_tessg_main(argc, argv, "tessgzz", &tess_gzz);
+    return run_tessg_main(argc, argv, "tessgzz", &tess_gzz,
+                          TESSEROID_GG_SIZE_RATIO);
 }

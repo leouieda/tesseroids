@@ -520,12 +520,13 @@ static char * test_adaptative()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
-    mindist = TESSEROID_SIZE_RATIO*111110.*(tess.e - tess.w);
+    mindist = TESSEROID_GG_SIZE_RATIO*111110.*(tess.e - tess.w);
 
     /* If at half mindist should only divide once */
     resadapt = calc_tess_model_adapt(&tess, 1, 0, 0,
                                      0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
-                                     glqlat, glqr, tess_gzz);
+                                     glqlat, glqr, tess_gzz,
+                                     TESSEROID_GG_SIZE_RATIO);
 
     split_tess(tess, split);
     resnormal = calc_tess_model(split, 8, 0, 0,
