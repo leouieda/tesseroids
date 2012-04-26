@@ -45,6 +45,8 @@ void print_help()
     printf("To use the output with the prism* programs, use option\n");
     printf("--flatten which converts the tesseroids by approximating\n");
     printf("1 degree by 111.11km.\n\n");
+    printf("WARNING: The density of the prism is adjusted so that it has\n");
+    printf("the same mass as the tesseroid (even when using --flatten).\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
     printf("  If TESSFILE is omited, will read from standard input (stdin)\n");
@@ -66,9 +68,9 @@ void print_help()
     printf("  format:\n\n");
     printf("    x1 x2 y1 y2 z1 z2 density lon lat r\n\n");
     printf("  Comments about the provenance of the data are inserted into\n");
-    printf("  the top of the output.\n");
+    printf("  the top of the output.\n\n");
     printf("  WARNING: If the option --flatten is used, lon lat and r are\n");
-    printf("           not given.\n\n");
+    printf("  not given.\n\n");
     printf("Options:\n");
     printf("  --flatten    Convert the tesseroids by approximating 1 degree\n");
     printf("               by 111.11 km (for compatibility with prism*\n");
