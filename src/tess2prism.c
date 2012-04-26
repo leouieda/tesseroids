@@ -35,11 +35,16 @@ Convert a tesseroid model into a prism model in spherical coordinates
 void print_help()
 {
     printf("Usage: tess2prim TESSFILE [OPTIONS]\n\n");
-    printf("Convert a tesseroid model into a rectangular prism model.\n\n");
+    printf("Convert a tesseroid model into a rectangular prism model\n");
+    printf("(for use with the prismsh* programs).\n\n");
     printf("The converted prism have the same volume as the tesseroid.\n");
     printf("Along with each prism is given the spherical coordinates of the\n");
     printf("center of the top face of the tesseroid (used as the origin of\n");
-    printf("the prisms coordinate system).\n\n");
+    printf("the prisms coordinate system). The dimensions of the prism are \n");
+    printf("measured with respect to this origin.\n\n");
+    printf("To use the output with the prism* programs, use option\n");
+    printf("--flatten which converts the tesseroids by approximating\n");
+    printf("1 degree by 111.11km.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
     printf("  If TESSFILE is omited, will read from standard input (stdin)\n");
@@ -58,11 +63,16 @@ void print_help()
     printf("    and will be ignored\n\n");
     printf("Output:\n");
     printf("  Printed to standard output (stdout) one prism per line in the\n");
-    printf("  format:\n");
+    printf("  format:\n\n");
     printf("    x1 x2 y1 y2 z1 z2 density lon lat r\n\n");
-    printf("  * Comments about the provenance of the data are inserted into\n");
-    printf("    the top of the output\n\n");
+    printf("  Comments about the provenance of the data are inserted into\n");
+    printf("  the top of the output.\n");
+    printf("  WARNING: If the option --flatten is used, lon lat and r are\n");
+    printf("           not given.\n\n");
     printf("Options:\n");
+    printf("  --flatten    Convert the tesseroids by approximating 1 degree\n");
+    printf("               by 111.11 km (for compatibility with prism*\n");
+    printf("               programs).\n");
     printf("  -h           Print instructions.\n");
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");
