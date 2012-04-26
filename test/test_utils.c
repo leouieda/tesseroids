@@ -233,7 +233,11 @@ static char * test_gets_prism()
                 prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
                 prisms[i].density);
 
-        gets_prism(str, &res);
+        if(gets_prism(str, &res))
+        {
+            sprintf(msg, "(prism %d) gets_prism returned 1", i);
+            mu_assert(0, msg);
+        }
 
         sprintf(msg, "(prism %d) failed to read x1. read=%g true=%g", i, res.x1,
                 prisms[i].x1);
@@ -257,6 +261,45 @@ static char * test_gets_prism()
                 res.density, prisms[i].density);
         mu_assert(res.density == prisms[i].density, msg);
     }
+    return 0;
+}
+
+
+static char * test_gets_prism_fail()
+{
+    int i = 0, j;
+    char str[1000];
+    PRISM res;
+
+    j = 1;
+    sprintf(str, "%g %g %g %g %g %g %g 1", prisms[i].x1, prisms[i].x2,
+            prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
+            prisms[i].density);
+    sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
+    mu_assert(gets_prism(str, &res), msg);
+    
+    j = 2;
+    sprintf(str, "%g %g %g %g %g %g %g 1.3", prisms[i].x1, prisms[i].x2,
+            prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
+            prisms[i].density);
+    sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
+    mu_assert(gets_prism(str, &res), msg);
+    
+    j = 3;
+    sprintf(str, "%g %g %g %g %g %g %g meh", prisms[i].x1, prisms[i].x2,
+            prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
+            prisms[i].density);
+    sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
+    mu_assert(gets_prism(str, &res), msg);
+    
+    j = 4;
+    sprintf(str, "%g %g %g %g %g %g %g 1 4.5 234556 blablabla",
+            prisms[i].x1, prisms[i].x2,
+            prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
+            prisms[i].density);
+    sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
+    mu_assert(gets_prism(str, &res), msg);
+    
     return 0;
 }
 
@@ -299,5 +342,6 @@ void utils_run_all()
                 "prism2sphere produces sphere with right volume");
     mu_run_test(test_gets_tess, "gets_tess reads correctly from string");
     mu_run_test(test_gets_prism, "gets_prism reads correctly from string");
+    mu_run_test(test_gets_prism_fail, "gets_prism fails for bad input");
     mu_run_test(test_split_tess, "split_tess returns correct results");
 }
