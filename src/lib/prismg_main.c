@@ -112,7 +112,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     rc = parse_basic_args(argc, argv, progname, &args, &print_help);
     if(rc == 3)
     {
-        log_error("%s: missing input file.\n", progname);
+        log_error("%s: missing input file", progname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         return 1;
@@ -137,7 +137,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         logfile = fopen(args.logfname, "w");
         if(logfile == NULL)
         {
-            log_error("unable to create log file %s\n", args.logfname);
+            log_error("unable to create log file %s", args.logfname);
             log_warning("Terminating due to bad input");
             log_warning("Try '%s -h' for instructions", progname);
             return 1;
@@ -156,7 +156,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     modelfile = fopen(args.inputfname, "r");
     if(modelfile == NULL)
     {
-        log_error("failed to open model file %s\n", args.inputfname);
+        log_error("failed to open model file %s", args.inputfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         if(args.logtofile)
@@ -167,7 +167,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
     {
-        log_error("failed to read model from file %s\n", args.inputfname);
+        log_error("failed to read model from file %s", args.inputfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         if(args.logtofile)

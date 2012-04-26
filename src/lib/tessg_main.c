@@ -78,7 +78,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         logfile = fopen(args.logfname, "w");
         if(logfile == NULL)
         {
-            log_error("unable to create log file %s\n", args.logfname);
+            log_error("unable to create log file %s", args.logfname);
             log_warning("Terminating due to bad input");
             log_warning("Try '%s -h' for instructions", progname);
             return 1;
@@ -100,7 +100,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     glq_r = glq_new(args.r_order, -1, 1);
     if(glq_lon == NULL || glq_lat == NULL || glq_r == NULL)
     {
-        log_error("failed to create required GLQ structures\n");
+        log_error("failed to create required GLQ structures");
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         if(args.logtofile)
@@ -113,7 +113,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     modelfile = fopen(args.modelfname, "r");
     if(modelfile == NULL)
     {
-        log_error("failed to open model file %s\n", args.modelfname);
+        log_error("failed to open model file %s", args.modelfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         if(args.logtofile)
@@ -124,7 +124,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
     {
-        log_error("failed to read model from file %s\n", args.modelfname);
+        log_error("failed to read model from file %s", args.modelfname);
         log_warning("Terminating due to bad input");
         log_warning("Try '%s -h' for instructions", progname);
         if(args.logtofile)

@@ -105,7 +105,7 @@ int main(int argc, char **argv)
         logfile = fopen(args.logfname, "w");
         if(logfile == NULL)
         {
-            log_error("unable to create log file %s\n", args.logfname);
+            log_error("unable to create log file %s", args.logfname);
             log_warning("Terminating due to bad input");
             log_warning("Try '%s -h' for instructions", progname);
             return 1;
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
         modelfile = fopen(args.inputfname, "r");
         if(modelfile == NULL)
         {
-            log_error("failed to open file %s\n", args.inputfname);
+            log_error("failed to open file %s", args.inputfname);
             log_warning("Terminating due to bad input");
             log_warning("Try '%s -h' for instructions", progname);
             if(args.logtofile)

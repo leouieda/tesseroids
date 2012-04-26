@@ -122,7 +122,7 @@ int main(int argc, char **argv)
         logfile = fopen(args.logfname, "w");
         if(logfile == NULL)
         {
-            log_error("unable to create log file %s\n", args.logfname);
+            log_error("unable to create log file %s", args.logfname);
             log_warning("Terminating due to bad input");
             log_warning("Try '%s -h' for instructions", progname);
             return 1;
