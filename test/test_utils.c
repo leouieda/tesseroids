@@ -34,17 +34,17 @@ char msg[1000];
 /* FIXTURES */
 #define NTESSES 4
 TESSEROID tesses[NTESSES] = {
-    {0,0,1,0,1,6000000,6001000},
-    {0,180,190,80,85,6300000,6301000},
-    {0,160,200,-90,-70,5500000,6000000},
-    {0,-10,5,-7,15,6500000,6505000}};
+    {1,0,1,0,1,6000000,6001000},
+    {1,180,190,80,85,6300000,6301000},
+    {1,160,200,-90,-70,5500000,6000000},
+    {1,-10,5,-7,15,6500000,6505000}};
 
 #define NPRISMS 4
 PRISM prisms[NPRISMS] = {
-    {0,0,1000,0,2000,100,2000},
-    {0,-500,200,300,500,-1000,4000},
-    {0,-10000000,5000000,5000000,8000000,0,3000000},
-    {0,-1000000,50000,500000,800000,0,300000}};
+    {1,0,1000,0,2000,100,2000},
+    {1,-500,200,300,500,-1000,4000},
+    {1,-10000000,5000000,5000000,8000000,0,3000000},
+    {1,-1000000,50000,500000,800000,0,300000}};
 
 /* UNIT TESTS */
 
@@ -136,6 +136,25 @@ static char * test_tess2prism()
         res = prism_volume(prism);
         expect = tess_volume(tesses[i]);
         sprintf(msg, "(tess %d) expected volume %g, got %g", i, expect, res);
+        mu_assert_almost_equals(res/expect, 1., 0.01, msg);
+    }
+    
+    return 0;
+}
+
+
+static char * test_tess2prism_flatten()
+{
+    double expect, res;
+    PRISM prism;
+    int i;
+
+    for(i = 0; i <  NTESSES; i++)
+    {
+        tess2prism_flatten(tesses[i], &prism);
+        res = prism_volume(prism)*prism.density;
+        expect = tess_volume(tesses[i])*tesses[i].density;
+        sprintf(msg, "(tess %d) expected mass %g, got %g", i, expect, res);
         mu_assert_almost_equals(res/expect, 1., 0.01, msg);
     }
     
@@ -336,6 +355,8 @@ void utils_run_all()
     mu_run_test(test_tess_total_mass, "tess_total_mass returns correct result");
     mu_run_test(test_tess_range_mass, "tess_range_mass returns correct result");
     mu_run_test(test_tess2prism, "tess2prism produces prism with right volume");
+    mu_run_test(test_tess2prism_flatten,
+                "tess2prism_flatten produces prism with right mass");
     mu_run_test(test_tess2sphere,
                 "tess2sphere produces sphere with right volume");
     mu_run_test(test_prism2sphere,

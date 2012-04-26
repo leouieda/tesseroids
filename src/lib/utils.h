@@ -127,6 +127,15 @@ gravity gradiometry. Journal of Geodesy, 82(10), 637-653.
 extern void tess2prism(TESSEROID tess, PRISM *prism);
 
 
+/** Convert a tesseroid into a rectangular prism of equal volume by
+approximating 1 degree by 111.11 km.
+
+@param tess tesseroid to convert
+@param prism prism with equal volume of the tesseroid (used to return)
+*/
+extern void tess2prism_flatten(TESSEROID tess, PRISM *prism);
+
+
 /** Convert a tesseroid into a sphere of equal volume.
 
 Parameters:

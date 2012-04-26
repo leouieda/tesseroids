@@ -103,7 +103,9 @@ double tess_range_mass(TESSEROID *model, int size, double low_dens,
 }
 
 
-/* Convert a tesseroid to a rectangular prism of equal volume. */
+/* Convert a tesseroid to a rectangular prism of equal volume and append
+ * the spherical coordinates of the center top surface (needed to calculate
+ * the effect in spherical coordinates). */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {
     double deg2rad = PI/180., r0, dx, dy;
@@ -120,7 +122,26 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
     /* Calculate the density of the prism so that they will have exactly
        the same mass */
-    prism->density = (double)tess.density*tess_volume(tess)/prism_volume(*prism);
+    prism->density = (double)tess.density*
+                             tess_volume(tess)/prism_volume(*prism);
+}
+
+
+/* Convert a tesseroid to a rectangular prism of equal volume by approximating
+ * 1 degree by 111.11 km. */
+void tess2prism_flatten(TESSEROID tess, PRISM *prism)
+{
+    prism->x1 = tess.s*111110.;
+    prism->x2 = tess.n*111110.;
+    prism->y1 = tess.w*111110.;
+    prism->y2 = tess.e*111110.;
+    /* r1 is not z1 because r1 is the bottom face */
+    prism->z1 = MEAN_EARTH_RADIUS - tess.r2;
+    prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
+    /* Calculate the density of the prism so that they will have exactly
+       the same mass */
+    prism->density = (double)tess.density*
+                             tess_volume(tess)/prism_volume(*prism);
 }
 
 
