@@ -102,7 +102,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0, i;
     char buff[10000];
     double x, y, height, res;
-    FILE *logfile, *modelfile;
+    FILE *logfile = NULL, *modelfile = NULL;
     time_t rawtime;
     clock_t tstart;
     struct tm * timeinfo;

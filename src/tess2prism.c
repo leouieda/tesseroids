@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     char buff[10000];
     TESSEROID tess;
     PRISM prism;
-    FILE *logfile, *modelfile;
+    FILE *logfile = NULL, *modelfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
     

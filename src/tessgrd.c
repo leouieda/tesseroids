@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     TESSGRD_ARGS args;
     char progname[] = "tessgrd";
     int rc;
-    FILE *logfile;
+    FILE *logfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
     double dlon, dlat;

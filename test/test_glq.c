@@ -362,7 +362,7 @@ static char * test_glq_nodes()
 static char * test_glq_set_limits()
 {
     double prec = pow(10, -9), unscaled[5], scaled[5], a, b, correct;
-    int order, rc, i;
+    int rc, i;
     GLQ glq;
     
     glq.nodes_unscaled = unscaled;

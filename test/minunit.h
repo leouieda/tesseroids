@@ -78,11 +78,13 @@ int mu_run_test(char *(*test)(void), char *verbose)
     {
         tests_failed++;
         printf("FAIL:%s", msg);
+        return 1;
     }
     else
     {
         tests_passed++;
         printf("pass");
+        return 0;
     }
 }
 

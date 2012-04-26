@@ -48,7 +48,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0;
     char buff[10000];
     double lon, lat, height, res;
-    FILE *logfile, *modelfile;
+    FILE *logfile = NULL, *modelfile = NULL;
     time_t rawtime;
     clock_t tstart;
     struct tm * timeinfo;

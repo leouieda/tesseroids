@@ -93,7 +93,7 @@ int main(int argc, char **argv)
     int rc, line, error_exit = 0, bad_input = 0, size = 0, nchars, nread;
     char buff[10000];
     double lon, lat, height, w, e, s, n, top, bot, dens;
-    FILE *logfile;
+    FILE *logfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
     

@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     TESSEROID tess;
     double mass = 0;
     int rc, line, size = 0, error_exit = 0, bad_input = 0;
-    FILE *logfile, *modelfile;
+    FILE *logfile = NULL, *modelfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
     char buff[10000];
