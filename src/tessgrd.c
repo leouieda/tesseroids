@@ -30,7 +30,8 @@ Program to generate a regular grid of points.
 #include <time.h>
 #include "logger.h"
 #include "version.h"
-#include "cmd.h"
+#include "parsers.h"
+
 
 /** Main */
 int main(int argc, char **argv)

@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Command line parsing tools.
+Input and output parsing tools.
 
 @author Leonardo Uieda
 @date 02 Feb 2011
@@ -29,7 +29,7 @@ Command line parsing tools.
 #include <time.h>
 #include "logger.h"
 #include "version.h"
-#include "cmd.h"
+#include "parsers.h"
 
 
 /* Parse basic command line arguments for programs */
@@ -153,7 +153,7 @@ int parse_basic_args(int argc, char **argv, const char *progname,
 int parse_tess2prism_args(int argc, char **argv, const char *progname,
                         TESS2PRISM_ARGS *args, void (*print_help)(void))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 1, i, nchar, nread;
+    int bad_args = 0, parsed_args = 0, total_args = 1, i;
     char *params;
     
     /* Default values for options */

@@ -12,7 +12,7 @@ tesssrc = Split("""
     src/lib/glq.c
     src/lib/constants.c
     src/lib/utils.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     src/lib/tessg_main.c
     """)
 fields = ['pot', 'gx', 'gy', 'gz', 'gxx', 'gxy', 'gxz', 'gyy', 'gyz', 'gzz']
@@ -26,7 +26,7 @@ tesssrc = Split("""
     src/lib/version.c
     src/lib/constants.c
     src/lib/utils.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     src/lib/prismg_main.c
     src/lib/grav_prism.c
     """)
@@ -42,7 +42,7 @@ env.Program('bin/tess2prism', source=Split("""
     src/lib/version.c
     src/lib/constants.c
     src/lib/utils.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     """))    
 # Build tessdefaults
 env.Program('bin/tessdefaults', source=Split("""
@@ -58,14 +58,14 @@ env.Program('bin/tessgrd', source=Split("""
     src/tessgrd.c
     src/lib/logger.c
     src/lib/version.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     """))
 # Build tessmass
 env.Program('bin/tessmass', source=Split("""
     src/tessmass.c
     src/lib/logger.c
     src/lib/version.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     src/lib/utils.c
     src/lib/constants.c
     """))
@@ -74,7 +74,7 @@ env.Program('bin/tessmodgen', source=Split("""
     src/tessmodgen.c
     src/lib/logger.c
     src/lib/version.c
-    src/lib/cmd.c
+    src/lib/parsers.c
     src/lib/utils.c
     src/lib/constants.c
     """))

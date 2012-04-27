@@ -31,7 +31,7 @@ Generic main function for the prismg* programs.
 #include "version.h"
 #include "grav_prism.h"
 #include "utils.h"
-#include "cmd.h"
+#include "parsers.h"
 #include "prismg_main.h"
 
 

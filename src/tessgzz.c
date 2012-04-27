@@ -23,9 +23,9 @@ Program to calculate gzz of a tesseroid model on a set of points.
 */
 
 
-#include "lib/constants.h"
-#include "lib/grav_tess.h"
-#include "lib/tessg_main.h"
+#include "constants.h"
+#include "grav_tess.h"
+#include "tessg_main.h"
 
 
 /** Main */

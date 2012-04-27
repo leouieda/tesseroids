@@ -16,15 +16,15 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Command line parsing tools.
+Input and output parsing tools.
 
 @author Leonardo Uieda
 @date 02 Feb 2011
 */
 
 
-#ifndef _TESSEROIDS_CMD_H_
-#define _TESSEROIDS_CMD_H_
+#ifndef _TESSEROIDS_PARSERS_H_
+#define _TESSEROIDS_PARSERS_H_
 
 
 /** Store basic input arguments and option flags */

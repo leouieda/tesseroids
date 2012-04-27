@@ -33,7 +33,7 @@ Generic main function for the tessg* programs.
 #include "glq.h"
 #include "constants.h"
 #include "utils.h"
-#include "cmd.h"
+#include "parsers.h"
 #include "tessg_main.h"
 
 
