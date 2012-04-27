@@ -59,6 +59,7 @@ env.Program('bin/tessgrd', source=Split("""
     src/lib/logger.c
     src/lib/version.c
     src/lib/parsers.c
+    src/lib/constants.c
     """))
 # Build tessmass
 env.Program('bin/tessmass', source=Split("""

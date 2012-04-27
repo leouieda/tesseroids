@@ -26,6 +26,10 @@ Input and output parsing tools.
 #ifndef _TESSEROIDS_PARSERS_H_
 #define _TESSEROIDS_PARSERS_H_
 
+/* Needed for definition of TESSEROID and PRISM */
+#include "utils.h"
+/* Need for the definition of FILE */
+#include <stdio.h>
 
 /** Store basic input arguments and option flags */
 typedef struct basic_args
@@ -219,5 +223,57 @@ logs the bad argument warnings using logger.h
 extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
                               void (*print_help)(void));
 
+
+/** Strip trailing spaces and newlines from the end of a string
+
+Done IN PLACE!
+
+@param str string to strip
+*/
+extern void strstrip(char *str);
+
+
+/** Read a single tesseroid from a string
+
+@param str string with the tesseroid parameters
+@param tess used to return the read tesseroid
+
+@return 0 if all went well, 1 if failed to read.
+*/
+extern int gets_tess(const char *str, TESSEROID *tess);
+
+
+/** Read tesseroids from an open file and store them in an array.
+
+Allocates memory. Don't forget to free 'model'!
+
+@param modelfile open FILE for reading with the tesseroid model
+@param size used to return the size of the model read
+
+@return pointer to array with the model. NULL if there was an error
+*/
+extern TESSEROID * read_tess_model(FILE *modelfile, int *size);
+
+
+/** Read a single rectangular prism from a string
+
+@param str string with the tesseroid parameters
+@param prism used to return the read prism
+
+@return 0 if all went well, 1 if failed to read.
+*/
+extern int gets_prism(const char *str, PRISM *prism);
+
+
+/** Read rectangular prisms from an open file and store them in an array.
+
+Allocates memory. Don't forget to free 'model'!
+
+@param modelfile open FILE for reading with the model
+@param size used to return the size of the model read
+
+@return pointer to array with the model. NULL if there was an error
+*/
+extern PRISM * read_prism_model(FILE *modelfile, int *size);
 
 #endif
