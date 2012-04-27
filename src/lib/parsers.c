@@ -590,7 +590,7 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
 
 /* Parse command line arguments for tessg* programs */
 int parse_tessg_args(int argc, char **argv, const char *progname,
-                      TESSG_ARGS *args)
+                      TESSG_ARGS *args, void (*print_help)(const char *))
 {
     int bad_args = 0, parsed_args = 0, total_args = 1,  parsed_order = 0, i,
         nchar, nread;
@@ -617,7 +617,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         bad_args++;
                         break;
                     }
-                    print_tessg_help(progname);
+                    print_help(progname);
                     return 2;
                 case 'v':
                     if(argv[i][2] != '\0')
@@ -924,78 +924,3 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
     return 0;
 }
 
-
-/* Print the help message for tessg* programs */
-void print_tessg_help(const char *progname)
-{
-    printf("Usage: %s MODELFILE [OPTIONS]\n\n", progname);
-    if(strcmp(progname + 4, "pot") == 0)
-    {
-        printf("Calculate the potential due to a tesseroid model on\n");
-    }
-    else
-    {
-        printf("Calculate the %s component due to a tesseroid model on\n",
-               progname + 4);
-    }
-    printf("specified observation points.\n\n");
-    printf("Values are calculated in the local coordinate system of the\n");
-    printf("observation point: x-> North  y-> East  z-> Up (away from the\n");
-    printf("center of the Earth).\n");
-    printf("In order to maintain mainstream convention, component gz is\n");
-    printf("calculated with z-> Down.\n\n");
-    printf("All units either SI or degrees!\n\n");
-    printf("The computation of the gravitational effect of the tesseroids\n");
-    printf("is done using the Gauss-Legendre Quadrature (GLQ) numerical\n");
-    printf("integration method.\n\n");
-    printf("WARNING: Avoid computing directly on top or inside the\n");
-    printf("         tesseroids! This will break the GLQ and the formulas!\n");
-    printf("\n");
-    printf("Input:\n");
-    printf("  Computation points passed through standard input (stdin).\n");
-    printf("  Reads 3 or more values per line and inteprets the first 3 as\n");
-    printf("  longitude, latitude and height of a computation points. Other\n");
-    printf("  values in the line are ignored. Lines that start with # are\n");
-    printf("  ignored as comments. Lines should be no longer than 10000\n");
-    printf("  (ten thousand) characters.\n\n");
-    printf("Output:\n");
-    printf("  Printed to standard output (stdout) in the form:\n");
-    printf("    lon lat height ... result\n");
-    printf("  ... represents any values that were read from input and\n");
-    printf("  ignored. In other words, the result is appended to the last\n");
-    printf("  column of the input. Use this to pipe tessg* programs\n");
-    printf("  together.\n");
-    printf("  * Comments about the provenance of the data are inserted into\n");
-    printf("    the top of the output\n\n");
-    printf("MODELFILE: File containing the tesseroid model\n");
-    printf("  * Each tesseroid is specified by the values of its borders\n");
-    printf("    and density\n");
-    printf("  * The file should contain one tesseroid per line\n");
-    printf("  * Each line should have the following column format:\n");
-    printf("      West East South North Top Bottom Density\n");
-    printf("  * Top and Bottom should be read as 'height to top' and \n");
-    printf("    'height to bottom' from the mean Earth radius. Use negative\n");
-    printf("    values if bellow the surface, for example when modeling\n");
-    printf("    deep structures, and positive if above the surface, for\n");
-    printf("    example when modeling topography.\n");
-    printf("  * If a line starts with # it will be considered a comment and\n");
-    printf("    will be ignored.\n\n");
-    printf("Options:\n");
-    printf("  -a           Disable the automatic subdividing of tesseroids.\n");
-    printf("               Subdividing is done to ensure the GLQ gives\n");
-    printf("               accurate results. Only use this option if you\n");
-    printf("               know what you are doing!\n");
-    printf("  -o           LONORDER/LATORDER/RORDER: the GLQ order to use\n");
-    printf("               in the longitudinal, latitudinal and radial\n");
-    printf("               integrations, respectively. Defaults to 2/2/2.\n");
-    printf("               Subdividing of tesseroids works best with the\n");
-    printf("               default order.\n");
-    printf("  -h           Print instructions.\n");
-    printf("  --version    Print version and license information.\n");
-    printf("  -v           Enable verbose printing to stderr.\n");
-    printf("  -l           FILENAME: Print log messages to file FILENAME.\n");
-    printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
-    printf("Report bugs at: ");
-    printf("<http://code.google.com/p/tesseroids/issues/list>\n");
-}

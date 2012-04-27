@@ -200,7 +200,7 @@ logs the bad argument warnings using logger.h
     - 2: if printed help or version info and program should exit
 */
 extern int parse_tessg_args(int argc, char **argv, const char *progname,
-                            TESSG_ARGS *args);
+                            TESSG_ARGS *args, void (*print_help)(const char *));
 
 
 /** Parse command line arguments for tessgrd program
@@ -218,13 +218,6 @@ logs the bad argument warnings using logger.h
 */
 extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
                               void (*print_help)(void));
-
-
-/** Print the help message for tessg* programs
-
-@param progname name of the specific tessg* program
-*/
-extern void print_tessg_help(const char *progname);
 
 
 #endif

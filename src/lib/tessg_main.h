@@ -34,6 +34,13 @@ Generic main function for the tessg* programs.
 #include "utils.h"
 
 
+/** Print the help message for tessg* programs
+
+@param progname name of the specific tessg* program
+*/
+extern void print_tessg_help(const char *progname);
+
+
 /** Run the main for a generic tessg* program
 
 @param argc number of command line arguments
