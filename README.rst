@@ -39,16 +39,16 @@ Pre-compiled binaries
 
 If you downloaded a pre-compiled binary distribution,
 simply unpack in the desired directory.
-The executables will be in the `bin` folder,
-the HTML documentation in the `doc` folder,
-and example scripts in the `examples` folder.
-To view the HTML docs open `user-manual-v1_1.html` in a web browser.
+The executables will be in the ``bin`` folder,
+the HTML documentation in the ``doc`` folder,
+and example scripts in the ``examples`` folder.
+To view the HTML docs open ``user-manual-v1_1.html`` in a web browser.
 
 From souce
 ++++++++++
 
 Tesseroids uses the build tool `SCons <http://www.scons.org/>`_.
-A `SConstruct` file (`Makefile` equivalent)
+A ``SConstruct`` file (``Makefile`` equivalent)
 is used to define the compilation rules.
 You will have to download and install SCons
 in order to easily compile Tesseroids.
@@ -58,19 +58,19 @@ SCons requires that you have `Python <http://www.python.org>`_ installed.
 Check the `SCons website <http://www.scons.org/>`_ for more information.
 Python is usually installed by default on most GNU/Linux systems.
 Under Windows you will have to put SCons on
-your `PATH` environment variable
+your ``PATH`` environment variable
 in order to use it from the command line.
-It is usually located in the `Scripts` directory of your Python installation.
+It is usually located in the ``Scripts`` directory of your Python installation.
 On GNU/Linux, SCons will generaly use
 the `GCC compiler <http://gcc.gnu.org/>`_ to compile sources.
 On Windows it will search for an existing compiler.
-We recomment that you install GCC on Windows using `MinGW <http://mingw.org/`_.
+We recomment that you install GCC on Windows using `MinGW <http://mingw.org/>`_.
 
 To compile, type in a terminal (cmd.exe on Windows)::
 
     scons
 
-The executables will be placed on a `bin` folder.
+The executables will be placed on a ``bin`` folder.
 
 
 Usage
@@ -140,7 +140,7 @@ Use the command line option -h to view a list of all commands available.
 *Example*:
 
 Calculate the field of a tesseroid model
-having verbose printed and logged to file `gz.log` and GLQ order 3/3/3::
+having verbose printed and logged to file ``gz.log`` and GLQ order 3/3/3::
 
     tessgz modelfile.txt -v -lgz.log -o3/3/3 < points.txt > gz_data.txt
     
@@ -236,7 +236,7 @@ will be used in the calculation.
 
 *Example*:
 
-To calculate the total mass of all tesseroids in `model.txt`
+To calculate the total mass of all tesseroids in ``model.txt``
 with density between 0 and 1 g/cm^3::
 
     tessmass -r0/1000 < model.txt
@@ -287,12 +287,12 @@ can be piped together to calculate many components on a regular grid.
 
 *Example*:
 
-Given a tesseroids file `model.txt` as follows::
+Given a tesseroids file ``model.txt`` as follows::
 
     -1 1 -1 1 0 -10e03 -500
 
 Running the following would calculate
-gz and gradient tensor of tesseroids in `model.txt`
+gz and gradient tensor of tesseroids in ``model.txt``
 of a regular grid from -5W to 5E and -5S to 5N
 on 100x100 points at 250 km height.
 And the best of all is that it is done in parallel!
