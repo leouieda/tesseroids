@@ -2,12 +2,12 @@
 Welcome to Tesseroids v1.1dev
 =============================
 
-**Tesseroids** is a collection of command-line programs
+*Tesseroids* is a collection of command-line programs
 for the direct modeling of gravitational fields in spherical coordinates.
 It can model the gravitational potential, acceleration, and gradient tensor.
 The geometric element used in the modelling processes is
 a spherical prism, also called a tesseroid.
-**Tesseroids** also contains programs for modeling using
+*Tesseroids* also contains programs for modeling using
 right rectangular prisms, both in Cartesian and spherical coordinates.
 
 Tesseroids is coded in the C programming language,
@@ -18,21 +18,24 @@ This software is developed by
 Leonardo Uieda in cooperation with Carla Braitenberg.
 
 
-CHANGES IN VERSION 1.1
+Changes in version 1.1
 ----------------------
 
-* prismg* programs raises an error when the input has more columns than it
-  should (e.g., it comes from tess2prism, see the --flatten flag)
-* tess2prism has a new flag --flatten to make the prism model by flattening the
-  tesseroids (1 degree = 111km) into cartesian coordinates (so that they can be
-  used with the prismg* programs)
 * tesseroids now strictly follows the ANSI C standard
+* tess2prism has a new flag --flatten
+  to make the prism model by flattening the tesseroids
+  (i.e., 1 degree = 111km) into cartesian coordinates
+  (so that they can be used with the prismg* programs)
+* prismpot and prismg* programs raises an error
+  when the input has more columns than it should
+  (e.g., it comes from tess2prism, see the --flatten flag)
 
 
-INSTALLATION
+Installation
 ------------
 
-*Pre-compiled binaries*:
+Pre-compiled binaries
++++++++++++++++++++++
 
 If you downloaded a pre-compiled binary distribution,
 simply unpack in the desired directory.
@@ -41,7 +44,8 @@ the HTML documentation in the `doc` folder,
 and example scripts in the `examples` folder.
 To view the HTML docs open `user-manual-v1_1.html` in a web browser.
 
-*From souce*:
+From souce
+++++++++++
 
 Tesseroids uses the build tool `SCons <http://www.scons.org/>`_.
 A `SConstruct` file (`Makefile` equivalent)
@@ -69,10 +73,11 @@ To compile, type in a terminal (cmd.exe on Windows)::
 The executables will be placed on a `bin` folder.
 
 
-USAGE
+Usage
 -----
 
-*A note about heights and units*:
+A note about heights and units
+++++++++++++++++++++++++++++++
 
 In order to have a single convention,
 the word "height" means "height above the Earths surface" and
@@ -83,7 +88,8 @@ Output of tesspot is in SI, tessgx, tessgy, and tessgz are in mGal, and
 the tensor components in Eotvos.
 All other output is also in SI and decimal degrees.
 
-*Getting help information*:
+Getting help information
+++++++++++++++++++++++++
 
 All programs accept the -h and --version flags.
 -h will print a help message describing
@@ -94,7 +100,8 @@ Program tessdefaults prints the default values of
 constants used in the computations such as:
 mean Earth radius, pi, gravitational constant, etc.
 
-*Computing the gravitational effect of a tesseroid*:
+Computing the gravitational effect of a tesseroid
++++++++++++++++++++++++++++++++++++++++++++++++++
 
 The tessgx, tessgy, tessgz, tessgxx, etc. programs
 calculate the combined effect of a list of tesseroids
@@ -126,18 +133,19 @@ have columns formated as::
     
 HEIGHT_OF_TOP and HEIGHT_OF_BOTTOM are
 positive if the above the Earth's surface and negavitive if bellow.
-*Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!*
+**Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!**
 
 Use the command line option -h to view a list of all commands available.
 
-Example:
+*Example*:
 
 Calculate the field of a tesseroid model
 having verbose printed and logged to file `gz.log` and GLQ order 3/3/3::
 
     tessgz modelfile.txt -v -lgz.log -o3/3/3 < points.txt > gz_data.txt
     
-*The -a flag*:
+The -a flag
++++++++++++
 
 The -a flag on tesspot and tessg* programs
 disables the automatic subdividing of tesseroids
@@ -150,17 +158,19 @@ The tesspot and tessg* programs automatically break the tesseroids
 when this criterion is breached.
 This means that the computations can be performed with order 2/2/2 (default)
 which is much faster and still maintain correctness.
-*It is strongly recommended that you don't use this flag
-unless you know what you are doing!*
+**It is strongly recommended that you don't use this flag
+unless you know what you are doing!**
 It is also recommended that you keep 2/2/2 order always.
 
-*Verbose and logging to files*:
+Verbose and logging to files
+++++++++++++++++++++++++++++
 
 The -v flag enables printing of information messages to stderr.
 If ommited, only error messages will appear.
 The -l flag enables logging of information and error messages to a file.
 
-*Comments and provenance information*:
+Comments and provenance information
++++++++++++++++++++++++++++++++++++
 
 Comments can be inserted into input files
 by placing a "#" character at the start of a line.
@@ -170,19 +180,21 @@ All programs insert comments about the provenance of their results
 (where they came from) to their output.
 These include names of input files, version of program used, date, etc.
 
-*Generating a regular grid*:
+Generating regular grids
+++++++++++++++++++++++++
 
 Included in the package is program tessgrd
 which creates a regular grid of points and prints them to standard output.
 
-Example::
+*Example*::
 
     tessgrd -r-10/10/-10/10 -b100/100 -z250e03 -v > points.txt
 
     
-*Automated model generation*:
+Automated model generation
+++++++++++++++++++++++++++
 
-Tesseroids 1.0 included a new program called "tessmodgen"
+Tesseroids 1.0 included a new program called tessmodgen
 for automatically generating a tesseroid model
 from a map of an interface.
 The interface can be any surface deviating from a reference level.
@@ -205,7 +217,7 @@ As with the -d option, if the interface is bellow the reference,
 the density value will be multiplied by -1!
 Also, an error will occur if both a forth column and the -d option are passed!
 
-Example:
+*Example*:
 
 To generate a tesseroid model from a Digital Elevation Model (DEM)
 with 1 x 1 degree resolution using a density of 2670 km/m^3::
@@ -213,7 +225,8 @@ with 1 x 1 degree resolution using a density of 2670 km/m^3::
     tessmodgen -s1/1 -d2670 -z0 -v < dem_file.txt > dem_tess_model.txt
 
 
-*Calculating the total mass of a model*:
+Calculating the total mass of a model
++++++++++++++++++++++++++++++++++++++
 
 The tessmass program can be used to
 compute the total mass of a given tesseroid model.
@@ -221,7 +234,7 @@ If desired, a density range can be given
 and only tesseroids that fall within the given range
 will be used in the calculation.
 
-Example:
+*Example*:
 
 To calculate the total mass of all tesseroids in `model.txt`
 with density between 0 and 1 g/cm^3::
@@ -229,7 +242,8 @@ with density between 0 and 1 g/cm^3::
     tessmass -r0/1000 < model.txt
 
     
-*Computing the gravitational effect of a rectangular prism*:
+Computing the effect of rectangular prisms in Cartesian coordinates
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Tesseroids 1.0 also introduced programs
 to calculate the gravitational effect of
@@ -244,7 +258,7 @@ The model file should have the column format::
 
     X1 X2 Y1 Y2 Z1 Z2 DENSITY
     
-*A note on the coordinate system*:
+*A note on the coordinate system*
 
 As in Nagy et al. (2000),
 the coordinate system for the rectangular prism calculations
@@ -259,7 +273,8 @@ to have Z axis Down for this component only.
 See the Theoretical background section
 of the User Manual for more details on this.
 
-*Piping*:
+Piping
+++++++
 
 Tesseroids was designed with the Unix filosophy in mind::
 
@@ -270,7 +285,7 @@ Tesseroids was designed with the Unix filosophy in mind::
 Therefore, all tessg* programs and tessgrd
 can be piped together to calculate many components on a regular grid.
 
-Example:
+*Example*:
 
 Given a tesseroids file `model.txt` as follows::
 
