@@ -1,6 +1,8 @@
 Version 1.1
 
-* tesseroids now strictly follows the ANSI C standard
+* prismg* programs raises an error when the input has more columns than it
+  should (e.g., it comes from tess2prism, see the --flatten flag)
 * tess2prism has a new flag --flatten to make the prism model by flattening the
   tesseroids (1 degree = 111km) into cartesian coordinates (so that they can be
   used with the prismg* programs)
+* tesseroids now strictly follows the ANSI C standard
