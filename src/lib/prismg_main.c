@@ -52,7 +52,7 @@ void print_help()
                 global_progname + 5);
     }
     printf("specified observation points using Cartesian coordinates.\n\n");
-    printf("All units either SI or degrees!\n\n");
+    printf("All input units are SI! Output is SI, mGal or Eotvos.\n\n");
     printf("Coordinates:\n");
     printf("  The coordinate system for the prism is x->North, y->East\n");
     printf("  and z->Down\n\n");
