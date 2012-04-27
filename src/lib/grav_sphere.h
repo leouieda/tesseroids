@@ -71,7 +71,7 @@ http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
 
 
 /* Needed for definition of SPHERE */
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Calculates potential caused by a sphere.

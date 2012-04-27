@@ -31,7 +31,7 @@ Generic main function for the tessg* programs.
 
 /* For the definitions of GLQ and TESSEROID */
 #include "glq.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Print the help message for tessg* programs

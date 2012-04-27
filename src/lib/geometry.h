@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-\brief Set of misc utilities and data structures.
+\brief Data structures for geometric elements and functions that operate on them
 
 Defines the TESSEROID, SPHERE and PRISM structures.
 
@@ -24,8 +24,8 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 @date 25 Jan 2011
 */
 
-#ifndef _TESSEROIDS_UTILS_H_
-#define _TESSEROIDS_UTILS_H_
+#ifndef _TESSEROIDS_GEOMETRY_H_
+#define _TESSEROIDS_GEOMETRY_H_
 
 
 /** Store information on a tesseroid */

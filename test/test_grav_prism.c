@@ -26,7 +26,7 @@ Date: 24 Jan 2011
 #include <math.h>
 #include "../src/lib/grav_sphere.h"
 #include "../src/lib/grav_prism.h"
-#include "../src/lib/utils.h"
+#include "../src/lib/geometry.h"
 #include "../src/lib/constants.h"
 
 

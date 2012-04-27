@@ -31,7 +31,7 @@ Input and output parsing tools.
 #include "version.h"
 #include "parsers.h"
 #include "constants.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /* Parse basic command line arguments for programs */

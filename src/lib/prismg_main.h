@@ -31,7 +31,7 @@ Generic main function for the prismg* programs.
 
 
 /* For the definitions of PRISM */
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Print the help message

@@ -27,7 +27,7 @@ Date: 24 Jan 2011
 #include "../src/lib/logger.h"
 #include "minunit.h"
 #include "test_glq.c"
-#include "test_utils.c"
+#include "test_geometry.c"
 #include "test_parsers.c"
 #include "test_grav_prism.c"
 #include "test_grav_tess.c"
@@ -41,7 +41,7 @@ int main()
     log_init(LOG_DEBUG);
     
     glq_run_all();
-    utils_run_all();
+    geometry_run_all();
     parsers_run_all();
     grav_prism_run_all();
     grav_tess_run_all();

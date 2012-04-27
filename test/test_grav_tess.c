@@ -28,7 +28,7 @@ Date: 24 Jan 2011
 #include "../src/lib/grav_sphere.h"
 #include "../src/lib/grav_tess.h"
 #include "../src/lib/glq.h"
-#include "../src/lib/utils.h"
+#include "../src/lib/geometry.h"
 #include "../src/lib/constants.h"
 
 

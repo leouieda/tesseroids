@@ -28,7 +28,7 @@ Generate tesseroid model from a regular grid.
 #include "version.h"
 #include "parsers.h"
 #include "logger.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Print the help message */

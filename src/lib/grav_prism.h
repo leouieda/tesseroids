@@ -41,7 +41,7 @@ x -> North  y -> East  z -> Down
 
 
 /* Needed for definition of PRISM */
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Calculates potential caused by a right rectangular prism.

@@ -11,7 +11,7 @@ tesssrc = Split("""
     src/lib/grav_tess.c
     src/lib/glq.c
     src/lib/constants.c
-    src/lib/utils.c
+    src/lib/geometry.c
     src/lib/parsers.c
     src/lib/tessg_main.c
     """)
@@ -25,7 +25,7 @@ tesssrc = Split("""
     src/lib/logger.c
     src/lib/version.c
     src/lib/constants.c
-    src/lib/utils.c
+    src/lib/geometry.c
     src/lib/parsers.c
     src/lib/prismg_main.c
     src/lib/grav_prism.c
@@ -41,7 +41,7 @@ env.Program('bin/tess2prism', source=Split("""
     src/lib/logger.c
     src/lib/version.c
     src/lib/constants.c
-    src/lib/utils.c
+    src/lib/geometry.c
     src/lib/parsers.c
     """))    
 # Build tessdefaults
@@ -51,7 +51,7 @@ env.Program('bin/tessdefaults', source=Split("""
     src/lib/version.c
     src/lib/constants.c
     src/lib/glq.c
-    src/lib/utils.c
+    src/lib/geometry.c
     """))
 # Build tessgrd
 env.Program('bin/tessgrd', source=Split("""
@@ -67,7 +67,7 @@ env.Program('bin/tessmass', source=Split("""
     src/lib/logger.c
     src/lib/version.c
     src/lib/parsers.c
-    src/lib/utils.c
+    src/lib/geometry.c
     src/lib/constants.c
     """))
 # Build tessmodgen
@@ -76,7 +76,7 @@ env.Program('bin/tessmodgen', source=Split("""
     src/lib/logger.c
     src/lib/version.c
     src/lib/parsers.c
-    src/lib/utils.c
+    src/lib/geometry.c
     src/lib/constants.c
     """))
 

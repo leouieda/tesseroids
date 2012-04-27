@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /* *****************************************************************************
-Unit tests for GLQ functions.
+Unit tests for I/O parser functions.
 
 Author: Leonardo Uieda
 Date: 24 Jan 2011

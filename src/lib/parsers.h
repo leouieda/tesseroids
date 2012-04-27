@@ -27,7 +27,7 @@ Input and output parsing tools.
 #define _TESSEROIDS_PARSERS_H_
 
 /* Needed for definition of TESSEROID and PRISM */
-#include "utils.h"
+#include "geometry.h"
 /* Need for the definition of FILE */
 #include <stdio.h>
 

@@ -32,7 +32,7 @@ Generic main function for the tessg* programs.
 #include "grav_tess.h"
 #include "glq.h"
 #include "constants.h"
-#include "utils.h"
+#include "geometry.h"
 #include "parsers.h"
 #include "tessg_main.h"
 

@@ -37,7 +37,7 @@ x -> North  y -> East  z -> Down
 
 
 #include <math.h>
-#include "utils.h"
+#include "geometry.h"
 #include "constants.h"
 #include "grav_prism.h"
 

@@ -28,7 +28,7 @@ Convert a tesseroid model into a prism model in spherical coordinates
 #include "version.h"
 #include "parsers.h"
 #include "logger.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Print the help message */

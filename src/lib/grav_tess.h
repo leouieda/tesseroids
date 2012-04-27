@@ -133,7 +133,7 @@ http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
 
 
 /* Needed for definition of TESSEROID */
-#include "utils.h"
+#include "geometry.h"
 /* Needed for definition of GLQ */
 #include "glq.h"
 

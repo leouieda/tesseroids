@@ -16,9 +16,10 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /** \file
-Set of misc utilities and data structures.
+\brief Data structures for geometric elements and functions that operate on them
 
 Defines the TESSEROID, SPHERE and PRISM structures.
+
 
 @author Leonardo Uieda
 @date 25 Jan 2011
@@ -31,7 +32,7 @@ Defines the TESSEROID, SPHERE and PRISM structures.
 #include <string.h>
 #include "constants.h"
 #include "logger.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /* Split a tesseroid into 8. */

@@ -16,7 +16,7 @@ along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************** */
 
 /* *****************************************************************************
-Unit tests for GLQ functions.
+Unit tests for geometry module
 
 Author: Leonardo Uieda
 Date: 24 Jan 2011
@@ -25,7 +25,7 @@ Date: 24 Jan 2011
 #include <stdio.h>
 #include <math.h>
 #include "minunit.h"
-#include "../src/lib/utils.h"
+#include "../src/lib/geometry.h"
 #include "../src/lib/constants.h"
 
 /* To store fail messages */
@@ -231,7 +231,7 @@ static char * test_split_tess()
 }
 
 
-void utils_run_all()
+void geometry_run_all()
 {
     mu_run_test(test_prism_volume, "prism_volume return correct results");
     mu_run_test(test_tess_volume, "tess_volume return correct results");

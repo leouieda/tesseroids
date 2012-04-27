@@ -28,7 +28,7 @@ Calculate the mass of a tesseroid model.
 #include "version.h"
 #include "parsers.h"
 #include "logger.h"
-#include "utils.h"
+#include "geometry.h"
 
 
 /** Print the help message */
