@@ -750,7 +750,8 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
 
 
 /* Parse command line arguments for tessgrd program */
-int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
+int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
+                       void (*print_help)(void))
 {
     int bad_args = 0, parsed_args = 0, total_args = 3, parsed_r = 0,
         parsed_b = 0, parsed_z = 0, i, nchar, nread;    
@@ -773,7 +774,7 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args)
                         bad_args++;
                         break;
                     }
-                    print_tessgrd_help();
+                    print_help();
                     return 2;
                 case 'v':
                     if(argv[i][2] != '\0')
@@ -993,42 +994,6 @@ void print_tessg_help(const char *progname)
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");
     printf("  -l           FILENAME: Print log messages to file FILENAME.\n");
-    printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
-    printf("Report bugs at: ");
-    printf("<http://code.google.com/p/tesseroids/issues/list>\n");
-}
-
-
-/* Print the help message for tessgrd program */
-void print_tessgrd_help()
-{
-    printf("Usage: tessgrd [PARAMS] [OPTIONS]\n\n");
-    printf("Make a regular grid of points.\n\n");
-    printf("All units either SI or degrees!\n\n");
-    printf("Output:\n");
-    printf("  Printed to standard output (stdout) in the format:\n");
-    printf("    lon1    lat1    height\n");
-    printf("    lon2    lat1    height\n");
-    printf("    ...     ...     ...\n");
-    printf("    lonNLON lat1    height\n");
-    printf("    lon1    lat2    height\n");
-    printf("    ...     ...     ...\n");
-    printf("    ...     ...     ...\n");
-    printf("    lonNLON latNLAT height\n\n");
-    printf("  * Comments about the provenance of the data are inserted into\n");
-    printf("    the top of the output\n\n");
-    printf("Parameters:\n");
-    printf("  -r           W/E/S/N: Bounding region of the grid.\n");
-    printf("  -b           NLON/NLAT: Number of grid points in the\n");
-    printf("               longitudinal and latitudinal directions.\n");
-    printf("  -z           HEIGHT: Height of the grid with respect to the\n");
-    printf("               mean Earth radius.\n");
-    printf("  -h           Print instructions.\n");
-    printf("  --version    Print version and license information.\n");
-    printf("\nOptions:\n");
-    printf("  -v    Enable verbose printing to stderr.\n");
-    printf("  -l    FILENAME: Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
     printf("Project site: <http://code.google.com/p/tesseroids>\n");
     printf("Report bugs at: ");

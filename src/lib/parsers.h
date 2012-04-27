@@ -216,7 +216,8 @@ logs the bad argument warnings using logger.h
     - 1: if there were bad arguments and program should exit
     - 2: if printed help or version info and program should exit
 */
-extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args);
+extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
+                              void (*print_help)(void));
 
 
 /** Print the help message for tessg* programs
@@ -225,12 +226,5 @@ extern int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args);
 */
 extern void print_tessg_help(const char *progname);
 
-
-/** Print the help message for tessmkgrd program
-
-Prints to stdout.
-
-*/
-extern void print_tessgrd_help();
 
 #endif

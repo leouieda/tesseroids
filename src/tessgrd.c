@@ -33,6 +33,42 @@ Program to generate a regular grid of points.
 #include "parsers.h"
 
 
+/* Print the help message for tessgrd program */
+void print_tessgrd_help()
+{
+    printf("Usage: tessgrd [PARAMS] [OPTIONS]\n\n");
+    printf("Make a regular grid of points.\n\n");
+    printf("All units either SI or degrees!\n\n");
+    printf("Output:\n");
+    printf("  Printed to standard output (stdout) in the format:\n");
+    printf("    lon1    lat1    height\n");
+    printf("    lon2    lat1    height\n");
+    printf("    ...     ...     ...\n");
+    printf("    lonNLON lat1    height\n");
+    printf("    lon1    lat2    height\n");
+    printf("    ...     ...     ...\n");
+    printf("    ...     ...     ...\n");
+    printf("    lonNLON latNLAT height\n\n");
+    printf("  * Comments about the provenance of the data are inserted into\n");
+    printf("    the top of the output\n\n");
+    printf("Parameters:\n");
+    printf("  -r           W/E/S/N: Bounding region of the grid.\n");
+    printf("  -b           NLON/NLAT: Number of grid points in the\n");
+    printf("               longitudinal and latitudinal directions.\n");
+    printf("  -z           HEIGHT: Height of the grid with respect to the\n");
+    printf("               mean Earth radius.\n");
+    printf("  -h           Print instructions.\n");
+    printf("  --version    Print version and license information.\n");
+    printf("\nOptions:\n");
+    printf("  -v    Enable verbose printing to stderr.\n");
+    printf("  -l    FILENAME: Print log messages to file FILENAME.\n");
+    printf("\nPart of the Tesseroids package.\n");
+    printf("Project site: <http://code.google.com/p/tesseroids>\n");
+    printf("Report bugs at: ");
+    printf("<http://code.google.com/p/tesseroids/issues/list>\n");
+}
+
+
 /** Main */
 int main(int argc, char **argv)
 {
@@ -49,7 +85,7 @@ int main(int argc, char **argv)
     
     log_init(LOG_INFO);
 
-    rc = parse_tessgrd_args(argc, argv, &args);
+    rc = parse_tessgrd_args(argc, argv, &args, &print_tessgrd_help);
     if(rc == 2)
     {
         return 0;
