@@ -149,6 +149,129 @@ int parse_basic_args(int argc, char **argv, const char *progname,
 }
 
 
+/* Parse command line arguments for tess2prism program */
+int parse_tess2prism_args(int argc, char **argv, const char *progname,
+                        TESS2PRISM_ARGS *args, void (*print_help)(void))
+{
+    int bad_args = 0, parsed_args = 0, total_args = 1, i, nchar, nread;
+    char *params;
+    
+    /* Default values for options */
+    args->verbose = 0;
+    args->logtofile = 0;
+    args->flatten = 0;
+    /* Parse arguments */
+    for(i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    print_help();
+                    return 2;
+                case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
+                    args->verbose = 1;
+                    break;
+
+                case 'l':
+                {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
+                    params = &argv[i][2];
+                    if(strlen(params) == 0)
+                    {
+                        log_error("bad input argument -l. Missing filename.");
+                        bad_args++;
+                    }
+                    else
+                    {
+                        args->logtofile = 1;
+                        args->logfname = params;
+                    }
+                    break;
+                }
+                case '-':
+                {
+                    params = &argv[i][2];
+                    if(!strcmp(params, "version"))
+                    {
+                        print_version(progname);
+                        return 2;
+                    }
+                    else if(!strcmp(params, "flatten"))
+                    {
+                        args->flatten = 1;
+                    }
+                    else
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    break;
+                }
+                default:
+                    log_error("invalid argument '%s'", argv[i]);
+                    bad_args++;
+                    break;
+            }
+        }
+        else
+        {
+            if(parsed_args == 0)
+            {
+                args->inputfname = argv[i];
+                parsed_args++;
+            }
+            else
+            {
+                log_error("invalid argument '%s'. Already given model file %s",
+                          argv[i], args->inputfname);
+                bad_args++;
+            }
+        }
+    }
+    /* Check if parsing went well */
+    if(parsed_args > total_args)
+    {
+        log_error("%s: too many input arguments. given %d, max %d.",
+                    progname, parsed_args, total_args);
+    }
+    if(bad_args > 0)
+    {
+        log_error("%d bad input argument(s)", bad_args);
+        return 1;
+    }
+    if(parsed_args < total_args)
+    {
+        return 3;
+    }    
+    return 0;
+}
+
+
 /* Parse command line arguments for tessmass program */
 int parse_tessmass_args(int argc, char **argv, const char *progname,
                         TESSMASS_ARGS *args, void (*print_help)(void))

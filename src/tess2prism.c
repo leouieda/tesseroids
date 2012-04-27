@@ -44,7 +44,8 @@ void print_help()
     printf("measured with respect to this origin.\n\n");
     printf("To use the output with the prism* programs, use option\n");
     printf("--flatten which converts the tesseroids by approximating\n");
-    printf("1 degree by 111.11km.\n\n");
+    printf("1 degree by 111.11km. Note that the prism will have the same\n");
+    printf("volume as the tesseroid for this case.\n\n");
     printf("WARNING: The density of the prism is adjusted so that it has\n");
     printf("the same mass as the tesseroid (even when using --flatten).\n\n");
     printf("All units either SI or degrees!\n\n");
@@ -90,7 +91,7 @@ void print_help()
 int main(int argc, char **argv)
 {
     char *progname = "tess2prism";
-    BASIC_ARGS args;
+    TESS2PRISM_ARGS args;
     int rc, line, converted = 0, error_exit = 0, bad_input = 0;
     char buff[10000];
     TESSEROID tess;
@@ -100,7 +101,7 @@ int main(int argc, char **argv)
     struct tm * timeinfo;
     
     log_init(LOG_INFO);
-    rc = parse_basic_args(argc, argv, progname, &args, &print_help);
+    rc = parse_tess2prism_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
         return 0;
@@ -161,7 +162,16 @@ int main(int argc, char **argv)
            tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   tesseroids file: %s\n", rc == 3 ? "stdin" : args.inputfname);
-    printf("#   format: x1 x2 y1 y2 z1 z2 density lon lat r\n");
+    printf("#   conversion type: %s\n",
+            args.flatten ? "flatten" : "equal volume");
+    if(args.flatten)
+    {
+        printf("#   format: x1 x2 y1 y2 z1 z2 density\n");
+    }
+    else
+    {
+        printf("#   format: x1 x2 y1 y2 z1 z2 density lon lat r\n");
+    }
     
     /* Read the tesseroids, convert and print to stdout */    
     for(line = 1; !feof(modelfile); line++)
@@ -191,11 +201,21 @@ int main(int argc, char **argv)
                 bad_input++;
                 continue;
             }
-            tess2prism(tess, &prism);
-            printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
-                   prism.x1, prism.x2, prism.y1, prism.y2, prism.z1, prism.z2,
-                   prism.density,
-                   0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
+            if(args.flatten)
+            {
+                tess2prism_flatten(tess, &prism);
+                printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
+                       prism.x1, prism.x2, prism.y1, prism.y2, prism.z1,
+                       prism.z2, prism.density);
+            }
+            else
+            {
+                tess2prism(tess, &prism);
+                printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
+                       prism.x1, prism.x2, prism.y1, prism.y2, prism.z1,
+                       prism.z2, prism.density,
+                       0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
+            }
             converted++;
         }
     }

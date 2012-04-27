@@ -50,6 +50,18 @@ typedef struct tessmass_args
 } TESSMASS_ARGS;
 
 
+/** Store input arguments and option flags for tess2prism program */
+typedef struct tess2prism_args
+{
+    char *inputfname; /**< name of the input file */
+    int verbose; /**< flag to indicate if verbose printing is enabled */
+    int logtofile; /**< flag to indicate if logging to a file is enabled */
+    char *logfname; /**< name of the log file */
+    int flatten; /**< flag to indicate wether to use a flattened tesseroid or
+                      a prism in spherical coordinates */
+} TESS2PRISM_ARGS;
+
+
 /** Store input arguments and option flags for tessmodgen program */
 typedef struct tessmodgen_args
 {
@@ -134,6 +146,25 @@ extern int parse_basic_args(int argc, char **argv, const char *progname,
 */
 extern int parse_tessmass_args(int argc, char **argv, const char *progname,
                                TESSMASS_ARGS *args, void (*print_help)(void));
+
+
+/** Parse command line arguments for tess2prism program
+
+@param argc number of command line arguments
+@param argv command line arguments
+@param progname name of the program
+@param args to return the parsed arguments
+@param print_help pointer to a function that prints the help message for the
+                  program
+
+@return Return code:
+    - 0: if all went well
+    - 1: if there were bad arguments and program should exit
+    - 2: if printed help or version info and program should exit
+    - 3: if input file was missing (doesn't log an error)
+*/
+extern int parse_tess2prism_args(int argc, char **argv, const char *progname,
+                            TESS2PRISM_ARGS *args, void (*print_help)(void));
 
 
 /** Parse command line arguments for tessmodgen program
