@@ -27,7 +27,7 @@ with spherical coordinates,
 while the gravitational fields are calculated
 on the Local Coordinate system of the computation point.
 
-.. figure:: img/tesseroid.png
+.. figure:: _static/tesseroid.png
     :align: center
 
     View of a tesseroid, the integration point Q,
