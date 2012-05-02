@@ -6,6 +6,7 @@ bin
 *.pyc
 build
 doc/build/latex
+docs/_build
 examples/dem_brasil/dem_brasil_example.aux
 examples/dem_brasil/dem_brasil_example.log
 examples/dem_brasil/dem_brasil_example.out
