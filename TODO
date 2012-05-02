@@ -4,3 +4,18 @@ Goals for 1.1:
 * Make prismshg* programs to calculate the prism effects on spherical coordinates
 * Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
 * Move codebase to BSD license to be compatible with Fatiando
+
+TODO:
+
+* Check error in not rotating prism
+* Check error os using tesseroid in poles
+* Programs to calculate the effect of a sphere model in spherical coordinates
+* Program to calculate geoid height from potential using different ellipsoids
+* Make minunit into functions and put variable arguments for messages like printf
+* Test adapt using a whole Earth against a sphere
+
+Ideas:
+
+* Make a version of tess_grav that doesn't use the glq module. Instead, it uses
+  a fixed order 2 and the tabulated values of the nodes and weights. Bonus,
+  it subdivides the tesseroids automatically using a pile (lifo).
