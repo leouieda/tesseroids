@@ -1,5 +1,6 @@
 VERSION = 1.0
 DIRBASE = tesseroids-${VERSION}
+DOCS=../doc/_build/latex/Tesseroids.pdf
 
 all:
 	@echo "Commands:"
@@ -8,23 +9,27 @@ all:
 	@echo "    make bin64 for a linux binary distribution"
 	@echo "    make win32 for a windows binary distribution"
 
-src:
+${DOCS}:
+	cd ../doc; make clean
+	cd ../doc; make latex
+	cd ../doc/_build/latex; make
+
+src: ${DOCS}
 	scons -C ../ -c
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../src ${DIRBASE}
 	cp -r ../test ${DIRBASE}
 	cp -r ../examples ${DIRBASE}
-	cp -r ../doc/build/html ${DIRBASE}/doc/html
-	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
-	cp ../README ${DIRBASE}
+	cp ${DOCS} ${DIRBASE}/doc
+	cp ../README.rst ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
 	cp ../SConstruct ${DIRBASE}
 	zip -r ${DIRBASE}-src.zip ${DIRBASE}
 	tar -zcvf ${DIRBASE}-src.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-bin32:
+bin32: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
@@ -37,7 +42,7 @@ bin32:
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-bin64:
+bin64: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
@@ -50,7 +55,7 @@ bin64:
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-win32:
+win32: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}-win32
 	mkdir ${DIRBASE}-win32\doc
@@ -68,3 +73,6 @@ win32:
 	copy ..\bin ${DIRBASE}-win32\bin
 	copy ..\README ${DIRBASE}-win32
 	copy ..\LICENSE ${DIRBASE}-win32
+
+clean:
+	rm -r ${DIRBASE} *.zip *.tar.gz
