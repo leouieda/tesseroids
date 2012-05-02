@@ -5,6 +5,8 @@ Goals for 1.1:
 * Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
 * Move codebase to BSD license to be compatible with Fatiando
 
+* Need to update the dist Makefile to build the pdf docs before packaging
+
 TODO:
 
 * Check error in not rotating prism
