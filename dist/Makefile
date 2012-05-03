@@ -2,6 +2,7 @@ VERSION = 1.0
 DIRBASE = tesseroids-${VERSION}
 DOCS=../doc/_build/latex/Tesseroids.pdf
 
+
 all:
 	@echo "Commands:"
 	@echo "    make src for a source distribution"
@@ -35,9 +36,8 @@ bin32: ${DOCS}
 	mkdir ${DIRBASE}/doc
 	cp -r ../examples ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
-	cp -r ../doc/build/html ${DIRBASE}/doc/html
-	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
-	cp ../README ${DIRBASE}
+	cp ${DOCS} ${DIRBASE}/doc
+	cp ../README.rst ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
@@ -48,9 +48,8 @@ bin64: ${DOCS}
 	mkdir ${DIRBASE}/doc
 	cp -r ../examples ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
-	cp -r ../doc/build/html ${DIRBASE}/doc/html
-	cp ../doc/build/user-manual-v1_0.html ${DIRBASE}/doc
-	cp ../README ${DIRBASE}
+	cp ${DOCS} ${DIRBASE}/doc
+	cp ../README.rst ${DIRBASE}
 	cp ../LICENSE ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
@@ -59,9 +58,6 @@ win32: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}-win32
 	mkdir ${DIRBASE}-win32\doc
-	mkdir ${DIRBASE}-win32\doc\html
-	copy ..\doc\build\html ${DIRBASE}-win32\doc\html
-	copy ..\doc\build\user-manual-v1_0.html ${DIRBASE}-win32\doc
 	mkdir ${DIRBASE}-win32\examples
 	mkdir ${DIRBASE}-win32\examples\dem_brasil
 	mkdir ${DIRBASE}-win32\examples\prism
@@ -71,7 +67,7 @@ win32: ${DOCS}
 	copy ..\examples\tess ${DIRBASE}-win32\examples\tess
 	mkdir ${DIRBASE}-win32\bin
 	copy ..\bin ${DIRBASE}-win32\bin
-	copy ..\README ${DIRBASE}-win32
+	copy ..\README.rst ${DIRBASE}-win32
 	copy ..\LICENSE ${DIRBASE}-win32
 
 clean:
