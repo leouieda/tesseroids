@@ -36,18 +36,18 @@ void print_help()
 {
     printf("Usage: tess2prim TESSFILE [OPTIONS]\n\n");
     printf("Convert a tesseroid model into a rectangular prism model\n");
-    printf("(for use with the prismsh* programs).\n\n");
-    printf("The converted prism have the same volume as the tesseroid.\n");
-    printf("Along with each prism is given the spherical coordinates of the\n");
+    printf("(for use with the prism* programs).\n\n");
+    printf("The converted prisms have the same mass as the tesseroids.\n\n");
+    printf("Along with each prism are given the spherical coordinates of the\n");
     printf("center of the top face of the tesseroid (used as the origin of\n");
     printf("the prisms coordinate system). The dimensions of the prism are \n");
     printf("measured with respect to this origin.\n\n");
-    printf("To use the output with the prism* programs, use option\n");
-    printf("--flatten which converts the tesseroids by approximating\n");
-    printf("1 degree by 111.11km. Note that the prism will have the same\n");
-    printf("volume as the tesseroid for this case.\n\n");
-    printf("WARNING: The density of the prism is adjusted so that it has\n");
-    printf("the same mass as the tesseroid (even when using --flatten).\n\n");
+    printf("If option --flatten is used, the tesseroids are converted by\n");
+    printf("approximating 1 degree by 111.11km and no spherical coordinates\n");
+    printf("are given. Use this option when you want to calculate in\n");
+    printf("Cartesian coordinates.\n\n");
+    printf("In both cases, the density of the prism is adjusted so that it\n");
+    printf("has the same mass as the tesseroid.\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
     printf("  If TESSFILE is omited, will read from standard input (stdin)\n");
