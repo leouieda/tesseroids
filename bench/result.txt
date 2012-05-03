@@ -1,0 +1,7 @@
+Computer specs
+model name	: Intel(R) Xeon(R) CPU           W3565  @ 3.20GHz
+MemTotal:        6112536 kB
+
+Time spent
+819.60user 0.64system 13:43.01elapsed 99%CPU (0avgtext+0avgdata 1371600maxresident)k
+0inputs+16outputs (0major+85828minor)pagefaults 0swaps
