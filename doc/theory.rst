@@ -26,11 +26,12 @@ It is delimited by:
         :align: center
         :width: 600px
 
-3. 2 spheres or radii :math:`r_1` and :math:`r_2`
+3. 2 spheres of radii :math:`r_1` and :math:`r_2`
 
     .. image:: _static/tesseroid_sphere.png
         :align: center
         :width: 600px
+
 
 About coordinate systems
 ------------------------
@@ -66,11 +67,9 @@ The :math:`x` and :math:`y` axis
 are contained on a plane normal to the :math:`z` axis.
 :math:`x` points North and :math:`y` East.
 
-The tesseroid is defined
-through the (:math:`r,\ \phi,\ \lambda`) coordinates
-of the global system.
-Its gravitational attraction
+The gravitational attraction
 and gravity gradient tensor
+of a tesseroid
 are calculated with respect to
 the local coordinate system of the computation point P.
 
@@ -85,61 +84,77 @@ the local coordinate system of the computation point P.
 Gravitational fields of a tesseroid
 -----------------------------------
 
-The gravitational attraction of a tesseroid
+The gravitational potential of a tesseroid
+can be calculated using the formula
+
+.. math::
+    V(r,\phi,\lambda) = G \rho
+        \displaystyle\int_{\lambda_1}^{\lambda_2}
+        \displaystyle\int_{\phi_1}^{\phi_2}
+        \displaystyle\int_{r_1}^{r_2}
+        \frac{1}{\ell} \kappa \ d r' d \phi' d \lambda'
+
+The gravitational attraction
 can be calculated using the formula
 (Grombein et al., 2010):
 
 .. math::
-    g_{\alpha}(r_p,\phi_p,\lambda_p) = G \rho
+    g_{\alpha}(r,\phi,\lambda) = G \rho
         \displaystyle\int_{\lambda_1}^{\lambda_2}
         \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-        \frac{\Delta x_{\alpha}}{\ell^3} \kappa \ d r' d \phi' d \lambda'
-        \ \ \alpha \in \{1,2,3\}
+        \frac{\Delta_{\alpha}}{\ell^3} \kappa \ d r' d \phi' d \lambda'
+        \ \ \alpha \in \{x,y,z\}
 
 The gravity gradients can be calculated
 using the general formula
 (Grombein et al., 2010):
 
 .. math::
-    g_{\alpha\beta}(r_p,\phi_p,\lambda_p) = G \rho
+    g_{\alpha\beta}(r,\phi,\lambda) = G \rho
         \displaystyle\int_{\lambda_1}^{\lambda_2}
         \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-        I_{\alpha\beta}\ d r' d \phi' d \lambda'
-        \ \ \alpha,\beta \in \{1,2,3\}
+        I_{\alpha\beta}({r'}, {\phi'}, {\lambda'} )
+        \ d r' d \phi' d \lambda'
+        \ \ \alpha,\beta \in \{x,y,z\}
 
 .. math::
-    I_{\alpha\beta} =
+    I_{\alpha\beta}({r'}, {\phi'}, {\lambda'}) =
         \left(
-            \frac{3\Delta x_{\alpha} \Delta x_{\beta}}{\ell^5} -
+            \frac{3\Delta_{\alpha} \Delta_{\beta}}{\ell^5} -
             \frac{\delta_{\alpha\beta}}{\ell^3}
         \right)
         \kappa\
-        \ \ \alpha,\beta \in \{1,2,3\}
+        \ \ \alpha,\beta \in \{x,y,z\}
 
 where :math:`\rho` is density,
-the subscripts 1, 2, and 3 should be interpreted
-as the x, y, and z axis,
-:math:`\delta_{\alpha\beta}` is the Kronecker delta function, and
+:math:`\{x, y, z\}` correspond to the local coordinate system
+of the computation point P,
+:math:`\delta_{\alpha\beta}` is the `Kronecker delta`_, and
 
 .. math::
    :nowrap:
    
     \begin{eqnarray*}
-        \Delta x_1 &=& r' K_{\phi} \\
-        \Delta x_2 &=& r' \cos \phi' \sin(\lambda' - \lambda_p) \\
-        \Delta x_3 &=& r' \cos \psi - r_p\\
-        \ell &=& \sqrt{r'^2 + r_p^2 - 2 r' r_p \cos \psi} \\
-        \cos\psi &=& \sin\phi_p\sin\phi' + \cos\phi_p\cos\phi'
-                     \cos(\lambda' - \lambda_p) \\
-        K_{\phi} &=& \cos\phi_p\sin\phi' - \sin\phi_p\cos\phi'
-                     \cos(\lambda' - \lambda_p)\\
+        \Delta_x &=& r' K_{\phi} \\
+        \Delta_y &=& r' \cos \phi' \sin(\lambda' - \lambda) \\
+        \Delta_z &=& r' \cos \psi - r\\
+        \ell &=& \sqrt{r'^2 + r^2 - 2 r' r \cos \psi} \\
+        \cos\psi &=& \sin\phi\sin\phi' + \cos\phi\cos\phi'
+                     \cos(\lambda' - \lambda) \\
+        K_{\phi} &=& \cos\phi\sin\phi' - \sin\phi\cos\phi'
+                     \cos(\lambda' - \lambda)\\
         \kappa &=& {r'}^2 \cos \phi'
     \end{eqnarray*}
 
 
-:math:`\phi` is latitude, :math:`\lambda` is longitude, :math:`r` is radius. The
-subscript :math:`p` is for the computation point.
+:math:`\phi` is latitude,
+:math:`\lambda` is longitude, and
+:math:`r` is radius.
 
+.. note:: The **gravitational attraction** and **gravity gradient tensor**
+    are calculated with respect to :math:`(x, y, z)`,
+    the **local coordinate system**
+    of the computation point P.
 
 Numerical integration
 ---------------------
@@ -148,30 +163,66 @@ The above integrals are solved using the Gauss-Legendre Quadrature rule
 (Asgharzadeh et al., 2007):
 
 .. math::
-    g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho
+    g_{\alpha\beta}(r,\phi,\lambda) \approx G \rho
         \frac{(\lambda_2 - \lambda_1)(\phi_2 - \phi_1)(r_2 - r_1)}{8}
-        \displaystyle\sum_{k=0}^{N^{\lambda} - 1}
-        \displaystyle\sum_{j=0}^{N^{\phi} - 1}
-        \displaystyle\sum_{i=0}^{N^r - 1}
+        \displaystyle\sum_{k=1}^{N^{\lambda}}
+        \displaystyle\sum_{j=1}^{N^{\phi}}
+        \displaystyle\sum_{i=1}^{N^r}
         W^r_i W^{\phi}_j W^{\lambda}_k
         I_{\alpha\beta}({r'}_i, {\phi'}_j, {\lambda'}_k )
-        \kappa\ \ \alpha,\beta \in \{1,2,3\}
+        \ \alpha,\beta \in \{1,2,3\}
 
-where :math:`W^r`, :math:`W^{\phi}`, and :math:`W^{\lambda}` are weighting
-coefficients and :math:`N^r`, :math:`N^{\phi}`, and :math:`N^{\lambda}` are the
-number of quadrature nodes, ie the order of the quadrature.
+where :math:`W_i^r`, :math:`W_j^{\phi}`, and :math:`W_k^{\lambda}`
+are weighting coefficients
+and :math:`N^r`, :math:`N^{\phi}`, and :math:`N^{\lambda}`
+are the number of quadrature nodes
+(i.e., the order of the quadrature),
+for the radius, latitude, and longitude, respectively.
+
+
+Recommended reading
+-------------------
+
+* Smith et al. (2001)
+* ﻿Wild-Pfeiffer (2008)
 
 
 References
 ----------
 
-Asgharzadeh, M.F., von Frese, R.R.B., Kim, H.R., Leftwich, T.E. & Kim, J.W.
-(2007): Spherical prism gravity effects by Gauss-Legendre quadrature integration.
-Geophysical Journal International, 169, 1-11.
+﻿Asgharzadeh, M. F., R. R. B. von Frese, H. R. Kim, T. E. Leftwich,
+and J. W. Kim (2007),
+Spherical prism gravity effects by Gauss-Legendre quadrature integration,
+Geophysical Journal International, 169(1), 1-11,
+doi:10.1111/j.1365-246X.2007.03214.x.
 
-`Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
-Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
-Satellitengradiometriemission GOCE.
+Grombein, T.; Seitz, K.; Heck, B. 2010.
+`"Untersuchungen zur effizienten Berechnung topographischer Effekte
+auf den Gradiententensor am Fallbeispiel der
+Satellitengradiometriemission GOCE"
+<http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300>`_.
 KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
 Karlsruhe, Germany.
-<http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300>`_
+
+Nagy, D., G. Papp, and J. Benedek (2000),
+The gravitational potential and its derivatives for the prism,
+Journal of Geodesy, 74(7-8), 552-560, doi:10.1007/s001900000116.
+
+Nagy, D., G. Papp, and J. Benedek (2002),
+Corrections to "The gravitational potential and its derivatives for the prism,"
+Journal of Geodesy, 76(8), 475-475, doi:10.1007/s00190-002-0264-7.
+
+Smith, D. A., D. S. Robertson, and D. G. Milbert (2001),
+Gravitational attraction of local crustal masses in spherical coordinates,
+Journal of Geodesy, 74(11-12), 783-795, doi:10.1007/s001900000142.
+
+Wild-Pfeiffer, F. (2008),
+A comparison of different mass elements for use in gravity gradiometry,
+Journal of Geodesy, 82(10), 637-653, doi:10.1007/s00190-008-0219-8.
+﻿
+
+
+# HYPERLINKS
+################################################################################
+
+.. _Kronecker delta: http://en.wikipedia.org/wiki/Kronecker_delta
