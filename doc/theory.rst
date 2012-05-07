@@ -40,6 +40,8 @@ The figure bellow shows a tesseroid,
 the global coordinate system (X, Y, Z),
 and the local coodinate system (:math:`x,\ y,\ z`) of a point P.
 
+.. _tess-coords:
+
 .. figure:: _static/tesseroid-coordinates.png
     :align: center
     :width: 300px
@@ -48,8 +50,7 @@ and the local coodinate system (:math:`x,\ y,\ z`) of a point P.
     View of a tesseroid, the integration point Q,
     the global coordinate system (X, Y, Z),
     the computation P
-    and it's local coordinate system (:math:`x,\ y,\ z`)
-    of a point P.
+    and it's local coordinate system (:math:`x,\ y,\ z`).
     :math:`r,\ \phi,\ \lambda` are
     the radius, latitude, and longitude, respectively,
     of point P.
@@ -128,7 +129,8 @@ using the general formula
 
 where :math:`\rho` is density,
 :math:`\{x, y, z\}` correspond to the local coordinate system
-of the computation point P,
+of the computation point P
+(see :ref:`the tesseroid figure <tess-coords>`),
 :math:`\delta_{\alpha\beta}` is the `Kronecker delta`_, and
 
 .. math::
@@ -156,6 +158,10 @@ of the computation point P,
     the **local coordinate system**
     of the computation point P.
 
+
+.. _Kronecker delta: http://en.wikipedia.org/wiki/Kronecker_delta
+
+
 Numerical integration
 ---------------------
 
@@ -179,6 +185,51 @@ are the number of quadrature nodes
 (i.e., the order of the quadrature),
 for the radius, latitude, and longitude, respectively.
 
+
+Gravitational fields of a prism in spherical coordinates
+--------------------------------------------------------
+
+
+The gravitational potential and its first and second derivatives
+for the right rectangular prism
+can be calculated in Cartesian coordinates
+using the formula of Nagy et al. (2000).
+
+However, several transformations have to made
+in order to calculate the fields
+in a global coordinate system
+using spherical coordinates.
+
+.. figure:: _static/prism-coordinates.png
+    :align: center
+    :width: 300px
+    :figwidth: 60%
+
+    View of a right rectangular prism
+    with its corresponding local coordinate system
+    (:math:`x^*,\ y^*,\ z^*`),
+    the global coordinate system (X, Y, Z),
+    the computation P
+    and it's local coordinate system (:math:`x,\ y,\ z`).
+    :math:`r,\ \phi,\ \lambda` are
+    the radius, latitude, and longitude, respectively.
+
+
+.. figure:: _static/prism-vectors.png
+    :align: center
+    :width: 300px
+    :figwidth: 60%
+
+    The position vectors
+    involved in the coordinate transformations.
+    :math:`E^*` is the position vector of point Q
+    in the global coordinate system,
+    :math:`E` is the position vector of point P
+    in the global coordinate system,
+    and :math:`e` is the position vector of point P
+    in the local coordinate system of the prism
+    (:math:`x^*,\ y^*,\ z^*`).    
+    
 
 Recommended reading
 -------------------
@@ -221,8 +272,3 @@ A comparison of different mass elements for use in gravity gradiometry,
 Journal of Geodesy, 82(10), 637-653, doi:10.1007/s00190-008-0219-8.
 ﻿
 
-
-# HYPERLINKS
-################################################################################
-
-.. _Kronecker delta: http://en.wikipedia.org/wiki/Kronecker_delta
