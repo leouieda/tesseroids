@@ -12,8 +12,8 @@ simply unpack in the desired directory.
 The executables will be in the ``bin`` folder
 and example scripts in the ``examples`` folder.
 
-From source
-------------
+Compiling from source
+---------------------
 
 To build Tesseroids you'll need:
 

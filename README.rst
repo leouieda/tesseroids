@@ -27,6 +27,24 @@ http://tesseroids.readthedocs.org/
 The docs contain installation instructions, usage, theorerical background,
 and some examples.
 
+There is also documentation for the development version available:
+
+http://tesseroids-development.readthedocs.org/
+
+
+Source code
+-----------
+
+The source code of Tesseroids is hosted on several repositories:
+
+* `Google Code`_: source code and compiled binaries (latest stable release)
+* `Bitbucket Stable`_: source code (latest stable release)
+* `Bitbucket Development`_: source code (development version)
+
+.. _Google Code: http://code.google.com/p/tesseroids/
+.. _Bitbucket Stable: https://bitbucket.org/leouieda/tesseroids
+.. _Bitbucket Development: https://bitbucket.org/leouieda/tesseroids-dev
+
 
 Installation
 ------------
@@ -41,8 +59,8 @@ the HTML documentation in the ``doc`` folder,
 and example scripts in the ``examples`` folder.
 To view the HTML docs open ``user-manual-v1_1.html`` in a web browser.
 
-From souce
-++++++++++
+Compiling from source
++++++++++++++++++++++
 
 To build Tesseroids you'll need:
 
