@@ -3,42 +3,84 @@
 Theorerical background
 ======================
 
+What is a tesseroid anyway?
+---------------------------
+
+.. image:: _static/tesseroid.png
+    :align: center
+    :width: 300px
+
+A tesseroid, or spherical prism,
+is segment of a sphere.
+It is delimited by:
+
+1. 2 meridians, :math:`\lambda_1` and :math:`\lambda_2`
+
+    .. image:: _static/tesseroid_meridians.png
+        :align: center
+        :width: 600px
+
+2. 2 parallels, :math:`\phi_1` and :math:`\phi_2`
+
+    .. image:: _static/tesseroid_parallels.png
+        :align: center
+        :width: 600px
+
+3. 2 spheres or radii :math:`r_1` and :math:`r_2`
+
+    .. image:: _static/tesseroid_sphere.png
+        :align: center
+        :width: 600px
+
 About coordinate systems
 ------------------------
 
-The two coordinate systems involved in the computations
-are the Global and Local coordinate systems.
+The figure bellow shows a tesseroid,
+the global coordinate system (X, Y, Z),
+and the local coodinate system (:math:`x,\ y,\ z`) of a point P.
 
-The Global system has origin on the center of the Earth
+.. figure:: _static/tesseroid-coordinates.png
+    :align: center
+    :width: 300px
+    :figwidth: 60%
+
+    View of a tesseroid, the integration point Q,
+    the global coordinate system (X, Y, Z),
+    the computation P
+    and it's local coordinate system (:math:`x,\ y,\ z`)
+    of a point P.
+    :math:`r,\ \phi,\ \lambda` are
+    the radius, latitude, and longitude, respectively,
+    of point P.
+
+The global system has origin on the center of the Earth
 and Z axis aligned with the Earth's mean rotation axis.
 The X and Y axis are contained on the equatorial parallel
 with X intercepting the mean Greenwich meridian
 and Y completing a right-handed system.
 
-The Local system has origin on the computation point.
-It's :math:`z` is oriented along the radial direction
+The local system has origin on the computation point P.
+It's :math:`z` axis is oriented along the radial direction
 and points away from the center of the Earth.
 The :math:`x` and :math:`y` axis
 are contained on a plane normal to the :math:`z` axis.
 :math:`x` points North and :math:`y` East.
 
-The tesseroids are defined using the Global Coordinate system
-with spherical coordinates,
-while the gravitational fields are calculated
-on the Local Coordinate system of the computation point.
-
-.. figure:: _static/tesseroid.png
-    :align: center
-
-    View of a tesseroid, the integration point Q,
-    the global coordinate system (X, Y, Z),
-    the computation P
-    and it's local coordinate system (:math:`x, y, z`).
+The tesseroid is defined
+through the (:math:`r,\ \phi,\ \lambda`) coordinates
+of the global system.
+Its gravitational attraction
+and gravity gradient tensor
+are calculated with respect to
+the local coordinate system of the computation point P.
 
 .. warning:: The :math:`g_z` component is an exception to this.
     In order to conform with the regular convention
     of z-axis pointing toward the center of the Earth,
     this component **ONLY** is calculated with an inverted z axis.
+    This way, gravity anomalies of
+    tesseroids with positive density
+    are positive, not negative.
 
 Gravitational fields of a tesseroid
 -----------------------------------
