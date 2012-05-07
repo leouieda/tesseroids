@@ -171,7 +171,7 @@ htmlhelp_basename = 'Tesseroidsdoc'
 # -- Options for LaTeX output --------------------------------------------------
 
 # The paper size ('letter' or 'a4').
-#latex_paper_size = 'letter'
+latex_paper_size = 'a4'
 
 # The font size ('10pt', '11pt' or '12pt').
 #latex_font_size = '10pt'
@@ -179,7 +179,7 @@ htmlhelp_basename = 'Tesseroidsdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Tesseroids.tex', u'Tesseroids Documentation',
+  ('index', 'Tesseroids_v%s.tex' % (version), u'Tesseroids Documentation',
    u'Leonardo Uieda', 'manual'),
 ]
 
@@ -220,7 +220,7 @@ man_pages = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Tesseroids'
+epub_title = u'Tesseroids v%s' % (version)
 epub_author = u'Leonardo Uieda'
 epub_publisher = u'Leonardo Uieda'
 epub_copyright = u'2012, Leonardo Uieda'

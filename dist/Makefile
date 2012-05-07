@@ -1,6 +1,6 @@
-VERSION = 1.0
+VERSION = 1.1
 DIRBASE = tesseroids-${VERSION}
-DOCS=../doc/_build/latex/Tesseroids.pdf
+DOCS=../doc/_build/latex/Tesseroids_v1.1.pdf
 
 
 all:
