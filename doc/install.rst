@@ -3,6 +3,15 @@
 Installation instructions
 =========================
 
+Downloading
+-----------
+
+You can download the source and binary distributions
+from the `Google Code project site`_.
+
+.. _Google Code project site: http://code.google.com/p/tesseroids/
+
+
 Pre-compiled binaries
 ---------------------
 
@@ -20,8 +29,8 @@ To build Tesseroids you'll need:
 * A C compiler (like GCC_)
 * SCons_
 
-SCons
-+++++
+Setting up SCons
+++++++++++++++++
 
 Tesseroids uses the build tool SCons_.
 A ``SConstruct`` file (``Makefile`` equivalent)
