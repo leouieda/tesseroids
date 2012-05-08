@@ -208,7 +208,8 @@ Tesseroids was designed with the Unix philosophy in mind::
 
     Write programs that do one thing and do it well.
     Write programs to work together.
-    Write programs to handle text streams, because that is a universal interface.
+    Write programs to handle text streams,
+        because that is a universal interface.
     
 Therefore, all tessg* programs and tessgrd
 can be piped together to calculate many components on a regular grid.
@@ -232,7 +233,11 @@ These should include the information
 about how many times the tesseroid had to be split into smaller ones
 to guarantee GLQ accuracy::
 
-    tessgrd -r-5/5/-5/5 -b100/100 -z250e03 | tessgz model.txt -lgz.log | \
-    tessgxx model.txt -lgxx.log | tessgxy model.txt -lgxy.log | \
-    tessgxz model.txt -lgxz.log | tessgyy model.txt -lgyy.log | \
-    tessgyz model.txt -lgyz.log | tessgzz model.txt -lgzz.log > output.txt
+    tessgrd -r-5/5/-5/5 -b100/100 -z250e03 | \
+    tessgz model.txt -lgz.log | \
+    tessgxx model.txt -lgxx.log | \
+    tessgxy model.txt -lgxy.log | \
+    tessgxz model.txt -lgxz.log | \
+    tessgyy model.txt -lgyy.log | \
+    tessgyz model.txt -lgyz.log | \
+    tessgzz model.txt -lgzz.log > output.txt

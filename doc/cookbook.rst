@@ -23,8 +23,10 @@ The model file looks like this:
 .. include:: ../cookbook/simple_tess/model.txt
     :literal:
 
-The result should look like the following
-("column" means the column of the output file):
+The result should look like the :ref:`following <simpletess>`
+("column" means the column of the output file).
+
+.. _simpletess:
 
 .. figure:: ../cookbook/simple_tess/simple_tess.png
     :align: center
@@ -50,8 +52,10 @@ The model file looks like this:
 .. include:: ../cookbook/simple_prism/model.txt
     :literal:
 
-The result should look like the followning
-("column" means the column of the output file):
+The result should look like the :ref:`following <simpleprism>`
+("column" means the column of the output file).
+
+.. _simpleprism:
 
 .. figure:: ../cookbook/simple_prism/simple_prism.png
     :align: center
@@ -87,8 +91,10 @@ and the converted prism model looks like this:
 Note that the density of prisms is altered.
 This is so that the tesseroid and corresponding prism have the same mass.
 
-The result should look like the following
-("column" means the column of the output file):
+The result should look like the :ref:`following <tess2prism_flatten>`
+("column" means the column of the output file).
+
+.. _tess2prism_flatten:
 
 .. figure:: ../cookbook/tess2prism_flatten/tess2prism_flatten.png
     :align: center
