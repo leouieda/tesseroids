@@ -17,7 +17,8 @@ right rectangular prisms, both in Cartesian and spherical coordinates.
     :width: 300px
     
 *Tesseroids* is coded in the C programming language.
-It is developed by `Leonardo Uieda`_ in cooperation with Carla Braitenberg.
+It is developed by `Leonardo Uieda`_
+in cooperation with `Carla Braitenberg`_.
 
 As of version 1.1,
 *Tesseroids* is licensed under the :ref:`BSD license <license>`.
@@ -45,3 +46,4 @@ The :ref:`cookbook` has a few example recipes and the expected output
 
 
 .. _Leonardo Uieda: http://fatiando.org/people/uieda/
+.. _Carla Braitenberg: http://www2.units.it/geodin/biobraitenberg.html
