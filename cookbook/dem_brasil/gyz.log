@@ -1,0 +1,9 @@
+tessgyz (Tesseroids project) 1.0
+(local time) Thu Apr  7 15:30:33 2011
+
+Using GLQ orders: 2 lon / 2 lat / 2 r
+Reading tesseroid model from file dem-10min-mod.txt
+Total of 22801 tesseroid(s) read
+Calculating (this may take a while)...
+Calculated on 2500 points in 151.17 seconds
+Done

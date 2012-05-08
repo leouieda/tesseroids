@@ -1,0 +1,9 @@
+# Prisms converted from tesseroid model with tess2prism 1.1dev
+#   local time: Tue May  8 14:55:02 2012
+#   tesseroids file: stdin
+#   conversion type: flatten
+#   format: x1 x2 y1 y2 z1 z2 density
+# Test tesseroid model file
+1111100 1666650 1111100 1666650 0 30000 487.534658568521
+-1111100 1111100 -1666650 -1111100 0 50000 198.175508383774
+-1777760 -1111100 -1666650 555550 0 30000 -291.9029748328

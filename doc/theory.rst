@@ -38,7 +38,7 @@ About coordinate systems
 
 The figure bellow shows a tesseroid,
 the global coordinate system (X, Y, Z),
-and the local coodinate system (:math:`x,\ y,\ z`) of a point P.
+and the local coordinate system (:math:`x,\ y,\ z`) of a point P.
 
 .. _tess-coords:
 

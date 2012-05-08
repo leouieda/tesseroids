@@ -13,7 +13,6 @@ all:
 ${DOCS}:
 	cd ../doc; make clean
 	cd ../doc; make latex
-	cd ../doc/_build/latex; make
 
 src: ${DOCS}
 	scons -C ../ -c
@@ -21,10 +20,10 @@ src: ${DOCS}
 	mkdir ${DIRBASE}/doc
 	cp -r ../src ${DIRBASE}
 	cp -r ../test ${DIRBASE}
-	cp -r ../examples ${DIRBASE}
+	cp -r ../cookbook ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}
-	cp ../LICENSE ${DIRBASE}
+	cp ../LICENSE.txt ${DIRBASE}
 	cp ../SConstruct ${DIRBASE}
 	zip -r ${DIRBASE}-src.zip ${DIRBASE}
 	tar -zcvf ${DIRBASE}-src.tar.gz ${DIRBASE}
@@ -34,11 +33,11 @@ bin32: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
-	cp -r ../examples ${DIRBASE}
+	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}
-	cp ../LICENSE ${DIRBASE}
+	cp ../LICENSE.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
@@ -46,11 +45,11 @@ bin64: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
-	cp -r ../examples ${DIRBASE}
+	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}
-	cp ../LICENSE ${DIRBASE}
+	cp ../LICENSE.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
@@ -58,17 +57,13 @@ win32: ${DOCS}
 	scons -C ..
 	mkdir ${DIRBASE}-win32
 	mkdir ${DIRBASE}-win32\doc
-	mkdir ${DIRBASE}-win32\examples
-	mkdir ${DIRBASE}-win32\examples\dem_brasil
-	mkdir ${DIRBASE}-win32\examples\prism
-	mkdir ${DIRBASE}-win32\examples\tess
-	copy ..\examples\dem_brasil ${DIRBASE}-win32\examples\dem_brasil
-	copy ..\examples\prism ${DIRBASE}-win32\examples\prism
-	copy ..\examples\tess ${DIRBASE}-win32\examples\tess
+	mkdir ${DIRBASE}-win32\cookbook
+	mkdir ${DIRBASE}-win32\cookbook\dem_brasil
+	copy ..\cookbook\dem_brasil ${DIRBASE}-win32\cookbook\dem_brasil
 	mkdir ${DIRBASE}-win32\bin
 	copy ..\bin ${DIRBASE}-win32\bin
 	copy ..\README.rst ${DIRBASE}-win32
-	copy ..\LICENSE ${DIRBASE}-win32
+	copy ..\LICENSE.txt ${DIRBASE}-win32
 
 clean:
 	rm -r ${DIRBASE} *.zip *.tar.gz

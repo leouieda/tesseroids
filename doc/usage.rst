@@ -36,7 +36,7 @@ on given computation points.
 The computation points are passed via standard input and
 do NOT have to be in a regular grid.
 This allows, for example, computation on points where data was measured.
-The values calulated are put in
+The values calculated are put in
 the last column of the input points and printed to standard output.
 
 For example, if calculating gz on these points::
@@ -54,12 +54,12 @@ the output would look something like::
     lonN latN heightN valueN othervalueN gzN
     
 The input model file should contain one tesseroid per line and
-have columns formated as::
+have columns formatted as::
 
     W E S N HEIGHT_OF_TOP HEIGHT_OF_BOTTOM DENSITY
     
 HEIGHT_OF_TOP and HEIGHT_OF_BOTTOM are
-positive if the above the Earth's surface and negavitive if bellow.
+positive if the above the Earth's surface and negative if bellow.
 **Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!**
 
 Use the command line option -h to view a list of all commands available.
@@ -93,7 +93,7 @@ Verbose and logging to files
 ----------------------------
 
 The -v flag enables printing of information messages to stderr.
-If ommited, only error messages will appear.
+If omitted, only error messages will appear.
 The -l flag enables logging of information and error messages to a file.
 
 Comments and provenance information
@@ -136,7 +136,7 @@ The top and bottom faces of the tesseroid are defined as:
 * Top = Reference and Bottom = Interface if the interface is bellow the reference
     
 The density RHO of the tesseroids can be passed using the -d option.
-This will asign a density value of RHO when the interface is above the reference
+This will assign a density value of RHO when the interface is above the reference
 and a value of -RHO if the interface is bellow the reference.
 Alternatively, the density of each tesseroid
 can be passed as a forth column on the input grid.
@@ -204,7 +204,7 @@ of the User Manual for more details on this.
 Piping
 ------
 
-Tesseroids was designed with the Unix filosophy in mind::
+Tesseroids was designed with the Unix philosophy in mind::
 
     Write programs that do one thing and do it well.
     Write programs to work together.
