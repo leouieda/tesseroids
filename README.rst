@@ -14,6 +14,12 @@ right rectangular prisms, both in Cartesian and spherical coordinates.
 *Tesseroids* is coded in the C programming language.
 It is developed by `Leonardo Uieda`_ in cooperation with Carla Braitenberg.
 
+As of version 1.1,
+*Tesseroids* is licensed under the BSD license
+(see LICENSE.txt).
+This means that it can be reused and remixed
+with fewer restrictions.
+
 .. _Leonardo Uieda: http://fatiando.org/people/uieda/
 
 
@@ -29,7 +35,7 @@ and some examples.
 
 There is also documentation for the development version available:
 
-http://tesseroids-development.readthedocs.org/
+http://tesseroids-dev.readthedocs.org/
 
 
 Source code

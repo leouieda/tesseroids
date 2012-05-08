@@ -1,21 +1,4 @@
-/* *****************************************************************************
- Copyright 2011 Leonardo Uieda
-
- Tesseroids is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Tesseroids is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
- **************************************************************************** */
-
-/** \file
+/*
 This module contains a set of functions that calculate the gravitational
 potential and its first and second derivatives for the sphere in spherical
 coordinates.
@@ -26,18 +9,14 @@ The derivatives of the potential are made with respect to the local coordinate
 system x->North, y->East, z->out. So it would be normal for a sphere of positive
 density to have negative gz
 
-<b>References</b>
+References
+----------
 
-- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+* Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
 Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
 Satellitengradiometriemission GOCE.
 KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
 Karlsruhe, Germany.
-(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
-http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
-
-@author Leonardo Uieda
-@date 25 Jan 2011
 */
 
 

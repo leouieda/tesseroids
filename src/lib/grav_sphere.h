@@ -1,69 +1,24 @@
-/* *****************************************************************************
- Copyright 2011 Leonardo Uieda
-
- Tesseroids is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Tesseroids is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
- **************************************************************************** */
-
-/** \file
+/*
 Functions that calculate the gravitational potential and its first and second
 derivatives for the sphere in spherical coordinates.
 
 The position of the sphere and computation point are in spherical coordinates.
 
 The derivatives of the potential are made with respect to the local coordinate
-system <b>x->North, y->East, z->out</b>. So it would be normal for a sphere of
+system x->North, y->East, z->out. So it would be normal for a sphere of
 positive density to have negative gz.
 
-Used the generic formula for gravity gradient computation (Grombein et al., 2010):
+Used the generic formula for gravity gradient computation of tesseroids by
+Grombein et al. (2010).
 
-\f[
-g_{ij}(r_p,\phi_p,\lambda_p) = G M \left(\frac{3\Delta x_i \Delta x_j}{\ell^5} -
-    \frac{\delta_{ij}}{\ell^3} \right)\ \ i,j \in \{1,2,3\}
-\f]
+References
+----------
 
-where M is the mass of the sphere, the subscripts 1, 2, and 3 should be
-interpreted as the x, y, and z axis and
-
-\f{eqnarray*}{
-\Delta x_1 &=& r_c K_{\phi} \\
-\Delta x_2 &=& r_c \cos \phi_c \sin(\lambda_c - \lambda_p) \\
-\Delta x_3 &=& r_c \cos \psi - r_p\\
-\ell &=& \sqrt{r_c^2 + r_p^2 - 2 r_c r_p \cos \psi} \\
-\cos\psi &=& \sin\phi_p\sin\phi_c + \cos\phi_p\cos\phi_c
-             \cos(\lambda_c - \lambda_p) \\
-K_{\phi} &=& \cos\phi_p\sin\phi_c - \sin\phi_p\cos\phi_c
-             \cos(\lambda_c - \lambda_p)
-\f}
-
-\f$ \phi \f$ is latitude, \f$ \lambda \f$ is longitude, \f$ r \f$ is radius. The
-subscript \f$ c \f$ is for the center of the sphere and \f$ p \f$ for the
-computation point.
-
-<b>References</b>
-
-- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+* Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
 Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
 Satellitengradiometriemission GOCE.
 KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
 Karlsruhe, Germany.
-(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
-http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
-
-\todo Possible speedup: Replace sphere.rc with a local copy
-
-@author Leonardo Uieda
-@date 25 Jan 2011
 */
 
 #ifndef _TESSEROIDS_GRAV_SPHERE_H_

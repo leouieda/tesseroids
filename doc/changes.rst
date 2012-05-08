@@ -7,9 +7,12 @@ Changes in version 1.1
 ----------------------
 
 * tesseroids now strictly follows the ANSI C standard.
+* the tesseroids license was changed from the GNU GPL
+  to the more permissive BSD license
+  (see :ref:`the license text <license>`).
 * tess2prism has a new flag --flatten
   to make the prism model by flattening the tesseroids
-  (i.e., 1 degree = 111km) into cartesian coordinates
+  (i.e., 1 degree = 111km) into Cartesian coordinates
   (so that they can be used with the prismg* programs).
 * prismpot and prismg* programs raises an error
   when the input has more columns than it should

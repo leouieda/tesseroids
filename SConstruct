@@ -1,4 +1,5 @@
 # Build the Tesseroids programs
+
 env = Environment(
     CFLAGS='-ansi -pedantic-errors -Wall -O3',
     LIBS=['m'],

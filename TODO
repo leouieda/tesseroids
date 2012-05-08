@@ -3,16 +3,19 @@ Goals for 1.1:
 * Make tessmodgen accept 2 grids instead of just a reference and fill in between with tesseroids 
 * Make prismshg* programs to calculate the prism effects on spherical coordinates
 * Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
-* Move codebase to BSD license to be compatible with Fatiando
 
 TODO:
 
+* Clean up Doxygen markup from the comments and code
 * Check error in not rotating prism
 * Check error os using tesseroid in poles
 * Programs to calculate the effect of a sphere model in spherical coordinates
 * Program to calculate geoid height from potential using different ellipsoids
 * Make minunit into functions and put variable arguments for messages like printf
 * Test adapt using a whole Earth against a sphere
+* tessgrd: Catch wrong order of -r arguments ie. w > e or s > n
+* prism_grav: Figure out why gz and pot fail when calculating bellow the prism
+* prism_grav: Unroll loops in gx and gy
 
 Ideas:
 

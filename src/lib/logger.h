@@ -1,98 +1,73 @@
-/* *****************************************************************************
-Copyright 2011 Leonardo Uieda
-
-Tesseroids is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Tesseroids is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
-***************************************************************************** */
-
-/** \file
+/*
 Functions to set up logging.
+
+Examples
+--------
 
 Logging to stderr:
 
-\code
-#include "logger.h"
+    #include "logger.h"
 
-void my_func(){
-    log_info("From my_func!\n");
-}
+    void my_func(){
+        log_info("From my_func!\n");
+    }
 
-int main(){
-    // Enable logging to stderr in debug level
-    // will only print messages of level DEBUG or higher
-    log_init(LOG_DEBUG);
-    log_debug("debug line. The code is %d", LOG_DEBUG);
-    log_info("info line. The code is %d", LOG_INFO);
-    log_warning("warning line. The code is %d", LOG_WARNING);
-    log_error("error line. The code is %d", LOG_ERROR);
-    my_func();
-    return 0;
-}
-\endcode
+    int main(){
+        // Enable logging to stderr in debug level
+        // will only print messages of level DEBUG or higher
+        log_init(LOG_DEBUG);
+        log_debug("debug line. The code is %d", LOG_DEBUG);
+        log_info("info line. The code is %d", LOG_INFO);
+        log_warning("warning line. The code is %d", LOG_WARNING);
+        log_error("error line. The code is %d", LOG_ERROR);
+        my_func();
+        return 0;
+    }
 
-Will print:
+will print:
 
-\verbatim
-DEBUG: debug line. The code is 0
-info line. The code is 1
-WARNING: warning line. The code is 2
-ERROR: error line. The code is 3
-From my_func!
-\endverbatim
+    DEBUG: debug line. The code is 0
+    info line. The code is 1
+    WARNING: warning line. The code is 2
+    ERROR: error line. The code is 3
+    From my_func!
 
-If function log_init() is not called than logging to stderr is disabled and no messages
-will be printed.
+If function log_init() is not called than logging to stderr is disabled and no
+messages will be printed.
 
 Logging to a file:
 
-\code
-#include <stdio.h>
-#include "logger.h"
-
-void my_func(){
-    log_info("From my_func!\n");
-    log_debug("Should not appear in log file\n");
-}
-
-int main(){
-    // Enable logging to file "log.txt" in info level
-    // will not print DEBUG level messages
-    // since log_init was not called, there is no logging to stderr
-    FILE *logfile = fopen("log.txt", "w");
-    log_tofile(logfile, LOG_INFO);
-    log_debug("debug line. The code is %d", LOG_DEBUG);
-    log_info("info line. The code is %d", LOG_INFO);
-    log_warning("warning line. The code is %d", LOG_WARNING);
-    log_error("error line. The code is %d", LOG_ERROR);
-    my_func();
-    return 0;
-}
-\endcode
+    #include <stdio.h>
+    #include "logger.h"
+    
+    void my_func(){
+        log_info("From my_func!\n");
+        log_debug("Should not appear in log file\n");
+    }
+    
+    int main(){
+        // Enable logging to file "log.txt" in info level
+        // will not print DEBUG level messages
+        // since log_init was not called, there is no logging to stderr
+        FILE *logfile = fopen("log.txt", "w");
+        log_tofile(logfile, LOG_INFO);
+        log_debug("debug line. The code is %d", LOG_DEBUG);
+        log_info("info line. The code is %d", LOG_INFO);
+        log_warning("warning line. The code is %d", LOG_WARNING);
+        log_error("error line. The code is %d", LOG_ERROR);
+        my_func();
+        return 0;
+    }
 
 File log.txt will look like:
 
-\verbatim
-info line. The code is 1
-WARNING: warning line. The code is 2
-ERROR: error line. The code is 3
-From my_func!
-\endverbatim
+    info line. The code is 1
+    WARNING: warning line. The code is 2
+    ERROR: error line. The code is 3
+    From my_func!
 
 Note that you can combine loggin to stderr and to a file with different
 levels in the same program.
-
-@author Leonardo Uieda
-@date 31 Jan 2011
 */
 
 #ifndef _TESSEROIDS_LOGGER_H_

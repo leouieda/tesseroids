@@ -1,131 +1,68 @@
-/* *****************************************************************************
- Copyright 2011 Leonardo Uieda
-
- Tesseroids is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Tesseroids is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
- **************************************************************************** */
-
-/** \file
+/*
 Functions that calculate the gravitational potential and its first and second
 derivatives for the tesseroid.
 
-The gravity gradients can be calculated using the general formula
-(Grombein et al., 2010):
-
-\f[
-g_{\alpha\beta}(r_p,\phi_p,\lambda_p) = G \rho \displaystyle\int_{\lambda_1}^{\lambda_2}
-    \displaystyle\int_{\phi_1}^{\phi_2} \displaystyle\int_{r_1}^{r_2}
-    I_{\alpha\beta}\ d r' d \phi' d \lambda'
-    \ \ \alpha,\beta \in \{1,2,3\}
-\f]
-
-\f[
-I_{\alpha\beta} = \left(\frac{3\Delta x_i \Delta x_j}{\ell^5} -
-    \frac{\delta_{ij}}{\ell^3} \right)\kappa\
-\f]
-
-and solved using the Gauss-Legendre Quadrature rule (Asgharzadeh et al., 2007):
-
-\f[
-g_{\alpha\beta}(r_p,\phi_p,\lambda_p) \approx G \rho \frac{(\lambda_2 - \lambda_1)
-    (\phi_2 - \phi_1)(r_2 - r_1)}{8} \displaystyle\sum_{k=0}^{N^{\lambda} - 1}
-    \displaystyle\sum_{j=0}^{N^{\phi} - 1} \displaystyle\sum_{i=0}^{N^r - 1}
-    W^r_i W^{\phi}_j W^{\lambda}_k
-    I_{\alpha\beta}({r'}_i, {\phi'}_j, {\lambda'}_k )\kappa\ \ \alpha,\beta \in \{1,2,3\}
-\f]
-
-where \f$ \rho \f$ is density, the subscripts 1, 2, and 3 should be
-interpreted as the x, y, and z axis and
-
-\f{eqnarray*}{
-\Delta x_1 &=& r' K_{\phi} \\
-\Delta x_2 &=& r' \cos \phi' \sin(\lambda' - \lambda_p) \\
-\Delta x_3 &=& r' \cos \psi - r_p\\
-\ell &=& \sqrt{r'^2 + r_p^2 - 2 r' r_p \cos \psi} \\
-\cos\psi &=& \sin\phi_p\sin\phi' + \cos\phi_p\cos\phi'
-             \cos(\lambda' - \lambda_p) \\
-K_{\phi} &=& \cos\phi_p\sin\phi' - \sin\phi_p\cos\phi'
-             \cos(\lambda' - \lambda_p)\\
-\kappa &=& {r'}^2 \cos \phi'
-\f}
-
-\f$ \phi \f$ is latitude, \f$ \lambda \f$ is longitude, \f$ r \f$ is radius. The
-subscript \f$ p \f$ is for the computation point.
+The gravity gradients can be calculated using the general formula of
+Grombein et al. (2010).
+The integrals are solved using the Gauss-Legendre Quadrature rule
+(Asgharzadeh et al., 2007).
 
 The derivatives of the potential are made with respect to the local coordinate
-system <b>x->North, y->East, z->Up</b> (away from center of the Earth).
+system x->North, y->East, z->Up (away from center of the Earth).
 
 To maintain the standard convention, only for component gz the z axis is
 inverted, so a positive density results in positive gz.
 
-<b>Example</b>:
+Example
+-------
 
-To calculate the gzz component due to a tesseroid on a regular grid.
+To calculate the gzz component due to a tesseroid on a regular grid:
 
-\code
-#include <stdio.h>
-#include "glq.h"r
-#include "constants.h"
-#include "grav_tess.h"
+    #include <stdio.h>
+    #include "glq.h"r
+    #include "constants.h"
+    #include "grav_tess.h"
 
-int main()
-{
-    TESSEROID tess = {1000, 44, 46, -1, 1, MEAN_EARTH_RADIUS - 100000,
-                      MEAN_EARTH_RADIUS};
-    GLQ *glqlon, *glqlat, *glqr;
-    double lon, lat, r = MEAN_EARTH_RADIUS + 1500000, res;
-    int order = 8;
-
-    glqlon = glq_new(order, tess.w, tess.e);
-    glqlat = glq_new(order, tess.s, tess.n);
-    glqr = glq_new(order, tess.r1, tess.r2);
-
-    for(lat = 20; lat <= 70; lat += 0.5)
+    int main()
     {
-        for(lon = -25; lon <= 25; lon += 0.5)
+        TESSEROID tess = {1000, 44, 46, -1, 1, MEAN_EARTH_RADIUS - 100000,
+                          MEAN_EARTH_RADIUS};
+        GLQ *glqlon, *glqlat, *glqr;
+        double lon, lat, r = MEAN_EARTH_RADIUS + 1500000, res;
+        int order = 8;
+
+        glqlon = glq_new(order, tess.w, tess.e);
+        glqlat = glq_new(order, tess.s, tess.n);
+        glqr = glq_new(order, tess.r1, tess.r2);
+
+        for(lat = 20; lat <= 70; lat += 0.5)
         {
-            res = tess_gzz(tess, lon, lat, r, *glqlon, *glqlat, *glqr);
-            printf("%g %g %g\n", lon, lat, res);
+            for(lon = -25; lon <= 25; lon += 0.5)
+            {
+                res = tess_gzz(tess, lon, lat, r, *glqlon, *glqlat, *glqr);
+                printf("%g %g %g\n", lon, lat, res);
+            }
         }
+
+        glq_free(glqlon);
+        glq_free(glqlat);
+        glq_free(glqr);
+
+        return 0;
     }
 
-    glq_free(glqlon);
-    glq_free(glqlat);
-    glq_free(glqr);
+References
+----------
 
-    return 0;
-}
-\endcode
-
-<b>References</b>
-
-- Asgharzadeh, M.F., von Frese, R.R.B., Kim, H.R., Leftwich, T.E. & Kim, J.W.
+Asgharzadeh, M.F., von Frese, R.R.B., Kim, H.R., Leftwich, T.E. & Kim, J.W.
 (2007): Spherical prism gravity effects by Gauss-Legendre quadrature integration.
 Geophysical Journal International, 169, 1-11.
 
-- Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
+Grombein, T.; Seitz, K.; Heck, B. (2010): Untersuchungen zur effizienten
 Berechnung topographischer Effekte auf den Gradiententensor am Fallbeispiel der
 Satellitengradiometriemission GOCE.
 KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
 Karlsruhe, Germany.
-(<a href="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300">
-http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300</a>).
-
-\todo Possible speed up: use pointers for weights and nodes
-\todo Allow for tesseroids with depth varying density
-
-@author Leonardo Uieda
-@date 27 Jan 2011
 */
 
 #ifndef _TESSEROIDS_GRAV_TESS_H_

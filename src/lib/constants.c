@@ -1,27 +1,7 @@
-/* *****************************************************************************
-Copyright 2011 Leonardo Uieda
-
-Tesseroids is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Tesseroids is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
-***************************************************************************** */
-
-/** \file
+/*
 Define constants used, like the gravitational constant and unit conversions.
 
-<b>All values are in SI units!</b>
-
-@author Leonardo Uieda
-@date 24 Jan 2011
+All values are in SI units!
 */
 
 #include "constants.h"

@@ -1,40 +1,18 @@
-/* *****************************************************************************
-Copyright 2011 Leonardo Uieda
-
-Tesseroids is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Tesseroids is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
-***************************************************************************** */
-
-/** \file
+/*
 Functions that calculate the gravitational potential and its first and second
-derivatives for the rectangular prism
-
-Using the formulas in Nagy et al. (2000).
+derivatives for the rectangular prism using the formulas in Nagy et al. (2000).
 
 The coordinate system used is that of the article, ie:
 
 x -> North  y -> East  z -> Down
 
-<b>References</b>
+References
+----------
 
-- Nagy, D., Papp, G., Benedek, J. (2000): The gravitational potential and its derivatives for the prism. Journal of Geodesy, 74, 552–560.
-
-\todo Include formulas in function descriptions
-\todo Unroll loops in gx and gy
-
-@author Leonardo Uieda
-@date 01 March 2010
+* Nagy, D., Papp, G., Benedek, J. (2000): The gravitational potential and its
+  derivatives for the prism. Journal of Geodesy, 74, 552–560.
 */
+
 
 #ifndef _TESSEROIDS_GRAV_PRISM_H_
 #define _TESSEROIDS_GRAV_PRISM_H_

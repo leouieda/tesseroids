@@ -1,77 +1,50 @@
-/* *****************************************************************************
-Copyright 2011 Leonardo Uieda
-
-Tesseroids is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Tesseroids is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Tesseroids.  If not, see <http://www.gnu.org/licenses/>.
-***************************************************************************** */
-
-/** \file
+/*
 Functions for implementing a Gauss-Legendre Quadrature numerical integration
 (Hildebrand, 1987).
 
-\f[
-\int_a^b f(x) dx \approx \frac{b-a}{2} \displaystyle\sum_{i=0}^{N-1} w_i f(x_i)
-\f]
+Usage example
+-------------
 
-\f$ N \f$ is the order of the quadrature.
+To integrate the cossine function from 0 to 90 degrees:
 
-Usage example:
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <math.h>
+    #include "src/c/glq.h"
 
-To integrate the cossine function from 0 to 90 degrees
+    int main(){
+        // Create a new glq structure
+        GLQ *glq;
+        double result = 0, a = 0, b = 0.5*3.14;
+        int i;
 
-@code
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "src/c/glq.h"
+        glq = glq_new(5, a, b);
 
-int main(){
-    // Create a new glq structure
-    GLQ *glq;
-    double result = 0, a = 0, b = 0.5*3.14;
-    int i;
+        if(glq == NULL){
+            printf("malloc error");
+            return 1;
+        }
 
-    glq = glq_new(5, a, b);
+        // Calculate the integral
+        for(i = 0; i < glq->order; i++)
+            result += glq->weights[i]*cos(glq->nodes[i]);
 
-    if(glq == NULL){
-        printf("malloc error");
-        return 1;
+        // Need to multiply by a scale factor of the integration limits
+        result *= 0.5*(b - a);
+
+        printf("Integral of cossine from 0 to 90 degrees = %lf\n", result);
+
+        // Free allocated memory
+        glq_free(glq);
+
+        return 0;
     }
 
-    // Calculate the integral
-    for(i = 0; i < glq->order; i++)
-        result += glq->weights[i]*cos(glq->nodes[i]);
+References
+----------
 
-    // Need to multiply by a scale factor of the integration limits
-    result *= 0.5*(b - a);
-
-    printf("Integral of cossine from 0 to 90 degrees = %lf\n", result);
-
-    // Free allocated memory
-    glq_free(glq);
-
-    return 0;
-}
-@endcode
-
-<b>References</b>
-
-- Hildebrand, F.B (1987): Introduction to numerical analysis.
-Courier Dover Publications, 2. ed.
-
-
-@author Leonardo Uieda
-@date 24 Jan 2011
+* Hildebrand, F.B (1987): Introduction to numerical analysis.
+  Courier Dover Publications, 2. ed.
 */
 
 #ifndef _TESSEROIDS_GLQ_H_
