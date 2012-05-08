@@ -2,16 +2,16 @@
 
 .PHONY: simple_tess simple_prism tess2prism_flatten
 
-all: simple_tess simple_prism prism_flat_tess
+all: simple_tess simple_prism tess2prism_flatten
 
 tess2prism_flatten:
-	@cd tess2prism_flatten; bash tess2prism_flatten.sh; python plot.py output.txt 50 50
+	cd tess2prism_flatten; bash tess2prism_flatten.sh; python plot.py output.txt 50 50
 
 simple_tess:
-	@cd simple_tess; bash simple_tess.sh; python plot.py output.txt 50 50
+	cd simple_tess; bash simple_tess.sh; python plot.py output.txt 50 50
 	
 simple_prism:
-	@cd simple_prism; bash simple_prism.sh; python plot.py output.txt 50 50
+	cd simple_prism; bash simple_prism.sh; python plot.py output.txt 50 50
 
 clean: clean_simple_tess clean_simple_prism clean_tess2prism_flatten
 

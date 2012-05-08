@@ -1,6 +1,6 @@
 /*
 Data structures for geometric elements and functions that operate on them.
-Defines the TESSEROID, SPHERE and PRISM structures.
+Defines the TESSEROID, SPHERE, and PRISM structures.
 */
 
 
@@ -103,6 +103,10 @@ void tess2prism(TESSEROID tess, PRISM *prism)
        the same mass */
     prism->density = (double)tess.density*
                              tess_volume(tess)/prism_volume(*prism);
+    /* Set the coordinates of the center of the prisms top face */
+    prism->lon = 0.5*(tess.e + tess.w);
+    prism->lat = 0.5*(tess.n + tess.s);
+    prism->r = 0.5*(tess.r1 + tess.r2);
 }
 
 

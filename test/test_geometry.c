@@ -12,12 +12,38 @@ Unit tests for geometry module.
 char msg[1000];
 
 
-/* UNIT TESTS */
+static char * test_split_tess()
+{
+    TESSEROID tess = {1, 2, 4, -1, 1, 5, 7},
+              expect[] = {{1, 2, 3, -1, 0, 5, 6}, {1, 3, 4, -1, 0, 5, 6},
+                        {1, 2, 3, 0, 1, 5, 6}, {1, 3, 4, 0, 1, 5, 6},
+                        {1, 2, 3, -1, 0, 6, 7}, {1, 3, 4, -1, 0, 6, 7},
+                        {1, 2, 3, 0, 1, 6, 7}, {1, 3, 4, 0, 1, 6, 7}},
+              res[8];
+    int i;
+
+    split_tess(tess, res);    
+    for(i = 0; i < 8; i++)
+    {
+        sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
+                res[i].e, res[i].s, res[i].n, res[i].r1, res[i].r2,
+                res[i].density);
+        mu_assert(res[i].w == expect[i].w && res[i].e == expect[i].e &&
+                  res[i].s == expect[i].s && res[i].n == expect[i].n &&
+                  res[i].r1 == expect[i].r1 && res[i].r2 == expect[i].r2 &&
+                  res[i].density == expect[i].density, msg);
+    }
+    return 0;
+}
+
 
 static char * test_prism_volume()
 {
-    PRISM prisms[4] = {{0,0,1,0,1,0,1}, {0,0,2,0,1,0,1}, {0,0,2,0,2,0,2},
-                       {0,1,2,-1,1,2,3}};
+    PRISM prisms[4] = {
+        {0,0,1,0,1,0,1,0,0,0},
+        {0,0,2,0,1,0,1,0,0,0},
+        {0,0,2,0,2,0,2,0,0,0},
+        {0,1,2,-1,1,2,3,0,0,0}};
     double pvolumes[4] = {1, 2, 8, 2};
     double res;
     int i;
@@ -94,6 +120,9 @@ static char * test_tess2prism()
 {
     int i;
     double expect, res;
+    double lons[4] = {0.5, 185, 180, -2.5},
+           lats[4] = {0.5, 82.5, -80, 4},
+           rs[4] = {6000500, 6300500, 5750000, 6502500};
     PRISM prism;
     TESSEROID tesses[4] = {
         {1,0,1,0,1,6000000,6001000},
@@ -104,10 +133,29 @@ static char * test_tess2prism()
     for(i = 0; i <  4; i++)
     {
         tess2prism(tesses[i], &prism);
+        /* check the volume */
         res = prism_volume(prism);
         expect = tess_volume(tesses[i]);
         sprintf(msg, "(tess %d) expected volume %g, got %g", i, expect, res);
-        mu_assert_almost_equals(res/expect, 1., 0.01, msg);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.01, msg);
+        /* check the mass */
+        res *= prism.density;
+        expect *= tesses[i].density;
+        sprintf(msg, "(tess %d) expected mass %g, got %g", i, expect, res);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.01, msg);
+        /* check the coordinates */
+        res = prism.lon;
+        expect = lons[i];
+        sprintf(msg, "(tess %d) expected lon %g, got %g", i, expect, res);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
+        res = prism.lat;
+        expect = lats[i];
+        sprintf(msg, "(tess %d) expected lat %g, got %g", i, expect, res);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
+        res = prism.r;
+        expect = rs[i];
+        sprintf(msg, "(tess %d) expected r %g, got %g", i, expect, res);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
     }
     
     return 0;
@@ -131,7 +179,7 @@ static char * test_tess2prism_flatten()
         res = prism_volume(prism)*prism.density;
         expect = tess_volume(tesses[i])*tesses[i].density;
         sprintf(msg, "(tess %d) expected mass %g, got %g", i, expect, res);
-        mu_assert_almost_equals(res/expect, 1., 0.01, msg);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.01, msg);
     }
     
     return 0;
@@ -168,10 +216,10 @@ static char * test_prism2sphere()
     SPHERE sphere;
     int i;
     PRISM prisms[4] = {
-        {1,0,1000,0,2000,100,2000},
-        {1,-500,200,300,500,-1000,4000},
-        {1,-10000000,5000000,5000000,8000000,0,3000000},
-        {1,-1000000,50000,500000,800000,0,300000}};
+        {1,0,1000,0,2000,100,2000,0,0,0},
+        {1,-500,200,300,500,-1000,4000,0,0,0},
+        {1,-10000000,5000000,5000000,8000000,0,3000000,0,0,0},
+        {1,-1000000,50000,500000,800000,0,300000,0,0,0}};
 
     for(i = 0; i <  4; i++)
     {
@@ -182,31 +230,6 @@ static char * test_prism2sphere()
         mu_assert_almost_equals(res/expect, 1., 0.001, msg);
     }
 
-    return 0;
-}
-
-
-static char * test_split_tess()
-{
-    TESSEROID tess = {1, 2, 4, -1, 1, 5, 7},
-              expect[] = {{1, 2, 3, -1, 0, 5, 6}, {1, 3, 4, -1, 0, 5, 6},
-                        {1, 2, 3, 0, 1, 5, 6}, {1, 3, 4, 0, 1, 5, 6},
-                        {1, 2, 3, -1, 0, 6, 7}, {1, 3, 4, -1, 0, 6, 7},
-                        {1, 2, 3, 0, 1, 6, 7}, {1, 3, 4, 0, 1, 6, 7}},
-              res[8];
-    int i;
-
-    split_tess(tess, res);    
-    for(i = 0; i < 8; i++)
-    {
-        sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
-                res[i].e, res[i].s, res[i].n, res[i].r1, res[i].r2,
-                res[i].density);
-        mu_assert(res[i].w == expect[i].w && res[i].e == expect[i].e &&
-                  res[i].s == expect[i].s && res[i].n == expect[i].n &&
-                  res[i].r1 == expect[i].r1 && res[i].r2 == expect[i].r2 &&
-                  res[i].density == expect[i].density, msg);
-    }
     return 0;
 }
 

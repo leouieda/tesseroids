@@ -15,7 +15,7 @@ char msg[1000];
 static char * test_prism2sphere_pot()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -37,7 +37,7 @@ static char * test_prism2sphere_pot()
 static char * test_prism2sphere_gx()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
     
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -60,7 +60,7 @@ static char * test_prism2sphere_gx()
 static char * test_prism2sphere_gy()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -83,7 +83,7 @@ static char * test_prism2sphere_gy()
 static char * test_prism2sphere_gz()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -106,7 +106,7 @@ static char * test_prism2sphere_gz()
 static char * test_prism2sphere_gxx()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -129,7 +129,7 @@ static char * test_prism2sphere_gxx()
 static char * test_prism2sphere_gxy()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -152,7 +152,7 @@ static char * test_prism2sphere_gxy()
 static char * test_prism2sphere_gxz()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -175,7 +175,7 @@ static char * test_prism2sphere_gxz()
 static char * test_prism2sphere_gyy()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -198,7 +198,7 @@ static char * test_prism2sphere_gyy()
 static char * test_prism2sphere_gyz()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
@@ -221,7 +221,7 @@ static char * test_prism2sphere_gyz()
 static char * test_prism2sphere_gzz()
 {
     SPHERE sphere;
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000};
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
 
     /* Make a sphere with the same mass as the prism and put it at the origin */
