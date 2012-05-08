@@ -143,7 +143,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
             fclose(logfile);
         return 1;
     }    
-    model = read_prism_model(modelfile, &modelsize);
+    model = read_prism_model(modelfile, 0, &modelsize);
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
     {

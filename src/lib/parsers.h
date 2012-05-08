@@ -245,15 +245,28 @@ extern TESSEROID * read_tess_model(FILE *modelfile, int *size);
 extern int gets_prism(const char *str, PRISM *prism);
 
 
+/** Read a single rectangular prism  and the spherical coordinates of its top
+from a string
+
+@param str string with the tesseroid parameters
+@param prism used to return the read prism
+
+@return 0 if all went well, 1 if failed to read.
+*/
+extern int gets_prism_sph(const char *str, PRISM *prism);
+
+
 /** Read rectangular prisms from an open file and store them in an array.
 
 Allocates memory. Don't forget to free 'model'!
 
 @param modelfile open FILE for reading with the model
+@param pos if not 0 (true) will read the spherical coordinates of the top as
+well
 @param size used to return the size of the model read
 
 @return pointer to array with the model. NULL if there was an error
 */
-extern PRISM * read_prism_model(FILE *modelfile, int *size);
+extern PRISM * read_prism_model(FILE *modelfile, int pos, int *size);
 
 #endif
