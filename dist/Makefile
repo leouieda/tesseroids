@@ -66,4 +66,4 @@ win32: ${DOCS}
 	copy ..\LICENSE.txt ${DIRBASE}-win32
 
 clean:
-	rm -r ${DIRBASE} *.zip *.tar.gz
+	rm -rf ${DIRBASE} *.zip *.tar.gz
