@@ -6,6 +6,7 @@ Goals for 1.1:
 
 TODO:
 
+* Convert dem_brasil to a cookbook recipe
 * Clean up Doxygen markup from the comments and code
 * Check error in not rotating prism
 * Check error os using tesseroid in poles
