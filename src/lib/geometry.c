@@ -97,6 +97,8 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     prism->y1 = -0.5*dy;
     prism->y2 = 0.5*dy;
     /* r1 is not z1 because r1 is the bottom face */
+    /* WRONG!!! z1 = 0 because the center of the top is the origin and
+     * z2 = r2 - r1 */
     prism->z1 = MEAN_EARTH_RADIUS - tess.r2;
     prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
     /* Calculate the density of the prism so that they will have exactly
@@ -106,7 +108,7 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     /* Set the coordinates of the center of the prisms top face */
     prism->lon = 0.5*(tess.e + tess.w);
     prism->lat = 0.5*(tess.n + tess.s);
-    prism->r = 0.5*(tess.r1 + tess.r2);
+    prism->r = 0.5*(tess.r1 + tess.r2); /* WRONG!!! */
 }
 
 
@@ -118,7 +120,8 @@ void tess2prism_flatten(TESSEROID tess, PRISM *prism)
     prism->x2 = tess.n*111110.;
     prism->y1 = tess.w*111110.;
     prism->y2 = tess.e*111110.;
-    /* r1 is not z1 because r1 is the bottom face */
+    /* r1 is not z1 because r1 is the bottom face (because Nagy et al., 2000,
+    use z->Down) */
     prism->z1 = MEAN_EARTH_RADIUS - tess.r2;
     prism->z2 = MEAN_EARTH_RADIUS - tess.r1;
     /* Calculate the density of the prism so that they will have exactly

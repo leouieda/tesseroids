@@ -59,6 +59,14 @@ void print_help()
     printf("  * The file should contain one prism per line\n");
     printf("  * Each line should have the following column format:\n");
     printf("      X1 X2 Y1 Y2 Z1 Z2 Density\n");
+    printf("  * If calculating on spherical coordinates (option -g),\n");
+    printf("    the format should be:\n");
+    printf("      DX DY DZ Density lon lat r\n");
+    printf("    lon, lat, r are the spherical coordinates of the center of\n");
+    printf("    the top face of the prism. This point is the origin of the\n");
+    printf("    coordinate system defining the prism. Thus, X1, X2, etc,\n");
+    printf("    refer to this system (i.e., X1=-X2, Y1=-Y2, and Z1=0).\n");
+    printf("    \n");
     printf("  * If a line starts with # it will be considered a comment and\n");
     printf("    will be ignored.\n\n");
     printf("Options:\n");
