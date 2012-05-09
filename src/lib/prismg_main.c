@@ -31,7 +31,10 @@ void print_help()
         printf("Calculate the %s component due to a rectangular prism model on\n",
                 global_progname + 5);
     }
-    printf("specified observation points using Cartesian coordinates.\n\n");
+    printf("specified observation points using Cartesian or spherical\n");
+    printf("coordinates.\n\n");
+    printf("Cartesian coordinates are the default. To calculate using\n");
+    printf("spherical coordinates, use option -g.\n\n");
     printf("All input units are SI! Output is SI, mGal or Eotvos.\n\n");
     printf("Coordinates:\n");
     printf("  The coordinate system for the prism is x->North, y->East\n");
@@ -39,8 +42,11 @@ void print_help()
     printf("Input:\n");
     printf("  Computation points passed through standard input (stdin).\n");
     printf("  Reads 3 or more values per line and inteprets the first 3 as:\n");
-    printf("    Easting (y), Northing (x) and height coordinates of a\n");
-    printf("  computation point. Other values in the line are ignored.\n");
+    printf("    Easting(y) Northing(x) height \n");
+    printf("  (the coordinates of a computation point).\n");
+    printf("  If option -g is used, input is (in degrees and meters):\n");
+    printf("    lon lat height\n");
+    printf("  Other values in the line are ignored.\n");
     printf("  Lines that start with # are ignored as comments.\n");
     printf("  Lines should be no longer than 10000 (ten thousand) characters.");
     printf("  \n\n");
@@ -51,12 +57,14 @@ void print_help()
     printf("  ignored. In other words, the result is appended to the last\n");
     printf("  column of the input. Use this to pipe prismg* programs\n");
     printf("  together.\n\n");
-    printf("  * Comments about the provenance of the data are inserted into\n");
-    printf("    the top of the output\n\n");
+    printf("  Comments about the provenance of the data are inserted into\n");
+    printf("  the top of the output\n\n");
     printf("MODELFILE: File containing the prism model\n");
     printf("  * Each prism is specified by the values of its borders\n");
     printf("    and density\n");
     printf("  * The file should contain one prism per line\n");
+    printf("  * If a line starts with # it will be considered a comment and\n");
+    printf("    will be ignored.\n");
     printf("  * Each line should have the following column format:\n");
     printf("      X1 X2 Y1 Y2 Z1 Z2 Density\n");
     printf("  * If calculating on spherical coordinates (option -g),\n");
@@ -64,12 +72,11 @@ void print_help()
     printf("      DX DY DZ Density lon lat r\n");
     printf("    lon, lat, r are the spherical coordinates of the center of\n");
     printf("    the top face of the prism. This point is the origin of the\n");
-    printf("    coordinate system defining the prism. Thus, X1, X2, etc,\n");
-    printf("    refer to this system (i.e., X1=-X2, Y1=-Y2, and Z1=0).\n");
-    printf("    \n");
-    printf("  * If a line starts with # it will be considered a comment and\n");
-    printf("    will be ignored.\n\n");
+    printf("    coordinate system defining the prism. DX, DY, and DZ are\n");
+    printf("    the width, depth, and height of the prism.\n\n");
     printf("Options:\n");
+    printf("  -g           Use spherical coordinates instead of Cartesian.\n");
+    printf("               WARNING: computations will be slower.\n");
     printf("  -h           Print instructions.\n");
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");

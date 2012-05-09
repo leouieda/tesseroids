@@ -114,16 +114,19 @@ static char * test_gets_prism_sph()
     char str[1000];
     PRISM res;
     PRISM prisms[4] = {
-        {1,0,1000,0,2000,100,2000,2,3,1},
-        {1,-500,200,300,500,-1000,4000,-3,1.2344,18.048},
-        {1,-10000000,5000000,5000000,8000000,0,3000000,2123.2,2,45.33},
-        {1,-1000000,50000,500000,800000,0,300000,783.245,3.57,345}};
+        {1,-1000,1000,-2000,2000,0,2000,2,3,1},
+        {1,-500,500,-500,500,0,4000,-3,1.2344,18.048},
+        {1,-10000000,10000000,-8000000,8000000,0,3000000,2123.2,2,45.33},
+        {1,-50000,50000,-800000,800000,0,300000,783.245,3.57,345}};
 
     for(i = 0; i < 4; i++)
     {
-        sprintf(str, "%g %g %g %g %g %g %g %g %g %g",
-                prisms[i].x1, prisms[i].x2, prisms[i].y1, prisms[i].y2,
-                prisms[i].z1, prisms[i].z2, prisms[i].density,
+        
+        sprintf(str, "%g %g %g %g %g %g %g",
+                prisms[i].x2 - prisms[i].x1,
+                prisms[i].y2 - prisms[i].y1, 
+                prisms[i].z2 - prisms[i].z1,
+                prisms[i].density,
                 prisms[i].lon, prisms[i].lat, prisms[i].r);
 
         if(gets_prism_sph(str, &res))
