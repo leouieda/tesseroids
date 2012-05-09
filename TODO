@@ -8,8 +8,6 @@ Goals for 1.1:
 
 TODO:
 
-* Fix prism help msg
-
 * Convert dem_brasil to a cookbook recipe
 * Clean up Doxygen markup from the comments and code
 * Check error in not rotating prism

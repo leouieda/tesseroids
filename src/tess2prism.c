@@ -146,14 +146,15 @@ int main(int argc, char **argv)
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   tesseroids file: %s\n", rc == 3 ? "stdin" : args.inputfname);
     printf("#   conversion type: %s\n",
-            args.flatten ? "flatten" : "equal volume");
+        args.flatten ? "equal mass|flatten" :
+                       "equal mass|spherical coordinates");
     if(args.flatten)
     {
         printf("#   format: x1 x2 y1 y2 z1 z2 density\n");
     }
     else
     {
-        printf("#   format: x1 x2 y1 y2 z1 z2 density lon lat r\n");
+        printf("#   format: dx dy dz density lon lat r\n");
     }
     
     /* Read the tesseroids, convert and print to stdout */    
@@ -194,10 +195,10 @@ int main(int argc, char **argv)
             else
             {
                 tess2prism(tess, &prism);
-                printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
-                       prism.x1, prism.x2, prism.y1, prism.y2, prism.z1,
-                       prism.z2, prism.density,
-                       0.5*(tess.e + tess.w), 0.5*(tess.n + tess.s), tess.r2);
+                printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
+                       prism.x2 - prism.x1, prism.y2 - prism.y1,
+                       prism.z2 - prism.z1, prism.density,
+                       prism.lon, prism.lat, prism.r);
             }
             converted++;
         }
