@@ -90,9 +90,10 @@ void print_help()
 
 /* Run the main for a generic prismg* program */
 int run_prismg_main(int argc, char **argv, const char *progname,
-                    double (*field)(PRISM, double, double, double))
+                    double (*field)(PRISM, double, double, double),
+                    double (*field_sph)(PRISM, double, double, double))
 {
-    BASIC_ARGS args;
+    PRISM_ARGS args;
     PRISM *model;
     int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0, i;
     char buff[10000];
@@ -104,7 +105,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     
     log_init(LOG_INFO);
     strcpy(global_progname, progname);
-    rc = parse_basic_args(argc, argv, progname, &args, &print_help);
+    rc = parse_prism_args(argc, argv, progname, &args, &print_help);
     if(rc == 3)
     {
         log_error("%s: missing input file", progname);
@@ -144,7 +145,9 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    log_info("(local time) %s", asctime(timeinfo));
+    log_info("(local time) %s", asctime(timeinfo));    
+    log_info("Calculating on %s coordinates.",
+        args.spherical ? "spherical" : "Cartesian");
     
     /* Read the model file */
     log_info("Reading prism model from file %s", args.inputfname);
@@ -157,8 +160,8 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         if(args.logtofile)
             fclose(logfile);
         return 1;
-    }    
-    model = read_prism_model(modelfile, 0, &modelsize);
+    }
+    model = read_prism_model(modelfile, args.spherical, &modelsize);
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
     {
@@ -184,6 +187,8 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     }
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   model file: %s (%d prisms)\n", args.inputfname, modelsize);
+    printf("#   coordinates: %s\n",
+        args.spherical ? "spherical" : "Cartesian");
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
@@ -214,13 +219,26 @@ int run_prismg_main(int argc, char **argv, const char *progname,
                 bad_input++;
                 continue;
             }
+            if(args.spherical)
+            {
+                log_error("spherical coordinates not allowed yet");
+                error_exit = 1;
+                break;
+                for(res = 0, i = 0; i < modelsize; i++)
+                {
+                    res += field_sph(model[i], x, y, -height);
+                }
+            }
+            else
+            {
+                for(res = 0, i = 0; i < modelsize; i++)
+                {
+                    res += field(model[i], x, y, -height);
+                }
+            }
             /* Need to remove \n and \r from end of buff first to print the
                result in the end */
             strstrip(buff);
-            for(res = 0, i = 0; i < modelsize; i++)
-            {
-                res += field(model[i], x, y, -height);
-            }
             printf("%s %.15g\n", buff, res);
             points++;
         }

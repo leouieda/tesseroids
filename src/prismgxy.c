@@ -10,5 +10,5 @@ Program to calculate gxy of a rectangular prism model on a set of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_prismg_main(argc, argv, "prismgxy", &prism_gxy);
+    return run_prismg_main(argc, argv, "prismgxy", &prism_gxy, &prism_gxy);
 }
