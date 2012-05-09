@@ -122,7 +122,8 @@ static char * test_tess2prism()
     double expect, res;
     double lons[4] = {0.5, 185, 180, -2.5},
            lats[4] = {0.5, 82.5, -80, 4},
-           rs[4] = {6000500, 6300500, 5750000, 6502500};
+           rs[4] = {6001000, 6301000, 6000000, 6505000},
+           zs[4] = {1000, 1000, 500000, 5000};
     PRISM prism;
     TESSEROID tesses[4] = {
         {1,0,1,0,1,6000000,6001000},
@@ -155,6 +156,14 @@ static char * test_tess2prism()
         res = prism.r;
         expect = rs[i];
         sprintf(msg, "(tess %d) expected r %g, got %g", i, expect, res);
+        mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
+        res = prism.z1;
+        expect = 0.;
+        sprintf(msg, "(tess %d) expected z1 %g, got %g", i, expect, res);
+        mu_assert_almost_equals(res, 0., 0.000000000000001, msg);
+        res = prism.z2;
+        expect = zs[i];
+        sprintf(msg, "(tess %d) expected z2 %g, got %g", i, expect, res);
         mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
     }
     
