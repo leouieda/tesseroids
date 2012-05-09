@@ -11,8 +11,7 @@ a spherical prism, also called a tesseroid.
 *Tesseroids* also contains programs for modeling using
 right rectangular prisms, both in Cartesian and spherical coordinates.
 
-*Tesseroids* is coded in the C programming language.
-It is developed by `Leonardo Uieda`_
+*Tesseroids* is developed by `Leonardo Uieda`_
 in cooperation with Carla Braitenberg.
 
 As of version 1.1,

@@ -16,8 +16,7 @@ right rectangular prisms, both in Cartesian and spherical coordinates.
     :align: center
     :width: 300px
     
-*Tesseroids* is coded in the C programming language.
-It is developed by `Leonardo Uieda`_
+*Tesseroids* is developed by `Leonardo Uieda`_
 in cooperation with `Carla Braitenberg`_.
 
 As of version 1.1,
@@ -25,6 +24,16 @@ As of version 1.1,
 This means that it can be reused and remixed
 with fewer restrictions.
 See the license text for more information.
+
+The source code of *Tesseroids* is hosted on several repositories:
+
+* `Google Code`_: source code and compiled binaries (latest stable release)
+* `Bitbucket Stable`_: source code (latest stable release)
+* `Bitbucket Development`_: source code (development version)
+
+.. _Google Code: http://code.google.com/p/tesseroids/
+.. _Bitbucket Stable: https://bitbucket.org/leouieda/tesseroids
+.. _Bitbucket Development: https://bitbucket.org/leouieda/tesseroids-dev
 
 This documentation explains how to
 :ref:`install <install>`

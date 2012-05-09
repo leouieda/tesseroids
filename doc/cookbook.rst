@@ -9,6 +9,7 @@ that comes with your *Tesseroids* download
     
 
 .. toctree::
+    :maxdepth: 1
     :glob:
     
     recipes/*
