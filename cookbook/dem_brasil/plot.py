@@ -5,7 +5,7 @@ from mpl_toolkits.basemap import Basemap
 
 # Plot the DEM and density maps
 ################################################################################
-lons, lats, heights, dens = numpy.loadtxt('dem-10min-dens.xyz', unpack=True)
+lons, lats, heights, dens = numpy.loadtxt('dem-dens.txt', unpack=True)
 nlons = 151  # Number of points in the longitude direction
 nlats = len(lats)/nlons
 
@@ -49,7 +49,7 @@ areax, areay = bm([w, w, e, e, w], \
 bm.plot(areax, areay, '-r', label="Computation grid", linewidth=1.8)
 pylab.legend(shadow=True, loc='lower right', prop={'size':10})
 # Save a png figure
-pylab.savefig('dem-10min.png')
+pylab.savefig('dem.png')
 
 # Now plot the densities
 print "Plotting density model"
@@ -66,12 +66,12 @@ cf = bm.pcolor(glons, glats, gdens, cmap=pylab.cm.jet)
 cb = pylab.colorbar()
 cb.set_label(r"Density [$g.cm^{-3}$]")
 # Save a png figure
-pylab.savefig('dem-10min-dens.png')
+pylab.savefig('dem-dens.png')
 
 # Plot the GGT
 ################################################################################
 print "Plotting GGT"
-data = numpy.loadtxt('dem-10min-ggt.xyz')
+data = numpy.loadtxt('dem-ggt.txt')
 lons, lats, heights, gxx, gxy, gxz, gyy, gyz, gzz = data.T
 nlons = 50  # Number of points in the longitude direction
 nlats = len(lats)/nlons
@@ -114,4 +114,6 @@ for i, args in enumerate(zip(fields, titles)):
     cb = pylab.colorbar(orientation='vertical', format='%.2f', shrink=0.8)
     cb.set_label(r"$E\"otv\"os$")
 # Save a png figure
-pylab.savefig('dem-10min-ggt.png')
+pylab.savefig('dem-ggt.png')
+
+pylab.show()
