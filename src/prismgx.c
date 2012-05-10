@@ -10,5 +10,5 @@ Program to calculate gx of a rectangular prism model on a set of points.
 /** Main */
 int main(int argc, char **argv)
 {
-    return run_prismg_main(argc, argv, "prismgx", &prism_gx, &prism_gx);
+    return run_prismg_main(argc, argv, "prismgx", &prism_gx);
 }

@@ -26,7 +26,6 @@ extern void print_help();
 @return 0 is all went well. 1 if failed.
 */
 extern int run_prismg_main(int argc, char **argv, const char *progname,
-                           double (*field)(PRISM, double, double, double),
-                           double (*field_sph)(PRISM, double, double, double));
+                           double (*field)(PRISM, double, double, double));
 
 #endif

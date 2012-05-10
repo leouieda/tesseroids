@@ -2,8 +2,9 @@ Goals for 1.1:
 
 * Make tessmodgen accept 2 grids instead of just a reference and fill in between
   with tesseroids 
-* Add -g flag to prism* programs to calculate the prism effects in spherical
-  coordinates
+* Add programs prismpots, prismgs, and prismggs, to calculate the prism effects
+  in spherical coordinates
+  (have to be separate programs because to rotate i need all components)
 * Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
 
 TODO:

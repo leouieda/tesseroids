@@ -31,21 +31,16 @@ void print_help()
         printf("Calculate the %s component due to a rectangular prism model on\n",
                 global_progname + 5);
     }
-    printf("specified observation points using Cartesian or spherical\n");
-    printf("coordinates.\n\n");
-    printf("Cartesian coordinates are the default. To calculate using\n");
-    printf("spherical coordinates, use option -g.\n\n");
+    printf("specified observation points using Cartesian coordinates.\n\n");
     printf("All input units are SI! Output is SI, mGal or Eotvos.\n\n");
-    printf("Coordinates:\n");
+    printf("Coordinate system:\n");
     printf("  The coordinate system for the prism is x->North, y->East\n");
     printf("  and z->Down\n\n");
     printf("Input:\n");
     printf("  Computation points passed through standard input (stdin).\n");
     printf("  Reads 3 or more values per line and inteprets the first 3 as:\n");
     printf("    Easting(y) Northing(x) height \n");
-    printf("  (the coordinates of a computation point).\n");
-    printf("  If option -g is used, input is (in degrees and meters):\n");
-    printf("    lon lat height\n");
+    printf("  (the coordinates of a computation point in meters).\n");
     printf("  Other values in the line are ignored.\n");
     printf("  Lines that start with # are ignored as comments.\n");
     printf("  Lines should be no longer than 10000 (ten thousand) characters.");
@@ -55,7 +50,7 @@ void print_help()
     printf("    y x height ... result\n");
     printf("  ... represents any values that were read from input and\n");
     printf("  ignored. In other words, the result is appended to the last\n");
-    printf("  column of the input. Use this to pipe prismg* programs\n");
+    printf("  column of the input. Use this to pipe prism* programs\n");
     printf("  together.\n\n");
     printf("  Comments about the provenance of the data are inserted into\n");
     printf("  the top of the output\n\n");
@@ -66,17 +61,8 @@ void print_help()
     printf("  * If a line starts with # it will be considered a comment and\n");
     printf("    will be ignored.\n");
     printf("  * Each line should have the following column format:\n");
-    printf("      X1 X2 Y1 Y2 Z1 Z2 Density\n");
-    printf("  * If calculating on spherical coordinates (option -g),\n");
-    printf("    the format should be:\n");
-    printf("      DX DY DZ Density lon lat r\n");
-    printf("    lon, lat, r are the spherical coordinates of the center of\n");
-    printf("    the top face of the prism. This point is the origin of the\n");
-    printf("    coordinate system defining the prism. DX, DY, and DZ are\n");
-    printf("    the width, depth, and height of the prism.\n\n");
+    printf("      X1 X2 Y1 Y2 Z1 Z2 Density\n\n");
     printf("Options:\n");
-    printf("  -g           Use spherical coordinates instead of Cartesian.\n");
-    printf("               WARNING: computations will be slower.\n");
     printf("  -h           Print instructions.\n");
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");
@@ -90,10 +76,9 @@ void print_help()
 
 /* Run the main for a generic prismg* program */
 int run_prismg_main(int argc, char **argv, const char *progname,
-                    double (*field)(PRISM, double, double, double),
-                    double (*field_sph)(PRISM, double, double, double))
+                    double (*field)(PRISM, double, double, double))
 {
-    PRISM_ARGS args;
+    BASIC_ARGS args;
     PRISM *model;
     int modelsize, rc, line, points = 0, error_exit = 0, bad_input = 0, i;
     char buff[10000];
@@ -105,7 +90,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     
     log_init(LOG_INFO);
     strcpy(global_progname, progname);
-    rc = parse_prism_args(argc, argv, progname, &args, &print_help);
+    rc = parse_basic_args(argc, argv, progname, &args, &print_help);
     if(rc == 3)
     {
         log_error("%s: missing input file", progname);
@@ -145,9 +130,7 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    log_info("(local time) %s", asctime(timeinfo));    
-    log_info("Calculating on %s coordinates.",
-        args.spherical ? "spherical" : "Cartesian");
+    log_info("(local time) %s", asctime(timeinfo));
     
     /* Read the model file */
     log_info("Reading prism model from file %s", args.inputfname);
@@ -160,8 +143,8 @@ int run_prismg_main(int argc, char **argv, const char *progname,
         if(args.logtofile)
             fclose(logfile);
         return 1;
-    }
-    model = read_prism_model(modelfile, args.spherical, &modelsize);
+    }    
+    model = read_prism_model(modelfile, 0, &modelsize);
     fclose(modelfile);
     if(modelsize == 0 || model == NULL)
     {
@@ -187,8 +170,6 @@ int run_prismg_main(int argc, char **argv, const char *progname,
     }
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   model file: %s (%d prisms)\n", args.inputfname, modelsize);
-    printf("#   coordinates: %s\n",
-        args.spherical ? "spherical" : "Cartesian");
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
@@ -219,26 +200,13 @@ int run_prismg_main(int argc, char **argv, const char *progname,
                 bad_input++;
                 continue;
             }
-            if(args.spherical)
-            {
-                log_error("spherical coordinates not allowed yet");
-                error_exit = 1;
-                break;
-                for(res = 0, i = 0; i < modelsize; i++)
-                {
-                    res += field_sph(model[i], x, y, -height);
-                }
-            }
-            else
-            {
-                for(res = 0, i = 0; i < modelsize; i++)
-                {
-                    res += field(model[i], x, y, -height);
-                }
-            }
             /* Need to remove \n and \r from end of buff first to print the
                result in the end */
             strstrip(buff);
+            for(res = 0, i = 0; i < modelsize; i++)
+            {
+                res += field(model[i], x, y, -height);
+            }
             printf("%s %.15g\n", buff, res);
             points++;
         }
