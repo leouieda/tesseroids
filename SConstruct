@@ -36,6 +36,18 @@ for f in fields:
     sources = ['src/prism%s.c' % (f)] + tesssrc
     env.Program('bin/prism%s' % (f), source=sources)
     
+# Build prismpots, prismgs, and prismggts
+env.Program('bin/prismpots', source=Split("""
+    src/prismpots.c
+    src/lib/grav_prism_sph.c
+    src/lib/grav_prism.c
+    src/lib/logger.c
+    src/lib/version.c
+    src/lib/constants.c
+    src/lib/geometry.c
+    src/lib/parsers.c
+    """))    
+    
 # Build tess2prism
 env.Program('bin/tess2prism', source=Split("""
     src/tess2prism.c
