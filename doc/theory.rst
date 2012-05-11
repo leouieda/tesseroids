@@ -325,8 +325,8 @@ Which gives us
     x\\y\\z
     \end{bmatrix}
 
-Finally, Nagy et al. (2000) use the z axis pointing down,
-so we invert the sign of :math:`z`.
+.. note:: Nagy et al. (2000) use the z axis pointing down,
+    so we still need to invert the sign of :math:`z`.
 
 Vector :math:`\bar{e}` can then be used
 with the Nagy et al. (2000) formula.
