@@ -326,14 +326,15 @@ around the y and z axis, respectively
 .. math::
     \bar{\bar{W}} =
     \begin{bmatrix}
-    \cos (90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
+    \cos(90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
     -\cos(90^\circ - \phi^*)\sin(180^\circ - \lambda^*) &
     \sin(90^\circ - \phi^*)
     \\    
     -\sin(180^\circ - \lambda^*) &
     -\cos(180^\circ - \lambda^*) &
-    0\\
-    -\sin (90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
+    0
+    \\
+    -\sin(90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
     \sin(90^\circ - \phi^*)\sin(180^\circ - \lambda^*) &
     \cos(90^\circ - \phi^*)
     \end{bmatrix}
@@ -411,6 +412,55 @@ in the coordinate system of computation point P.
         \bar{\bar{R}}_z(\lambda^* - \lambda)
         \bar{\bar{R}}_y(\phi^* - 90^\circ)
         \bar{\bar{P}}_y
+
+.. math::
+    \bar{\bar{R}} =
+    \begin{bmatrix}
+    \cos\beta\cos\alpha\cos\gamma - \sin\alpha\sin\gamma &
+    \sin\beta\cos\alpha &
+    \cos\beta\cos\alpha\sin\gamma + \sin\alpha\cos\gamma
+    \\    
+    -\sin\beta\cos\gamma &
+    \cos\beta &
+    -\sin\beta\sin\gamma
+    \\
+    -\cos\beta\sin\alpha\cos\gamma - \cos\alpha\sin\gamma &
+    -\sin\beta\sin\alpha &
+    -\cos\beta\sin\alpha\sin\gamma + \cos\alpha\cos\gamma
+    \end{bmatrix}
+
+.. math::
+    \bar{\bar{R}} =
+    \begin{bmatrix}
+    \cos\beta\sin\phi\sin\phi^* + \cos\phi\cos\phi^* &
+    \sin\beta\sin\phi &
+    -\cos\beta\sin\phi\cos\phi^* + \cos\phi\sin\phi^*
+    \\    
+    -\sin\beta\sin\phi^* &
+    \cos\beta &
+    \sin\beta\cos\phi^*
+    \\
+    -\cos\beta\cos\phi\sin\phi^* + \sin\phi\cos\phi^* &
+    -\sin\beta\cos\phi &
+    \cos\beta\cos\phi\cos\phi^* + \sin\phi\sin\phi^*
+    \end{bmatrix}
+
+
+where
+
+.. math::
+   :nowrap:
+   
+    \begin{eqnarray*}
+        &\alpha = 90^\circ - \phi \\
+        &\beta = \lambda^* - \lambda \\
+        &\gamma = \phi^* - 90^\circ \\
+        &\cos\alpha = \sin\phi \\
+        &\sin\alpha = \cos\phi \\
+        &\cos\gamma = \sin\phi^* \\
+        &\sin\gamma = -\cos\phi^*
+    \end{eqnarray*}
+        
 
 Likewise,
 transformation for the gravity gradient tensor :math:`T` is
