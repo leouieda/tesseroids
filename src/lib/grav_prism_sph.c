@@ -22,6 +22,27 @@ References
 int global2local(double lon, double lat, double r, PRISM prism, double *x,
                  double *y, double *z)
 {
+    double cosa, cosb, sina, sinb, d2r, X, Y, Z;
+
+    /* degrees to radians */
+    d2r = PI/180.;
+
+    X = r*cos(d2r*lat)*cos(d2r*lon) -
+        prism.r*cos(d2r*prism.lat)*cos(d2r*prism.lon);
+    Y = r*cos(d2r*lat)*sin(d2r*lon) -
+        prism.r*cos(d2r*prism.lat)*sin(d2r*prism.lon);
+    Z = r*sin(d2r*lat) - prism.r*sin(d2r*prism.lat);
+
+    cosa = cos(d2r*(90 - prism.lat));
+    sina = sin(d2r*(90 - prism.lat));
+    cosb = cos(d2r*(180 - prism.lon));
+    sinb = sin(d2r*(180 - prism.lon));
+
+    *x = X*cosa*cosb - Y*cosa*sinb + Z*sina;
+    *y = -X*sinb - Y*cosb;
+    /* -1 because Nagy et al. (2000) use z->down */
+    *z = -1*(-X*sina*cosb + Y*sina*sinb + Z*cosa);
+    
     return 0;
 }
 

@@ -12,6 +12,35 @@ Unit tests for grav_prism.c functions.
 
 char msg[1000];
 
+
+/* Test coordinate transformation */
+static char * test_global2local()
+{
+    #define R 6378137.0
+    #define N 3
+    PRISM prisms[N] = {
+        {3000,-5000,5000,-5000,5000,0,5000, 2.45, -36.32, R},
+        {2000,-3000,3000,-2000,2000,0,800, -45.45, -103.1, R},
+        {1000,-2000,2000,-1000,1000,0,234, -80.45, 183.2, R}};
+    double x, y, z, newz[N] = {-3000, 1234, -2.3456};
+    int i;
+
+    for(i = 0; i < N; i++)
+    {
+        global2local(prisms[i].lon, prisms[i].lat, R - newz[i], prisms[i],
+                     &x, &y, &z);
+        sprintf(msg, "(prism %d) x: expect %.10g got %.10g", i, 0., x);
+        mu_assert_almost_equals(x, 0., 0.000000001, msg);
+        sprintf(msg, "(prism %d) y: expect %.10g got %.10g", i, 0., y);
+        mu_assert_almost_equals(y, 0., 0.000000001, msg);
+        sprintf(msg, "(prism %d) z: expect %.10g got %.10g", i, newz[i], z);
+        mu_assert_almost_equals(z, newz[i], 0.000000001, msg);        
+    }
+    #undef R
+    #undef N
+    return 0;    
+}
+
 /* Test agains grav_prism */
 static char * test_prism_pot_sph()
 {
@@ -90,4 +119,6 @@ void grav_prism_sph_run_all()
             "prism_g_sph results equal to prism_gx, etc, when on top of prism");
     mu_run_test(test_prism_ggt_sph,
         "prism_ggt_sph results equal to prism_gxx, etc, when on top of prism");
+    mu_run_test(test_global2local,
+        "global2local returns correct result");
 }
