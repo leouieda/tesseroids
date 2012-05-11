@@ -85,3 +85,6 @@ env.Program('bin/tessmodgen', source=Split("""
 sources = ['test/test_all.c']
 sources.extend(Glob("src/lib/*.c"))
 tesstest = env.Program('bin/tesstest', source=sources)
+
+# When cleaning the build, also clean the doc build
+Clean('.', 'doc/_build/')

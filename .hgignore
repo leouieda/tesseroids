@@ -4,11 +4,6 @@ syntax: glob
 bin
 *.o
 *.pyc
-build
 doc/_build
-examples/dem_brasil/dem_brasil_example.aux
-examples/dem_brasil/dem_brasil_example.log
-examples/dem_brasil/dem_brasil_example.out
 dist/*.zip
 dist/*.tar.gz
-*.geany

@@ -19,7 +19,7 @@ int main()
 {    
     clock_t start = clock();
     
-    log_init(LOG_DEBUG);
+    log_init(LOG_INFO);
     
     glq_run_all();
     geometry_run_all();
