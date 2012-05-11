@@ -196,9 +196,11 @@ can be calculated in Cartesian coordinates
 using the formula of Nagy et al. (2000).
 
 However, several transformations have to made
-in order to calculate the fields
+in order to calculate the fields of a prism
 in a global coordinate system
-using spherical coordinates.
+using spherical coordinates (see :ref:`this figure <prism-coordinates>`).
+
+.. _prism-coordinates:
 
 .. figure:: _static/prism-coordinates.png
     :align: center
@@ -215,6 +217,48 @@ using spherical coordinates.
     the radius, latitude, and longitude, respectively.
 
 
+The formula of Nagy et al. (2000)
+require that the computation point
+be given in the Cartesian coordinates of the prism
+(:math:`x^*,\ y^*,\ z^*` in :ref:`this figure <prism-coordinates>`).
+Therefore, we must first transform
+the spherical coordinates (:math:`r,\ \phi,\ \lambda`)
+of the computation point P
+into :math:`x^*,\ y^*,\ z^*`.
+This means that we must convert vector :math:`\bar{e}`
+(from :ref:`this other figure <prism-vectors>`)
+to the coordinate system of the prism.
+We must first obtain vector :math:`\bar{e}`
+in the global Cartesian coordinates (X, Y, Z):
+
+.. math::
+
+    \bar{e}^g = \bar{E} - \bar{E}^*
+
+where :math:`\bar{e}^g` is the vector :math:`\bar{e}`
+in the global Cartesian coordinates and 
+
+.. math::
+
+    \bar{E} =
+    \begin{bmatrix}
+        r \cos\phi\cos\lambda \\
+        r \cos\phi\sin\lambda \\
+        r \sin\phi
+    \end{bmatrix}
+
+.. math::
+
+    \bar{E}^* =
+    \begin{bmatrix}
+        r^* \cos\phi^*\cos\lambda^* \\
+        r^* \cos\phi^*\sin\lambda^* \\
+        r^* \sin\phi^*
+    \end{bmatrix}
+
+
+.. _prism-vectors:
+
 .. figure:: _static/prism-vectors.png
     :align: center
     :width: 300px
@@ -222,14 +266,143 @@ using spherical coordinates.
 
     The position vectors
     involved in the coordinate transformations.
-    :math:`E^*` is the position vector of point Q
+    :math:`\bar{E}^*` is the position vector of point Q
     in the global coordinate system,
-    :math:`E` is the position vector of point P
+    :math:`\bar{E}` is the position vector of point P
     in the global coordinate system,
-    and :math:`e` is the position vector of point P
+    and :math:`\bar{e}` is the position vector of point P
     in the local coordinate system of the prism
     (:math:`x^*,\ y^*,\ z^*`).    
-    
+
+
+Next, we transform :math:`\bar{e}^g`
+to the local Cartesian system of the prism by
+
+.. math::
+
+    \bar{e} = \bar{\bar{P}}_y \bar{\bar{R}}_y(90^\circ - \phi^*)
+        \bar{\bar{R}}_z(180^\circ - \lambda^*)\bar{e}^g
+
+where :math:`\bar{\bar{P}}_y` is a deflection matrix of the y axis,
+:math:`\bar{\bar{R}}_y` and :math:`\bar{\bar{R}}_z` are
+counterclockwise rotation matrices
+around the y and z axis, respectively
+(see `Wolfram MathWorld`_).
+
+.. math::
+
+    \bar{\bar{P}}_y =
+    \begin{bmatrix}
+    1 & 0 & 0\\
+    0 & -1 & 0\\
+    0 & 0 & 1\\
+    \end{bmatrix}
+
+.. math::
+
+    \bar{\bar{R}}_y(\alpha) =
+    \begin{bmatrix}
+    \cos\alpha & 0 & \sin\alpha\\
+    0 & 1 & 0\\
+    -\sin\alpha & 0 & \cos\alpha\\
+    \end{bmatrix}
+
+.. math::
+
+    \bar{\bar{R}}_z(\alpha) =
+    \begin{bmatrix}
+    \cos\alpha & -\sin\alpha & 0\\
+    \sin\alpha & \cos\alpha & 0\\
+    0 & 0 & 1\\
+    \end{bmatrix}
+
+Which gives us
+
+.. math::
+
+    \bar{e} =
+    \begin{bmatrix}
+    x\\y\\z
+    \end{bmatrix}
+
+Finally, Nagy et al. (2000) use the z axis pointing down,
+so we invert the sign of :math:`z`.
+
+Vector :math:`\bar{e}` can then be used
+with the Nagy et al. (2000) formula.
+These formula give us the gravitational attraction
+and the gravity gradient tensor
+calculated with respect to the coordinate system of the prism
+(i.e., :math:`x^*,\ y^*,\ z^*`).
+However, we need them in
+the coordinate system of the observation point P,
+where they are measured by GOCE_ and
+calculated for the tesseroids.
+We perform these transformations via the global Cartesian system
+(tip: the rotation matrices are orthogonal).
+:math:`\bar{g}^*` is the gravity vector
+in the coordinate system of the prism,
+:math:`\bar{g}^g` is the gravity vector
+in the global coordinate system,
+and :math:`\bar{g}` is the gravity vector
+in the coordinate system of computation point P.
+
+.. math::
+
+    \bar{g}^g =  
+        \bar{\bar{R}}_z(\lambda^* - 180^\circ)
+        \bar{\bar{R}}_y(\phi^* - 90^\circ)
+        \bar{\bar{P}}_y
+        \bar{g}^*
+
+.. math::
+
+    \bar{g} = \bar{\bar{P}}_y \bar{\bar{R}}_y(90^\circ - \phi)
+        \bar{\bar{R}}_z(180^\circ - \lambda)\bar{g}^g
+
+.. math::
+
+    \bar{g} =
+        \bar{\bar{P}}_y
+        \bar{\bar{R}}_y(90^\circ - \phi)
+        \underbrace{
+            \bar{\bar{R}}_z(180^\circ - \lambda)
+            \bar{\bar{R}}_z(\lambda^* - 180^\circ)
+        }_{
+            \bar{\bar{R}}_z(\lambda^* - \lambda)
+        }
+        \bar{\bar{R}}_y(\phi^* - 90^\circ)
+        \bar{\bar{P}}_y
+        \bar{g}^*
+
+.. math::
+
+    \bar{g} =
+        \bar{\bar{R}}
+        \bar{g}^*
+
+.. math::
+
+    \bar{\bar{R}} = 
+        \bar{\bar{P}}_y
+        \bar{\bar{R}}_y(90^\circ - \phi)
+        \bar{\bar{R}}_z(\lambda^* - \lambda)
+        \bar{\bar{R}}_y(\phi^* - 90^\circ)
+        \bar{\bar{P}}_y
+
+Likewise,
+transformation for the gravity gradient tensor :math:`T` is
+
+.. math::
+
+    \bar{\bar{T}} = 
+        \bar{\bar{R}}
+        \bar{\bar{T}}^*
+        \bar{\bar{R}}^T
+
+        
+.. _GOCE: http://www.esa.int/esaLP/ESAYEK1VMOC_LPgoce_0.html
+.. _Wolfram MathWorld: http://mathworld.wolfram.com/RotationMatrix.html
 
 Recommended reading
 -------------------
