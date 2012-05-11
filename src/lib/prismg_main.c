@@ -66,7 +66,7 @@ void print_help()
     printf("  -h           Print instructions.\n");
     printf("  --version    Print version and license information.\n");
     printf("  -v           Enable verbose printing to stderr.\n");
-    printf("  -l           FILENAME: Print log messages to file FILENAME.\n");
+    printf("  -lFILENAME   Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
     printf("Project site: <http://code.google.com/p/tesseroids>\n");
     printf("Report bugs at: ");
