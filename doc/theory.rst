@@ -280,8 +280,15 @@ to the local Cartesian system of the prism by
 
 .. math::
 
-    \bar{e} = \bar{\bar{P}}_y \bar{\bar{R}}_y(90^\circ - \phi^*)
-        \bar{\bar{R}}_z(180^\circ - \lambda^*)\bar{e}^g
+    \bar{e} =
+        \underbrace{
+            \bar{\bar{P}}_y
+            \bar{\bar{R}}_y(90^\circ - \phi^*)
+            \bar{\bar{R}}_z(180^\circ - \lambda^*)
+        }_{
+            \bar{\bar{W}}
+        }
+        \bar{e}^g
 
 where :math:`\bar{\bar{P}}_y` is a deflection matrix of the y axis,
 :math:`\bar{\bar{R}}_y` and :math:`\bar{\bar{R}}_z` are
@@ -314,6 +321,21 @@ around the y and z axis, respectively
     \cos\alpha & -\sin\alpha & 0\\
     \sin\alpha & \cos\alpha & 0\\
     0 & 0 & 1\\
+    \end{bmatrix}
+    
+.. math::
+    \bar{\bar{W}} =
+    \begin{bmatrix}
+    \cos (90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
+    -\cos(90^\circ - \phi^*)\sin(180^\circ - \lambda^*) &
+    \sin(90^\circ - \phi^*)
+    \\    
+    -\sin(180^\circ - \lambda^*) &
+    -\cos(180^\circ - \lambda^*) &
+    0\\
+    -\sin (90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
+    \sin(90^\circ - \phi^*)\sin(180^\circ - \lambda^*) &
+    \cos(90^\circ - \phi^*)
     \end{bmatrix}
 
 Which gives us
