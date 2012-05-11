@@ -47,11 +47,109 @@ int global2local(double lon, double lat, double r, PRISM prism, double *x,
 }
 
 
-/* Rotate the g vector or the ggt from the prisms coordinate system to the local
+/* Rotate the gravity vector from the prisms coordinate system to the local
 system of the computation point. */
-int prism2point(double *atprism, int nc, PRISM prism, double lon, double lat,
-                double r, double *atpoint)
+int g_prism2point(double *atprism, PRISM prism, double lon, double lat,
+                  double r, double *atpoint)
+{    
+    #define POS(x, y, cols) (((x)*(cols))+(y))
+
+    register int i, k;
+    double R[9], d2r, cosbeta, sinbeta, cosphi, sinphi, cosphil, sinphil;
+
+    /* degrees to radians */
+    d2r = PI/180.;
+    
+    cosbeta = cos(d2r*(prism.lon - lon));
+    sinbeta = sin(d2r*(prism.lon - lon));
+    cosphi = cos(d2r*lat);
+    sinphi = sin(d2r*lat);
+    cosphil = cos(d2r*prism.lat);
+    sinphil = sin(d2r*prism.lat);
+
+    /* The transformation matrix */
+    R[0] = cosbeta*sinphi*sinphil + cosphi*cosphil;
+    R[1] = sinbeta*sinphi;
+    R[2] = -cosbeta*sinphi*cosphil + cosphi*sinphil;
+    R[3] = -sinbeta*sinphil;
+    R[4] = cosbeta;
+    R[5] = sinbeta*cosphil;
+    R[6] = -cosbeta*cosphi*sinphil + sinphi*cosphil;
+    R[7] = -sinbeta*cosphi;
+    R[8] = cosbeta*cosphi*cosphil + sinphi*sinphil;
+
+    /* Matrix-vector multiplication */
+    for(i = 0; i < 3; i++)
+    {
+       atpoint[i] = 0;
+       for(k = 0; k < 3; k++)
+       {
+           atpoint[i] += R[POS(i, k, 3)]*atprism[k];
+       }
+    }
+    #undef POS
+    return 0;
+}
+
+
+/* Rotate the gravity tensor from the prisms coordinate system to the local
+system of the computation point. */
+int ggt_prism2point(double *atprism, PRISM prism, double lon, double lat,
+                    double r, double *atpoint)
 {
+    #define POS(x, y, cols) (((x)*(cols))+(y))
+
+    register int i, j, k;
+    double R[9], tmp[9], d2r, cosbeta, sinbeta, cosphi, sinphi, cosphil, sinphil;
+
+    /* degrees to radians */
+    d2r = PI/180.;
+    
+    cosbeta = cos(d2r*(prism.lon - lon));
+    sinbeta = sin(d2r*(prism.lon - lon));
+    cosphi = cos(d2r*lat);
+    sinphi = sin(d2r*lat);
+    cosphil = cos(d2r*prism.lat);
+    sinphil = sin(d2r*prism.lat);
+
+    /* The transformation matrix */
+    R[0] = cosbeta*sinphi*sinphil + cosphi*cosphil;
+    R[1] = sinbeta*sinphi;
+    R[2] = -cosbeta*sinphi*cosphil + cosphi*sinphil;
+    R[3] = -sinbeta*sinphil;
+    R[4] = cosbeta;
+    R[5] = sinbeta*cosphil;
+    R[6] = -cosbeta*cosphi*sinphil + sinphi*cosphil;
+    R[7] = -sinbeta*cosphi;
+    R[8] = cosbeta*cosphi*cosphil + sinphi*sinphil;
+
+    /* Multiply tmp = R*Tensor */
+    for(i = 0; i < 3; i++)
+    {
+        for(j = 0; j < 3; j++)
+        {
+            tmp[POS(i, j, 3)] = 0;
+            for(k = 0; k < 3; k++)
+            {
+                tmp[POS(i, j, 3)] += R[POS(i, k, 3)]*atprism[POS(k, j, 3)];
+            }
+        }
+    }
+
+    /* Multiply tmp*R^T */
+    for(i = 0; i < 3; i++)
+    {
+        for(j = 0; j < 3; j++)
+        {
+            atpoint[POS(i, j, 3)] = 0;
+            for(k = 0; k < 3; k++)
+            {
+                atpoint[POS(i, j, 3)] += tmp[POS(i, k, 3)]*R[POS(j, k, 3)];
+            }
+        }
+    }
+    
+    #undef POS
     return 0;
 }
 
@@ -70,8 +168,8 @@ int prism_ggt_sph(PRISM prism, double lonp, double latp, double rp, double *ggt)
     ggtprism[5] = prism_gyz(prism, x, y, z);    
     ggtprism[6] = ggtprism[2];
     ggtprism[7] = ggtprism[5];
-    ggtprism[8] = -(ggtprism[0] + ggtprism[3]);
-    prism2point(ggtprism, 3, prism, lonp, latp, rp, ggtpoint);
+    ggtprism[8] = -(ggtprism[0] + ggtprism[4]);
+    ggt_prism2point(ggtprism, prism, lonp, latp, rp, ggtpoint);
     ggt[0] = ggtpoint[0];
     ggt[1] = ggtpoint[1];
     ggt[2] = ggtpoint[2];
@@ -93,7 +191,7 @@ int prism_g_sph(PRISM prism, double lonp, double latp, double rp, double *gx,
     gprism[0] = prism_gx(prism, x, y, z);
     gprism[1] = prism_gy(prism, x, y, z);
     gprism[2] = prism_gz(prism, x, y, z);
-    prism2point(gprism, 1, prism, lonp, latp, rp, gpoint);
+    g_prism2point(gprism, prism, lonp, latp, rp, gpoint);
     *gx = gpoint[0];
     *gy = gpoint[1];
     *gz = gpoint[2];

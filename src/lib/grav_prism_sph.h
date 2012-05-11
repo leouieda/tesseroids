@@ -31,21 +31,36 @@ extern int global2local(double lon, double lat, double r, PRISM prism,
     double *x, double *y, double *z);
 
 
-/* Rotate the g vector or the ggt from the prisms coordinate system to the local
+/* Rotate the g vector from the prisms coordinate system to the local
 system of the computation point.
 
 Parameters:
 
-* atprism: the 3 component gravity vector or 9 component gravity tensor
-           calculated in the local coordinates of the prism.
-* nc: number of columns in atprism. 1 if the vector, 3 if the tensor.
+* atprism: the 3 component gravity vector in the coordinates of the prism.
 * prism: the prism used to calculate atprism.
 * lon, lat, r: coordinates of the computation point.
-* atpoint: used to return the 3 component gravity vector or 9 component gravity
-           tensor calculated in the local coordinates of the computation point.
+* atpoint: used to return the 3 component gravity vector in the coordinates of
+           the computation point.
 */
-extern int prism2point(double *atprism, int nc, PRISM prism, double lon,
-    double lat, double r, double *atpoint);
+extern int g_prism2point(double *atprism, PRISM prism, double lon, double lat,
+    double r, double *atpoint);
+
+    
+/* Rotate the g vector from the prisms coordinate system to the local
+system of the computation point.
+
+Parameters:
+
+* atprism: the 9 component gravity tensor in the coordinates of the prism.
+           The order is: gxx, gxy, gxz, gyx, gyy, gyz, gzx, gzy, gzz
+* prism: the prism used to calculate atprism.
+* lon, lat, r: coordinates of the computation point.
+* atpoint: used to return the 9 component gravity tensor in the coordinates of
+           the computation point.
+*/
+extern int ggt_prism2point(double *atprism, PRISM prism, double lon, double lat,
+    double r, double *atpoint);
+
 
 /* Calculates the gravity gradient tensor caused by a prism.
  

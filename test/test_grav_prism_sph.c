@@ -101,9 +101,9 @@ static char * test_prism_ggt_sph()
     expect[5] = prism_gzz(prism, 0, 0, -1000);
     for(i = 0; i < 6; i++)
     {
-        sprintf(msg, "(fixture %d) cmp %d: expect %.10g got %.10g", fix, i,
+        sprintf(msg, "(fixture %d) cmp %d: expect %.10f got %.10f", fix, i,
             expect[i], res[i]);
-        mu_assert_almost_equals(res[i], expect[i], 0.0000000001, msg);
+        mu_assert_almost_equals(res[i], expect[i], 0.000000001, msg);
     }
     #undef R
     return 0;
