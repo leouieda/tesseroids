@@ -17,7 +17,8 @@ Changes in version 1.1
 * Added programs prismpots, prismgs, and prismggts,
   to calculate the prism effects
   in spherical coordinates.
-  These programs are compatible with the output of tess2prism.
+  These programs are compatible with the output of tess2prism
+  (see :ref:`this recipe <recipe_tess2prism>` for an example).
 
   
 Changes in version 1.0
