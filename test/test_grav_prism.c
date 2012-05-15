@@ -12,6 +12,196 @@ Unit tests for grav_prism.c functions.
 
 char msg[1000];
 
+static char * test_pot_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_pot(prism, 0, 0, -dist);
+        resbellow = prism_pot(prism, 0, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gx_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gx(prism, 5000, 0, -dist);
+        resbellow = prism_gx(prism, 5000, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gy_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gy(prism, 0, 5000, -dist);
+        resbellow = prism_gy(prism, 0, 5000, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gz_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gz(prism, 0, 0,-dist);
+        resbellow = prism_gz(prism, 0, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gxx_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gxx(prism, 0, 0,-dist);
+        resbellow = prism_gxx(prism, 0, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gxy_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gxy(prism, 5000, 5000,-dist);
+        resbellow = prism_gxy(prism, 5000, 5000, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gxz_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gxz(prism, 5000, 0,-dist);
+        resbellow = prism_gxz(prism, 5000, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - -1*resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gyy_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gyy(prism, 0, 0,-dist);
+        resbellow = prism_gyy(prism, 0, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gyz_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gyz(prism, 0, 5000, -dist);
+        resbellow = prism_gyz(prism, 0, 5000, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - -1*resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
+static char * test_gzz_bellow()
+{
+    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
+    double dist, restop, resbellow;
+    
+    for(dist=50000; dist <= 500000; dist += 500)
+    {
+        restop = prism_gzz(prism, 0, 0, -dist);
+        resbellow = prism_gzz(prism, 0, 0, dist);
+
+        sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
+                restop, resbellow);
+        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+                                0.001, msg);
+    }
+
+    return 0;
+}
+
 static char * test_prism2sphere_pot()
 {
     SPHERE sphere;
@@ -243,6 +433,26 @@ static char * test_prism2sphere_gzz()
 
 void grav_prism_run_all()
 {
+    mu_run_test(test_pot_bellow,
+                "prism_pot results equal above and bellow the prism");
+    mu_run_test(test_gx_bellow,
+                "prism_gx results equal above and bellow the prism");
+    mu_run_test(test_gy_bellow,
+                "prism_gy results equal above and bellow the prism");
+    mu_run_test(test_gz_bellow,
+                "prism_gz results equal above and bellow the prism");
+    mu_run_test(test_gxx_bellow,
+                "prism_gxx results equal above and bellow the prism");
+    mu_run_test(test_gxy_bellow,
+                "prism_gxy results equal above and bellow the prism");
+    mu_run_test(test_gxz_bellow,
+                "prism_gxz results equal above and bellow the prism");
+    mu_run_test(test_gyy_bellow,
+                "prism_gyy results equal above and bellow the prism");
+    mu_run_test(test_gyz_bellow,
+                "prism_gyz results equal above and bellow the prism");
+    mu_run_test(test_gzz_bellow,
+                "prism_gzz results equal above and bellow the prism");
     mu_run_test(test_prism2sphere_pot,
                 "prism_pot results equal to sphere of same mass at distance");
     mu_run_test(test_prism2sphere_gx,
