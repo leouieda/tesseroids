@@ -47,6 +47,26 @@ env.Program('bin/prismpots', source=Split("""
     src/lib/geometry.c
     src/lib/parsers.c
     """))    
+env.Program('bin/prismgs', source=Split("""
+    src/prismgs.c
+    src/lib/grav_prism_sph.c
+    src/lib/grav_prism.c
+    src/lib/logger.c
+    src/lib/version.c
+    src/lib/constants.c
+    src/lib/geometry.c
+    src/lib/parsers.c
+    """))    
+env.Program('bin/prismggts', source=Split("""
+    src/prismggts.c
+    src/lib/grav_prism_sph.c
+    src/lib/grav_prism.c
+    src/lib/logger.c
+    src/lib/version.c
+    src/lib/constants.c
+    src/lib/geometry.c
+    src/lib/parsers.c
+    """))    
     
 # Build tess2prism
 env.Program('bin/tess2prism', source=Split("""

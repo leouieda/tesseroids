@@ -162,10 +162,13 @@ int prism_ggt_sph(PRISM prism, double lonp, double latp, double rp, double *ggt)
     global2local(lonp, latp, rp, prism, &x, &y, &z);
     ggtprism[0] = prism_gxx(prism, x, y, z);
     ggtprism[1] = prism_gxy(prism, x, y, z);
-    ggtprism[2] = prism_gxz(prism, x, y, z);    
+    /* -1 because the prisms z is Down, but transformation assumes z is Up */
+    /* z -> Up is the system of the tesseroid */
+    ggtprism[2] = -1*prism_gxz(prism, x, y, z);
     ggtprism[3] = ggtprism[1];
     ggtprism[4] = prism_gyy(prism, x, y, z);
-    ggtprism[5] = prism_gyz(prism, x, y, z);    
+    /* Same as xz */
+    ggtprism[5] = -1*prism_gyz(prism, x, y, z);
     ggtprism[6] = ggtprism[2];
     ggtprism[7] = ggtprism[5];
     ggtprism[8] = -(ggtprism[0] + ggtprism[4]);
