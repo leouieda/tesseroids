@@ -14,8 +14,11 @@ tess2prism < tess-model.txt > prism-model.txt
 # coordinates, prismgs calculates the full
 # gravity vector, and prismggts calculates the full
 # gravity gradient tensor.
+#
+#tessgrd -r-3/3/-3/3 -b50/50 -z250e03 | \
+#prismpots prism-model.txt | \
+#prismgs prism-model.txt | \
+#prismggts prism-model.txt > output.txt
 
-tessgrd -r-30/30/-30/30 -b50/50 -z250e03 | \
-prismpots prism-model.txt | \
-prismgs prism-model.txt | \
-prismggts prism-model.txt > output.txt
+tessgrd -r-3/3/-3/3 -b50/50 -z250e03 | \
+prismpots prism-model.txt -v > output.txt

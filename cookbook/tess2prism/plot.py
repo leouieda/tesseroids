@@ -6,8 +6,8 @@ import pylab
 
 data = pylab.loadtxt(sys.argv[1], unpack=True)
 shape = (int(sys.argv[2]), int(sys.argv[3]))
-lon = pylab.reshape(data[0], shape)*0.001
-lat = pylab.reshape(data[1], shape)*0.001
+lon = pylab.reshape(data[0], shape)
+lat = pylab.reshape(data[1], shape)
 xmin, xmax = lon.min(), lon.max()
 ymin, ymax = lat.min(), lat.max()
 for i, value in enumerate(data[3:]):
