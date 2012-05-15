@@ -1,3 +1,5 @@
+.. _recipe_simple_prism:
+
 Simple prism model in Cartesian coordinates
 ===========================================
 

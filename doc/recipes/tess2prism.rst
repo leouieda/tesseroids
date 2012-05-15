@@ -36,7 +36,8 @@ The result should look like the :ref:`following <tess2prism>`
     :width: 600px
 
     Plot of the columns of ``output.txt`` generated
-    by ``tess2prism.sh``. Orthographic projection
+    by ``tess2prism.sh``.
+    Orthographic projection
     (thanks to the Basemap_ toolkit of matplotlib_).
 
 

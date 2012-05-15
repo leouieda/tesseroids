@@ -23,7 +23,7 @@ clean: clean_simple_tess clean_simple_prism clean_tess2prism_flatten clean_tess2
 	clean_dem_brasil
 
 clean_simple_tess:
-	cd simple_tess; rm -f output.txt column*.png
+	cd simple_tess; rm -f output.txt column*.png log.txt
 	
 clean_simple_prism:
 	cd simple_prism; rm -f output.txt column*.png
