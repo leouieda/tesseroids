@@ -14,9 +14,10 @@ Changes in version 1.1
   to make the prism model by flattening the tesseroids
   (i.e., 1 degree = 111km) into Cartesian coordinates
   (so that they can be used with the prismg* programs).
-* prismpot and prismg* programs raises an error
-  when the input has more columns than it should
-  (e.g., it comes from tess2prism, see the --flatten flag).
+* Added programs prismpots, prismgs, and prismggts,
+  to calculate the prism effects
+  in spherical coordinates.
+  These programs are compatible with the output of tess2prism.
 
   
 Changes in version 1.0
