@@ -45,8 +45,9 @@ void print_help()
     printf("  * If a line starts with # it will be considered a comment\n");
     printf("    and will be ignored\n\n");
     printf("Arguments:\n");
-    printf("  -sDLON/DLAT Grid spacing in the longitude and latitude\n");
-    printf("              directions, respectively. In DECIMAL DEGREES.\n");
+    printf("  -sDLON/DLAT Size of the tesseroids in the longitude and\n");
+    printf("              latitude directions, respectively.\n");
+    printf("              In DECIMAL DEGREES.\n");
     printf("  -dDENS      Density of the tesseroids. If ommited will expect\n");
     printf("              a 4th column on the input with DENS values for\n");
     printf("              each point. Tesseroids above the reference will\n");
