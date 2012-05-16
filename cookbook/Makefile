@@ -11,7 +11,7 @@ tess2prism_flatten:
 	cd tess2prism_flatten; bash tess2prism_flatten.sh; python plot.py output.txt 50 50
 	
 tess2prism:
-	cd tess2prism; bash tess2prism.sh; python plot.py output.txt 50 50
+	cd tess2prism; bash tess2prism.sh; python plot.py output.txt 100 100
 
 simple_tess:
 	cd simple_tess; bash simple_tess.sh; python plot.py output.txt 50 50

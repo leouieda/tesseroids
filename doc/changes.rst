@@ -19,6 +19,10 @@ Changes in version 1.1
   in spherical coordinates.
   These programs are compatible with the output of tess2prism
   (see :ref:`this recipe <recipe_tess2prism>` for an example).
+* Bug fix: prismpot, prismgx, prismgy, prismgz, and prismgxy had problems with
+  a log(z + r) when the computation point was bellow the top of the prism
+  (zp > prism.z1). Fixed by calculating on top of the prism when this happens,
+  then changing the sign of the result when needed (only for gz).
 
   
 Changes in version 1.0

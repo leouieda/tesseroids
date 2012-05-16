@@ -24,8 +24,16 @@ References
 double prism_pot(PRISM prism, double xp, double yp, double zp)
 {
     double x[2], y[2], z[2], kernel, res, r;
-    register int i, j, k;
+    register int i, j, k; 
 
+    /* This field has a problem with the log(z+r) when zp > z1 */
+    /* Changing the sign is not a problem since the potential should be equal
+    on top or bellow */
+    if(zp > prism.z1)
+    {
+        zp = -zp;
+    }
+    
     /* First thing to do is make P the origin of the coordinate system */
     x[0] = prism.x1 - xp;
     x[1] = prism.x2 - xp;
@@ -45,12 +53,12 @@ double prism_pot(PRISM prism, double xp, double yp, double zp)
             {
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
-                kernel = 1*(-x[i]*y[j]*log(z[k] + r)
+                kernel = -x[i]*y[j]*log(z[k] + r)
                          - y[j]*z[k]*log(x[i] + r)
                          - x[i]*z[k]*log(y[j] + r)
                          + 0.5*x[i]*x[i]*atan2(z[k]*y[j], x[i]*r)
                          + 0.5*y[j]*y[j]*atan2(z[k]*x[i], y[j]*r)
-                         + 0.5*z[k]*z[k]*atan2(x[i]*y[j], z[k]*r));
+                         + 0.5*z[k]*z[k]*atan2(x[i]*y[j], z[k]*r);
 
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -71,6 +79,14 @@ double prism_gx(PRISM prism, double xp, double yp, double zp)
     double x[2], y[2], z[2], kernel, res, r;
     register int i, j, k;
 
+    /* This field has a problem with the log(z+r) when zp > z1 */
+    /* Changing the sign is not a problem since the gx should be equal
+    on top or bellow */
+    if(zp > prism.z1)
+    {
+        zp = -zp;
+    }
+    
     /* First thing to do is make P the origin of the coordinate system */
     x[0] = prism.x1 - xp;
     x[1] = prism.x2 - xp;
@@ -112,6 +128,14 @@ double prism_gy(PRISM prism, double xp, double yp, double zp)
     double x[2], y[2], z[2], kernel, res, r;
     register int i, j, k;
 
+    /* This field has a problem with the log(z+r) when zp > z1 */
+    /* Changing the sign is not a problem since the gy should be equal
+    on top or bellow */
+    if(zp > prism.z1)
+    {
+        zp = -zp;
+    }
+    
     /* First thing to do is make P the origin of the coordinate system */
     x[0] = prism.x1 - xp;
     x[1] = prism.x2 - xp;
@@ -153,6 +177,13 @@ double prism_gz(PRISM prism, double xp, double yp, double zp)
     double x[2], y[2], z[2], kernel, res, r;
     register int i, j, k;
 
+    /* This field has a problem with the log(z+r) when zp > z1 */
+    /* Will correct for the change in sign before returning */
+    if(zp > prism.z1)
+    {
+        zp = -zp;
+    }
+    
     /* First thing to do is make P the origin of the coordinate system */
     x[0] = prism.x1 - xp;
     x[1] = prism.x2 - xp;
@@ -183,6 +214,12 @@ double prism_gz(PRISM prism, double xp, double yp, double zp)
     /* Now all that is left is to multiply res by the gravitational constant and
        density and convert it to mGal units */
     res *= G*SI2MGAL*prism.density;
+
+    /* Need to correct for the fact that I changed the sign of zp */
+    if(zp > prism.z1)
+    {
+        res = -res;
+    }
 
     return res;
 }
@@ -249,6 +286,14 @@ double prism_gxy(PRISM prism, double xp, double yp, double zp)
 {
     double r, res, deltax1, deltax2, deltay1, deltay2, deltaz1, deltaz2;
 
+    /* This field has a problem with the log(z+r) when zp > z1 */
+    /* Changing the sign is not a problem since the gxy should be equal
+    on top or bellow */
+    if(zp > prism.z1)
+    {
+        zp = -zp;
+    }
+    
     /* First thing to do is make P the origin of the coordinate system */
     deltax1 = prism.x1 - xp;
     deltax2 = prism.x2 - xp;

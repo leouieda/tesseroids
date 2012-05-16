@@ -1,9 +1,23 @@
 # Build the Tesseroids programs
 
-env = Environment(
-    CFLAGS='-ansi -pedantic-errors -Wall -O3',
-    LIBS=['m'],
-    CPPPATH='src/lib')
+# get the mode flag from the command line
+# default to 'release' if the user didn't specify
+mode = ARGUMENTS.get('mode', 'release')
+if not (mode in ['debug', 'release']):
+   print "Error: expected 'debug' or 'release', found: " + mode
+   Exit(1)
+print '**** Compiling in ' + mode + ' mode...'
+
+if mode == 'debug':
+    env = Environment(
+        CFLAGS='-ansi -pedantic-errors -Wall -g',
+        LIBS=['m'],
+        CPPPATH='src/lib')
+else:
+    env = Environment(
+        CFLAGS='-ansi -pedantic-errors -Wall -O3',
+        LIBS=['m'],
+        CPPPATH='src/lib')
 
 # Build the tessg* programs
 tesssrc = Split("""

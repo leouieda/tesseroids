@@ -1,5 +1,5 @@
 # Prisms converted from tesseroid model with tess2prism 1.1dev
-#   local time: Tue May 15 13:13:55 2012
+#   local time: Wed May 16 14:34:47 2012
 #   tesseroids file: stdin
 #   conversion type: equal mass|spherical coordinates
 #   format: dx dy dz density lon lat r
