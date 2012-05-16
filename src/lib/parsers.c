@@ -957,7 +957,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
     model = (TESSEROID *)malloc(buffsize*sizeof(TESSEROID));
     if(model == NULL)
     {
-        log_error("problem allocating initial memory to load tesseroid model");
+        log_error("problem allocating initial memory to load tesseroid model.");
         return NULL;
     }
     *size = 0;
@@ -967,7 +967,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         {
             if(ferror(modelfile))
             {
-                log_error("problem encountered reading line %d", line);
+                log_error("problem encountered reading line %d.", line);
                 error_exit = 1;
                 break;
             }
@@ -988,7 +988,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
                     /* Need to free because realloc leaves unchanged in case of
                        error */
                     free(model);
-                    log_error("problem expanding memory for tesseroid model");
+                    log_error("problem expanding memory for tesseroid model.\nModel is too big.");
                     return NULL;
                 }
                 model = tmp;
@@ -997,7 +997,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
             strstrip(sbuff);
             if(gets_tess(sbuff, &model[*size]))
             {
-                log_warning("bad/invalid tesseroid at line %d", line);
+                log_warning("bad/invalid tesseroid at line %d.", line);
                 badinput = 1;
                 continue;
             }
@@ -1016,7 +1016,7 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         /* Need to free because realloc leaves unchanged in case of
             error */
         free(model);
-        log_error("problem freeing excess memory for tesseroid model");
+        log_error("problem freeing excess memory for tesseroid model.");
         return NULL;
     }
     model = tmp;
@@ -1091,7 +1091,7 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
     model = (PRISM *)malloc(buffsize*sizeof(PRISM));
     if(model == NULL)
     {
-        log_error("problem allocating initial memory to load prism model");
+        log_error("problem allocating initial memory to load prism model.");
         return NULL;
     }
     *size = 0;
@@ -1101,7 +1101,7 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
         {
             if(ferror(modelfile))
             {
-                log_error("problem encountered reading line %d", line);
+                log_error("problem encountered reading line %d.", line);
                 error_exit = 1;
                 break;
             }
@@ -1122,7 +1122,7 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
                     /* Need to free because realloc leaves unchanged in case of
                        error */
                     free(model);
-                    log_error("problem expanding memory for prism model");
+                    log_error("problem expanding memory for prism model.\nModel is too big.");
                     return NULL;
                 }
                 model = tmp;
@@ -1135,7 +1135,7 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
                 if(gets_prism_sph(sbuff, &model[*size]))
                 {
                     log_warning(
-                    "bad/invalid prism at line %d.\nMaybe missing lon, lat, r?",
+                    "bad/invalid prism at line %d.",
                     line);
                     badinput = 1;
                     continue;
