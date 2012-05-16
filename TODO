@@ -1,7 +1,8 @@
 Goals for 1.1:
 
-* Make tessmodgen accept 2 grids instead of just a reference and fill in between
-  with tesseroids
+* tessmodgen generates tesseroids between 2 or more grids. Do this by accepting
+  more columns in the input file with the extra grids. The density of each
+  grid can be passed in the column next to it or -dD1/D2/D3/...
 * Create tess2vtk to export a tesseroid file to VTK and vtk2tess to go back
 
 TODO:
