@@ -430,6 +430,38 @@ static char * test_prism2sphere_gzz()
     return 0;
 }
 
+static char * test_prism_tensor_trace()
+{
+    #define N 4
+    TESSEROID tesses[N] = {
+        {1,0,1,0,1,6000000,6001000},
+        {1,180,183,80,81.5,6300000,6302000},
+        {1,200,203,-90,-88,5500000,5500100},
+        {1,-10,-7,7,7.5,6500000,6505000}};
+    PRISM prism;
+    int i;
+    double trace, dist, x, y;
+            
+    for(i = 0; i < N; i++)
+    {
+        tess2prism_flatten(tesses[i], &prism);
+        x = 0.5*(prism.x1 + prism.x2);
+        y = 0.5*(prism.y1 + prism.y2);
+        
+        for(dist=1000; dist <= 5000000; dist += 1000)
+        {            
+            
+            trace = prism_gxx(prism, x, y, prism.z1 - dist)
+                    + prism_gyy(prism, x, y, prism.z1 - dist)
+                    + prism_gzz(prism, x, y, prism.z1 - dist);
+
+            sprintf(msg, "(prism %d dist %g) trace %.10f", i, dist, trace);
+            mu_assert_almost_equals(trace, 0, 0.0000000001, msg);
+        }
+    }
+    #undef N
+    return 0;
+}
 
 void grav_prism_run_all()
 {
@@ -473,4 +505,6 @@ void grav_prism_run_all()
                 "prism_gyz results equal to sphere of same mass at distance");
     mu_run_test(test_prism2sphere_gzz,
                 "prism_gzz results equal to sphere of same mass at distance");
+    mu_run_test(test_prism_tensor_trace,
+        "trace of GGT for prism in Cartesian coordinates is zero");
 }

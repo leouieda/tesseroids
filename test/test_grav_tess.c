@@ -471,6 +471,58 @@ static char * test_tess2sphere_gzz()
 }
 
 
+static char * test_tess_tensor_trace()
+{
+    #define N 4
+    TESSEROID tesses[N] = {
+        {1,0,1,0,1,6000000,6001000},
+        {1,180,183,80,81.5,6300000,6302000},
+        {1,200,203,-90,-88,5500000,5500100},
+        {1,-10,-7,7,7.5,6500000,6505000}};
+    GLQ *glqlon, *glqlat, *glqr;
+    int i;
+    double lon, lat, r, trace, dist, sr = TESSEROID_GG_SIZE_RATIO;
+
+    glqlon = glq_new(8, tesses[0].w, tesses[0].e);
+    if(glqlon == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqlat = glq_new(8, tesses[0].s, tesses[0].n);
+    if(glqlat == NULL)
+        mu_assert(0, "GLQ allocation error");
+
+    glqr = glq_new(8, tesses[0].r1, tesses[0].r2);
+    if(glqr == NULL)
+        mu_assert(0, "GLQ allocation error");
+            
+    for(i = 0; i < N; i++)
+    {
+        lon = 0.5*(tesses[i].w + tesses[i].e);
+        lat = 0.5*(tesses[i].n + tesses[i].s);
+        r = tesses[i].r2;
+
+        for(dist=100000; dist <= 5000000; dist += 5000)
+        {
+            trace = calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
+                        glqlon, glqlat, glqr, tess_gxx, sr) +
+                    calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
+                        glqlon, glqlat, glqr, tess_gyy, sr) +
+                    calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
+                        glqlon, glqlat, glqr, tess_gzz, sr);
+
+            sprintf(msg, "(tess %d dist %g) trace %.10f", i, dist, trace);
+            mu_assert_almost_equals(trace, 0, 0.0000000001, msg);
+        }
+    }
+
+    glq_free(glqlon);
+    glq_free(glqlat);
+    glq_free(glqr);
+    #undef N
+    return 0;
+}
+
+
 static char * test_adaptative()
 {
     /* Check if the adaptative is dividing properly and returning the same thing
@@ -542,6 +594,7 @@ void grav_tess_run_all()
                 "tess_gyz results equal to sphere of same mass at distance");
     mu_run_test(test_tess2sphere_gzz,
                 "tess_gzz results equal to sphere of same mass at distance");
+    mu_run_test(test_tess_tensor_trace, "trace of GGT for tesseroid is zero");
     mu_run_test(test_adaptative,
             "calc_tess_model_adapt results as non-adapt with split by hand");
 }
