@@ -193,11 +193,13 @@ int prism_g_sph(PRISM prism, double lonp, double latp, double rp, double *gx,
     global2local(lonp, latp, rp, prism, &x, &y, &z);
     gprism[0] = prism_gx(prism, x, y, z);
     gprism[1] = prism_gy(prism, x, y, z);
-    gprism[2] = prism_gz(prism, x, y, z);
+    /* Nagy wants z down, but the transformation assumes z up */
+    gprism[2] = -prism_gz(prism, x, y, z);
     g_prism2point(gprism, prism, lonp, latp, rp, gpoint);
     *gx = gpoint[0];
     *gy = gpoint[1];
-    *gz = gpoint[2];
+    /* Put z back down again to maintain the normal convention for gz */
+    *gz = -gpoint[2];
 
     return 0;
 }

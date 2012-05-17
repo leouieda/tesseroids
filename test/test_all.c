@@ -25,8 +25,8 @@ int main()
     geometry_run_all();
     parsers_run_all();
     grav_prism_run_all();
-    grav_tess_run_all();
     grav_prism_sph_run_all();
+    grav_tess_run_all();
     
     mu_print_summary((double)(clock() - start)/CLOCKS_PER_SEC);
 
