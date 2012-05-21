@@ -149,6 +149,8 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
+    log_info("Use recursive division of tesseroids: %s",
+             args.adaptative ? "True" : "False");
 
     /* Make the necessary GLQ structures */
     log_info("Using GLQ orders: %d lon / %d lat / %d r", args.lon_order,
@@ -206,7 +208,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     printf("#   model file: %s (%d tesseroids)\n", args.modelfname, modelsize);
     printf("#   GLQ order: %d lon / %d lat / %d r\n", args.lon_order,
            args.lat_order, args.r_order);
-    printf("#   Use adaptative algorithm: %s\n",
+    printf("#   Use recursive division of tesseroids: %s\n",
            args.adaptative ? "True" : "False");
 
     /* Read each computation point from stdin and calculate */

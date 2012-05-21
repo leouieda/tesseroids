@@ -3,6 +3,27 @@
 Using Tesseroids
 ================
 
+This is a tutorial about
+how to use the Tesseroids package.
+It is a work-in-progress
+but I have trie to be as complete as possible.
+If you find that anything is missing,
+or would like something explained in more detail,
+please `submit a bug report`_
+(it's not that hard).
+
+Any further questions and comments
+can be e-mail directly to me
+(leouieda [at] gmail [dot] com).
+
+If you don't find what you're looking for here,
+the :ref:`cookbook <cookbook>`
+contains several example recipes
+of using Tesseroids.
+
+.. _submit a bug report: http://code.google.com/p/tesseroids/issues/list
+
+
 A note about heights and units
 ------------------------------
 
@@ -30,7 +51,7 @@ mean Earth radius, pi, gravitational constant, etc.
 Computing the gravitational effect of a tesseroid
 -------------------------------------------------
 
-The tessgx, tessgy, tessgz, tessgxx, etc. programs
+The tesspot, tessgx, tessgy, tessgz, tessgxx, etc. programs
 calculate the combined effect of a list of tesseroids
 on given computation points.
 The computation points are passed via standard input and
@@ -60,39 +81,46 @@ have columns formatted as::
     
 HEIGHT_OF_TOP and HEIGHT_OF_BOTTOM are
 positive if the above the Earth's surface and negative if bellow.
-**Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!**
+
+.. note:: Remember that HEIGHT_OF_TOP > HEIGHT_OF_BOTTOM!
 
 Use the command line option -h to view a list of all commands available.
 
 *Example*:
 
 Calculate the field of a tesseroid model
-having verbose printed and logged to file ``gz.log`` and GLQ order 3/3/3::
+having verbose printed and logged to file ``gz.log`` and GLQ order 3/3/3.
+The computation points are in ``points.txt``
+and the output will be placed in ``gz_data.txt``::
 
     tessgz modelfile.txt -v -lgz.log -o3/3/3 < points.txt > gz_data.txt
     
 The -a flag
 -----------
 
-The -a flag on tesspot and tessg* programs
-disables the automatic subdividing of tesseroids
-when needed to maintain the GLQ accuracy desired.
+The -a flag on tesspot, tessgx, tessgxx, etc., programs
+**disables** the automatic recursive dividing of tesseroids
+to maintain the GLQ accuracy.
 As a general rule,
 the tesseroid should be no bigger than
 a ratio times the distance from the computation point
 (program tessdefaults prints the value of the size ratios used).
-The tesspot and tessg* programs automatically break the tesseroids
+The programs automatically break the tesseroids
 when this criterion is breached.
-This means that the computations can be performed with order 2/2/2 (default)
-which is much faster and still maintain correctness.
-**It is strongly recommended that you don't use this flag
-unless you know what you are doing!**
-It is also recommended that you keep 2/2/2 order always.
+This means that the computations can be performed
+with the default GLQ order 2/2/2,
+which is much faster,
+and still maintain correctness.
+
+.. warning:: It is strongly recommended that you don't use this flag unless you
+    know what you are doing! It is also recommended that you keep 2/2/2 order
+    always.
 
 Verbose and logging to files
 ----------------------------
 
-The -v flag enables printing of information messages to stderr.
+The -v flag enables printing of information messages to
+the default error stream (stderr).
 If omitted, only error messages will appear.
 The -l flag enables logging of information and error messages to a file.
 
@@ -102,7 +130,8 @@ Comments and provenance information
 Comments can be inserted into input files
 by placing a "#" character at the start of a line.
 All comment lines are ignored.
-All programs print the comment lines of the input to standard output.
+All programs pass on (print) the comment lines
+of the input to the output.
 All programs insert comments about the provenance of their results
 (where they came from) to their output.
 These include names of input files, version of program used, date, etc.
@@ -110,24 +139,29 @@ These include names of input files, version of program used, date, etc.
 Generating regular grids
 ------------------------
 
-Included in the package is program tessgrd
+Included in the package is program tessgrd,
 which creates a regular grid of points and prints them to standard output.
 
-*Example*::
+*Example*
+
+To generate a regular grid of 100 x 100 points,
+in the are -10/10/-10/10 degrees,
+at a height of 250 km::
 
     tessgrd -r-10/10/-10/10 -b100/100 -z250e03 -v > points.txt
 
     
-Automated model generation
+Automatic model generation
 --------------------------
 
-Tesseroids 1.0 included a new program called tessmodgen
+As of version 1.0,
+Tesseroids includes program tessmodgen
 for automatically generating a tesseroid model
 from a map of an interface.
 The interface can be any surface deviating from a reference level.
 For example, topography (a DEM) deviates from 0,
 a Moho map deviates from a mean crustal thickness, etc.
-This program takes as input a REGULAR grid
+This program takes as input a **REGULAR** grid
 with longitude, latitude and height values of the interface.
 Each tesseroid is generated with a grid point at the center of it's top face.
 The top and bottom faces of the tesseroid are defined as:
@@ -136,7 +170,8 @@ The top and bottom faces of the tesseroid are defined as:
 * Top = Reference and Bottom = Interface if the interface is bellow the reference
     
 The density RHO of the tesseroids can be passed using the -d option.
-This will assign a density value of RHO when the interface is above the reference
+This will assign a density value of RHO,
+when the interface is above the reference,
 and a value of -RHO if the interface is bellow the reference.
 Alternatively, the density of each tesseroid
 can be passed as a forth column on the input grid.
@@ -176,9 +211,9 @@ Tesseroids 1.0 also introduced programs
 to calculate the gravitational effect of
 right rectangular prisms in Cartesian coordinates.
 This is done using the formula of Nagy et al. (2000).
-The programs are name prismpot, prismgx, prismgy, prismgz, prismgxx, etc.
+The programs are prismpot, prismgx, prismgy, prismgz, prismgxx, etc.
 Input and output for these programs
-is very similar to that of the tessg* programs.
+is very similar to that of the tesspot, tessgx, etc., programs.
 Computation points are read from standard input and
 the prism model is read from a file.
 The model file should have the column format::
