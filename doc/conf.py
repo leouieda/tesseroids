@@ -195,7 +195,7 @@ latex_logo = '_static/logo.png'
 #latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+latex_show_urls = True
 
 # Additional stuff for the LaTeX preamble.
 #latex_preamble = ''
