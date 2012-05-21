@@ -40,7 +40,7 @@ This documentation explains how to
 and :ref:`use <usage>` Tesseroids.
 It also contains some :ref:`theoretical background <theory>`
 to get you up-to-date with the terms and equations that we use.
-The :ref:`cookbook` has a few example recipes and the expected output
+The :ref:`cookbook <cookbook>` has a few example recipes and the expected output
 (I recommend starting here if you just want a quick peek).
 
 .. toctree::
