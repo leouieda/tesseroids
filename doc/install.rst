@@ -18,7 +18,8 @@ Pre-compiled binaries
 If you downloaded a pre-compiled binary distribution,
 simply unpack in the desired directory.
 
-The executables will be in the ``bin`` folder
+The executables will be in the ``bin`` folder,
+the pdf documentation in the ``doc`` folder,
 and example scripts in the ``cookbook`` folder.
 
 Compiling from source

@@ -22,8 +22,8 @@ with fewer restrictions.
 
 .. _Leonardo Uieda: http://fatiando.org/people/uieda/
 
-Documentation
--------------
+Online documentation
+--------------------
 
 You'll find the documentation for Tesseroids on Read the Docs:
 
@@ -32,45 +32,34 @@ http://tesseroids.readthedocs.org/
 The docs contain installation instructions, usage, theorerical background,
 and some examples.
 
-There is also documentation for the development version available:
-
-http://tesseroids-dev.readthedocs.org/
-
-
-Source code
+Downloading
 -----------
 
-The source code of Tesseroids is hosted on several repositories:
+You can download the source and binary distributions
+from the `Google Code project site`_.
 
-* `Google Code`_: source code and compiled binaries (latest stable release)
-* `Bitbucket Stable`_: source code (latest stable release)
-* `Bitbucket Development`_: source code (development version)
-
-.. _Google Code: http://code.google.com/p/tesseroids/
-.. _Bitbucket Stable: https://bitbucket.org/leouieda/tesseroids
-.. _Bitbucket Development: https://bitbucket.org/leouieda/tesseroids-dev
-
-
-Installation
-------------
+.. _Google Code project site: http://code.google.com/p/tesseroids/
 
 Pre-compiled binaries
-+++++++++++++++++++++
+---------------------
 
 If you downloaded a pre-compiled binary distribution,
 simply unpack in the desired directory.
+
 The executables will be in the ``bin`` folder,
-the HTML documentation in the ``doc`` folder,
-and example scripts in the ``examples`` folder.
-To view the HTML docs open ``user-manual-v1_1.html`` in a web browser.
+the pdf documentation in the ``doc`` folder,
+and example scripts in the ``cookbook`` folder.
 
 Compiling from source
-+++++++++++++++++++++
+---------------------
 
 To build Tesseroids you'll need:
 
 * A C compiler (like GCC_)
 * SCons_
+
+Setting up SCons
+++++++++++++++++
 
 Tesseroids uses the build tool SCons_.
 A ``SConstruct`` file (``Makefile`` equivalent)
@@ -94,9 +83,22 @@ the GCC_ compiler to compile sources.
 On Windows it will search for an existing compiler.
 We recomment that you install GCC on Windows using MinGW_.
 
-*Compiling*:
+.. _GCC: http://gcc.gnu.org
+.. _SCons: http://www.scons.org/
+.. _SCons website: http://www.scons.org/
+.. _Python: http://www.python.org
+.. _MinGW: http://mingw.org/
 
-To compile, type in a terminal (or ``cmd.exe`` on Windows)::
+Compiling
++++++++++
+
+First, download a source distribution.
+Unpack the archive anywhere you want
+(e.g., ``~/tesseroids`` or ``C:\tesseroids`` or whatever).
+To compile,
+go to the directory where you unpacked
+(e.g., ``~/tesseroids`` etc.)
+and type in a terminal (or ``cmd.exe`` on Windows)::
 
     scons
 
@@ -108,8 +110,18 @@ To clean up the build, run::
 
 This will delete all object files and executables.
 
-.. _GCC: http://gcc.gnu.org
-.. _SCons: http://www.scons.org/
-.. _SCons website: http://www.scons.org/
-.. _Python: http://www.python.org
-.. _MinGW: http://mingw.org/
+Testing the build
++++++++++++++++++
+
+After the compilation,
+a program called ``tesstest``
+will be placed in the directory where you unpacked the source.
+This program runs all the `unit tests`_
+in the ``test`` directory.
+If all tests pass,
+the compilation probably went well.
+If any test fails,
+please `submit a bug`_ with the output of ``tesstest``.
+
+.. _unit tests: https://en.wikipedia.org/wiki/Unit_testing
+.. _submit a bug: http://code.google.com/p/tesseroids/issues/list
