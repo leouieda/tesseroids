@@ -15,7 +15,7 @@ if mode == 'debug':
         CPPPATH='src/lib')
 else:
     env = Environment(
-        CFLAGS='-ansi -pedantic-errors -Wall -O3',
+        CFLAGS='-O3',
         LIBS=['m'],
         CPPPATH='src/lib')
 
@@ -34,7 +34,7 @@ fields = ['pot', 'gx', 'gy', 'gz', 'gxx', 'gxy', 'gxz', 'gyy', 'gyz', 'gzz']
 for f in fields:
     sources = ['src/tess%s.c' % (f)] + tesssrc
     env.Program('bin/tess%s' % (f), source=sources)
-    
+
 # Build the prismg* programs
 tesssrc = Split("""
     src/lib/logger.c
@@ -49,7 +49,7 @@ fields = ['pot', 'gx', 'gy', 'gz', 'gxx', 'gxy', 'gxz', 'gyy', 'gyz', 'gzz']
 for f in fields:
     sources = ['src/prism%s.c' % (f)] + tesssrc
     env.Program('bin/prism%s' % (f), source=sources)
-    
+
 # Build prismpots, prismgs, and prismggts
 env.Program('bin/prismpots', source=Split("""
     src/prismpots.c
@@ -60,7 +60,7 @@ env.Program('bin/prismpots', source=Split("""
     src/lib/constants.c
     src/lib/geometry.c
     src/lib/parsers.c
-    """))    
+    """))
 env.Program('bin/prismgs', source=Split("""
     src/prismgs.c
     src/lib/grav_prism_sph.c
@@ -70,7 +70,7 @@ env.Program('bin/prismgs', source=Split("""
     src/lib/constants.c
     src/lib/geometry.c
     src/lib/parsers.c
-    """))    
+    """))
 env.Program('bin/prismggts', source=Split("""
     src/prismggts.c
     src/lib/grav_prism_sph.c
@@ -80,8 +80,8 @@ env.Program('bin/prismggts', source=Split("""
     src/lib/constants.c
     src/lib/geometry.c
     src/lib/parsers.c
-    """))    
-    
+    """))
+
 # Build tess2prism
 env.Program('bin/tess2prism', source=Split("""
     src/tess2prism.c
@@ -90,7 +90,7 @@ env.Program('bin/tess2prism', source=Split("""
     src/lib/constants.c
     src/lib/geometry.c
     src/lib/parsers.c
-    """))    
+    """))
 # Build tessdefaults
 env.Program('bin/tessdefaults', source=Split("""
     src/tessdefaults.c
