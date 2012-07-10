@@ -37,4 +37,4 @@ const int TESSEROID_G_SIZE_RATIO = 2;
 /** \var TESSEROID_GG_SIZE_RATIO
 Minimum distance-to-size ratio for gravity gradient computations to be
 accurate */
-const int TESSEROID_GG_SIZE_RATIO = 4;
+const int TESSEROID_GG_SIZE_RATIO = 2;
