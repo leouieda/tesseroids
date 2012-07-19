@@ -133,4 +133,4 @@ sources.extend(Glob("src/lib/*.c"))
 tesstest = env.Program('tesstest', source=sources)
 
 # When cleaning the build, also clean the doc build
-Clean('.', 'doc/_build/')
+#Clean('.', 'doc/_build/')

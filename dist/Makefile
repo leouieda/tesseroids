@@ -22,7 +22,7 @@ src: ${DOCS}
 	cp -r ../test ${DIRBASE}
 	cp -r ../cookbook ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
-	cp ../README.rst ${DIRBASE}
+	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	cp ../SConstruct ${DIRBASE}
 	zip -r ${DIRBASE}-src.zip ${DIRBASE}
@@ -36,7 +36,7 @@ bin32: ${DOCS}
 	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
-	cp ../README.rst ${DIRBASE}
+	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
@@ -48,7 +48,7 @@ bin64: ${DOCS}
 	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
 	cp ${DOCS} ${DIRBASE}/doc
-	cp ../README.rst ${DIRBASE}
+	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
