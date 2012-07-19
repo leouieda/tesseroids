@@ -30,11 +30,11 @@ static char * test_global2local()
         global2local(prisms[i].lon, prisms[i].lat, R - newz[i], prisms[i],
                      &x, &y, &z);
         sprintf(msg, "(prism %d) x: expect %.10g got %.10g", i, 0., x);
-        mu_assert_almost_equals(x, 0., 0.000000001, msg);
+        mu_assert_almost_equals(x, 0., 0.00000001, msg);
         sprintf(msg, "(prism %d) y: expect %.10g got %.10g", i, 0., y);
-        mu_assert_almost_equals(y, 0., 0.000000001, msg);
+        mu_assert_almost_equals(y, 0., 0.00000001, msg);
         sprintf(msg, "(prism %d) z: expect %.10g got %.10g", i, newz[i], z);
-        mu_assert_almost_equals(z, newz[i], 0.000000001, msg);        
+        mu_assert_almost_equals(z, newz[i], 0.00000001, msg);        
     }
     #undef R
     #undef N
