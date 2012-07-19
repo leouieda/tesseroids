@@ -3,14 +3,18 @@
 Welcome to Tesseroids!
 ======================
 
-*Tesseroids* is a collection of command-line programs
-for the direct modeling of gravitational fields in spherical coordinates.
-It can model the gravitational potential, acceleration, and gradient tensor.
+.. topic:: Forward modeling of gravitational fields in spherical coordinates
+
+    *Tesseroids* provides a collection of **command-line programs**
+    for modeling the gravitational potential, acceleration, and gradient tensor.
+        
+For more information visit `the official site`_.
 
 The geometric element used in the modeling processes is
-a spherical prism, also called a tesseroid.
+a **spherical prism**, also called a **tesseroid**.
 *Tesseroids* also contains programs for modeling using
-right rectangular prisms, both in Cartesian and spherical coordinates.
+**right rectangular prisms**, 
+both in **Cartesian** and **spherical coordinates**.
 
 .. image:: _static/tesseroid.png
     :align: center
@@ -20,12 +24,12 @@ right rectangular prisms, both in Cartesian and spherical coordinates.
 in cooperation with `Carla Braitenberg`_.
 
 As of version 1.1,
-*Tesseroids* is licensed under the :ref:`BSD license <license>`.
+*Tesseroids* is available under the **BSD license**.
 This means that it can be reused and remixed
 with fewer restrictions.
-See the license text for more information.
+See the :ref:`license text <license>` for more information.
 
-The source code of *Tesseroids* is hosted on several repositories:
+The **source code** of *Tesseroids* is hosted on several repositories:
 
 * `Google Code`_ (stable): source code and compiled binaries (latest stable 
   release)
@@ -33,8 +37,9 @@ The source code of *Tesseroids* is hosted on several repositories:
 
 .. _Google Code: http://code.google.com/p/tesseroids/
 .. _Bitbucket: https://bitbucket.org/leouieda/tesseroids
+.. _the official site: http://www.fatiando.org/software/tesseroids
 
-This documentation explains how to
+This **documentation** explains how to
 :ref:`install <install>`
 and :ref:`use <usage>` Tesseroids.
 It also contains some :ref:`theoretical background <theory>`
