@@ -1,7 +1,7 @@
 VERSION = 1.1
 DIRBASE = tesseroids-${VERSION}
 DOCS=../doc/_build/latex/Tesseroids_v1.1.pdf
-
+DOCSWIN=..\doc\_build\latex\Tesseroids_v1.1.pdf
 
 all:
 	@echo "Commands:"
@@ -53,17 +53,18 @@ bin64: ${DOCS}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-win32: ${DOCS}
+win32:
 	scons -C ..
 	mkdir ${DIRBASE}-win32
 	mkdir ${DIRBASE}-win32\doc
+	xcopy ${DOCSWIN} ${DIRBASE}-win32\doc
 	mkdir ${DIRBASE}-win32\cookbook
-	mkdir ${DIRBASE}-win32\cookbook\dem_brasil
-	copy ..\cookbook\dem_brasil ${DIRBASE}-win32\cookbook\dem_brasil
+	xcopy /E ..\cookbook ${DIRBASE}-win32\cookbook
 	mkdir ${DIRBASE}-win32\bin
-	copy ..\bin ${DIRBASE}-win32\bin
-	copy ..\README.rst ${DIRBASE}-win32
-	copy ..\LICENSE.txt ${DIRBASE}-win32
+	xcopy ..\bin ${DIRBASE}-win32\bin
+	xcopy ..\README.rst ${DIRBASE}-win32
+	rename ${DIRBASE}-win32\README.rst README.txt
+	xcopy ..\LICENSE.txt ${DIRBASE}-win32
 
 clean:
 	rm -rf ${DIRBASE} *.zip *.tar.gz
