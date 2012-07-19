@@ -15,7 +15,8 @@ Generate tesseroid model from a regular grid.
 void print_help()
 {
     printf("Usage: tessmodgen [ARGUMENTS] [OPTIONS]\n\n");
-    printf("Generate a tesseroid model from a regular grid.\n\n");
+    printf("Generate a tesseroid model of an interface, like topography,\n");
+    printf("moho, sediment thickness, etc.\n\n");
     printf("Each tesseroid has its top face centered of the respective grid\n");
     printf("point. The top and bottom of the tesseroid are define as:\n");
     printf("  * top = height of grid point and bottom = reference level\n");
@@ -23,7 +24,7 @@ void print_help()
     printf("  * other way around if otherwise\n\n");
     printf("All units either SI or degrees!\n\n");
     printf("Input:\n");
-    printf("  Regular grid passed through standard input (stdin).\n");
+    printf("  REGULAR grid passed through standard input (stdin).\n");
     printf("  Reads 3 values per line: longitude latitude height\n");
     printf("  height should be read as 'height above the mean Earth radius'\n");
     printf("  If bellow the Earth radius use negative heights.\n");
@@ -55,8 +56,9 @@ void print_help()
     printf("              each point. Tesseroids above the reference will\n");
     printf("              have density DENS, and bellow will have density\n");
     printf("              -DENS.\n");
-    printf("  -zREF       Depth of the reference level with respect to the\n");
-    printf("              mean Earth radius.\n\n");
+    printf("  -zREF       Height of the reference level with respect to the\n");
+    printf("              mean Earth radius. If bellow the mean Earth\n");
+    printf("              radius, use a negative value.\n\n");
     printf("Options:\n");
     printf("  -h          Print instructions.\n");
     printf("  --version   Print version and license information.\n");
