@@ -45,9 +45,11 @@ void print_help()
     printf("  * If a line starts with # it will be considered a comment\n");
     printf("    and will be ignored\n\n");
     printf("Arguments:\n");
-    printf("  -sDLON/DLAT Size of the tesseroids in the longitude and\n");
-    printf("              latitude directions, respectively.\n");
-    printf("              In DECIMAL DEGREES.\n");
+    printf("  -sDLON/DLAT The grid spacing in the longitude and latitude\n");
+    printf("              directions, respectively, in DECIMAL DEGREES.\n");
+    printf("              Will be used as the size of the tesseroids.\n");
+    printf("              WARNING: You may get wrong results if -s is \n");
+    printf("                different from the grid spacing!\n");
     printf("  -dDENS      Density of the tesseroids. If ommited will expect\n");
     printf("              a 4th column on the input with DENS values for\n");
     printf("              each point. Tesseroids above the reference will\n");
@@ -78,7 +80,7 @@ int main(int argc, char **argv)
     FILE *logfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
-    
+
     log_init(LOG_INFO);
 
     rc = parse_tessmodgen_args(argc, argv, progname, &args, &print_help);
@@ -179,9 +181,6 @@ int main(int argc, char **argv)
                     continue;
                 }
             }
-            /* Need to remove \n and \r from end of buff first to print the
-               result in the end */
-            strstrip(buff);
             w = lon - 0.5*args.dlon;
             e = lon + 0.5*args.dlon;
             s = lat - 0.5*args.dlat;
