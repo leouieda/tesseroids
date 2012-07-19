@@ -27,13 +27,12 @@ See the license text for more information.
 
 The source code of *Tesseroids* is hosted on several repositories:
 
-* `Google Code`_: source code and compiled binaries (latest stable release)
-* `Bitbucket Stable`_: source code (latest stable release)
-* `Bitbucket Development`_: source code (development version)
+* `Google Code`_ (stable): source code and compiled binaries (latest stable 
+  release)
+* Bitbucket_ (development): source code (development version)
 
 .. _Google Code: http://code.google.com/p/tesseroids/
-.. _Bitbucket Stable: https://bitbucket.org/leouieda/tesseroids
-.. _Bitbucket Development: https://bitbucket.org/leouieda/tesseroids-dev
+.. _Bitbucket: https://bitbucket.org/leouieda/tesseroids
 
 This documentation explains how to
 :ref:`install <install>`
