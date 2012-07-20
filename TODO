@@ -30,6 +30,7 @@ TODO:
 
 Ideas:
 
+* Make a program tessgrdspc that gets the grid spacing and checks if it is regular
 * Make a version of tess_grav that doesn't use the glq module. Instead, it uses
   a fixed order 2 and the tabulated values of the nodes and weights. Bonus,
   it subdivides the tesseroids automatically using a pile (lifo).

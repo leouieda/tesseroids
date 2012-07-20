@@ -303,10 +303,13 @@ extern PRISM * read_prism_model(FILE *modelfile, int pos, int *size);
 convert it to tesseroids.
 
 @param str string with the coordinates and layer parameters
+@param dlon the size of the tesseroid in the longitudinal direction
+@param dlat the size of the tesseroid in the latitudinal direction
 @param tessbuff buffer used to return the tesseroids corresponding to the layer
 @param buffsize the size of the buffer
 
 @return the number of layers read and converted, -1 if there was an error
 */
-extern int gets_layers(const char *str, TESSEROID *tessbuff, int buffsize);
+extern int gets_layers(const char *str, double dlon, double dlat,
+    TESSEROID *tessbuff, int buffsize);
 #endif

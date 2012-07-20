@@ -1314,8 +1314,57 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
 
 
 /* Read the coordinates, height, thickness and densities of the layers */
-int gets_layers(const char *str, TESSEROID *tessbuff, int buffsize)
+int gets_layers(const char *str, double dlon, double dlat,
+    TESSEROID *tessbuff, int buffsize)
 {
-    return 0;
+    int nlayers, end, nchars, argsread;
+    double lon, lat, height, top, thickness, density;
+
+    argsread = sscanf(str, "%lf %lf %lf%n", &lon, &lat, &height, &nchars);
+    if(argsread != 3)
+    {
+        log_error("failed to read lon, lat, and height");
+        return -1;
+    }
+    if(str[nchars] == '\0')
+    {
+        log_error("missing thickness and density values");
+        return -1;
+    }
+
+    top = height + MEAN_EARTH_RADIUS;
+    end = nchars;
+    for(nlayers = 0; str[end] != '\0'; nlayers++)
+    {
+        if(nlayers == buffsize)
+        {
+            log_error("too many layers! Max = %d", buffsize);
+            return -1;
+        }
+        argsread = sscanf(str + end, "%lf %lf%n", &thickness, &density,
+                          &nchars);
+        if(argsread != 2)
+        {
+            log_error("missing thickness or density value");
+            return -1;
+        }
+        if(thickness < 0)
+        {
+            log_error("can't have negative thickness");
+            return -1;
+        }
+
+        tessbuff[nlayers].density = density;
+        tessbuff[nlayers].w = lon - 0.5*dlon;
+        tessbuff[nlayers].e = lon + 0.5*dlon;
+        tessbuff[nlayers].s = lat - 0.5*dlat;
+        tessbuff[nlayers].n = lat + 0.5*dlat;
+        tessbuff[nlayers].r2 = top;
+        tessbuff[nlayers].r1 = top - thickness;
+
+        top -= thickness;
+        end += nchars;
+    }
+    return nlayers;
 }
 
