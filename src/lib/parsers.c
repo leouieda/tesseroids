@@ -137,7 +137,7 @@ int parse_tess2prism_args(int argc, char **argv, const char *progname,
 {
     int bad_args = 0, parsed_args = 0, total_args = 1, i;
     char *params;
-    
+
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
@@ -249,7 +249,7 @@ int parse_tess2prism_args(int argc, char **argv, const char *progname,
     if(parsed_args < total_args)
     {
         return 3;
-    }    
+    }
     return 0;
 }
 
@@ -261,7 +261,7 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
     int bad_args = 0, parsed_args = 0, total_args = 1, parsed_r = 0, i, nchar,
         nread;
     char *params;
-    
+
     /* Default values for options */
     args->verbose = 0;
     args->logtofile = 0;
@@ -390,7 +390,7 @@ int parse_tessmass_args(int argc, char **argv, const char *progname,
     if(parsed_args < total_args)
     {
         return 3;
-    }    
+    }
     return 0;
 }
 
@@ -533,6 +533,140 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
                     }
                     parsed_d = 1;
                     args->fix_density = 1;
+                    break;
+                }
+                default:
+                    log_error("invalid argument '%s'", argv[i]);
+                    bad_args++;
+                    break;
+            }
+        }
+        else
+        {
+            log_error("invalid argument '%s'", argv[i]);
+            bad_args++;
+        }
+    }
+    /* Check if parsing went well */
+    if(bad_args > 0 || parsed_args != total_args)
+    {
+        if(parsed_args < total_args)
+        {
+            log_error("%s: missing input arguments. given %d out of %d.",
+                      progname, parsed_args, total_args);
+        }
+        if(parsed_args > total_args)
+        {
+            log_error("%s: too many input arguments. given %d, max %d.",
+                      progname, parsed_args, total_args);
+        }
+        if(bad_args > 0)
+        {
+            log_error("%d bad input argument(s)", bad_args);
+        }
+        return 1;
+    }
+    return 0;
+}
+
+
+/* Parse command line arguments for tesslayers program */
+int parse_tesslayers_args(int argc, char **argv, const char *progname,
+                          TESSTESSLAYERS_ARGS *args, void (*print_help)(void))
+{
+    int bad_args = 0, parsed_args = 0, total_args = 1, parsed_s = 0,
+        parsed_z = 0, parsed_d = 0, i, nchar, nread;
+    char *params;
+
+    /* Default values for options */
+    args->verbose = 0;
+    args->logtofile = 0;
+    /* Parse arguments */
+    for(i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            switch(argv[i][1])
+            {
+                case 'h':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    print_help();
+                    return 2;
+                case 'v':
+                    if(argv[i][2] != '\0')
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                        break;
+                    }
+                    if(args->verbose)
+                    {
+                        log_error("repeated option -v");
+                        bad_args++;
+                        break;
+                    }
+                    args->verbose = 1;
+                    break;
+                case 'l':
+                {
+                    if(args->logtofile)
+                    {
+                        log_error("repeated option -l");
+                        bad_args++;
+                        break;
+                    }
+                    params = &argv[i][2];
+                    if(strlen(params) == 0)
+                    {
+                        log_error("bad input argument -l. Missing filename.");
+                        bad_args++;
+                    }
+                    else
+                    {
+                        args->logtofile = 1;
+                        args->logfname = params;
+                    }
+                    break;
+                }
+                case '-':
+                {
+                    params = &argv[i][2];
+                    if(strcmp(params, "version"))
+                    {
+                        log_error("invalid argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    else
+                    {
+                        print_version(progname);
+                        return 2;
+                    }
+                    break;
+                }
+                case 's':
+                {
+                    if(parsed_s)
+                    {
+                        log_error("repeated argument -s");
+                        bad_args++;
+                        break;
+                    }
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf/%lf%n", &(args->dlon),
+                                   &(args->dlat), &nchar);
+                    if(nread != 2 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_s = 1;
+                    parsed_args++;
                     break;
                 }
                 default:
@@ -736,7 +870,7 @@ int parse_tessgrd_args(int argc, char **argv, TESSGRD_ARGS *args,
                        void (*print_help)(void))
 {
     int bad_args = 0, parsed_args = 0, total_args = 3, parsed_r = 0,
-        parsed_b = 0, parsed_z = 0, i, nchar, nread;    
+        parsed_b = 0, parsed_z = 0, i, nchar, nread;
     char progname[] = "tessgrd", *params;
 
     /* Default values for options */
@@ -1034,7 +1168,7 @@ int gets_prism(const char *str, PRISM *prism)
                    &z1, &z2, &dens, &nchars);
     /* Check if there are extra characters in the line. This indicates
      * that the model is wrong or was generated by tess2prism without the
-     * --flatten flag */    
+     * --flatten flag */
     if(nread != 7 || str[nchars] != '\0')
     {
         return 1;
@@ -1061,7 +1195,7 @@ int gets_prism_sph(const char *str, PRISM *prism)
                    &dx, &dy, &dz, &dens, &lon, &lat, &r, &nchars);
     /* Check if there are extra characters in the line. This indicates
      * that the model is wrong or was generated by tess2prism without the
-     * --flatten flag */    
+     * --flatten flag */
     if(nread != 7 || str[nchars] != '\0')
     {
         return 1;
@@ -1139,7 +1273,7 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
                     line);
                     badinput = 1;
                     continue;
-                }                
+                }
             }
             else
             {

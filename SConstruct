@@ -126,6 +126,15 @@ env.Program('bin/tessmodgen', source=Split("""
     src/lib/geometry.c
     src/lib/constants.c
     """))
+# Build tesslayers
+env.Program('bin/tesslayers', source=Split("""
+    src/tesslayers.c
+    src/lib/logger.c
+    src/lib/version.c
+    src/lib/parsers.c
+    src/lib/geometry.c
+    src/lib/constants.c
+    """))
 
 # Build the test runner
 sources = ['test/test_all.c']

@@ -1,5 +1,5 @@
 /*
-Generate tesseroid model from a regular grid.
+Generate tesseroid model of a series of layers given their thickness.
 */
 
 
@@ -14,25 +14,27 @@ Generate tesseroid model from a regular grid.
 /** Print the help message */
 void print_help()
 {
-    printf("Usage: tessmodgen [ARGUMENTS] [OPTIONS]\n\n");
-    printf("Generate a tesseroid model of an interface, like topography,\n");
-    printf("moho, sediment thickness, etc.\n\n");
-    printf("Each tesseroid has its top face centered of the respective grid\n");
-    printf("point. The top and bottom of the tesseroid are define as:\n");
-    printf("  * top = height of grid point and bottom = reference level\n");
-    printf("    if height of grid point > reference level\n");
-    printf("  * other way around if otherwise\n\n");
-    printf("All units either SI or degrees!\n\n");
+    printf("Usage: tesslayers [ARGUMENTS] [OPTIONS]\n\n");
+    printf("Generate a tesseroid model of a series of stacked layers.\n\n");
+    printf("All units are either SI or degrees!\n\n");
     printf("Input:\n");
-    printf("  REGULAR grid passed through standard input (stdin).\n");
-    printf("  Reads 3 values per line: longitude latitude height\n");
+    printf("  Regular grids passed through standard input (stdin).\n");
+    printf("  Grids should be in a single file in xyz format, i.e., in\n");
+    printf("  columns:\n");
+    printf("      lon lat height thickness1 dens1 thickness2 dens2 ...\n");
+    printf("  lon and lat are the longitude and latitude of a grid point,\n");
+    printf("  height is the top of the first layer at the grid point\n");
+    printf("  (e.g., the topography or relief of the first layer),\n");
     printf("  height should be read as 'height above the mean Earth radius'\n");
-    printf("  If bellow the Earth radius use negative heights.\n");
+    printf("  (if bellow the Earth radius use negative heights),\n");
+    printf("  thickness1 is the thickness of the first layer,\n");
+    printf("  dens1 is the density of the first layer, and so forth.\n\n");
     printf("  Lines that start with # are ignored as comments.\n");
     printf("  Lines should be no longer than 10000 (ten thousand) characters.");
     printf("  \n\n");
     printf("Output:\n");
-    printf("  Tesseroids printed to standard output (stdout)\n");
+    printf("  Tesseroids that fill between the interfaces of the layers.\n");
+    printf("  Tesseroids are printed to standard output (stdout.)\n");
     printf("  * Each tesseroid is specified by the values of its borders\n");
     printf("    and density\n");
     printf("  * Will print one tesseroid per line\n");
@@ -51,14 +53,6 @@ void print_help()
     printf("              Will be used as the size of the tesseroids.\n");
     printf("              WARNING: You may get wrong results if -s is \n");
     printf("                       different from the grid spacing!\n");
-    printf("  -dDENS      Density of the tesseroids. If ommited will expect\n");
-    printf("              a 4th column on the input with DENS values for\n");
-    printf("              each point. Tesseroids above the reference will\n");
-    printf("              have density DENS, and bellow will have density\n");
-    printf("              -DENS.\n");
-    printf("  -zREF       Height of the reference level with respect to the\n");
-    printf("              mean Earth radius. If bellow the mean Earth\n");
-    printf("              radius, use a negative value.\n\n");
     printf("Options:\n");
     printf("  -h          Print instructions.\n");
     printf("  --version   Print version and license information.\n");
@@ -74,8 +68,8 @@ void print_help()
 /** Main */
 int main(int argc, char **argv)
 {
-    char *progname = "tessmodgen";
-    TESSMODGEN_ARGS args;
+    char *progname = "tesslayers";
+    TESSLAYERS_ARGS args;
     int rc, line, error_exit = 0, bad_input = 0, size = 0, nchars, nread;
     char buff[10000];
     double lon, lat, height, w, e, s, n, top, bot, dens;
@@ -85,7 +79,7 @@ int main(int argc, char **argv)
 
     log_init(LOG_INFO);
 
-    rc = parse_tessmodgen_args(argc, argv, progname, &args, &print_help);
+    rc = parse_tesslayers_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
         return 0;
@@ -127,17 +121,6 @@ int main(int argc, char **argv)
            tesseroids_version);
     printf("#   local time: %s", asctime(timeinfo));
     printf("#   grid spacing: %g deg lon / %g deg lat\n", args.dlon, args.dlat);
-    printf("#   reference level (depth): %g\n", args.ref);
-    if(args.fix_density)
-    {
-        printf("#   density: %g\n", args.dens);
-        log_info("Using fixed density value: %g", args.dens);
-    }
-    else
-    {
-        printf("#   density: read from input\n");
-        log_info("Reading density values from input grid");
-    }
 
     /* Read each regular grid from stdin and generate the tesseroids */
     for(line = 1; !feof(stdin); line++)
@@ -187,22 +170,6 @@ int main(int argc, char **argv)
             e = lon + 0.5*args.dlon;
             s = lat - 0.5*args.dlat;
             n = lat + 0.5*args.dlat;
-            if(height >= args.ref)
-            {
-                top = height;
-                bot = args.ref;
-                if(args.fix_density)
-                    dens = args.dens;
-            }
-            else
-            {
-                top = args.ref;
-                bot = height;
-                if(args.fix_density)
-                    dens = -args.dens;
-                else
-                    dens *= -1;
-            }
             printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n", w, e, s, n,
                    top, bot, dens);
             size++;
