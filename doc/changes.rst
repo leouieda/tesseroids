@@ -13,11 +13,17 @@ Changes in version 1.1
   to make the prism model by flattening the tesseroids
   (i.e., 1 degree = 111km) into Cartesian coordinates
   (so that they can be used with the prismg* programs).
-* **NEW programs** prismpots, prismgs, and prismggts,
+* **NEW PROGRAMS** prismpots, prismgs, and prismggts,
   to calculate the prism effects
   in spherical coordinates.
   These programs are compatible with the output of tess2prism
   (see :ref:`this recipe <recipe_tess2prism>` for an example).
+* **NEW PROGRAM** tesslayers to generate a tesseroid model of a stack of layers
+  from grids of the thickness and density of each layer.
+  tesslayers complements the functionality of tessmodgen
+  and can be used to generate crustal models,
+  sedimentary basin models, etc.
+  (see :ref:`this recipe <recipe_tesslayers>` for an example).
 * tesseroids now strictly follows the ANSI C standard.
 * Bug fix: prismpot, prismgx, prismgy, prismgz, and prismgxy had problems with
   a log(z + r) when the computation point was bellow the top of the prism

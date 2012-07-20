@@ -56,13 +56,13 @@ look like:
 
 The model file generated looks like this:
 
-.. include:: ../../cookbook/tesslayers/tessmodel.txt
+.. include:: ../../cookbook/tesslayers/sample-tessmodel.txt
     :literal:
     :number-lines:
     :end-line: 10
 ...
 
-.. include:: ../../cookbook/tesslayers/tessmodel.txt
+.. include:: ../../cookbook/tesslayers/sample-tessmodel.txt
     :literal:
     :number-lines: 500
     :start-line: 500

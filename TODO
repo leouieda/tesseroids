@@ -7,10 +7,6 @@ Goals for 1.2:
 
 Goals for 1.1:
 
-* Add program tesslayers that generates generates tesseroids between 2 or more
-  interfaces (grids). Do this by accepting several columns in the input file
-  with the extra grids. The density of each grid can be passed in the column
-  next to it or -dD1/D2/D3/...
 
 TODO:
 
