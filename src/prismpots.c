@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     time_t rawtime;
     clock_t tstart;
     struct tm * timeinfo;
-    
+
     log_init(LOG_INFO);
     strcpy(progname, progname);
     rc = parse_basic_args(argc, argv, progname, &args, &print_help);
@@ -118,13 +118,13 @@ int main(int argc, char **argv)
         }
         log_tofile(logfile, LOG_INFO);
     }
-    
+
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
-    
+
     /* Read the model file */
     log_info("Reading prism model from file %s", args.inputfname);
     modelfile = fopen(args.inputfname, "r");
@@ -136,10 +136,19 @@ int main(int argc, char **argv)
         if(args.logtofile)
             fclose(logfile);
         return 1;
-    }    
+    }
     model = read_prism_model(modelfile, 1, &modelsize);
     fclose(modelfile);
-    if(modelsize == 0 || model == NULL)
+    if(modelsize == 0)
+    {
+        log_error("prism file %s is empty", args.inputfname);
+        log_warning("Terminating due to bad input");
+        log_warning("Try '%s -h' for instructions", progname);
+        if(args.logtofile)
+            fclose(logfile);
+        return 1;
+    }
+    if(model == NULL)
     {
         log_error("failed to read model from file %s", args.inputfname);
         log_warning("Terminating due to bad input");
@@ -149,7 +158,7 @@ int main(int argc, char **argv)
         return 1;
     }
     log_info("Total of %d prism(s) read", modelsize);
-    
+
     /* Print a header on the output with provenance information */
     printf("# Potential calculated in spherical coordinates with %s %s:\n",
         progname, tesseroids_version);

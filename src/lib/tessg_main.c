@@ -110,7 +110,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     time_t rawtime;
     clock_t tstart;
     struct tm * timeinfo;
-    
+
     log_init(LOG_INFO);
 
     rc = parse_tessg_args(argc, argv, progname, &args, &print_tessg_help);
@@ -182,7 +182,16 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     }
     model = read_tess_model(modelfile, &modelsize);
     fclose(modelfile);
-    if(modelsize == 0 || model == NULL)
+    if(modelsize == 0)
+    {
+        log_error("tesseroid file %s is empty", args.modelfname);
+        log_warning("Terminating due to bad input");
+        log_warning("Try '%s -h' for instructions", progname);
+        if(args.logtofile)
+            fclose(logfile);
+        return 1;
+    }
+    if(model == NULL)
     {
         log_error("failed to read model from file %s", args.modelfname);
         log_warning("Terminating due to bad input");
@@ -279,7 +288,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     glq_free(glq_lon);
     glq_free(glq_lat);
     glq_free(glq_r);
-    log_info("Done");    
+    log_info("Done");
     if(args.logtofile)
         fclose(logfile);
     return 0;

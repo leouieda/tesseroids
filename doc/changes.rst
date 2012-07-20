@@ -6,7 +6,6 @@ Changelog
 Changes in version 1.1
 ----------------------
 
-* tesseroids now strictly follows the ANSI C standard.
 * the tesseroids license was changed from the GNU GPL
   to the more permissive BSD license
   (see :ref:`the license text <license>`).
@@ -14,17 +13,20 @@ Changes in version 1.1
   to make the prism model by flattening the tesseroids
   (i.e., 1 degree = 111km) into Cartesian coordinates
   (so that they can be used with the prismg* programs).
-* Added programs prismpots, prismgs, and prismggts,
+* **NEW programs** prismpots, prismgs, and prismggts,
   to calculate the prism effects
   in spherical coordinates.
   These programs are compatible with the output of tess2prism
   (see :ref:`this recipe <recipe_tess2prism>` for an example).
+* tesseroids now strictly follows the ANSI C standard.
 * Bug fix: prismpot, prismgx, prismgy, prismgz, and prismgxy had problems with
   a log(z + r) when the computation point was bellow the top of the prism
   (zp > prism.z1). Fixed by calculating on top of the prism when this happens,
   then changing the sign of the result when needed (only for gz).
+* Bug fix: the tessg and prismg family of programs was crashing when the model
+  file is empty. Now they fail with an error message.
 
-  
+
 Changes in version 1.0
 ----------------------
 

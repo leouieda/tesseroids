@@ -572,10 +572,10 @@ int parse_tessmodgen_args(int argc, char **argv, const char *progname,
 
 /* Parse command line arguments for tesslayers program */
 int parse_tesslayers_args(int argc, char **argv, const char *progname,
-                          TESSTESSLAYERS_ARGS *args, void (*print_help)(void))
+                          TESSLAYERS_ARGS *args, void (*print_help)(void))
 {
     int bad_args = 0, parsed_args = 0, total_args = 1, parsed_s = 0,
-        parsed_z = 0, parsed_d = 0, i, nchar, nread;
+        i, nchar, nread;
     char *params;
 
     /* Default values for options */
@@ -1144,16 +1144,19 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
         return NULL;
     }
     /* Adjust the size of the model */
-    tmp = (TESSEROID *)realloc(model, (*size)*sizeof(TESSEROID));
-    if(tmp == NULL)
+    if(*size != 0)
     {
-        /* Need to free because realloc leaves unchanged in case of
-            error */
-        free(model);
-        log_error("problem freeing excess memory for tesseroid model.");
-        return NULL;
+        tmp = (TESSEROID *)realloc(model, (*size)*sizeof(TESSEROID));
+        if(tmp == NULL)
+        {
+            /* Need to free because realloc leaves unchanged in case of
+                error */
+            free(model);
+            log_error("problem freeing excess memory for tesseroid model.");
+            return NULL;
+        }
+        model = tmp;
     }
-    model = tmp;
     return model;
 }
 
@@ -1293,15 +1296,26 @@ PRISM * read_prism_model(FILE *modelfile, int pos, int *size)
         return NULL;
     }
     /* Adjust the size of the model */
-    tmp = (PRISM *)realloc(model, (*size)*sizeof(PRISM));
-    if(tmp == NULL)
+    if(*size != 0)
     {
-        /* Need to free because realloc leaves unchanged in case of
-            error */
-        free(model);
-        log_error("problem freeing excess memory for prism model");
-        return NULL;
+        tmp = (PRISM *)realloc(model, (*size)*sizeof(PRISM));
+        if(tmp == NULL)
+        {
+            /* Need to free because realloc leaves unchanged in case of
+                error */
+            free(model);
+            log_error("problem freeing excess memory for prism model");
+            return NULL;
+        }
+        model = tmp;
     }
-    model = tmp;
     return model;
 }
+
+
+/* Read the coordinates, height, thickness and densities of the layers */
+int gets_layers(const char *str, TESSEROID *tessbuff, int buffsize)
+{
+    return 0;
+}
+

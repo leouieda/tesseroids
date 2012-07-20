@@ -9,7 +9,10 @@ Generate tesseroid model of a series of layers given their thickness.
 #include "parsers.h"
 #include "logger.h"
 #include "geometry.h"
+#include "constants.h"
 
+
+#define BUFFSIZE 1000
 
 /** Print the help message */
 void print_help()
@@ -70,9 +73,11 @@ int main(int argc, char **argv)
 {
     char *progname = "tesslayers";
     TESSLAYERS_ARGS args;
-    int rc, line, error_exit = 0, bad_input = 0, size = 0, nchars, nread;
+    TESSEROID tessbuff[BUFFSIZE];
+    int t;
+    int rc, line, error_exit = 0, bad_input = 0, size = 0, nchars, nread,
+        nlayers_old = -1, nlayers_new;
     char buff[10000];
-    double lon, lat, height, w, e, s, n, top, bot, dens;
     FILE *logfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
@@ -142,37 +147,35 @@ int main(int argc, char **argv)
                 continue;
             }
             strstrip(buff);
-            if(args.fix_density)
+
+            nlayers_new = gets_layers(buff, tessbuff, BUFFSIZE);
+            if(nlayers_new == -1)
             {
-                nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height,
-                               &nchars);
-                if(nread != 3 || buff[nchars] != '\0')
-                {
-                    log_warning("bad/invalid grid point at line %d", line);
-                    log_warning("skipping this line and continuing");
-                    bad_input++;
-                    continue;
-                }
+                log_error("invalid input in line %d", line);
+                error_exit++;
+                break;
             }
-            else
+            if(nlayers_old != -1 && nlayers_old != nlayers_new)
             {
-                nread = sscanf(buff, "%lf %lf %lf %lf%n", &lon, &lat, &height,
-                               &dens, &nchars);
-                if(nread != 4 || buff[nchars] != '\0')
-                {
-                    log_warning("bad/invalid grid point at line %d", line);
-                    log_warning("skipping this line and continuing");
-                    bad_input++;
-                    continue;
-                }
+                log_error("different number of layers in line %d than in previous lines",
+                          line);
+                error_exit++;
+                break;
             }
-            w = lon - 0.5*args.dlon;
-            e = lon + 0.5*args.dlon;
-            s = lat - 0.5*args.dlat;
-            n = lat + 0.5*args.dlat;
-            printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n", w, e, s, n,
-                   top, bot, dens);
-            size++;
+            nlayers_old = nlayers_new;
+
+            for(t = 0; t < nlayers_new; t++)
+            {
+                printf("%.15g %.15g %.15g %.15g %.15g %.15g %.15g\n",
+                       tessbuff[t].w,
+                       tessbuff[t].e,
+                       tessbuff[t].s,
+                       tessbuff[t].n,
+                       tessbuff[t].r2 - MEAN_EARTH_RADIUS,
+                       tessbuff[t].r1 - MEAN_EARTH_RADIUS,
+                       tessbuff[t].density);
+                size++;
+            }
         }
     }
     if(bad_input)
