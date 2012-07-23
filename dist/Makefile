@@ -1,7 +1,7 @@
-VERSION = 1.1
+VERSION = 1.1-beta
 DIRBASE = tesseroids-${VERSION}
-DOCS=../doc/_build/latex/Tesseroids_v1.1.pdf
-DOCSWIN=..\doc\_build\latex\Tesseroids_v1.1.pdf
+DOCS=../doc/_build/latex/Tesseroids_v${VERSION}.pdf
+DOCSWIN=..\doc\_build\latex\Tesseroids_v${VERSION}.pdf
 
 all:
 	@echo "Commands:"
