@@ -1,4 +1,5 @@
 # Build the Tesseroids programs
+import sys
 
 # get the mode flag from the command line
 # default to 'release' if the user didn't specify
@@ -8,7 +9,10 @@ if not (mode in ['debug', 'release']):
    Exit(1)
 print '**** Compiling in ' + mode + ' mode...'
 
-if mode == 'debug':
+if sys.platform == 'win32':
+    env = Environment(
+        CPPPATH='src/lib')
+elif mode == 'debug':
     env = Environment(
         CFLAGS='-ansi -pedantic-errors -Wall -g',
         LIBS=['m'],
