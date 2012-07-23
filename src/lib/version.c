@@ -6,7 +6,7 @@ Hold the version number of the project.
 #include "version.h"
 
 /* Current project version number */
-const char tesseroids_version[] = "1.1dev";
+const char tesseroids_version[] = "1.1-beta";
 
 /* Print version and license information */
 void print_version(const char *progname)

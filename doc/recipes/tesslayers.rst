@@ -60,6 +60,7 @@ The model file generated looks like this:
     :literal:
     :number-lines:
     :end-line: 10
+
 ...
 
 .. include:: ../../cookbook/tesslayers/sample-tessmodel.txt
