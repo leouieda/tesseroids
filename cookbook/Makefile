@@ -3,7 +3,7 @@
 .PHONY: simple_tess simple_prism tess2prism_flatten dem_brasil tess2prism \
 	tesslayers
 
-all: simple_tess simple_prism tess2prism_flatten tess2prism
+all: simple_tess simple_prism tess2prism_flatten tess2prism tesslayers
 
 dem_brasil:
 	cd dem_brasil; bash dem_brasil.sh; python plot.py

@@ -41,7 +41,7 @@ void print_tessgrd_help()
     printf("  -v           Enable verbose printing to stderr.\n");
     printf("  -lFILENAME   Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
+    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
     printf("Report bugs at: ");
     printf("<http://code.google.com/p/tesseroids/issues/list>\n");
 }
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     double lon, lat;
     /* Keep track of how many printed. Used to check if produced right amount */
     int lons = 0, lats = 0, total = 0;
-    
+
     log_init(LOG_INFO);
 
     rc = parse_tessgrd_args(argc, argv, &args, &print_tessgrd_help);
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     if(!args.verbose)
     {
         log_init(LOG_WARNING);
-    }    
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     log_info("(local time) %s", asctime(timeinfo));
-    
+
     /* CREATE THE GRID AND PRINT IT TO STDOUT */
     log_info("Generating regular grid in region: %g W / %g E / %g S / %g N",
              args.w, args.e, args.s, args.n);
@@ -117,8 +117,8 @@ int main(int argc, char **argv)
            args.n, args.nlon, args.nlat, args.height);
     printf("#   grid spacing: %.10f lon / %.10f lat\n", dlon, dlat);
     printf("#   total %d points\n", args.nlon*args.nlat);
-    
-    /* Make the grid points. Print lon first as x */    
+
+    /* Make the grid points. Print lon first as x */
     for(lat = args.s; lat <= args.n; lat += dlat)
     {
         lons = 0;
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
             lons++;
             total++;
         }
-    }    
+    }
     if(total != args.nlat*args.nlon)
     {
         log_warning("%d total points made instead of required %d", total,
@@ -163,6 +163,6 @@ int main(int argc, char **argv)
     log_info("Total points generated: %d", total);
     /* Clean up */
     if(args.logtofile)
-        fclose(logfile);    
+        fclose(logfile);
     return 0;
 }

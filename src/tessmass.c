@@ -41,7 +41,7 @@ void print_help()
     printf("  -v           Enable verbose printing to stderr.\n");
     printf("  -lFILENAME   Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
+    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
     printf("Report bugs at: ");
     printf("<http://code.google.com/p/tesseroids/issues/list>\n");
 }
@@ -59,9 +59,9 @@ int main(int argc, char **argv)
     time_t rawtime;
     struct tm * timeinfo;
     char buff[10000];
-    
+
     log_init(LOG_INFO);
-    
+
     rc = parse_tessmass_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
     {
@@ -169,9 +169,9 @@ int main(int argc, char **argv)
     {
         log_info("Total mass:");
     }
-    
+
     printf("%.15g\n", mass);
-    
+
     if(bad_input)
     {
         log_warning("Encountered %d bad input line(s) which were skipped",

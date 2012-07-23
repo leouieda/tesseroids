@@ -13,8 +13,8 @@ void print_version(const char *progname)
 {
     printf("%s (Tesseroids project) %s\n\n", progname, tesseroids_version);
     printf("Copyright (C) 2011, 2012 Leonardo Uieda.\n");
-    printf("License GNU GPL version 3 or later: ");
-    printf("<http://www.gnu.org/licenses/gpl.html>\n");
+    printf("This software is distributed under the terms of the BSD License:\n");
+    printf("<http://tesseroids.readthedocs.org/en/latest/license.html>\n");
     printf("This is free software: ");
     printf("you are free to change and redistribute it.\n");
     printf("There is NO WARRANTY, to the extent permitted by law.\n\n");

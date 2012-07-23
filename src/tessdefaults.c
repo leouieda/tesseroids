@@ -26,7 +26,7 @@ void print_help()
     printf("  -h         Print instructions.\n");
     printf("  --version  Print version and license information.\n");
     printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
+    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
     printf("Report bugs at: ");
     printf("<http://code.google.com/p/tesseroids/issues/list>\n");
 }
@@ -37,11 +37,11 @@ int main(int argc, char **argv)
 {
     char progname[] = "tessdefaults";
     int i, bad_args = 0;
-    char *params;    
+    char *params;
 
     log_init(LOG_INFO);
-    
-    /* Parse arguments */    
+
+    /* Parse arguments */
     for(i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-')
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     }
     /* Print the constants from constants.c */
     printf("# Mean Earth radius (m)\n");
-    printf("MEAN_EARTH_RADIUS = %.1f\n\n", MEAN_EARTH_RADIUS);    
+    printf("MEAN_EARTH_RADIUS = %.1f\n\n", MEAN_EARTH_RADIUS);
     printf("# Gravitational constant (m^3 kg^-1 s^-1)\n");
     printf("G = %.4g\n\n", G);
     printf("# Conversion factor from SI units to Eotvos s^-2 = 10^9 Eotvos\n");

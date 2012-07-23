@@ -7,15 +7,12 @@ Goals for 1.2:
 
 Goals for 1.1:
 
-* Update link to fatiando.org site in all programs and in bitbucket
-
 
 TODO:
 
 * Add program tesssplit to break the tesseroids in a file into smaller
   tesseroids. Useful when using tess2prism to convert tesseroids that are too
   large (the computation points would endup inside the resulting prisms).
-* Convert dem_brasil to a cookbook recipe
 * Clean up Doxygen markup from the comments and code
 * Check error in not rotating prism
 * Check error os using tesseroid in poles

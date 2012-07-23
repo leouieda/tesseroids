@@ -64,7 +64,7 @@ void print_help()
     printf("  -v           Enable verbose printing to stderr.\n");
     printf("  -lFILENAME   Print log messages to file FILENAME.\n");
     printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://code.google.com/p/tesseroids>\n");
+    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
     printf("Report bugs at: ");
     printf("<http://code.google.com/p/tesseroids/issues/list>\n");
 }
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
     FILE *logfile = NULL, *modelfile = NULL;
     time_t rawtime;
     struct tm * timeinfo;
-    
+
     log_init(LOG_INFO);
     rc = parse_tess2prism_args(argc, argv, progname, &args, &print_help);
     if(rc == 2)
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     if(!args.verbose)
     {
         log_init(LOG_WARNING);
-    }    
+    }
     if(args.logtofile)
     {
         logfile = fopen(args.logfname, "w");
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         }
         log_tofile(logfile, LOG_INFO);
     }
-    
+
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
     time(&rawtime);
@@ -156,8 +156,8 @@ int main(int argc, char **argv)
     {
         printf("#   format: dx dy dz density lon lat r\n");
     }
-    
-    /* Read the tesseroids, convert and print to stdout */    
+
+    /* Read the tesseroids, convert and print to stdout */
     for(line = 1; !feof(modelfile); line++)
     {
         if(fgets(buff, 10000, modelfile) == NULL)
@@ -218,8 +218,8 @@ int main(int argc, char **argv)
         log_info("Converted %d tesseroids", converted);
     }
     /* Clean up */
-    fclose(modelfile);    
+    fclose(modelfile);
     if(args.logtofile)
-        fclose(logfile);    
+        fclose(logfile);
     return 0;
 }
