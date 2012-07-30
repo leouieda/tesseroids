@@ -30,11 +30,11 @@ const double PI = 3.1415926535897932384626433832795;
 
 /** \var TESSEROID_POT_SIZE_RATIO
 Minimum distance-to-size ratio for potential computations to be accurate */
-const int TESSEROID_POT_SIZE_RATIO = 1;
+const int TESSEROID_POT_SIZE_RATIO = 1.5;
 /** \var TESSEROID_G_SIZE_RATIO
 Minimum distance-to-size ratio for gravity computations to be accurate */
 const int TESSEROID_G_SIZE_RATIO = 2;
 /** \var TESSEROID_GG_SIZE_RATIO
 Minimum distance-to-size ratio for gravity gradient computations to be
 accurate */
-const int TESSEROID_GG_SIZE_RATIO = 2;
+const int TESSEROID_GG_SIZE_RATIO = 3;
