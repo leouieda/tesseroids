@@ -12,5 +12,5 @@ Program to calculate gxx of a tesseroid model on a set of points.
 int main(int argc, char **argv)
 {
     return run_tessg_main(argc, argv, "tessgxx", &tess_gxx,
-                          TESSEROID_GG_SIZE_RATIO);
+                          TESSEROID_GXX_SIZE_RATIO);
 }

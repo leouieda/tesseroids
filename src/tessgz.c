@@ -12,5 +12,5 @@ Program to calculate gz of a tesseroid model on a set of points.
 int main(int argc, char **argv)
 {
     return run_tessg_main(argc, argv, "tessgz", &tess_gz,
-                          TESSEROID_G_SIZE_RATIO);
+                          TESSEROID_GZ_SIZE_RATIO);
 }

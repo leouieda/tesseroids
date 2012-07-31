@@ -12,5 +12,5 @@ Program to calculate gy of a tesseroid model on a set of points.
 int main(int argc, char **argv)
 {
     return run_tessg_main(argc, argv, "tessgy", &tess_gy,
-                          TESSEROID_G_SIZE_RATIO);
+                          TESSEROID_GY_SIZE_RATIO);
 }

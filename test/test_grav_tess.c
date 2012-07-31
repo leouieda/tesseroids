@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for grav_tess.c functions.
 */
 
@@ -29,11 +29,11 @@ static char * test_tess2sphere_pot()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
-        
+
     glqlat = glq_new(8, tess.s, tess.n);
     if(glqlat == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -72,7 +72,7 @@ static char * test_tess2sphere_gx()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -86,7 +86,7 @@ static char * test_tess2sphere_gx()
         mu_assert(0, "GLQ allocation error");
 
     radius = tess.r2;
-    
+
     /* Make a sphere with the same mass as the tesseroid */
     tess2sphere(tess, &sphere);
 
@@ -98,7 +98,7 @@ static char * test_tess2sphere_gx()
                 restess, ressphere);
         mu_assert_almost_equals(restess, ressphere, 0.1, msg);
     }
-    
+
     return 0;
 }
 
@@ -117,7 +117,7 @@ static char * test_tess2sphere_gy()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -163,7 +163,7 @@ static char * test_tess2sphere_gz()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -209,7 +209,7 @@ static char * test_tess2sphere_gxx()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -255,7 +255,7 @@ static char * test_tess2sphere_gxy()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -301,7 +301,7 @@ static char * test_tess2sphere_gxz()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -347,7 +347,7 @@ static char * test_tess2sphere_gyy()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -393,7 +393,7 @@ static char * test_tess2sphere_gyz()
     tess.n = 1;
     tess.r1 = MEAN_EARTH_RADIUS - 100000;
     tess.r2 = MEAN_EARTH_RADIUS;
-    
+
     glqlon = glq_new(8, tess.w, tess.e);
     if(glqlon == NULL)
         mu_assert(0, "GLQ allocation error");
@@ -481,7 +481,7 @@ static char * test_tess_tensor_trace()
         {1,-10,-7,7,7.5,6500000,6505000}};
     GLQ *glqlon, *glqlat, *glqr;
     int i;
-    double lon, lat, r, trace, dist, sr = TESSEROID_GG_SIZE_RATIO;
+    double lon, lat, r, trace, dist;
 
     glqlon = glq_new(8, tesses[0].w, tesses[0].e);
     if(glqlon == NULL)
@@ -494,7 +494,7 @@ static char * test_tess_tensor_trace()
     glqr = glq_new(8, tesses[0].r1, tesses[0].r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
-            
+
     for(i = 0; i < N; i++)
     {
         lon = 0.5*(tesses[i].w + tesses[i].e);
@@ -504,11 +504,14 @@ static char * test_tess_tensor_trace()
         for(dist=100000; dist <= 5000000; dist += 5000)
         {
             trace = calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
-                        glqlon, glqlat, glqr, tess_gxx, sr) +
+                        glqlon, glqlat, glqr, tess_gxx,
+                        TESSEROID_GXX_SIZE_RATIO) +
                     calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
-                        glqlon, glqlat, glqr, tess_gyy, sr) +
+                        glqlon, glqlat, glqr, tess_gyy,
+                        TESSEROID_GYY_SIZE_RATIO) +
                     calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
-                        glqlon, glqlat, glqr, tess_gzz, sr);
+                        glqlon, glqlat, glqr, tess_gzz,
+                        TESSEROID_GZZ_SIZE_RATIO);
 
             sprintf(msg, "(tess %d dist %g) trace %.10f", i, dist, trace);
             mu_assert_almost_equals(trace, 0, 0.0000000001, msg);
@@ -552,13 +555,13 @@ static char * test_adaptative()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
-    mindist = TESSEROID_GG_SIZE_RATIO*111110.*(tess.e - tess.w);
+    mindist = TESSEROID_GZZ_SIZE_RATIO*111110.*(tess.e - tess.w);
 
     /* If at half mindist should only divide once */
     resadapt = calc_tess_model_adapt(&tess, 1, 0, 0,
                                      0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
                                      glqlat, glqr, tess_gzz,
-                                     TESSEROID_GG_SIZE_RATIO);
+                                     TESSEROID_GZZ_SIZE_RATIO);
 
     split_tess(tess, split);
     resnormal = calc_tess_model(split, 8, 0, 0,
