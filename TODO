@@ -4,9 +4,7 @@ Goals for 1.2:
 * Better documentation on Using Tesseroids. Describe each program, its input and
   output, and what its used for.
 * Add sanity check of -s argument on tessmodgen
-
-Goals for 1.1:
-
+* Add checks for NaN values in the input functions
 
 TODO:
 

@@ -164,7 +164,9 @@ int main(int argc, char **argv)
             {
                 nread = sscanf(buff, "%lf %lf %lf%n", &lon, &lat, &height,
                                &nchars);
-                if(nread != 3 || buff[nchars] != '\0')
+                /* The lon != lon looks weird but this checks for NaN values */
+                if(nread != 3 || buff[nchars] != '\0' ||
+                   lon != lon || lat != lat || height != height)
                 {
                     log_warning("bad/invalid grid point at line %d", line);
                     log_warning("skipping this line and continuing");
@@ -176,7 +178,8 @@ int main(int argc, char **argv)
             {
                 nread = sscanf(buff, "%lf %lf %lf %lf%n", &lon, &lat, &height,
                                &dens, &nchars);
-                if(nread != 4 || buff[nchars] != '\0')
+                if(nread != 4 || buff[nchars] != '\0' ||
+                   lon != lon || lat != lat || height != height || dens != dens)
                 {
                     log_warning("bad/invalid grid point at line %d", line);
                     log_warning("skipping this line and continuing");
