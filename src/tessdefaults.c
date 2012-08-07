@@ -105,16 +105,16 @@ int main(int argc, char **argv)
     printf("PI = %.31f\n\n", PI);
     printf("# Minimum distance/size ratio for computations to be\n");
     printf("# accurate. Used for knowing when to divide the tesseroids.\n");
-    printf("TESSEROID_POT_SIZE_RATIO = %d\n", TESSEROID_POT_SIZE_RATIO);
-    printf("TESSEROID_GX_SIZE_RATIO = %d\n", TESSEROID_GX_SIZE_RATIO);
-    printf("TESSEROID_GY_SIZE_RATIO = %d\n", TESSEROID_GY_SIZE_RATIO);
-    printf("TESSEROID_GZ_SIZE_RATIO = %d\n", TESSEROID_GZ_SIZE_RATIO);
-    printf("TESSEROID_GXX_SIZE_RATIO = %d\n", TESSEROID_GXX_SIZE_RATIO);
-    printf("TESSEROID_GXY_SIZE_RATIO = %d\n", TESSEROID_GXY_SIZE_RATIO);
-    printf("TESSEROID_GXZ_SIZE_RATIO = %d\n", TESSEROID_GXZ_SIZE_RATIO);
-    printf("TESSEROID_GYY_SIZE_RATIO = %d\n", TESSEROID_GYY_SIZE_RATIO);
-    printf("TESSEROID_GYZ_SIZE_RATIO = %d\n", TESSEROID_GYZ_SIZE_RATIO);
-    printf("TESSEROID_GZZ_SIZE_RATIO = %d\n\n", TESSEROID_GZZ_SIZE_RATIO);
+    printf("TESSEROID_POT_SIZE_RATIO = %g\n", TESSEROID_POT_SIZE_RATIO);
+    printf("TESSEROID_GX_SIZE_RATIO = %g\n", TESSEROID_GX_SIZE_RATIO);
+    printf("TESSEROID_GY_SIZE_RATIO = %g\n", TESSEROID_GY_SIZE_RATIO);
+    printf("TESSEROID_GZ_SIZE_RATIO = %g\n", TESSEROID_GZ_SIZE_RATIO);
+    printf("TESSEROID_GXX_SIZE_RATIO = %g\n", TESSEROID_GXX_SIZE_RATIO);
+    printf("TESSEROID_GXY_SIZE_RATIO = %g\n", TESSEROID_GXY_SIZE_RATIO);
+    printf("TESSEROID_GXZ_SIZE_RATIO = %g\n", TESSEROID_GXZ_SIZE_RATIO);
+    printf("TESSEROID_GYY_SIZE_RATIO = %g\n", TESSEROID_GYY_SIZE_RATIO);
+    printf("TESSEROID_GYZ_SIZE_RATIO = %g\n", TESSEROID_GYZ_SIZE_RATIO);
+    printf("TESSEROID_GZZ_SIZE_RATIO = %g\n\n", TESSEROID_GZZ_SIZE_RATIO);
     /* Print the constants from glq.c */
     printf("# Max iterations of the Legendre polynomial root-finder \
 algorithm\n");

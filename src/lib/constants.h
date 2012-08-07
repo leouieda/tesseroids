@@ -27,18 +27,18 @@ extern const double SI2MGAL;
 extern const double PI;
 
 /* Minimum distance-to-size ratio for potential computations to be accurate */
-extern const int TESSEROID_POT_SIZE_RATIO;
+extern const double TESSEROID_POT_SIZE_RATIO;
 /* Minimum distance-to-size ratio for gravity computations to be accurate */
-extern const int TESSEROID_GX_SIZE_RATIO;
-extern const int TESSEROID_GY_SIZE_RATIO;
-extern const int TESSEROID_GZ_SIZE_RATIO;
+extern const double TESSEROID_GX_SIZE_RATIO;
+extern const double TESSEROID_GY_SIZE_RATIO;
+extern const double TESSEROID_GZ_SIZE_RATIO;
 /* Minimum distance-to-size ratio for gravity gradient computations to be
 accurate */
-extern const int TESSEROID_GXX_SIZE_RATIO;
-extern const int TESSEROID_GXY_SIZE_RATIO;
-extern const int TESSEROID_GXZ_SIZE_RATIO;
-extern const int TESSEROID_GYY_SIZE_RATIO;
-extern const int TESSEROID_GYZ_SIZE_RATIO;
-extern const int TESSEROID_GZZ_SIZE_RATIO;
+extern const double TESSEROID_GXX_SIZE_RATIO;
+extern const double TESSEROID_GXY_SIZE_RATIO;
+extern const double TESSEROID_GXZ_SIZE_RATIO;
+extern const double TESSEROID_GYY_SIZE_RATIO;
+extern const double TESSEROID_GYZ_SIZE_RATIO;
+extern const double TESSEROID_GZZ_SIZE_RATIO;
 
 #endif
