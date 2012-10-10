@@ -708,8 +708,8 @@ int parse_tesslayers_args(int argc, char **argv, const char *progname,
 int parse_tessg_args(int argc, char **argv, const char *progname,
                      TESSG_ARGS *args, void (*print_help)(const char *))
 {
-    int bad_args = 0, parsed_args = 0, total_args = 1,  parsed_order = 0, i,
-        nchar, nread;
+    int bad_args = 0, parsed_args = 0, total_args = 1,  parsed_order = 0,
+        parsed_ratio = 0, i, nchar, nread;
     char *params;
 
     /* Default values for options */
@@ -820,6 +820,25 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
                         bad_args++;
                     }
                     parsed_order = 1;
+                    break;
+                }
+                case 't':
+                {
+                    if(parsed_ratio)
+                    {
+                        log_error("repeated option -t");
+                        bad_args++;
+                        break;
+                    }
+                    params = &argv[i][2];
+                    nchar = 0;
+                    nread = sscanf(params, "%lf%n", &(args->ratio), &nchar);
+                    if(nread != 1 || *(params + nchar) != '\0')
+                    {
+                        log_error("bad input argument '%s'", argv[i]);
+                        bad_args++;
+                    }
+                    parsed_ratio = 1;
                     break;
                 }
                 default:

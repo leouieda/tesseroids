@@ -39,12 +39,12 @@ Logging to a file:
 
     #include <stdio.h>
     #include "logger.h"
-    
+
     void my_func(){
         log_info("From my_func!\n");
         log_debug("Should not appear in log file\n");
     }
-    
+
     int main(){
         // Enable logging to file "log.txt" in info level
         // will not print DEBUG level messages
@@ -78,13 +78,13 @@ levels in the same program.
 
 
 /** Logging level for debug messages */
-#define LOG_DEBUG   0
+#define LOG_DEBUG   1
 /** Logging level for general information */
-#define LOG_INFO    1
+#define LOG_INFO    2
 /** Logging level for warning messages */
-#define LOG_WARNING 2
+#define LOG_WARNING 3
 /** Logging level for error messages */
-#define LOG_ERROR   3
+#define LOG_ERROR   4
 
 
 /** Keep the information on the global logger */

@@ -13,6 +13,9 @@ Changes in version 1.1
   to make the prism model by flattening the tesseroids
   (i.e., 1 degree = 111km) into Cartesian coordinates
   (so that they can be used with the prismg* programs).
+* tessg* programs have a new flag -t
+  used to control the distance-size ratio for the automatic recursive division
+  of tesseroids.
 * **NEW PROGRAMS** prismpots, prismgs, and prismggts,
   to calculate the prism effects
   in spherical coordinates.

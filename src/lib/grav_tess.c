@@ -54,9 +54,9 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
 
 /* Adaptatively calculate the field of a tesseroid model at a given point */
 double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
-              double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
-              double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-              int ratio)
+          double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
+          double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
+          double ratio)
 {
     double res, dist, lont, latt, rt, d2r = PI/180.;
     int tess;
@@ -97,11 +97,11 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
             dist < ratio*(model[tess].r2 - model[tess].r1))
         {
-            log_debug("Splitting tesseroid %d: %g %g %g %g %g %g %g at point: %g %g %g",
+            log_debug("Splitting tesseroid %d (%g %g %g %g %g %g %g) at point (%g %g %g) using ratio %g",
                       tess, model[tess].w, model[tess].e, model[tess].s,
                       model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
                       model[tess].r1 - MEAN_EARTH_RADIUS, model[tess].density,
-                      lonp, latp, rp - MEAN_EARTH_RADIUS);
+                      lonp, latp, rp - MEAN_EARTH_RADIUS, ratio);
             /* Do it recursively until ratio*size is smaller than distance */
             split_tess(model[tess], split);
             res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,

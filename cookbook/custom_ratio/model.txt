@@ -1,0 +1,2 @@
+# Test tesseroid model file
+-1.5 1.5 -1.5 1.5 0 -5000 200

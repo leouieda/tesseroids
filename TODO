@@ -8,6 +8,8 @@ Goals for 1.2:
 
 TODO:
 
+* Add the custom ratio recipe to the cookbook
+* Add docs for the -t option
 * Add program tesssplit to break the tesseroids in a file into smaller
   tesseroids. Useful when using tess2prism to convert tesseroids that are too
   large (the computation points would endup inside the resulting prisms).

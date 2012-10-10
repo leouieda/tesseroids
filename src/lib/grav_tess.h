@@ -142,7 +142,7 @@ the tesseroids</b>.
 extern double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
     double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-    int ratio);
+    double ratio);
 
 
 /** Calculates potential caused by a tesseroid.
