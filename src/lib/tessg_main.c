@@ -77,8 +77,11 @@ void print_tessg_help(const char *progname)
     printf("Options:\n");
     printf("  -a             Disable the automatic subdividing of\n");
     printf("                 tesseroids. Subdividing is done to ensure the\n");
-    printf("                 GLQ gives accurate results. Only use this\n");
-    printf("                 option if you know what you are doing!\n");
+    printf("                 GLQ gives accurate results. ONLY USE THIS\n");
+    printf("                 OPTION IF YOU KNOW WHAT YOU ARE DOING!\n");
+    printf("  -tRATIO        Use a custom distance-size ratio for the\n");
+    printf("                 automatic subdivision of tesseroids. ONLY USE\n");
+    printf("                 THIS OPTION IF YOU KNOW WHAT YOU ARE DOING!\n");
     printf("  -oOLON/OLAT/OR GLQ order to use in the longitudinal,\n");
     printf("                 latitudinal and radial integrations,\n");
     printf("                 respectively. Defaults to 2/2/2.\n");
@@ -98,7 +101,7 @@ void print_tessg_help(const char *progname)
 /* Run the main for a generic tessg* program */
 int run_tessg_main(int argc, char **argv, const char *progname,
     double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-    int ratio)
+    double ratio)
 {
     TESSG_ARGS args;
     GLQ *glq_lon, *glq_lat, *glq_r;
@@ -144,6 +147,12 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         log_tofile(logfile, LOG_DEBUG);
     }
 
+    /* Check if a custom distance-size ratio is given */
+    if(args.ratio != 0)
+    {
+        ratio = args.ratio;
+    }
+
     /* Print standard verbose */
     log_info("%s (Tesseroids project) %s", progname, tesseroids_version);
     time(&rawtime);
@@ -151,6 +160,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     log_info("(local time) %s", asctime(timeinfo));
     log_info("Use recursive division of tesseroids: %s",
              args.adaptative ? "True" : "False");
+    log_info("Distance-size ratio for recusive division: %g", ratio);
 
     /* Make the necessary GLQ structures */
     log_info("Using GLQ orders: %d lon / %d lat / %d r", args.lon_order,

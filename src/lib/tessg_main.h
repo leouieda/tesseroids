@@ -31,6 +31,6 @@ extern void print_tessg_help(const char *progname);
 */
 extern int run_tessg_main(int argc, char **argv, const char *progname,
    double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-   int ratio);
+   double ratio);
 
 #endif

@@ -719,6 +719,7 @@ int parse_tessg_args(int argc, char **argv, const char *progname,
     args->lat_order = 2;
     args->r_order = 2;
     args->adaptative = 1;
+    args->ratio = 0; /* zero means use the default for the program */
     /* Parse arguments */
     for(i = 1; i < argc; i++)
     {

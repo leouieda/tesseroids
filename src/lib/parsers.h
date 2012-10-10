@@ -83,6 +83,7 @@ typedef struct tessg_args
     char *logfname; /**< name of the log file */
     int adaptative; /**< flat to indicate wether to use the adaptative size
                          of tesseroid algorithm */
+    double ratio; /**< distance-size ratio used for recusive division */
 } TESSG_ARGS;
 
 
