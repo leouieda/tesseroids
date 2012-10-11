@@ -229,7 +229,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
            args.lat_order, args.r_order);
     printf("#   Use recursive division of tesseroids: %s\n",
            args.adaptative ? "True" : "False");
-    printf("#   Distance-size ratio for recusive division: %g", ratio);
+    printf("#   Distance-size ratio for recusive division: %g\n", ratio);
 
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
