@@ -5,7 +5,7 @@ Welcome to Tesseroids!
 
 .. topic:: Forward modeling of gravitational fields in spherical coordinates
 
-    *Tesseroids* provides a collection of **command-line programs**
+    *Tesseroids* is a collection of **command-line programs**
     for modeling the gravitational potential, acceleration, and gradient tensor.
         
 For more information visit `the official site`_.
@@ -29,15 +29,11 @@ This means that it can be reused and remixed
 with fewer restrictions.
 See the :ref:`license text <license>` for more information.
 
-The **source code** of *Tesseroids* is hosted on several repositories:
-
-* `Google Code`_ (stable): source code and compiled binaries (latest stable 
-  release)
-* Bitbucket_ (development): source code (development version)
-
-.. _Google Code: http://code.google.com/p/tesseroids/
-.. _Bitbucket: https://bitbucket.org/leouieda/tesseroids
-.. _the official site: http://www.fatiando.org/software/tesseroids
+The **source code** of *Tesseroids* is hosted on GitHub_.
+There you can browse the code,
+create your own fork,
+and start contributing!
+`Get in touch`_ to see how you can help.
 
 This **documentation** explains how to
 :ref:`install <install>`
@@ -60,3 +56,6 @@ The :ref:`cookbook <cookbook>` has a few example recipes and the expected output
 
 .. _Leonardo Uieda: http://fatiando.org/people/uieda/
 .. _Carla Braitenberg: http://www2.units.it/geodin/biobraitenberg.html
+.. _the official site: http://leouieda.github.com/tesseroids
+.. _GitHub: https://github.com/leouieda/tesseroids
+.. _Get in touch: http://fatiando.org/people/uieda

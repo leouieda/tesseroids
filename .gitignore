@@ -3,3 +3,4 @@ bin/
 build/
 tesstest
 .sconsign.dblite
+doc/_build
