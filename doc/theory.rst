@@ -97,7 +97,7 @@ can be calculated using the formula
 
 The gravitational attraction
 can be calculated using the formula
-(Grombein et al., 2010):
+(Grombein et al., 2013):
 
 .. math::
     g_{\alpha}(r,\phi,\lambda) = G \rho
@@ -108,7 +108,7 @@ can be calculated using the formula
 
 The gravity gradients can be calculated
 using the general formula
-(Grombein et al., 2010):
+(Grombein et al., 2013):
 
 .. math::
     g_{\alpha\beta}(r,\phi,\lambda) = G \rho
@@ -135,7 +135,7 @@ of the computation point P
 
 .. math::
    :nowrap:
-   
+
     \begin{eqnarray*}
         \Delta_x &=& r' K_{\phi} \\
         \Delta_y &=& r' \cos \phi' \sin(\lambda' - \lambda) \\
@@ -236,7 +236,7 @@ in the global Cartesian coordinates (X, Y, Z):
     \bar{e}^g = \bar{E} - \bar{E}^*
 
 where :math:`\bar{e}^g` is the vector :math:`\bar{e}`
-in the global Cartesian coordinates and 
+in the global Cartesian coordinates and
 
 .. math::
 
@@ -272,7 +272,7 @@ in the global Cartesian coordinates and
     in the global coordinate system,
     and :math:`\bar{e}` is the position vector of point P
     in the local coordinate system of the prism
-    (:math:`x^*,\ y^*,\ z^*`).    
+    (:math:`x^*,\ y^*,\ z^*`).
 
 
 Next, we transform :math:`\bar{e}^g`
@@ -322,14 +322,14 @@ around the y and z axis, respectively
     \sin\alpha & \cos\alpha & 0\\
     0 & 0 & 1\\
     \end{bmatrix}
-    
+
 .. math::
     \bar{\bar{W}} =
     \begin{bmatrix}
     \cos(90^\circ - \phi^*)\cos(180^\circ - \lambda^*) &
     -\cos(90^\circ - \phi^*)\sin(180^\circ - \lambda^*) &
     \sin(90^\circ - \phi^*)
-    \\    
+    \\
     -\sin(180^\circ - \lambda^*) &
     -\cos(180^\circ - \lambda^*) &
     0
@@ -372,7 +372,7 @@ in the coordinate system of computation point P.
 
 .. math::
 
-    \bar{g}^g =  
+    \bar{g}^g =
         \bar{\bar{R}}_z(\lambda^* - 180^\circ)
         \bar{\bar{R}}_y(\phi^* - 90^\circ)
         \bar{\bar{P}}_y
@@ -406,7 +406,7 @@ in the coordinate system of computation point P.
 
 .. math::
 
-    \bar{\bar{R}} = 
+    \bar{\bar{R}} =
         \bar{\bar{P}}_y
         \bar{\bar{R}}_y(90^\circ - \phi)
         \bar{\bar{R}}_z(\lambda^* - \lambda)
@@ -419,7 +419,7 @@ in the coordinate system of computation point P.
     \cos\beta\cos\alpha\cos\gamma - \sin\alpha\sin\gamma &
     \sin\beta\cos\alpha &
     \cos\beta\cos\alpha\sin\gamma + \sin\alpha\cos\gamma
-    \\    
+    \\
     -\sin\beta\cos\gamma &
     \cos\beta &
     -\sin\beta\sin\gamma
@@ -435,7 +435,7 @@ in the coordinate system of computation point P.
     \cos\beta\sin\phi\sin\phi^* + \cos\phi\cos\phi^* &
     \sin\beta\sin\phi &
     -\cos\beta\sin\phi\cos\phi^* + \cos\phi\sin\phi^*
-    \\    
+    \\
     -\sin\beta\sin\phi^* &
     \cos\beta &
     \sin\beta\cos\phi^*
@@ -450,7 +450,7 @@ where
 
 .. math::
    :nowrap:
-   
+
     \begin{eqnarray*}
         &\alpha = 90^\circ - \phi \\
         &\beta = \lambda^* - \lambda \\
@@ -460,19 +460,19 @@ where
         &\cos\gamma = \sin\phi^* \\
         &\sin\gamma = -\cos\phi^*
     \end{eqnarray*}
-        
+
 
 Likewise,
 transformation for the gravity gradient tensor :math:`T` is
 
 .. math::
 
-    \bar{\bar{T}} = 
+    \bar{\bar{T}} =
         \bar{\bar{R}}
         \bar{\bar{T}}^*
         \bar{\bar{R}}^T
 
-        
+
 .. _GOCE: http://www.esa.int/esaLP/ESAYEK1VMOC_LPgoce_0.html
 .. _Wolfram MathWorld: http://mathworld.wolfram.com/RotationMatrix.html
 
@@ -492,13 +492,9 @@ Spherical prism gravity effects by Gauss-Legendre quadrature integration,
 Geophysical Journal International, 169(1), 1-11,
 doi:10.1111/j.1365-246X.2007.03214.x.
 
-Grombein, T.; Seitz, K.; Heck, B. 2010.
-`"Untersuchungen zur effizienten Berechnung topographischer Effekte
-auf den Gradiententensor am Fallbeispiel der
-Satellitengradiometriemission GOCE"
-<http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/1336300>`_.
-KIT Scientific Reports 7547, ISBN 978-3-86644-510-9, KIT Scientific Publishing,
-Karlsruhe, Germany.
+Grombein, T.; Seitz, K.; Heck, B. (2013), Optimized formulas for the
+gravitational field of a tesseroid, Journal of Geodesy,
+doi: 10.1007/s00190-013-0636-1
 
 Nagy, D., G. Papp, and J. Benedek (2000),
 The gravitational potential and its derivatives for the prism,
