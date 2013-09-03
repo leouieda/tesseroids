@@ -7,9 +7,9 @@ Downloading
 -----------
 
 You can download the source and binary distributions
-from the `Google Code project site`_.
+from the `project site`_.
 
-.. _Google Code project site: http://code.google.com/p/tesseroids/
+.. _project site: http://leouieda.github.io/tesseroids/
 
 
 Pre-compiled binaries
