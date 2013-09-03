@@ -7,21 +7,25 @@ Welcome to Tesseroids!
 
     *Tesseroids* is a collection of **command-line programs**
     for modeling the gravitational potential, acceleration, and gradient tensor.
-        
+
 For more information visit `the official site`_.
 
 The geometric element used in the modeling processes is
 a **spherical prism**, also called a **tesseroid**.
 *Tesseroids* also contains programs for modeling using
-**right rectangular prisms**, 
+**right rectangular prisms**,
 both in **Cartesian** and **spherical coordinates**.
 
 .. image:: _static/tesseroid.png
     :align: center
     :width: 300px
-    
+
 *Tesseroids* is developed by `Leonardo Uieda`_
 in cooperation with `Carla Braitenberg`_.
+
+If you use *Tesseroids* in your research,
+please consider **citing** it in your publications.
+See :ref:`Citation <citation>` for more information.
 
 As of version 1.1,
 *Tesseroids* is available under the **BSD license**.
@@ -47,6 +51,7 @@ The :ref:`cookbook <cookbook>` has a few example recipes and the expected output
     :maxdepth: 2
 
     license
+    citation
     changes
     install
     theory
