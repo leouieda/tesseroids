@@ -1,5 +1,5 @@
 Tesseroids was compiled and tested using: 
 
-* OS: Ubuntu GNU/Linux 12.04
-* Compiler: GCC 4.6.3
-* SCons: 2.1.0  
+* OS: Ubuntu GNU/Linux 12.04; Windows XP
+* Compiler: GCC v4.5.2 and v4.6.3
+* Build tool: SCons v2.1.0 and v2.3.0
