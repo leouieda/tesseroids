@@ -69,7 +69,6 @@ win32:
 	mkdir ${DIRBASE}-win32\bin
 	xcopy ..\bin ${DIRBASE}-win32\bin
 	xcopy ..\README.rst ${DIRBASE}-win32
-	rename ${DIRBASE}-win32\README.rst README.txt
 	xcopy ..\LICENSE.txt ${DIRBASE}-win32
 	xcopy ..\DEPENDENCIES.txt ${DIRBASE}-win32
 	xcopy ..\CITATION.txt ${DIRBASE}-win32
