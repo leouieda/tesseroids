@@ -4,7 +4,7 @@
 Tesseroids license
 ==================
 
-Copyright (c) 2012, Leonardo Uieda
+Copyright (c) 2012-2013, Leonardo Uieda
 
 All rights reserved.
 
