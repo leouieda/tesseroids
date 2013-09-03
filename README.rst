@@ -32,13 +32,16 @@ http://tesseroids.readthedocs.org/
 The docs contain installation instructions, usage, theorerical background,
 and some examples.
 
+You can also download a **PDF** version of the docs
+`here <https://media.readthedocs.org/pdf/tesseroids/latest/tesseroids.pdf>`__.
+
 Downloading
 -----------
 
 You can download the source and binary distributions
-from the `Google Code project site`_.
+from the `project site`_.
 
-.. _Google Code project site: http://code.google.com/p/tesseroids/
+.. _project site: http://leouieda.github.io/tesseroids
 
 Pre-compiled binaries
 ---------------------
@@ -121,7 +124,7 @@ in the ``test`` directory.
 If all tests pass,
 the compilation probably went well.
 If any test fails,
-please `submit a bug`_ with the output of ``tesstest``.
+please `submit a bug report`_ with the output of ``tesstest``.
 
 .. _unit tests: https://en.wikipedia.org/wiki/Unit_testing
-.. _submit a bug: http://code.google.com/p/tesseroids/issues/list
+.. _submit a bug report: https://github.com/leouieda/tesseroids/issues
