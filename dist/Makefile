@@ -24,6 +24,8 @@ src: ${DOCS}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
+	cp ../DEPENDENCIES.txt ${DIRBASE}
+	cp ../CITATION.txt ${DIRBASE}
 	cp ../SConstruct ${DIRBASE}
 	zip -r ${DIRBASE}-src.zip ${DIRBASE}
 	tar -zcvf ${DIRBASE}-src.tar.gz ${DIRBASE}
@@ -38,6 +40,8 @@ bin32: ${DOCS}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
+	cp ../DEPENDENCIES.txt ${DIRBASE}
+	cp ../CITATION.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
@@ -50,6 +54,8 @@ bin64: ${DOCS}
 	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
+	cp ../DEPENDENCIES.txt ${DIRBASE}
+	cp ../CITATION.txt ${DIRBASE}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
@@ -65,6 +71,8 @@ win32:
 	xcopy ..\README.rst ${DIRBASE}-win32
 	rename ${DIRBASE}-win32\README.rst README.txt
 	xcopy ..\LICENSE.txt ${DIRBASE}-win32
+	xcopy ..\DEPENDENCIES.txt ${DIRBASE}-win32
+	xcopy ..\CITATION.txt ${DIRBASE}-win32
 
 clean:
 	rm -rf ${DIRBASE} *.zip *.tar.gz
