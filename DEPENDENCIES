@@ -1,0 +1,5 @@
+Tesseroids was compiled and tested using: 
+
+* OS: Ubuntu GNU/Linux 12.04
+* Compiler: GCC 4.6.3
+* SCons: 2.1.0  
