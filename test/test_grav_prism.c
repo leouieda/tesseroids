@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for grav_prism.c functions.
 */
 
@@ -16,7 +16,7 @@ static char * test_pot_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_pot(prism, 0, 0, -dist);
@@ -35,7 +35,7 @@ static char * test_gx_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gx(prism, 5000, 0, -dist);
@@ -54,7 +54,7 @@ static char * test_gy_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gy(prism, 0, 5000, -dist);
@@ -73,7 +73,7 @@ static char * test_gz_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gz(prism, 0, 0,-dist);
@@ -81,7 +81,7 @@ static char * test_gz_bellow()
 
         sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
                 restop, resbellow);
-        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+        mu_assert_almost_equals((double)(restop - (-resbellow))/restop, 0.,
                                 0.001, msg);
     }
 
@@ -92,7 +92,7 @@ static char * test_gxx_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gxx(prism, 0, 0,-dist);
@@ -111,7 +111,7 @@ static char * test_gxy_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gxy(prism, 5000, 5000, -dist);
@@ -130,7 +130,7 @@ static char * test_gxz_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gxz(prism, 5000, 0,-dist);
@@ -149,7 +149,7 @@ static char * test_gyy_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gyy(prism, 0, 0,-dist);
@@ -168,7 +168,7 @@ static char * test_gyz_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gyz(prism, 0, 5000, -dist);
@@ -187,7 +187,7 @@ static char * test_gzz_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, restop, resbellow;
-    
+
     for(dist=5010; dist <= 500000; dist += 100)
     {
         restop = prism_gzz(prism, 0, 0, -dist);
@@ -229,7 +229,7 @@ static char * test_prism2sphere_gx()
     SPHERE sphere;
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
     double dist, resprism, ressphere;
-    
+
     /* Make a sphere with the same mass as the prism and put it at the origin */
     prism2sphere(prism, 0, 0, 0, &sphere);
 
@@ -242,7 +242,7 @@ static char * test_prism2sphere_gx()
                 resprism, ressphere);
         mu_assert_almost_equals(resprism, ressphere, 0.00000001, msg);
     }
-    
+
     return 0;
 }
 
@@ -441,16 +441,16 @@ static char * test_prism_tensor_trace()
     PRISM prism;
     int i;
     double trace, dist, x, y;
-            
+
     for(i = 0; i < N; i++)
     {
         tess2prism_flatten(tesses[i], &prism);
         x = 0.5*(prism.x1 + prism.x2);
         y = 0.5*(prism.y1 + prism.y2);
-        
+
         for(dist=1000; dist <= 5000000; dist += 1000)
-        {            
-            
+        {
+
             trace = prism_gxx(prism, x, y, prism.z1 - dist)
                     + prism_gyy(prism, x, y, prism.z1 - dist)
                     + prism_gzz(prism, x, y, prism.z1 - dist);
