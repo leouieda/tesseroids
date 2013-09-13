@@ -24,16 +24,16 @@ const double SI2MGAL = 100000.0;
 const double PI = 3.1415926535897932384626433832795;
 
 /* minimum distance-to-size ratio for potential computations to be accurate */
-const double TESSEROID_POT_SIZE_RATIO = 1.5;
+const double TESSEROID_POT_SIZE_RATIO = 0.5;
 /* Minimum distance-to-size ratio for gravity computations to be accurate */
-const double TESSEROID_GX_SIZE_RATIO = 3;
-const double TESSEROID_GY_SIZE_RATIO = 3;
-const double TESSEROID_GZ_SIZE_RATIO = 2;
+const double TESSEROID_GX_SIZE_RATIO = 1;
+const double TESSEROID_GY_SIZE_RATIO = 1;
+const double TESSEROID_GZ_SIZE_RATIO = 1;
 /* Minimum distance-to-size ratio for gravity gradient computations to be
 accurate */
-const double TESSEROID_GXX_SIZE_RATIO = 3;
-const double TESSEROID_GXY_SIZE_RATIO = 4.5;
-const double TESSEROID_GXZ_SIZE_RATIO = 4;
-const double TESSEROID_GYY_SIZE_RATIO = 3;
-const double TESSEROID_GYZ_SIZE_RATIO = 4;
-const double TESSEROID_GZZ_SIZE_RATIO = 3;
+const double TESSEROID_GXX_SIZE_RATIO = 2.5;
+const double TESSEROID_GXY_SIZE_RATIO = 2.5;
+const double TESSEROID_GXZ_SIZE_RATIO = 2.5;
+const double TESSEROID_GYY_SIZE_RATIO = 2.5;
+const double TESSEROID_GYZ_SIZE_RATIO = 2.5;
+const double TESSEROID_GZZ_SIZE_RATIO = 2.5;
