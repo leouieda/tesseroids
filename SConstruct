@@ -4,8 +4,8 @@ import sys
 # get the mode flag from the command line
 # default to 'release' if the user didn't specify
 mode = ARGUMENTS.get('mode', 'release')
-if not (mode in ['debug', 'release']):
-   print "Error: expected 'debug' or 'release', found: " + mode
+if not (mode in ['debug', 'release', 'release32']):
+   print "Error: unknown mode '%s'" % (mode)
    Exit(1)
 print '**** Compiling in ' + mode + ' mode...'
 
@@ -15,6 +15,12 @@ if sys.platform == 'win32':
 elif mode == 'debug':
     env = Environment(
         CFLAGS='-ansi -pedantic-errors -Wall -g',
+        LIBS=['m'],
+        CPPPATH='src/lib')
+elif mode == 'release32':
+    env = Environment(
+        CFLAGS='-O3 -m32',
+        LINKFLAGS='-m32',
         LIBS=['m'],
         CPPPATH='src/lib')
 else:
