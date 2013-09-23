@@ -32,7 +32,8 @@ src: ${DOCS}
 	rm -r ${DIRBASE}
 
 bin32: ${DOCS}
-	scons -C ..
+	scons -C .. mode=release32
+	../tesstest
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../cookbook ${DIRBASE}
@@ -47,6 +48,7 @@ bin32: ${DOCS}
 
 bin64: ${DOCS}
 	scons -C ..
+	../tesstest
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
 	cp -r ../cookbook ${DIRBASE}
