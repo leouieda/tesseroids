@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for grav_prism.c functions.
 */
 
@@ -34,11 +34,11 @@ static char * test_global2local()
         sprintf(msg, "(prism %d) y: expect %.10g got %.10g", i, 0., y);
         mu_assert_almost_equals(y, 0., 0.00000001, msg);
         sprintf(msg, "(prism %d) z: expect %.10g got %.10g", i, newz[i], z);
-        mu_assert_almost_equals(z, newz[i], 0.00000001, msg);        
+        mu_assert_almost_equals(z, newz[i], 0.00000001, msg);
     }
     #undef R
     #undef N
-    return 0;    
+    return 0;
 }
 
 /* Test agains grav_prism */
@@ -49,7 +49,7 @@ static char * test_prism_pot_sph()
     double res, expect;
     int fix;
 
-    fix = 1;   
+    fix = 1;
     res = prism_pot_sph(prism, 187, 38, R + 1000);
     expect = prism_pot(prism, 0, 0, -1000);
     sprintf(msg, "(fixture %d) expect %.10g got %.10g", fix, expect, res);
@@ -67,7 +67,7 @@ static char * test_prism_g_sph()
     double resx, resy, resz, expectx, expecty, expectz;
     int fix;
 
-    fix = 1;   
+    fix = 1;
     prism_g_sph(prism, 27, -78, R + 1000, &resx, &resy, &resz);
     expectx = prism_gx(prism, 0, 0, -1000);
     expecty = prism_gy(prism, 0, 0, -1000);
@@ -91,7 +91,7 @@ static char * test_prism_ggt_sph()
     double res[6], expect[6];
     int fix, i;
 
-    fix = 1;   
+    fix = 1;
     prism_ggt_sph(prism, -7, 8, R + 1000, res);
     expect[0] = prism_gxx(prism, 0, 0, -1000);
     expect[1] = prism_gxy(prism, 0, 0, -1000);
@@ -114,7 +114,7 @@ static char * test_prism_tensor_sph_trace()
     #define N 4
     #define GXX 0
     #define GYY 3
-    #define GZZ 5    
+    #define GZZ 5
     TESSEROID tesses[N] = {
         {1,0,1,0,1,6000000,6001000},
         {1,180,183,80,81.5,6300000,6302000},
@@ -123,12 +123,12 @@ static char * test_prism_tensor_sph_trace()
     PRISM prism;
     int i;
     double trace, dist, tensor[6];
-            
+
     for(i = 0; i < N; i++)
     {
         tess2prism(tesses[i], &prism);
         for(dist=1000; dist <= 5000000; dist += 1000)
-        {            
+        {
             prism_ggt_sph(prism, prism.lon, prism.lat, prism.r + dist, tensor);
             trace = tensor[GXX] + tensor[GYY] + tensor[GZZ];
 
@@ -143,16 +143,18 @@ static char * test_prism_tensor_sph_trace()
     return 0;
 }
 
-void grav_prism_sph_run_all()
+int grav_prism_sph_run_all()
 {
-    mu_run_test(test_prism_pot_sph,
+    int failed = 0;
+    failed += mu_run_test(test_prism_pot_sph,
             "prism_pot_sph results equal to prism_pot when on top of prism");
-    mu_run_test(test_prism_g_sph,
+    failed += mu_run_test(test_prism_g_sph,
             "prism_g_sph results equal to prism_gx, etc, when on top of prism");
-    mu_run_test(test_prism_ggt_sph,
+    failed += mu_run_test(test_prism_ggt_sph,
         "prism_ggt_sph results equal to prism_gxx, etc, when on top of prism");
-    mu_run_test(test_prism_tensor_sph_trace,
+    failed += mu_run_test(test_prism_tensor_sph_trace,
         "trace of GGT for prism in spherical coordinates is zero");
-    mu_run_test(test_global2local,
+    failed += mu_run_test(test_global2local,
         "global2local returns correct result");
+    return failed;
 }

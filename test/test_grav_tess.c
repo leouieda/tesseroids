@@ -575,29 +575,31 @@ static char * test_adaptative()
 }
 
 
-void grav_tess_run_all()
+int grav_tess_run_all()
 {
-    mu_run_test(test_tess2sphere_pot,
+    int failed = 0;
+    failed += mu_run_test(test_tess2sphere_pot,
                 "tess_pot results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gx,
+    failed += mu_run_test(test_tess2sphere_gx,
                 "tess_gx results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gy,
+    failed += mu_run_test(test_tess2sphere_gy,
                 "tess_gy results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gz,
+    failed += mu_run_test(test_tess2sphere_gz,
                 "tess_gz results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gxx,
+    failed += mu_run_test(test_tess2sphere_gxx,
                 "tess_gxx results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gxy,
+    failed += mu_run_test(test_tess2sphere_gxy,
                 "tess_gxy results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gxz,
+    failed += mu_run_test(test_tess2sphere_gxz,
                 "tess_gxz results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gyy,
+    failed += mu_run_test(test_tess2sphere_gyy,
                 "tess_gyy results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gyz,
+    failed += mu_run_test(test_tess2sphere_gyz,
                 "tess_gyz results equal to sphere of same mass at distance");
-    mu_run_test(test_tess2sphere_gzz,
+    failed += mu_run_test(test_tess2sphere_gzz,
                 "tess_gzz results equal to sphere of same mass at distance");
-    mu_run_test(test_tess_tensor_trace, "trace of GGT for tesseroid is zero");
-    mu_run_test(test_adaptative,
+    failed += mu_run_test(test_tess_tensor_trace, "trace of GGT for tesseroid is zero");
+    failed += mu_run_test(test_adaptative,
             "calc_tess_model_adapt results as non-adapt with split by hand");
+    return failed;
 }

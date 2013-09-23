@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for GLQ functions.
 */
 
@@ -57,7 +57,7 @@ static char * test_glq_next_root_fail()
     rc = glq_next_root(0.5, i, order, roots);
     sprintf(msg, "(order %d) return code %d, expected 1", order, rc);
     mu_assert(rc == 1, msg);
-    
+
     order = 0;
     rc = glq_next_root(-0.1, i, order, roots);
     sprintf(msg, "(order %d) return code %d, expected 1", order, rc);
@@ -75,7 +75,7 @@ static char * test_glq_next_root_fail()
     sprintf(msg, "(index %d, order %d) return code %d, expected 2", order, i,
             rc);
     mu_assert(rc == 2, msg);
-    
+
     i = 5;
     rc = glq_next_root(0.5, i, order, roots);
     sprintf(msg, "(index %d, order %d) return code %d, expected 2", order, i,
@@ -87,7 +87,7 @@ static char * test_glq_next_root_fail()
     sprintf(msg, "(index %d, order %d) return code %d, expected 2", order, i,
             rc);
     mu_assert(rc == 2, msg);
-    
+
     return 0;
 }
 
@@ -96,13 +96,13 @@ static char * test_glq_next_root()
 {
     double prec = pow(10, -9), root[19], initial;
     int rc, i, order;
-    
+
     /* Test order 2 */
     order = 2;
     for(i = 0; i < order; i++)
     {
         initial = cos(PI*((order - i) - 0.25)/(order + 0.5));
-        
+
         rc = glq_next_root(initial, i, order, root);
 
         sprintf(msg, "(order %d, root %d) return code %d, expected 0", order, i,
@@ -113,7 +113,7 @@ static char * test_glq_next_root()
                 o2roots[i], root[i]);
         mu_assert_almost_equals(root[i], o2roots[i], prec, msg);
     }
-    
+
     /* Test order 3 */
     order = 3;
     for(i = 0; i < order; i++)
@@ -193,7 +193,7 @@ static char * test_glq_weights()
 
     /* Test order 2 */
     order = 2;
-    
+
     rc = glq_weights(order, o2roots, weights);
 
     sprintf(msg, "(order %d) return code %d, expected 0", order, rc);
@@ -205,7 +205,7 @@ static char * test_glq_weights()
                 i, o2weights[i], weights[i]);
         mu_assert_almost_equals(weights[i], o2weights[i], prec, msg);
     }
-    
+
     /* Test order 3 */
     order = 3;
 
@@ -344,7 +344,7 @@ static char * test_glq_set_limits()
     double prec = pow(10, -9), unscaled[5], scaled[5], a, b, correct;
     int rc, i;
     GLQ glq;
-    
+
     glq.nodes_unscaled = unscaled;
     glq.nodes = scaled;
 
@@ -352,12 +352,12 @@ static char * test_glq_set_limits()
     a = -2.54;
     b = 14.9;
     mu_arraycp(o2roots, glq.nodes_unscaled, glq.order);
-    
+
     rc = glq_set_limits(a, b, &glq);
     sprintf(msg, "(order %d, a %g, b %g) return code %d, expected 0", glq.order,
             a, b, rc);
     mu_assert(rc == 0, msg);
-    
+
     for(i = 0; i < glq.order; i++)
     {
         correct = 8.72*o2roots[i] + 6.18;
@@ -368,7 +368,7 @@ static char * test_glq_set_limits()
     }
 
     glq.order = 3;
-    a = 125.6; 
+    a = 125.6;
     b = 234.84;
     mu_arraycp(o3roots, glq.nodes_unscaled, glq.order);
 
@@ -441,7 +441,7 @@ static char * test_glq_intcos()
     angles[3] = PI*1.9;
     angles[4] = PI*4.3;
     angles[5] = PI*6.9;
-    
+
     for(t = 0; t < 6; t++)
     {
         glq = glq_new(orders[t], 0., angles[t]);
@@ -473,15 +473,17 @@ static char * test_glq_intcos()
 }
 
 
-void glq_run_all()
+int glq_run_all()
 {
-    mu_run_test(test_glq_next_root_fail,
+    int failed = 0;
+    failed += mu_run_test(test_glq_next_root_fail,
                 "glq_next_root returns correct fail code");
-    mu_run_test(test_glq_next_root, "glq_next_root produces correct results");
-    mu_run_test(test_glq_nodes, "glq_nodes produces correct results");
-    mu_run_test(test_glq_set_limits,
+    failed += mu_run_test(test_glq_next_root, "glq_next_root produces correct results");
+    failed += mu_run_test(test_glq_nodes, "glq_nodes produces correct results");
+    failed += mu_run_test(test_glq_set_limits,
                 "glq_set_limits produces correct results");
-    mu_run_test(test_glq_weights, "glq_weights produces correct results");
-    mu_run_test(test_glq_intcos,
+    failed += mu_run_test(test_glq_weights, "glq_weights produces correct results");
+    failed += mu_run_test(test_glq_intcos,
                 "glq cossine integration produces correct results");
+    return failed;
 }

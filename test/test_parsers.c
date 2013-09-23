@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for I/O parser functions.
 */
 
@@ -121,10 +121,10 @@ static char * test_gets_prism_sph()
 
     for(i = 0; i < 4; i++)
     {
-        
+
         sprintf(str, "%g %g %g %g %g %g %g",
                 prisms[i].x2 - prisms[i].x1,
-                prisms[i].y2 - prisms[i].y1, 
+                prisms[i].y2 - prisms[i].y1,
                 prisms[i].z2 - prisms[i].z1,
                 prisms[i].density,
                 prisms[i].lon, prisms[i].lat, prisms[i].r);
@@ -187,21 +187,21 @@ static char * test_gets_prism_fail()
             prisms[i].density);
     sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
     mu_assert(gets_prism(str, &res), msg);
-    
+
     j = 2;
     sprintf(str, "%g %g %g %g %g %g %g 1.3", prisms[i].x1, prisms[i].x2,
             prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
             prisms[i].density);
     sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
     mu_assert(gets_prism(str, &res), msg);
-    
+
     j = 3;
     sprintf(str, "%g %g %g %g %g %g %g meh", prisms[i].x1, prisms[i].x2,
             prisms[i].y1, prisms[i].y2, prisms[i].z1, prisms[i].z2,
             prisms[i].density);
     sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
     mu_assert(gets_prism(str, &res), msg);
-    
+
     j = 4;
     sprintf(str, "%g %g %g %g %g %g %g 1 4.5 234556 blablabla",
             prisms[i].x1, prisms[i].x2,
@@ -209,16 +209,18 @@ static char * test_gets_prism_fail()
             prisms[i].density);
     sprintf(msg, "(test %d) gets_prism did not fail for bad input", j);
     mu_assert(gets_prism(str, &res), msg);
-    
+
     return 0;
 }
 
 
-void parsers_run_all()
+int parsers_run_all()
 {
-    mu_run_test(test_gets_tess, "gets_tess reads correctly from string");
-    mu_run_test(test_gets_prism, "gets_prism reads correctly from string");
-    mu_run_test(test_gets_prism_sph,
+    int failed = 0;
+    failed += mu_run_test(test_gets_tess, "gets_tess reads correctly from string");
+    failed += mu_run_test(test_gets_prism, "gets_prism reads correctly from string");
+    failed += mu_run_test(test_gets_prism_sph,
                 "gets_prism_sph reads correctly from string");
-    mu_run_test(test_gets_prism_fail, "gets_prism fails for bad input");
+    failed += mu_run_test(test_gets_prism_fail, "gets_prism fails for bad input");
+    return failed;
 }

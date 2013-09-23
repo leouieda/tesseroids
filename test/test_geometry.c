@@ -1,4 +1,4 @@
-/* 
+/*
 Unit tests for geometry module.
 */
 
@@ -22,7 +22,7 @@ static char * test_split_tess()
               res[8];
     int i;
 
-    split_tess(tess, res);    
+    split_tess(tess, res);
     for(i = 0; i < 8; i++)
     {
         sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
@@ -92,7 +92,7 @@ static char * test_tess_total_mass()
     {
         expect += tvolumes[i];
     }
-    
+
     sprintf(msg, "(tess %d) expected %g, got %g", i, expect, res);
     mu_assert_almost_equals(res, expect, pow(10, -6), msg);
 
@@ -166,7 +166,7 @@ static char * test_tess2prism()
         sprintf(msg, "(tess %d) expected z2 %g, got %g", i, expect, res);
         mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.0001, msg);
     }
-    
+
     return 0;
 }
 
@@ -190,7 +190,7 @@ static char * test_tess2prism_flatten()
         sprintf(msg, "(tess %d) expected mass %g, got %g", i, expect, res);
         mu_assert_almost_equals((double)(res - expect)/expect, 0., 0.01, msg);
     }
-    
+
     return 0;
 }
 
@@ -243,18 +243,20 @@ static char * test_prism2sphere()
 }
 
 
-void geometry_run_all()
+int geometry_run_all()
 {
-    mu_run_test(test_prism_volume, "prism_volume return correct results");
-    mu_run_test(test_tess_volume, "tess_volume return correct results");
-    mu_run_test(test_tess_total_mass, "tess_total_mass returns correct result");
-    mu_run_test(test_tess_range_mass, "tess_range_mass returns correct result");
-    mu_run_test(test_tess2prism, "tess2prism produces prism with right volume");
-    mu_run_test(test_tess2prism_flatten,
+    int failed = 0;
+    failed += mu_run_test(test_prism_volume, "prism_volume return correct results");
+    failed += mu_run_test(test_tess_volume, "tess_volume return correct results");
+    failed += mu_run_test(test_tess_total_mass, "tess_total_mass returns correct result");
+    failed += mu_run_test(test_tess_range_mass, "tess_range_mass returns correct result");
+    failed += mu_run_test(test_tess2prism, "tess2prism produces prism with right volume");
+    failed += mu_run_test(test_tess2prism_flatten,
                 "tess2prism_flatten produces prism with right mass");
-    mu_run_test(test_tess2sphere,
+    failed += mu_run_test(test_tess2sphere,
                 "tess2sphere produces sphere with right volume");
-    mu_run_test(test_prism2sphere,
+    failed += mu_run_test(test_prism2sphere,
                 "prism2sphere produces sphere with right volume");
-    mu_run_test(test_split_tess, "split_tess returns correct results");
+    failed += mu_run_test(test_split_tess, "split_tess returns correct results");
+    return failed;
 }
