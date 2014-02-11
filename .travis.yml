@@ -1,5 +1,7 @@
 language: c
 compiler: gcc
+env:
+  - PATH=$TRAVIS_BUILD_DIR/bin:$PATH
 install:
   - sudo apt-get install python-matplotlib python-numpy
   # For cross-compiling 32bit binaries (mode=release32)
@@ -10,6 +12,6 @@ script:
   - ./tesstest
   - scons -c; scons mode=release32
   - ./tesstest
-  - export PATH=./bin:$PATH; cd cookbook; make all
+  - cd cookbook; make all
 notifications:
   email: false
