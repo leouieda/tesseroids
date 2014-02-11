@@ -1,0 +1,9 @@
+language: c
+compiler: gcc
+script:
+  - scons mode=debug
+  - scons -c; scons mode=release
+  - ./tesstest
+  - scons -c; scons mode=release32
+  - ./tesstest
+  - cd cookbook; make all

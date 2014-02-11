@@ -30,4 +30,3 @@ for i, value in enumerate(data[3:]):
     pylab.colorbar()
     #bm.contour(glon, glat, value, 12, linewidth=3)
     pylab.savefig('column%d.png' % (i + 4))
-pylab.show()

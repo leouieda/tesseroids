@@ -23,4 +23,3 @@ for i, value in enumerate(data[3:]):
     pylab.xlim(xmin, xmax)
     pylab.ylim(ymin, ymax)
     pylab.savefig('column%d.png' % (i + 4))
-pylab.show()
