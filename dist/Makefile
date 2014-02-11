@@ -2,12 +2,15 @@ VERSION = 1.1.1
 DIRBASE = tesseroids-${VERSION}
 DOCS=../doc/_build/latex/Tesseroids_v${VERSION}.pdf
 
-all:
+help:
 	@echo "Commands:"
+	@echo "    all      create all below"
 	@echo "    src      source distribution"
 	@echo "    bin32    32bit linux binary distribution"
 	@echo "    bin64    64bit linux binary distribution"
 	@echo "    win32    cross-compile 32bit Windows binary distribution"
+
+all: src bin32 bin64 win32
 
 ${DOCS}:
 	cd ../doc; make clean
@@ -31,6 +34,7 @@ src: ${DOCS}
 	rm -r ${DIRBASE}
 
 bin32: ${DOCS}
+	scons -C ../ -c
 	scons -C .. mode=bin32
 	../tesstest
 	mkdir ${DIRBASE}
@@ -46,6 +50,7 @@ bin32: ${DOCS}
 	rm -r ${DIRBASE}
 
 bin64: ${DOCS}
+	scons -C ../ -c
 	scons -C ..
 	../tesstest
 	mkdir ${DIRBASE}
@@ -61,6 +66,7 @@ bin64: ${DOCS}
 	rm -r ${DIRBASE}
 
 win32: ${DOCS}
+	scons -C ../ -c
 	scons -C .. mode=win32
 	wine ../tesstest.exe
 	mkdir ${DIRBASE}
