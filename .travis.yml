@@ -3,7 +3,7 @@ compiler: gcc
 env:
   - PATH=$TRAVIS_BUILD_DIR/bin:$PATH
 install:
-  - sudo apt-get install python-matplotlib python-numpy
+  - sudo apt-get install python-matplotlib python-numpy python-mpltoolkits.basemap
   # For cross-compiling 32bit binaries (mode=release32)
   - sudo apt-get install libc6-dev-i386
 script:
