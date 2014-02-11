@@ -10,4 +10,4 @@ script:
   - ./tesstest
   - scons -c; scons mode=release32
   - ./tesstest
-  - cd cookbook; make all
+  - export PATH=./bin:$PATH; cd cookbook; make all
