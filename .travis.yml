@@ -11,3 +11,5 @@ script:
   - scons -c; scons mode=release32
   - ./tesstest
   - export PATH=./bin:$PATH; cd cookbook; make all
+notifications:
+  email: false
