@@ -1,6 +1,6 @@
 # Make some nice plots of the DEM, the densities used and the calculated GGT
 import numpy
-import pylab
+from matplotlib import pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
 # Plot the DEM and density maps
@@ -26,7 +26,7 @@ glons, glats = bm(glons, glats)
 
 # Plot the DEM first
 print "Plotting DEM"
-pylab.figure()
+plt.figure()
 bm.drawmeridians(numpy.arange(lons[0]+5., lons[-1], 5.),
                  labels=[0,0,0,1], fontsize=12, linewidth=0.5)
 bm.drawparallels(numpy.arange(lats[-1]+5., lats[0], 5.),
@@ -35,9 +35,9 @@ bm.drawcoastlines(linewidth=1)
 bm.drawmapboundary()
 bm.drawcountries(linewidth=0.8)
 # Do the pseudocolor plot
-cf = bm.pcolor(glons, glats, gheights, cmap=pylab.cm.gist_earth, \
+cf = bm.pcolor(glons, glats, gheights, cmap=plt.cm.gist_earth, \
                vmin=-1000, vmax=1000)
-cb = pylab.colorbar()
+cb = plt.colorbar()
 cb.set_label("Height [m]")
 # Plot the calculation area used later
 w = -60
@@ -47,13 +47,13 @@ n = -15
 areax, areay = bm([w, w, e, e, w], \
                   [n, s, s, n, n])
 bm.plot(areax, areay, '-r', label="Computation grid", linewidth=1.8)
-pylab.legend(shadow=True, loc='lower right', prop={'size':10})
+plt.legend(shadow=True, loc='lower right', prop={'size':10})
 # Save a png figure
-pylab.savefig('dem.png')
+plt.savefig('dem.png')
 
 # Now plot the densities
 print "Plotting density model"
-pylab.figure()
+plt.figure()
 bm.drawmeridians(numpy.arange(lons[0]+5., lons[-1], 5.),
                  labels=[0,0,0,1], fontsize=12, linewidth=0.5)
 bm.drawparallels(numpy.arange(lats[-1]+5., lats[0], 5.),
@@ -62,11 +62,11 @@ bm.drawcoastlines(linewidth=1)
 bm.drawmapboundary()
 bm.drawcountries(linewidth=0.8)
 # Do the pseudocolor plot
-cf = bm.pcolor(glons, glats, gdens, cmap=pylab.cm.jet)
-cb = pylab.colorbar()
+cf = bm.pcolor(glons, glats, gdens, cmap=plt.cm.jet)
+cb = plt.colorbar()
 cb.set_label(r"Density [$g.cm^{-3}$]")
 # Save a png figure
-pylab.savefig('dem-dens.png')
+plt.savefig('dem-dens.png')
 
 # Plot the GGT
 ################################################################################
@@ -89,15 +89,15 @@ bm = Basemap(projection='merc', \
 glons, glats = bm(glons, glats)
 
 # Plot each component
-fig = pylab.figure(figsize=(14,9))
-pylab.subplots_adjust(wspace=0.35)
+fig = plt.figure(figsize=(14,9))
+plt.subplots_adjust(wspace=0.35)
 titles = [r"$g_{xx}$", r"$g_{xy}$", r"$g_{xz}$", r"$g_{yy}$", r"$g_{yz}$",
           r"$g_{zz}$"]
 fields = [gxx, gxy, gxz, gyy, gyz, gzz]
 for i, args in enumerate(zip(fields, titles)):
     field, title = args
-    ax = pylab.subplot(2, 3, i + 1, aspect='equal')
-    pylab.title(title, fontsize=18)
+    ax = plt.subplot(2, 3, i + 1, aspect='equal')
+    plt.title(title, fontsize=18)
     # Make it a 2D grid
     gfield = numpy.reshape(field, (nlats, nlons))
     # Plot the coastlines and etc
@@ -110,10 +110,8 @@ for i, args in enumerate(zip(fields, titles)):
     bm.drawcountries(linewidth=1)
     bm.drawstates(linewidth=0.2)
     # Make a pseudocolor plot
-    cf = bm.pcolor(glons, glats, gfield, cmap=pylab.cm.jet)
-    cb = pylab.colorbar(orientation='vertical', format='%.2f', shrink=0.8)
+    cf = bm.pcolor(glons, glats, gfield, cmap=plt.cm.jet)
+    cb = plt.colorbar(orientation='vertical', format='%.2f', shrink=0.8)
     cb.set_label(r"$E\"otv\"os$")
 # Save a png figure
-pylab.savefig('dem-ggt.png')
-
-pylab.show()
+plt.savefig('dem-ggt.png')

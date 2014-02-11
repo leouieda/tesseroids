@@ -2,6 +2,10 @@
 Welcome to Tesseroids
 =====================
 
+.. image:: https://travis-ci.org/leouieda/tesseroids.png?branch=master
+    :target: https://travis-ci.org/leouieda/tesseroids
+    :alt: Travis CI build status
+
 *Tesseroids* is a collection of command-line programs
 for the direct modeling of gravitational fields in spherical coordinates.
 It can model the gravitational potential, acceleration, and gradient tensor.

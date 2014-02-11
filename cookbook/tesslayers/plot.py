@@ -18,4 +18,3 @@ for i, value in enumerate(data[3:]):
     pylab.xlim(lon.min(), lon.max())
     pylab.ylim(lat.min(), lat.max())
     pylab.savefig('column%d.png' % (i + 4))
-pylab.show()
