@@ -81,7 +81,7 @@ static char * test_gz_bellow()
 
         sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
                 restop, resbellow);
-        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
+        mu_assert_almost_equals((double)(restop - (-resbellow))/restop, 0.,
                                 0.001, msg);
     }
 
