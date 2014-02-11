@@ -3,6 +3,12 @@
 Changelog
 =========
 
+Changes in version 1.1.1
+------------------------
+
+* BUG fix: Wrong results when calculating fields below a prism in Cartesian
+  coordinates (`PR 1 <https://github.com/leouieda/tesseroids/pull/1>`__)
+
 Changes in version 1.1
 ----------------------
 

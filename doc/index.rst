@@ -59,8 +59,8 @@ The :ref:`cookbook <cookbook>` has a few example recipes and the expected output
     cookbook
 
 
-.. _Leonardo Uieda: http://fatiando.org/people/uieda/
+.. _Leonardo Uieda: http://www.leouieda.com
 .. _Carla Braitenberg: http://www2.units.it/geodin/biobraitenberg.html
 .. _the official site: http://leouieda.github.com/tesseroids
 .. _GitHub: https://github.com/leouieda/tesseroids
-.. _Get in touch: http://fatiando.org/people/uieda
+.. _Get in touch: http://www.leouieda.com

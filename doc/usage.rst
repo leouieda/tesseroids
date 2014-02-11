@@ -21,7 +21,7 @@ the :ref:`cookbook <cookbook>`
 contains several example recipes
 of using Tesseroids.
 
-.. _submit a bug report: http://code.google.com/p/tesseroids/issues/list
+.. _submit a bug report: https://github.com/leouieda/tesseroids/issues
 
 
 A note about heights and units
@@ -66,19 +66,19 @@ For example, if calculating gz on these points::
     lon2 lat2 height2 value2 othervalue2
     ...
     lonN latN heightN valueN othervalueN
-    
+
 the output would look something like::
 
     lon1 lat1 height1 value1 othervalue1 gz1
     lon2 lat2 height2 value2 othervalue2 gz2
     ...
     lonN latN heightN valueN othervalueN gzN
-    
+
 The input model file should contain one tesseroid per line and
 have columns formatted as::
 
     W E S N HEIGHT_OF_TOP HEIGHT_OF_BOTTOM DENSITY
-    
+
 HEIGHT_OF_TOP and HEIGHT_OF_BOTTOM are
 positive if the above the Earth's surface and negative if bellow.
 
@@ -94,7 +94,7 @@ The computation points are in ``points.txt``
 and the output will be placed in ``gz_data.txt``::
 
     tessgz modelfile.txt -v -lgz.log -o3/3/3 < points.txt > gz_data.txt
-    
+
 The -a flag
 -----------
 
@@ -150,7 +150,7 @@ at a height of 250 km::
 
     tessgrd -r-10/10/-10/10 -b100/100 -z250e03 -v > points.txt
 
-    
+
 Automatic model generation
 --------------------------
 
@@ -168,7 +168,7 @@ The top and bottom faces of the tesseroid are defined as:
 
 * Top = Interface and Bottom = Reference if the interface is above the reference
 * Top = Reference and Bottom = Interface if the interface is bellow the reference
-    
+
 The density RHO of the tesseroids can be passed using the -d option.
 This will assign a density value of RHO,
 when the interface is above the reference,
@@ -203,7 +203,7 @@ with density between 0 and 1 g/cm^3::
 
     tessmass -r0/1000 < model.txt
 
-    
+
 Computing the effect of rectangular prisms in Cartesian coordinates
 -------------------------------------------------------------------
 
@@ -219,22 +219,22 @@ the prism model is read from a file.
 The model file should have the column format::
 
     X1 X2 Y1 Y2 Z1 Z2 DENSITY
-    
-*A note on the coordinate system*:
 
-As in Nagy et al. (2000),
-the coordinate system for the rectangular prism calculations
-has X axis pointing North, Y axis pointing East and Z axis pointing Down.
-This is important to note because it differs from
-the convention adopted for the tesseroids.
-In practice, this means that
-the :math:`g_{xz}` and :math:`g_{yz}` components of
-the prism and tesseroid will have different signs.
-This will not be such for the :math:`g_z` component, though,
-because the convention for tesseroids is
-to have Z axis Down for this component only.
-See the Theoretical background section
-of the User Manual for more details on this.
+.. note::
+
+    As in Nagy et al. (2000),
+    the coordinate system for the rectangular prism calculations
+    has X axis pointing North, Y axis pointing East and Z axis pointing Down.
+    This is important to note because it differs from
+    the convention adopted for the tesseroids.
+    In practice, this means that
+    the :math:`g_{xz}` and :math:`g_{yz}` components of
+    the prism and tesseroid will have different signs.
+    This will not be such for the :math:`g_z` component, though,
+    because the convention for tesseroids is
+    to have Z axis Down for this component only.
+    See the :ref:`Theoretical background <theory>` section
+    for more details on this.
 
 Piping
 ------
@@ -243,9 +243,8 @@ Tesseroids was designed with the Unix philosophy in mind::
 
     Write programs that do one thing and do it well.
     Write programs to work together.
-    Write programs to handle text streams,
-        because that is a universal interface.
-    
+    Write programs to handle text streams, because that is a universal interface.
+
 Therefore, all tessg* programs and tessgrd
 can be piped together to calculate many components on a regular grid.
 

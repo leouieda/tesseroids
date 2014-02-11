@@ -1,4 +1,4 @@
-VERSION = 1.1
+VERSION = 1.1.1
 DIRBASE = tesseroids-${VERSION}
 DOCS=../doc/_build/latex/Tesseroids_v${VERSION}.pdf
 DOCSWIN=..\doc\_build\latex\Tesseroids_v${VERSION}.pdf
