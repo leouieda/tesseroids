@@ -12,7 +12,7 @@ a spherical prism, also called a tesseroid.
 right rectangular prisms, both in Cartesian and spherical coordinates.
 
 *Tesseroids* is developed by `Leonardo Uieda`_
-in cooperation with Carla Braitenberg.
+in cooperation with `Carla Braitenberg`_.
 
 As of version 1.1,
 *Tesseroids* is licensed under the BSD license
@@ -20,7 +20,8 @@ As of version 1.1,
 This means that it can be reused and remixed
 with fewer restrictions.
 
-.. _Leonardo Uieda: http://fatiando.org/people/uieda/
+.. _Leonardo Uieda: http://www.leouieda.com
+.. _Carla Braitenberg: http://lithoflex.org/
 
 Online documentation
 --------------------
