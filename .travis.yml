@@ -1,18 +1,18 @@
 language: c
 compiler: gcc
 env:
-  - PATH=$TRAVIS_BUILD_DIR/bin:$PATH
+  - PATH=$TRAVIS_BUILD_DIR/bin:$PATH MPLCONFIGDIR=$TRAVIS_BUILD_DIR
 install:
   - sudo apt-get install python-matplotlib python-numpy python-mpltoolkits.basemap
   # For cross-compiling 32bit binaries (mode=release32)
   - sudo apt-get install libc6-dev-i386
-  - mkdir .config/matplotlib; echo "backend : Agg" > .config/matplotlib/matplotlibrc
 script:
   - scons mode=debug
   - scons -c; scons mode=release
   - ./tesstest
   - scons -c; scons mode=release32
   - ./tesstest
+  - echo "backend : Agg" > matplotlibrc
   - cd cookbook; make all
 notifications:
   email: false
