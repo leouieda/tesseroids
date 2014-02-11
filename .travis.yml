@@ -1,7 +1,7 @@
 language: c
 compiler: gcc
 install:
-  - sudo apt-get install matplotlib numpy
+  - sudo apt-get install python-matplotlib python-numpy
   # For cross-compiling 32bit binaries (mode=release32)
   - sudo apt-get install libc6-dev-i386
 script:
