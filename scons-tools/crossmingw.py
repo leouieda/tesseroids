@@ -1,3 +1,10 @@
+"""
+SCons tool for cross-compiling 32bit Windows on Linux using MinGW.
+Need to install the 'mingw' packages ('mingw-w64' on Ubuntu/Debian) before
+using this.
+
+Adapted from http://www.scons.org/wiki/CrossCompilingMingw
+"""
 import os
 import os.path
 
@@ -64,13 +71,8 @@ def shlib_emitter(target, source, env):
 
     return (target, source)
 
-
-#shlib_action = SCons.Action.CommandGenerator(shlib_generator)
-# in Scons 2.1 the line above needs to be replace with:
 shlib_action = SCons.Action.Action(shlib_generator, generator=1)
-
 res_action = SCons.Action.Action('$RCCOM', '$RCCOMSTR')
-
 res_builder = SCons.Builder.Builder(action=res_action, suffix='.o',
                                     source_scanner=SCons.Tool.SourceFileScanner)
 SCons.Tool.SourceFileScanner.add_scanner('.rc', SCons.Defaults.CScan)
