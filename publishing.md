@@ -12,7 +12,11 @@ Do this in (desperately need a better way):
 
 ## Build packages
 
-Run the commands in the `Makefile` in `dist` to produce the packages.
+Run `make all` in `dist` to produce the source and binary packages.
+
+This will also cross-compile for Win32 using MinGW.
+So you'll need to install the MinGW packages on your system
+(`mingw-w64` on Ubuntu/Debian).
 
 ## Create a release on Github
 
