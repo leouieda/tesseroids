@@ -1,14 +1,16 @@
 VERSION = 1.1.1
 DIRBASE = tesseroids-${VERSION}
 DOCS=../doc/_build/latex/Tesseroids_v${VERSION}.pdf
-DOCSWIN=..\doc\_build\latex\Tesseroids_v${VERSION}.pdf
 
-all:
+help:
 	@echo "Commands:"
-	@echo "    make src for a source distribution"
-	@echo "    make bin32 for a linux binary distribution"
-	@echo "    make bin64 for a linux binary distribution"
-	@echo "    make win32 for a windows binary distribution"
+	@echo "    all      create all below"
+	@echo "    src      source distribution"
+	@echo "    bin32    32bit linux binary distribution"
+	@echo "    bin64    64bit linux binary distribution"
+	@echo "    win32    cross-compile 32bit Windows binary distribution"
+
+all: src bin32 bin64 win32
 
 ${DOCS}:
 	cd ../doc; make clean
@@ -32,7 +34,8 @@ src: ${DOCS}
 	rm -r ${DIRBASE}
 
 bin32: ${DOCS}
-	scons -C .. mode=release32
+	scons -C ../ -c
+	scons -C .. mode=bin32
 	../tesstest
 	mkdir ${DIRBASE}
 	mkdir ${DIRBASE}/doc
@@ -47,6 +50,7 @@ bin32: ${DOCS}
 	rm -r ${DIRBASE}
 
 bin64: ${DOCS}
+	scons -C ../ -c
 	scons -C ..
 	../tesstest
 	mkdir ${DIRBASE}
@@ -61,19 +65,21 @@ bin64: ${DOCS}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-win32:
-	scons -C ..
-	mkdir ${DIRBASE}-win32
-	mkdir ${DIRBASE}-win32\doc
-	xcopy ${DOCSWIN} ${DIRBASE}-win32\doc
-	mkdir ${DIRBASE}-win32\cookbook
-	xcopy /E ..\cookbook ${DIRBASE}-win32\cookbook
-	mkdir ${DIRBASE}-win32\bin
-	xcopy ..\bin ${DIRBASE}-win32\bin
-	xcopy ..\README.rst ${DIRBASE}-win32
-	xcopy ..\LICENSE.txt ${DIRBASE}-win32
-	xcopy ..\DEPENDENCIES.txt ${DIRBASE}-win32
-	xcopy ..\CITATION.txt ${DIRBASE}-win32
+win32: ${DOCS}
+	scons -C ../ -c
+	scons -C .. mode=win32
+	wine ../tesstest.exe
+	mkdir ${DIRBASE}
+	mkdir ${DIRBASE}/doc
+	cp -r ../cookbook ${DIRBASE}
+	cp -r ../bin ${DIRBASE}
+	cp ${DOCS} ${DIRBASE}/doc
+	cp ../README.rst ${DIRBASE}/README.txt
+	cp ../LICENSE.txt ${DIRBASE}
+	cp ../DEPENDENCIES.txt ${DIRBASE}
+	cp ../CITATION.txt ${DIRBASE}
+	zip -r ${DIRBASE}-win32.zip ${DIRBASE}
+	rm -r ${DIRBASE}
 
 clean:
 	rm -rf ${DIRBASE} *.zip *.tar.gz

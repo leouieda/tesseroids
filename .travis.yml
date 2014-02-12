@@ -4,15 +4,17 @@ env:
   - PATH=$TRAVIS_BUILD_DIR/bin:$PATH MPLCONFIGDIR=$TRAVIS_BUILD_DIR
 install:
   - sudo apt-get install python-matplotlib python-numpy python-mpltoolkits.basemap
-  # For cross-compiling 32bit binaries (mode=release32)
+  # For cross-compiling 32bit binaries (mode=bin32)
   - sudo apt-get install libc6-dev-i386
+  # To set the matplotlib rc file
   - bash .travis.sh
 script:
-  - scons mode=debug
-  - scons -c; scons mode=release
+  - scons mode=check
+  - scons -c; scons mode=default
   - ./tesstest
-  - scons -c; scons mode=release32
+  - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
+  - scons -c; scons mode=bin32
   - ./tesstest
-  - cd cookbook; make all
+  - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
 notifications:
   email: false

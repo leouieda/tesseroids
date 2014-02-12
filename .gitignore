@@ -6,3 +6,5 @@ dist/*.tar.gz
 tesstest
 .sconsign.dblite
 doc/_build
+*.exe
+scons-tools/*.pyc
