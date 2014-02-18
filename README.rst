@@ -43,12 +43,7 @@ You can also download a **PDF** version of the docs
 Citing
 ------
 
-If you use *Tesseroids* for your research, please cite it in your puclications:
-
-Uieda, L. (2013), Tesseroids: Forward modeling of gravitational fields in
-spherical coordinates, figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
-doi:10.6084/m9.figshare.786514.
-
+If you use *Tesseroids* for your research, please cite it in your puclications.
 See file CITATION.txt for more information and BibTex entries.
 
 Downloading

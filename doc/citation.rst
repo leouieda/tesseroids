@@ -5,8 +5,8 @@ Citation
 
 To cite *Tesseroids* in publications, please use:
 
-Uieda, L. (2013), Tesseroids: Forward modeling of gravitational fields in
-spherical coordinates, figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
+Uieda, L. (2013), Source code and compiled binaries for software Tesseroids,
+figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
 doi:10.6084/m9.figshare.786514.
 
 If you require a more traditional publication (though the **above** citation is
@@ -21,8 +21,7 @@ If you're a BibTeX user::
 
     @article{,
         author = {Uieda, Leonardo},
-        title = {Tesseroids: Forward modeling of gravitational fields in
-                 spherical coordinates},
+        title = {Source code and compiled binaries for software Tesseroids},
         journal = {figshare},
         year = {2013},
         doi = {10.6084/m9.figshare.786514},
