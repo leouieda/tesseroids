@@ -13,10 +13,9 @@ if sys.platform == 'win32':
         CPPPATH='src/lib')
 elif mode == 'check':
     env = Environment(
-        CFLAGS='-ansi -pedantic-errors -Wall -g',
+        CFLAGS='-ansi -pedantic-errors -Wall -ggdb',
         LIBS=['m'],
         CPPPATH='src/lib')
-    env.Tool('crossmingw', toolpath=['scons-tools'])
 elif mode == 'win32':
     env = Environment(
         CFLAGS='-O3',
