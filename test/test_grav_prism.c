@@ -83,6 +83,45 @@ static char * test_pot_around()
     return 0;
 }
 
+static char * test_gx_around()
+{
+    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    double gz, above, below, north, south, east, west, dist = 5000, i, j;
+
+    for(i = -10000; i <= 10000; i += 100)
+    {
+        for(j = -10000; j <= 10000; j += 100)
+        {
+            above = prism_gx(prism, i, j, -dist);
+            below = prism_gx(prism, i, j, dist);
+            north = prism_gx(prism, dist, i, j);
+            south = prism_gx(prism, -dist, i, j);
+            east = prism_gx(prism, i, dist, j);
+            west = prism_gx(prism, i, -dist, j);
+            gz = prism_gz(prism, i, j, -dist);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "above", "below", above, below);
+            mu_assert_almost_equals(above, below, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "south", north, south);
+            mu_assert_almost_equals(north, -south, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "west", east, west);
+            mu_assert_almost_equals(east, west, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "above", east, above);
+            mu_assert_almost_equals(east, above, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "gz", north, gz);
+            mu_assert_almost_equals(north, -gz, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "south", "gz", south, gz);
+            mu_assert_almost_equals(south, gz, 10E-10, msg);
+        }
+    }
+    return 0;
+}
+
 static char * test_pot_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
@@ -541,6 +580,8 @@ int grav_prism_run_all()
                 "arctan2 returns 0 for y == 0");
     failed += mu_run_test(test_pot_around,
                 "prism_pot results equal around the prism");
+    failed += mu_run_test(test_gx_around,
+                "prism_gx results consistent around the prism");
     failed += mu_run_test(test_pot_bellow,
                 "prism_pot results equal above and bellow the prism");
     failed += mu_run_test(test_gx_bellow,
