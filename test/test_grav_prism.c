@@ -12,6 +12,77 @@ Unit tests for grav_prism.c functions.
 
 char msg[1000];
 
+int sign(double x)
+{
+    if(x >= 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+static char * test_arctan2_sign()
+{
+    double res,
+           y[] = {1, -1,  1, -1},
+           x[] = {1,  1, -1, -1};
+    register int i;
+    for(i = 0; i < 4; i++)
+    {
+        res = arctan2(y[i], x[i]);
+        sprintf(msg, "arctan2=%g for y=%g x=%g", res, y[i], x[i]);
+        mu_assert(sign(y[i]*x[i]) == sign(res), msg);
+    }
+    return 0;
+}
+
+static char * test_arctan2_zero()
+{
+    double res,
+           x[] = {1,  -1, 0};
+    register int i;
+    for(i = 0; i < 3; i++)
+    {
+        res = arctan2(0, x[i]);
+        sprintf(msg, "arctan2=%g for x=%g", res, x[i]);
+        mu_assert(res == 0, msg);
+    }
+    return 0;
+}
+
+static char * test_pot_around()
+{
+    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    double planes[6], dist = 5000, i, j;
+    register int p, k;
+
+    for(i = -10000; i <= 10000; i += 100)
+    {
+        for(j = -10000; j <= 10000; j += 100)
+        {
+            planes[0] = prism_pot(prism, i, j, -dist);
+            planes[1] = prism_pot(prism, i, j, dist);
+            planes[2] = prism_pot(prism, -dist, i, j);
+            planes[3] = prism_pot(prism, dist, i, j);
+            planes[4] = prism_pot(prism, i, -dist, j);
+            planes[5] = prism_pot(prism, i, dist, j);
+            for(p = 0; p < 5; p++)
+            {
+                for(k = p + 1; k < 6; k++)
+                {
+                    sprintf(msg, "point (%g, %g) on planes %d n %d = (%g n %g)",
+                            i, j, p, k, planes[p], planes[k]);
+                    mu_assert_almost_equals(planes[p], planes[k], 10E-10, msg);
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 static char * test_pot_bellow()
 {
     PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
@@ -24,8 +95,7 @@ static char * test_pot_bellow()
 
         sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
                 restop, resbellow);
-        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(restop, resbellow, 10E-10, msg);
     }
 
     return 0;
@@ -43,8 +113,7 @@ static char * test_gx_bellow()
 
         sprintf(msg, "(distance %g m) top = %.5f  bellow = %.5f", dist,
                 restop, resbellow);
-        mu_assert_almost_equals((double)(restop - resbellow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(restop, resbellow, 10E-10, msg);
     }
 
     return 0;
@@ -465,7 +534,13 @@ static char * test_prism_tensor_trace()
 
 int grav_prism_run_all()
 {
-    int failed;
+    int failed = 0;
+    failed += mu_run_test(test_arctan2_sign,
+                "arctan2 result has same sign as angle");
+    failed += mu_run_test(test_arctan2_zero,
+                "arctan2 returns 0 for y == 0");
+    failed += mu_run_test(test_pot_around,
+                "prism_pot results equal around the prism");
     failed += mu_run_test(test_pot_bellow,
                 "prism_pot results equal above and bellow the prism");
     failed += mu_run_test(test_gx_bellow,

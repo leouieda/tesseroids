@@ -19,19 +19,28 @@ References
 #include "constants.h"
 #include "grav_prism.h"
 
+double arctan2(double y, double x)
+{
+    if(y == 0)
+    {
+        return 0;
+    }
+    if((y > 0) && (x < 0))
+    {
+        return atan2(y, x) - PI;
+    }
+    if((y < 0) && (x < 0))
+    {
+        return atan2(y, x) + PI;
+    }
+    return atan2(y, x);
+}
 
 /* Calculates the potential cause by a prism. */
 double prism_pot(PRISM prism, double xp, double yp, double zp)
 {
-    double x[2], y[2], z[2], kernel, res, r;
-    register int i, j, k;
-
-    /* This field has a problem with the log(z+r) when bellow the prism */
-    /* Will calculate on top and correct the sign later */
-    if(zp > prism.z2)
-    {
-        zp = prism.z1 - (zp - prism.z2);
-    }
+    double x[2], y[2], z[2], kernel, res, r, tmp[6];
+    register int i, j, k, p;
 
     /* First thing to do is make P the origin of the coordinate system */
     x[0] = prism.x2 - xp;
@@ -51,14 +60,20 @@ double prism_pot(PRISM prism, double xp, double yp, double zp)
             for(i=0; i<=1; i++)
             {
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
-
-                kernel = x[i]*y[j]*log(z[k] + r)
-                         + y[j]*z[k]*log(x[i] + r)
-                         + x[i]*z[k]*log(y[j] + r)
-                         - 0.5*x[i]*x[i]*atan2(z[k]*y[j], x[i]*r)
-                         - 0.5*y[j]*y[j]*atan2(z[k]*x[i], y[j]*r)
-                         - 0.5*z[k]*z[k]*atan2(x[i]*y[j], z[k]*r);
-
+                kernel = 0;
+                tmp[0] = x[i]*y[j]*log(z[k] + r);
+                tmp[1] = y[j]*z[k]*log(x[i] + r);
+                tmp[2] = x[i]*z[k]*log(y[j] + r);
+                tmp[3] = -0.5*x[i]*x[i]*arctan2(z[k]*y[j], x[i]*r);
+                tmp[4] = -0.5*y[j]*y[j]*arctan2(z[k]*x[i], y[j]*r);
+                tmp[5] = -0.5*z[k]*z[k]*arctan2(x[i]*y[j], z[k]*r);
+                for(p = 0; p < 6; p++)
+                {
+                    if(!isnan(tmp[p]))
+                    {
+                        kernel += tmp[p];
+                    }
+                }
                 res += pow(-1, i + j + k)*kernel;
             }
         }
@@ -98,7 +113,7 @@ double prism_gx(PRISM prism, double xp, double yp, double zp)
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
                 kernel = -(y[j]*log(z[k] + r) + z[k]*log(y[j] + r)
-                           - x[i]*atan2(z[k]*y[j], x[i]*r));
+                           - x[i]*arctan2(z[k]*y[j], x[i]*r));
 
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -139,7 +154,7 @@ double prism_gy(PRISM prism, double xp, double yp, double zp)
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
                 kernel = -(z[k]*log(x[i] + r) + x[i]*log(z[k] + r)
-                           - y[j]*atan2(z[k]*x[i], y[j]*r));
+                           - y[j]*arctan2(z[k]*x[i], y[j]*r));
 
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -189,7 +204,7 @@ double prism_gz(PRISM prism, double xp, double yp, double zp)
                 r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
 
                 kernel = -(x[i]*log(y[j] + r) + y[j]*log(x[i] + r)
-                           - z[k]*atan2(x[i]*y[j], z[k]*r));
+                           - z[k]*arctan2(x[i]*y[j], z[k]*r));
 
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -228,35 +243,35 @@ double prism_gxx(PRISM prism, double xp, double yp, double zp)
     /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += 1*atan2(deltay1*deltaz1, deltax1*r);
+    res += 1*arctan2(deltay1*deltaz1, deltax1*r);
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += -1*atan2(deltay1*deltaz1, deltax2*r);
+    res += -1*arctan2(deltay1*deltaz1, deltax2*r);
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += -1*atan2(deltay2*deltaz1, deltax1*r);
+    res += -1*arctan2(deltay2*deltaz1, deltax1*r);
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += 1*atan2(deltay2*deltaz1, deltax2*r);
+    res += 1*arctan2(deltay2*deltaz1, deltax2*r);
 
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += -1*atan2(deltay1*deltaz2, deltax1*r);
+    res += -1*arctan2(deltay1*deltaz2, deltax1*r);
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += 1*atan2(deltay1*deltaz2, deltax2*r);
+    res += 1*arctan2(deltay1*deltaz2, deltax2*r);
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += 1*atan2(deltay2*deltaz2, deltax1*r);
+    res += 1*arctan2(deltay2*deltaz2, deltax1*r);
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += -1*atan2(deltay2*deltaz2, deltax2*r);
+    res += -1*arctan2(deltay2*deltaz2, deltax2*r);
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
@@ -403,35 +418,35 @@ double prism_gyy(PRISM prism, double xp, double yp, double zp)
     /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += 1*(atan2(deltaz1*deltax1, deltay1*r));
+    res += 1*(arctan2(deltaz1*deltax1, deltay1*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += -1*(atan2(deltaz1*deltax2, deltay1*r));
+    res += -1*(arctan2(deltaz1*deltax2, deltay1*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += -1*(atan2(deltaz1*deltax1, deltay2*r));
+    res += -1*(arctan2(deltaz1*deltax1, deltay2*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += 1*(atan2(deltaz1*deltax2, deltay2*r));
+    res += 1*(arctan2(deltaz1*deltax2, deltay2*r));
 
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += -1*(atan2(deltaz2*deltax1, deltay1*r));
+    res += -1*(arctan2(deltaz2*deltax1, deltay1*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += 1*(atan2(deltaz2*deltax2, deltay1*r));
+    res += 1*(arctan2(deltaz2*deltax2, deltay1*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += 1*(atan2(deltaz2*deltax1, deltay2*r));
+    res += 1*(arctan2(deltaz2*deltax1, deltay2*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += -1*(atan2(deltaz2*deltax2, deltay2*r));
+    res += -1*(arctan2(deltaz2*deltax2, deltay2*r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
@@ -516,35 +531,35 @@ double prism_gzz(PRISM prism, double xp, double yp, double zp)
     /* Evaluate the integration limits */
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += 1*(atan2(deltax1*deltay1, deltaz1*r));
+    res += 1*(arctan2(deltax1*deltay1, deltaz1*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz1*deltaz1);
 
-    res += -1*(atan2(deltax2*deltay1, deltaz1*r));
+    res += -1*(arctan2(deltax2*deltay1, deltaz1*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += -1*(atan2(deltax1*deltay2, deltaz1*r));
+    res += -1*(arctan2(deltax1*deltay2, deltaz1*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz1*deltaz1);
 
-    res += 1*(atan2(deltax2*deltay2, deltaz1*r));
+    res += 1*(arctan2(deltax2*deltay2, deltaz1*r));
 
     r = sqrt(deltax1*deltax1 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += -1*(atan2(deltax1*deltay1, deltaz2*r));
+    res += -1*(arctan2(deltax1*deltay1, deltaz2*r));
 
     r = sqrt(deltax2*deltax2 + deltay1*deltay1 + deltaz2*deltaz2);
 
-    res += 1*(atan2(deltax2*deltay1, deltaz2*r));
+    res += 1*(arctan2(deltax2*deltay1, deltaz2*r));
 
     r = sqrt(deltax1*deltax1 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += 1*(atan2(deltax1*deltay2, deltaz2*r));
+    res += 1*(arctan2(deltax1*deltay2, deltaz2*r));
 
     r = sqrt(deltax2*deltax2 + deltay2*deltay2 + deltaz2*deltaz2);
 
-    res += -1*(atan2(deltax2*deltay2, deltaz2*r));
+    res += -1*(arctan2(deltax2*deltay2, deltaz2*r));
 
     /* Now all that is left is to multiply res by the gravitational constant and
         density and convert it to Eotvos units */
