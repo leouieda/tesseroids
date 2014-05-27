@@ -21,7 +21,7 @@ References
 /* Needed for definition of PRISM */
 #include "geometry.h"
 
-extern double arctan2(double y, double x);
+extern double safe_atan2(double y, double x);
 extern double prism_pot(PRISM prism, double xp, double yp, double zp);
 extern double prism_gx(PRISM prism, double xp, double yp, double zp);
 extern double prism_gy(PRISM prism, double xp, double yp, double zp);

@@ -24,7 +24,7 @@ int sign(double x)
     }
 }
 
-static char * test_arctan2_sign()
+static char * test_safe_atan2_sign()
 {
     double res,
            y[] = {1, -1,  1, -1},
@@ -32,22 +32,22 @@ static char * test_arctan2_sign()
     register int i;
     for(i = 0; i < 4; i++)
     {
-        res = arctan2(y[i], x[i]);
-        sprintf(msg, "arctan2=%g for y=%g x=%g", res, y[i], x[i]);
+        res = safe_atan2(y[i], x[i]);
+        sprintf(msg, "safe_atan2=%g for y=%g x=%g", res, y[i], x[i]);
         mu_assert(sign(y[i]*x[i]) == sign(res), msg);
     }
     return 0;
 }
 
-static char * test_arctan2_zero()
+static char * test_safe_atan2_zero()
 {
     double res,
            x[] = {1,  -1, 0};
     register int i;
     for(i = 0; i < 3; i++)
     {
-        res = arctan2(0, x[i]);
-        sprintf(msg, "arctan2=%g for x=%g", res, x[i]);
+        res = safe_atan2(0, x[i]);
+        sprintf(msg, "safe_atan2=%g for x=%g", res, x[i]);
         mu_assert(res == 0, msg);
     }
     return 0;
@@ -655,10 +655,10 @@ static char * test_prism_tensor_trace()
 int grav_prism_run_all()
 {
     int failed = 0;
-    failed += mu_run_test(test_arctan2_sign,
-                "arctan2 result has same sign as angle");
-    failed += mu_run_test(test_arctan2_zero,
-                "arctan2 returns 0 for y == 0");
+    failed += mu_run_test(test_safe_atan2_sign,
+                "safe_atan2 result has same sign as angle");
+    failed += mu_run_test(test_safe_atan2_zero,
+                "safe_atan2 returns 0 for y == 0");
     failed += mu_run_test(test_pot_around,
                 "prism_pot results equal around the prism");
     failed += mu_run_test(test_gx_around,
