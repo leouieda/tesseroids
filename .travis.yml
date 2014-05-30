@@ -7,8 +7,8 @@ install:
   - sudo apt-get install -qq python-matplotlib python-numpy python-mpltoolkits.basemap
   # For cross-compiling 32bit binaries (mode=bin32) and win32 (mode=win32)
   - sudo apt-get install -qq libc6-dev-i386
-  - sudo apt-get install -qq mingw32
-  - sudo apt-get install -qq wine
+  #- sudo apt-get install -qq mingw32
+  #- sudo apt-get install -qq wine
   # To set the matplotlib rc file
   - bash .travis.sh
 script:
@@ -19,10 +19,10 @@ script:
   - scons -c; scons mode=bin32
   - ./tesstest
   - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
-  - CC=i586-mingw32msvc-gcc
-  - scons -c; scons mode=win32
-  - wine tesstest.exe
-  - CC=gcc
+  #- CC=i586-mingw32msvc-gcc
+  #- scons -c; scons mode=win32
+  #- wine tesstest.exe
+  #- CC=gcc
   - scons mode=default; cd bench; make; cd $TRAVIS_BUILD_DIR
 notifications:
   email: false
