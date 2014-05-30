@@ -7,7 +7,7 @@ install:
   - sudo apt-get install -qq python-matplotlib python-numpy python-mpltoolkits.basemap
   # For cross-compiling 32bit binaries (mode=bin32) and win32 (mode=win32)
   - sudo apt-get install -qq libc6-dev-i386
-  - sudo apt-get install -qq mingw-w64
+  - sudo apt-get install -qq mingw32
   - sudo apt-get install -qq wine
   # To set the matplotlib rc file
   - bash .travis.sh
