@@ -3,6 +3,7 @@ compiler: gcc
 env:
   - PATH=$TRAVIS_BUILD_DIR/bin:$PATH MPLCONFIGDIR=$TRAVIS_BUILD_DIR
 install:
+  - sudo apt-get update -qq
   - sudo apt-get install -qq python-matplotlib python-numpy python-mpltoolkits.basemap
   # For cross-compiling 32bit binaries (mode=bin32) and win32 (mode=win32)
   - sudo apt-get install -qq libc6-dev-i386 mingw-w64 wine
