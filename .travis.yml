@@ -19,8 +19,10 @@ script:
   - scons -c; scons mode=bin32
   - ./tesstest
   - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
+  - CC=i586-mingw32msvc-gcc
   - scons -c; scons mode=win32
   - wine tesstest.exe
+  - CC=gcc
   - scons mode=default; cd bench; make; cd $TRAVIS_BUILD_DIR
 notifications:
   email: false
