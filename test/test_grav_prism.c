@@ -203,77 +203,84 @@ static char * test_gz_around()
     return 0;
 }
 
-static char * test_pot_below()
+static char * test_gxx_around()
 {
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
-    double dist, restop, resbelow;
+    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    double gzz, above, below, north, south, east, west, dist = 5000, i, j;
 
-    for(dist=5010; dist <= 500000; dist += 100)
+    for(i = -10000; i <= 10000; i += 100)
     {
-        restop = prism_pot(prism, 0, 0, -dist);
-        resbelow = prism_pot(prism, 0, 0, dist);
-
-        sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
-                restop, resbelow);
-        mu_assert_almost_equals(restop, resbelow, 10E-10, msg);
+        for(j = -10000; j <= 10000; j += 100)
+        {
+            above = prism_gxx(prism, i, j, -dist);
+            below = prism_gxx(prism, i, j, dist);
+            north = prism_gxx(prism, dist, i, j);
+            south = prism_gxx(prism, -dist, i, j);
+            east = prism_gxx(prism, i, dist, j);
+            west = prism_gxx(prism, i, -dist, j);
+            gzz = prism_gzz(prism, i, j, -dist);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "above", "below", above, below);
+            mu_assert_almost_equals(above, below, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "south", north, south);
+            mu_assert_almost_equals(north, south, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "west", east, west);
+            mu_assert_almost_equals(east, west, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "above", east, above);
+            mu_assert_almost_equals(east, above, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "gzz", north, gzz);
+            mu_assert_almost_equals(north, gzz, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "south", "gzz", south, gzz);
+            mu_assert_almost_equals(south, gzz, 10E-10, msg);
+        }
     }
-
     return 0;
 }
 
-static char * test_gx_below()
+static char * test_gxy_around()
 {
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
-    double dist, restop, resbelow;
+    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    double gyz, above, below, north, south, east, west, dist = 5000, i, j;
 
-    for(dist=5010; dist <= 500000; dist += 100)
+    for(i = -10000; i <= 10000; i += 100)
     {
-        restop = prism_gx(prism, 5000, 0, -dist);
-        resbelow = prism_gx(prism, 5000, 0, dist);
-
-        sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
-                restop, resbelow);
-        mu_assert_almost_equals(restop, resbelow, 10E-10, msg);
+        for(j = -10000; j <= 10000; j += 100)
+        {
+            above = prism_gxy(prism, i, j, -dist);
+            below = prism_gxy(prism, i, j, dist);
+            north = prism_gxy(prism, dist, j, i);
+            south = prism_gxy(prism, -dist, j, i);
+            east = prism_gxy(prism, j, dist, i);
+            west = prism_gxy(prism, j, -dist, i);
+            gyz = prism_gyz(prism, i, j, -dist);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "above", "below", above, below);
+            mu_assert_almost_equals(above, below, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "south", north, south);
+            mu_assert_almost_equals(north, -south, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "west", east, west);
+            mu_assert_almost_equals(east, -west, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "east", "north", east, north);
+            mu_assert_almost_equals(east, north, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "west", "south", west, south);
+            mu_assert_almost_equals(west, south, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "north", "gyz", north, gyz);
+            mu_assert_almost_equals(north, -gyz, 10E-10, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+                    i, j, "south", "gyz", south, gyz);
+            mu_assert_almost_equals(south, gyz, 10E-10, msg);
+        }
     }
-
-    return 0;
-}
-
-static char * test_gy_below()
-{
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
-    double dist, restop, resbelow;
-
-    for(dist=5010; dist <= 500000; dist += 100)
-    {
-        restop = prism_gy(prism, 0, 5000, -dist);
-        resbelow = prism_gy(prism, 0, 5000, dist);
-
-        sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
-                restop, resbelow);
-        mu_assert_almost_equals((double)(restop - resbelow)/restop, 0.,
-                                0.001, msg);
-    }
-
-    return 0;
-}
-
-static char * test_gz_below()
-{
-    PRISM prism = {3000,-5000,5000,-5000,5000,-5000,5000,0,0,0};
-    double dist, restop, resbelow;
-
-    for(dist=5010; dist <= 500000; dist += 100)
-    {
-        restop = prism_gz(prism, 0, 0,-dist);
-        resbelow = prism_gz(prism, 0, 0, dist);
-
-        sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
-                restop, resbelow);
-        mu_assert_almost_equals((double)(restop - (-resbelow))/restop, 0.,
-                                0.001, msg);
-    }
-
     return 0;
 }
 
@@ -667,14 +674,10 @@ int grav_prism_run_all()
                 "prism_gy results consistent around the prism");
     failed += mu_run_test(test_gz_around,
                 "prism_gz results consistent around the prism");
-    failed += mu_run_test(test_pot_below,
-                "prism_pot results equal above and below the prism");
-    failed += mu_run_test(test_gx_below,
-                "prism_gx results equal above and below the prism");
-    failed += mu_run_test(test_gy_below,
-                "prism_gy results equal above and below the prism");
-    failed += mu_run_test(test_gz_below,
-                "prism_gz results equal above and below the prism");
+    failed += mu_run_test(test_gxx_around,
+                "prism_gxx results consistent around the prism");
+    failed += mu_run_test(test_gxy_around,
+                "prism_gxy results consistent around the prism");
     failed += mu_run_test(test_gxx_below,
                 "prism_gxx results equal above and below the prism");
     failed += mu_run_test(test_gxy_below,
