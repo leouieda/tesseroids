@@ -27,33 +27,36 @@ static char * test_gets_tess()
 
     for(i = 0; i < 4; i++)
     {
-        sprintf(str, "%g %g %g %g %g %g %g", tesses[i].w, tesses[i].e,
-                tesses[i].s, tesses[i].n, tesses[i].r2 - MEAN_EARTH_RADIUS,
-                tesses[i].r1 - MEAN_EARTH_RADIUS, tesses[i].density);
+        sprintf(str, "%15.5f %15.5f %15.5f %15.5f %15.5f %15.5f %15.5f",
+                tesses[i].w, tesses[i].e, tesses[i].s, tesses[i].n,
+                tesses[i].r2 - MEAN_EARTH_RADIUS,
+                tesses[i].r1 - MEAN_EARTH_RADIUS,
+                tesses[i].density);
 
         gets_tess(str, &res);
 
-        sprintf(msg, "(tess %d) failed to read w. read=%g true=%g", i, res.w,
-                tesses[i].w);
-        mu_assert(res.w == tesses[i].w, msg);
-        sprintf(msg, "(tess %d) failed to read e. read=%g true=%g", i, res.e,
-                tesses[i].e);
-        mu_assert(res.e == tesses[i].e, msg);
-        sprintf(msg, "(tess %d) failed to read s. read=%g true=%g", i, res.s,
-                tesses[i].s);
-        mu_assert(res.s == tesses[i].s, msg);
-        sprintf(msg, "(tess %d) failed to read n. read=%g true=%g", i, res.n,
-                tesses[i].n);
-        mu_assert(res.n == tesses[i].n, msg);
-        sprintf(msg, "(tess %d) failed to read r2. read=%g true=%g", i, res.r2,
-                tesses[i].r2);
-        mu_assert(res.r2 == tesses[i].r2, msg);
-        sprintf(msg, "(tess %d) failed to read r1. read=%g true=%g", i, res.r1,
-                tesses[i].r1);
-        mu_assert(res.r1 == tesses[i].r1, msg);
-        sprintf(msg, "(tess %d) failed to read density. read=%g true=%g", i,
-                res.density, tesses[i].density);
-        mu_assert(res.density == tesses[i].density, msg);
+        sprintf(msg, "(tess %d) failed to read w. read=%g true=%g diff=%g", i,
+                res.w, tesses[i].w, res.w - tesses[i].w);
+        mu_assert_almost_equals(res.w, tesses[i].w, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read e. read=%g true=%g diff=%g", i,
+                res.e, tesses[i].e, res.e - tesses[i].e);
+        mu_assert_almost_equals(res.e, tesses[i].e, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read s. read=%g true=%g diff=%g", i,
+                res.s, tesses[i].s, res.s - tesses[i].s);
+        mu_assert_almost_equals(res.s, tesses[i].s, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read n. read=%g true=%g diff=%g", i,
+                res.n, tesses[i].n, res.n - tesses[i].n);
+        mu_assert_almost_equals(res.n, tesses[i].n, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read r2. read=%g true=%g diff=%g",
+                i, res.r2, tesses[i].r2, res.r2 - tesses[i].r2);
+        mu_assert_almost_equals(res.r2, tesses[i].r2, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read r1. read=%g true=%g diff=%g",
+                i, res.r1, tesses[i].r1, res.r1 - tesses[i].r1);
+        mu_assert_almost_equals(res.r1, tesses[i].r1, 10E-10, msg);
+        sprintf(msg, "(tess %d) failed to read dens. read=%g true=%g diff=%g",
+                i, res.density, tesses[i].density,
+                res.density - tesses[i].density);
+        mu_assert_almost_equals(res.density, tesses[i].density, 10E-10, msg);
     }
     return 0;
 }
