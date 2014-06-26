@@ -2,9 +2,17 @@
 Welcome to Tesseroids
 =====================
 
-.. image:: https://travis-ci.org/leouieda/tesseroids.png?branch=master
+.. image:: http://img.shields.io/travis/leouieda/tesseroids.svg?style=flat
     :target: https://travis-ci.org/leouieda/tesseroids
-    :alt: Travis CI build status
+    :alt: Travis CI build status.
+
+.. image:: http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat
+    :target: https://github.com/leouieda/tesseroids/releases/latest
+    :alt: Latest release on Github.
+
+.. image:: http://img.shields.io/badge/license-BSD_3_clause-lightgrey.svg?style=flat
+    :target: https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt
+    :alt: BSD 3 clause license.
 
 *Tesseroids* is a collection of command-line programs
 for the direct modeling of gravitational fields in spherical coordinates.
