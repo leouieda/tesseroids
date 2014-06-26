@@ -6,11 +6,7 @@ Welcome to Tesseroids
     :target: https://travis-ci.org/leouieda/tesseroids
     :alt: Travis CI build status.
 
-.. image:: http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat
-    :target: https://github.com/leouieda/tesseroids/releases/latest
-    :alt: Latest release on Github.
-
-.. image:: http://img.shields.io/badge/license-BSD_3_clause-lightgrey.svg?style=flat
+.. image:: http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat
     :target: https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt
     :alt: BSD 3 clause license.
 
