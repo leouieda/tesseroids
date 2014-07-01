@@ -4,7 +4,7 @@ Program to calculate gyy of a tesseroid model on a set of points.
 
 
 #include "constants.h"
-#include "grav_tess.h"
+#include "libtesseroid.h"
 #include "tessg_main.h"
 
 

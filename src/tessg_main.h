@@ -8,7 +8,7 @@ Generic main function for the tessg* programs.
 
 
 /* For the definitions of GLQ and TESSEROID */
-#include "glq.h"
+#include "libtesseroid.h"
 #include "geometry.h"
 
 

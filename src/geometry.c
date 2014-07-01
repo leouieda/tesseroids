@@ -3,7 +3,6 @@ Data structures for geometric elements and functions that operate on them.
 Defines the TESSEROID, SPHERE, and PRISM structures.
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -13,7 +12,6 @@ Defines the TESSEROID, SPHERE, and PRISM structures.
 #include "geometry.h"
 
 
-/* Split a tesseroid into 8. */
 void split_tess(TESSEROID tess, TESSEROID *split)
 {
     double dlon = 0.5*(tess.e - tess.w),
@@ -47,8 +45,6 @@ void split_tess(TESSEROID tess, TESSEROID *split)
     }
 }
 
-
-/* Calculate the total mass of a tesseroid model. */
 double tess_total_mass(TESSEROID *model, int size)
 {
     double mass;
@@ -62,8 +58,6 @@ double tess_total_mass(TESSEROID *model, int size)
     return mass;
 }
 
-
-/* Calculate the mass of a tesseroid model within a density range. */
 double tess_range_mass(TESSEROID *model, int size, double low_dens,
                        double high_dens)
 {
@@ -81,10 +75,6 @@ double tess_range_mass(TESSEROID *model, int size, double low_dens,
     return mass;
 }
 
-
-/* Convert a tesseroid to a rectangular prism of equal volume and append
- * the spherical coordinates of the center top surface (needed to calculate
- * the effect in spherical coordinates). */
 void tess2prism(TESSEROID tess, PRISM *prism)
 {
     double deg2rad = PI/180., r0, dx, dy;
@@ -110,9 +100,6 @@ void tess2prism(TESSEROID tess, PRISM *prism)
     prism->r = tess.r2; /* The top face */
 }
 
-
-/* Convert a tesseroid to a rectangular prism of equal volume by approximating
- * 1 degree by 111.11 km. */
 void tess2prism_flatten(TESSEROID tess, PRISM *prism)
 {
     prism->x1 = tess.s*111110.;
@@ -129,8 +116,6 @@ void tess2prism_flatten(TESSEROID tess, PRISM *prism)
                              tess_volume(tess)/prism_volume(*prism);
 }
 
-
-/* Convert a tesseroid to a sphere of equal volume. */
 void tess2sphere(TESSEROID tess, SPHERE *sphere)
 {
     sphere->density = tess.density;
@@ -140,8 +125,6 @@ void tess2sphere(TESSEROID tess, SPHERE *sphere)
     sphere->r = pow(3*tess_volume(tess)/(4.*PI), (double)1./3.);
 }
 
-
-/* Convert a rectangular prism into a sphere of equal volume. */
 void prism2sphere(PRISM prism, double lonc, double latc, double rc,
                   SPHERE *sphere)
 {
@@ -152,8 +135,6 @@ void prism2sphere(PRISM prism, double lonc, double latc, double rc,
     sphere->r = pow(3*prism_volume(prism)/(4.*PI), (double)1./3.);
 }
 
-
-/* Calculate the volume of a tesseroid */
 double tess_volume(TESSEROID tess)
 {
     double d2r = PI/180., vol;
@@ -164,17 +145,12 @@ double tess_volume(TESSEROID tess)
     return vol;
 }
 
-
-/* Calculate the volume of a sphere */
 double sphere_volume(SPHERE sphere)
 {
     return 4.*PI*pow(sphere.r, 3)/3.;
 }
 
-
-/* Calculate the volume of a prism */
 double prism_volume(PRISM prism)
 {
     return (prism.x2 - prism.x1)*(prism.y2 - prism.y1)*(prism.z2 - prism.z1);
 }
-

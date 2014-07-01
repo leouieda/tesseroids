@@ -5,8 +5,8 @@ Unit tests for I/O parser functions.
 #include <stdio.h>
 #include <math.h>
 #include "minunit.h"
-#include "../src/lib/parsers.h"
-#include "../src/lib/constants.h"
+#include "../src/parsers.h"
+#include "../src/constants.h"
 
 /* To store fail messages */
 char msg[1000];

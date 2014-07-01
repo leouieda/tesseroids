@@ -9,7 +9,6 @@ Print the default values of the constants used in the calculations.
 #include "version.h"
 #include "logger.h"
 #include "constants.h"
-#include "glq.h"
 
 
 /** Print the help message */

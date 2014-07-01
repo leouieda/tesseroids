@@ -5,8 +5,8 @@ Unit tests for geometry module.
 #include <stdio.h>
 #include <math.h>
 #include "minunit.h"
-#include "../src/lib/geometry.h"
-#include "../src/lib/constants.h"
+#include "../src/geometry.h"
+#include "../src/constants.h"
 
 /* To store fail messages */
 char msg[1000];

@@ -2,7 +2,6 @@
 Functions to set up logging.
 */
 
-
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
@@ -18,7 +17,6 @@ void log_init(int level)
     logger.level = level;
 }
 
-
 /* Set logging to a file. */
 void log_tofile(FILE *logfile, int level)
 {
@@ -26,7 +24,6 @@ void log_tofile(FILE *logfile, int level)
     logger.logfile = logfile;
     logger.file_level = level;
 }
-
 
 /* Log a message at debug level */
 void log_debug(const char *fmt, ...)
@@ -48,7 +45,6 @@ void log_debug(const char *fmt, ...)
     }
 }
 
-
 /* Log a message at info level */
 void log_info(const char *fmt, ...)
 {
@@ -69,7 +65,6 @@ void log_info(const char *fmt, ...)
     }
 }
 
-
 /* Log a message at warning level */
 void log_warning(const char *fmt, ...)
 {
@@ -89,7 +84,6 @@ void log_warning(const char *fmt, ...)
         fprintf(logger.logfile, "WARNING: %s\n", msg);
     }
 }
-
 
 /* Log a message at error level */
 void log_error(const char *fmt, ...)

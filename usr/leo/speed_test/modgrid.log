@@ -1,7 +1,0 @@
-tessgrd (Tesseroids project) 1.0
-(local time) Sat Feb 12 12:53:44 2011
-
-Generating regular grid in region: -60 W / 60 E / -60 S / 60 N
-Grid size: 121 lon X 121 lat = 14641 points in total
-Grid spacing: 1.0000000000 lon / 1.0000000000 lat
-Total points generated: 14641

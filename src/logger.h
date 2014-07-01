@@ -77,34 +77,31 @@ levels in the same program.
 #include <stdio.h>
 
 
-/** Logging level for debug messages */
+/* Logging level for debug messages */
 #define LOG_DEBUG   1
-/** Logging level for general information */
+/* Logging level for general information */
 #define LOG_INFO    2
-/** Logging level for warning messages */
+/* Logging level for warning messages */
 #define LOG_WARNING 3
-/** Logging level for error messages */
+/* Logging level for error messages */
 #define LOG_ERROR   4
 
 
-/** Keep the information on the global logger */
+/* Keep the information on the global logger */
 typedef struct logger_struct
 {
-    int level; /**< level of logging */
-    int filelogging; /**< flag to know wether loggint to a file is enabled */
-    int file_level; /**< logging level for the file */
-    FILE *logfile; /**< file to log to */
+    int level; /* level of logging */
+    int filelogging; /* flag to know wether loggint to a file is enabled */
+    int file_level; /* logging level for the file */
+    FILE *logfile; /* file to log to */
 
 } LOGGER;
 
-
-/** Global logger struct. Only declare in the main program! */
+/* Global logger struct. Only declare in the main program! */
 extern LOGGER logger;
 
-
-/** Setup logging to stderr.
-
-@param level level of logging to be made. Can be one of:
+/* Setup logging to stderr.
+level: level of logging to be made. Can be one of:
     - LOG_DEBUG
     - LOG_INFO
     - LOG_WARNING
@@ -112,11 +109,9 @@ extern LOGGER logger;
 */
 extern void log_init(int level);
 
-
-/** Set logging to a file.
-
-@param logfile FILE pointer to the already open file to log to.
-@param level level of logging to be made to the file. Can be one of:
+/* Set logging to a file.
+logfile: FILE pointer to the already open file to log to.
+level: level of logging to be made to the file. Can be one of:
     - LOG_DEBUG
     - LOG_INFO
     - LOG_WARNING
@@ -124,40 +119,27 @@ extern void log_init(int level);
 */
 extern void log_tofile(FILE *logfile, int level);
 
-
-/** Log a message at debug level.
-
+/* Log a message at debug level.
 Pass parameters in the same format as printf()
-
 Prints a newline at the end.
 */
 extern void log_debug(const char *fmt, ...);
 
-
-/** Log a message at info level.
-
+/* Log a message at info level.
 Pass parameters in the same format as printf()
-
 Does not print "INFO: " in front of the message when logging
-
 Prints a newline at the end.
 */
 extern void log_info(const char *fmt, ...);
 
-
-/** Log a message at warning level.
-
+/* Log a message at warning level.
 Pass parameters in the same format as printf()
-
 Prints a newline at the end.
 */
 extern void log_warning(const char *fmt, ...);
 
-
-/** Log a message at error level.
-
+/* Log a message at error level.
 Pass parameters in the same format as printf()
-
 Prints a newline at the end.
 */
 extern void log_error(const char *fmt, ...);

@@ -10,7 +10,7 @@ coordinates.
 #include <time.h>
 #include "logger.h"
 #include "version.h"
-#include "grav_prism_sph.h"
+#include "libprism.h"
 #include "geometry.h"
 #include "constants.h"
 #include "parsers.h"

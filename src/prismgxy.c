@@ -3,7 +3,7 @@ Program to calculate gxy of a rectangular prism model on a set of points.
 */
 
 
-#include "grav_prism.h"
+#include "libprism.h"
 #include "prismg_main.h"
 
 

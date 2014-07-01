@@ -9,7 +9,7 @@ Generic main function for the prismg* programs.
 #include <time.h>
 #include "logger.h"
 #include "version.h"
-#include "grav_prism.h"
+#include "libprism.h"
 #include "geometry.h"
 #include "parsers.h"
 #include "prismg_main.h"

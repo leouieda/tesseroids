@@ -44,120 +44,33 @@ typedef struct sphere_struct {
 } SPHERE;
 
 
-/* Split a tesseroid into 8.
-
-@param tess tesseroid that will be split
-@param split array of 8 tesseroids with memory allocated. Used to return.
-*/
+/* Split a tesseroid into 8. */
 extern void split_tess(TESSEROID tess, TESSEROID *split);
-
-
-/* Calculate the total mass of a tesseroid model.
-
-Give all in SI units and degrees!
-
-@param model array of tesseroids
-@param size size of the model
-
-@return The calculated mass
-*/
+/* Calculate the total mass of a tesseroid model. Returns he calculated mass.
+Give all in SI units and degrees */
 extern double tess_total_mass(TESSEROID *model, int size);
-
-
-/* Calculate the mass of a tesseroid model within a density range.
-
-Give all in SI units and degrees!
-
-@param model array of tesseroids
-@param size size of the model
-@param low_dens lower bound of the density range
-@param high_dens upper bound of the density range
-
-@return The calculated mass
-*/
+/* Calculate the mass of a tesseroid model within a density range. */
 extern double tess_range_mass(TESSEROID *model, int size, double low_dens,
                               double high_dens);
-
-
-/* Convert a tesseroid into a rectangular prism of equal volume (Wild-Pfeiffer, 2008).
-
-\f[
-\Delta x = \frac{r_1 + r_2}{2} \Delta \phi,
-\f]
-\f[
-\Delta y = \frac{r_1 + r_2}{2} \cos\left(\frac{\phi_1 + \phi_2}{2}\right) \Delta\lambda,
-\f]
-\f[
-\Delta z = \Delta r,
-\f]
-
-<b>References</b>
-
-- Wild-Pfeiffer, F. (2008). A comparison of different mass elements for use in
-gravity gradiometry. Journal of Geodesy, 82(10), 637-653.
-
-@param tess tesseroid to convert
-@param prism prism with equal volume of the tesseroid (used to return)
-*/
+/* Convert a tesseroid into a rectangular prism of equal volume as in:
+   Wild-Pfeiffer, F. (2008). A comparison of different mass elements for use in
+   gravity gradiometry. Journal of Geodesy, 82(10), 637-653. */
 extern void tess2prism(TESSEROID tess, PRISM *prism);
-
-
 /* Convert a tesseroid into a rectangular prism of equal volume by
-approximating 1 degree by 111.11 km.
-
-@param tess tesseroid to convert
-@param prism prism with equal volume of the tesseroid (used to return)
-*/
+approximating 1 degree by 111.11 km. */
 extern void tess2prism_flatten(TESSEROID tess, PRISM *prism);
-
-
-/* Convert a tesseroid into a sphere of equal volume.
-
-Parameters:
-@param tess tesseroid to convert
-@param sphere sphere with equal volume of the tesseroid (used to return)
-*/
+/* Convert a tesseroid into a sphere of equal volume. */
 extern void tess2sphere(TESSEROID tess, SPHERE *sphere);
-
-
 /* Convert a rectangular prism into a sphere of equal volume.
-
-Parameters:
-@param prism prism to convert
-@param lonc longitude of the desired center of the sphere, in degrees
-@param latc latitude of the desired center of the sphere, in degrees
-@param rc radial coordinate of the desired center of the sphere, in SI units
-@param sphere sphere with equal volume of the prism (used to return)
-*/
+lonc, latc, rc are coordinates of the desired center of the sphere, in degrees
+and meters. */
 extern void prism2sphere(PRISM prism, double lonc, double latc, double rc,
                          SPHERE *sphere);
-
-
-/* Calculate the volume of a tesseroid.
-
-@param tess the tesseroid whose volume will be calculated
-
-@return the volume in the respective units
-*/
+/* Calculate the volume of a tesseroid. */
 extern double tess_volume(TESSEROID tess);
-
-
-/* Calculate the volume of a sphere.
-
-@param sphere the sphere whose volume will be calculated
-
-@return the volume in the respective units
-*/
+/* Calculate the volume of a sphere. */
 extern double sphere_volume(SPHERE sphere);
-
-
-/* Calculate the volume of a prism
-
-@param prism the prism whose volume will be calculated
-
-@return the volume in the respective units
-*/
+/* Calculate the volume of a prism */
 extern double prism_volume(PRISM prism);
-
 
 #endif

@@ -9,8 +9,7 @@ Generic main function for the tessg* programs.
 #include <time.h>
 #include "logger.h"
 #include "version.h"
-#include "grav_tess.h"
-#include "glq.h"
+#include "libtesseroid.h"
 #include "constants.h"
 #include "geometry.h"
 #include "parsers.h"
