@@ -15,6 +15,7 @@ References
 
 
 #include <math.h>
+#include <stdlib.h>
 #include "geometry.h"
 #include "constants.h"
 #include "grav_prism.h"
@@ -251,11 +252,10 @@ double prism_gxx(PRISM prism, double xp, double yp, double zp)
     return res;
 }
 
-
 /* Calculates the gxy gravity gradient tensor component cause by a prism. */
 double prism_gxy(PRISM prism, double xp, double yp, double zp)
 {
-    double x[2], y[2], z[2], kernel, res, r;
+    double x[2], y[2], z[2], kernel, res, r, xtmp, ytmp;
     register int i, j, k;
 
     /* First thing to do is make P the origin of the coordinate system */
@@ -275,7 +275,16 @@ double prism_gxy(PRISM prism, double xp, double yp, double zp)
         {
             for(i=0; i<=1; i++)
             {
-                r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                if(x[i] == 0 && y[j] == 0 && z[k] < 0)
+                {
+                    xtmp = 0.0001*(prism.x2 - prism.x1);
+                    ytmp = 0.0001*(prism.y2 - prism.y1);
+                    r = sqrt(xtmp*xtmp + ytmp*ytmp + z[k]*z[k]);
+                }
+                else
+                {
+                    r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                }
                 kernel = safe_log(z[k] + r);
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -293,7 +302,7 @@ double prism_gxy(PRISM prism, double xp, double yp, double zp)
 /* Calculates the gxz gravity gradient tensor component cause by a prism. */
 double prism_gxz(PRISM prism, double xp, double yp, double zp)
 {
-    double x[2], y[2], z[2], kernel, res, r;
+    double x[2], y[2], z[2], kernel, res, r, xtmp, ztmp;
     register int i, j, k;
 
     /* First thing to do is make P the origin of the coordinate system */
@@ -313,7 +322,16 @@ double prism_gxz(PRISM prism, double xp, double yp, double zp)
         {
             for(i=0; i<=1; i++)
             {
-                r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                if(x[i] == 0 && z[k] == 0 && y[j] < 0)
+                {
+                    xtmp = 0.0001*(prism.x2 - prism.x1);
+                    ztmp = 0.0001*(prism.z2 - prism.z1);
+                    r = sqrt(xtmp*xtmp + ztmp*ztmp + y[j]*y[j]);
+                }
+                else
+                {
+                    r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                }
                 kernel = safe_log(y[j] + r);
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -369,7 +387,7 @@ double prism_gyy(PRISM prism, double xp, double yp, double zp)
 /* Calculates the gyz gravity gradient tensor component cause by a prism. */
 double prism_gyz(PRISM prism, double xp, double yp, double zp)
 {
-    double x[2], y[2], z[2], kernel, res, r;
+    double x[2], y[2], z[2], kernel, res, r, ytmp, ztmp;
     register int i, j, k;
 
     /* First thing to do is make P the origin of the coordinate system */
@@ -389,7 +407,16 @@ double prism_gyz(PRISM prism, double xp, double yp, double zp)
         {
             for(i=0; i<=1; i++)
             {
-                r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                if(z[k] == 0 && y[j] == 0 && x[i] < 0)
+                {
+                    ytmp = 0.0001*(prism.y2 - prism.y1);
+                    ztmp = 0.0001*(prism.z2 - prism.z1);
+                    r = sqrt(ztmp*ztmp + ytmp*ytmp + x[i]*x[i]);
+                }
+                else
+                {
+                    r = sqrt(x[i]*x[i] + y[j]*y[j] + z[k]*z[k]);
+                }
                 kernel = safe_log(x[i] + r);
                 res += pow(-1, i + j + k)*kernel;
             }
@@ -402,7 +429,6 @@ double prism_gyz(PRISM prism, double xp, double yp, double zp)
 
     return res;
 }
-
 
 
 /* Calculates the gzz gravity gradient tensor component cause by a prism. */

@@ -30,6 +30,7 @@ static char * test_safe_atan2_sign()
            y[] = {1, -1,  1, -1},
            x[] = {1,  1, -1, -1};
     register int i;
+
     for(i = 0; i < 4; i++)
     {
         res = safe_atan2(y[i], x[i]);
@@ -73,7 +74,7 @@ static char * test_pot_around()
             {
                 for(k = p + 1; k < 6; k++)
                 {
-                    sprintf(msg, "point (%g, %g) on planes %d n %d = (%g n %g)",
+                    sprintf(msg, "point (%g, %g) on planes %d n %d = (%.8f %.8f)",
                             i, j, p, k, planes[p], planes[k]);
                     mu_assert_almost_equals(planes[p], planes[k], 10E-10, msg);
                 }
@@ -99,22 +100,22 @@ static char * test_gx_around()
             east = prism_gx(prism, i, dist, j);
             west = prism_gx(prism, i, -dist, j);
             gz = prism_gz(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, -south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "above", east, above);
             mu_assert_almost_equals(east, above, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "gz", north, gz);
             mu_assert_almost_equals(north, -gz, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "south", "gz", south, gz);
             mu_assert_almost_equals(south, gz, 10E-10, msg);
         }
@@ -138,22 +139,22 @@ static char * test_gy_around()
             east = prism_gy(prism, i, dist, j);
             west = prism_gy(prism, i, -dist, j);
             gz = prism_gz(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, -west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "above", north, above);
             mu_assert_almost_equals(north, above, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "gz", east, gz);
             mu_assert_almost_equals(east, -gz, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "west", "gz", west, gz);
             mu_assert_almost_equals(west, gz, 10E-10, msg);
         }
@@ -177,25 +178,25 @@ static char * test_gz_around()
             east = prism_gz(prism, i, dist, j);
             west = prism_gz(prism, i, -dist, j);
             gy = prism_gy(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, -below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "gy", north, gy);
             mu_assert_almost_equals(north, gy, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "south", "gy", south, gy);
             mu_assert_almost_equals(south, gy, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "gy", east, gy);
             mu_assert_almost_equals(east, gy, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "west", "gy", west, gy);
             mu_assert_almost_equals(west, gy, 10E-10, msg);
         }
@@ -219,22 +220,22 @@ static char * test_gxx_around()
             east = prism_gxx(prism, i, dist, j);
             west = prism_gxx(prism, i, -dist, j);
             gzz = prism_gzz(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "above", east, above);
             mu_assert_almost_equals(east, above, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "gzz", north, gzz);
             mu_assert_almost_equals(north, gzz, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "south", "gzz", south, gzz);
             mu_assert_almost_equals(south, gzz, 10E-10, msg);
         }
@@ -244,7 +245,7 @@ static char * test_gxx_around()
 
 static char * test_gxy_around()
 {
-    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    PRISM prism = {1000, -3000, 3000, -3000, 3000, -3000, 3000, 0, 0, 0};
     double gyz, above, below, north, south, east, west, dist = 5000, i, j;
 
     for(i = -10000; i <= 10000; i += 100)
@@ -258,35 +259,36 @@ static char * test_gxy_around()
             east = prism_gxy(prism, j, dist, i);
             west = prism_gxy(prism, j, -dist, i);
             gyz = prism_gyz(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "above", "below", above, below);
-            mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "north", "south", north, south);
-            mu_assert_almost_equals(north, -south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "east", "west", east, west);
-            mu_assert_almost_equals(east, -west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "east", "north", east, north);
-            mu_assert_almost_equals(east, north, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "west", "south", west, south);
-            mu_assert_almost_equals(west, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "north", "gyz", north, gyz);
-            mu_assert_almost_equals(north, -gyz, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "south", "gyz", south, gyz);
-            mu_assert_almost_equals(south, gyz, 10E-10, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "above", "below", above, below);
+            mu_assert_almost_equals(above, below, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "north", "south", north, south);
+            mu_assert_almost_equals(north, -south, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "east", "west", east, west);
+            mu_assert_almost_equals(east, -west, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "east", "north", east, north);
+            mu_assert_almost_equals(east, north, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "west", "south", west, south);
+            mu_assert_almost_equals(west, south, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "north", "gyz", north, gyz);
+            mu_assert_almost_equals(north, -gyz, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f n %.15f)",
+                    i, j, dist, "south", "gyz", south, gyz);
+            mu_assert_almost_equals(south, gyz, 1e-5, msg);
         }
     }
+
     return 0;
 }
 
 static char * test_gxz_around()
 {
-    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    PRISM prism = {3000, -3000, 3000, -3000, 3000, -3000, 3000, 0, 0, 0};
     double other, above, below, north, south, east, west, dist = 5000, i, j;
 
     for(i = -10000; i <= 10000; i += 100)
@@ -300,27 +302,27 @@ static char * test_gxz_around()
             east = prism_gxz(prism, i, dist, j);
             west = prism_gxz(prism, i, -dist, j);
             other = prism_gxy(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "above", "below", above, below);
-            mu_assert_almost_equals(above, -below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "north", "south", north, south);
-            mu_assert_almost_equals(north, -south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "east", "west", east, west);
-            mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "below", "north", below, north);
-            mu_assert_almost_equals(below, north, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "above", "south", above, south);
-            mu_assert_almost_equals(above, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "east", "gxy", east, other);
-            mu_assert_almost_equals(east, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
-                    i, j, "west", "gxy", west, other);
-            mu_assert_almost_equals(west, other, 10E-10, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "above", "below", above, below);
+            mu_assert_almost_equals(above, -below, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "north", "south", north, south);
+            mu_assert_almost_equals(north, -south, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "east", "west", east, west);
+            mu_assert_almost_equals(east, west, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "below", "north", below, north);
+            mu_assert_almost_equals(below, north, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "above", "south", above, south);
+            mu_assert_almost_equals(above, south, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "east", "gxy", east, other);
+            mu_assert_almost_equals(east, other, 1e-5, msg);
+            sprintf(msg, " p (%g %g %g) on planes %s n %s = (%.15f %.15f)",
+                    i, j, dist, "west", "gxy", west, other);
+            mu_assert_almost_equals(west, other, 1e-5, msg);
         }
     }
     return 0;
@@ -342,22 +344,22 @@ static char * test_gyy_around()
             east = prism_gyy(prism, i, dist, j);
             west = prism_gyy(prism, i, -dist, j);
             other = prism_gzz(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "north", above, north);
             mu_assert_almost_equals(above, north, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "gzz", east, other);
             mu_assert_almost_equals(east, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "west", "gzz", west, other);
             mu_assert_almost_equals(west, other, 10E-10, msg);
         }
@@ -367,7 +369,7 @@ static char * test_gyy_around()
 
 static char * test_gyz_around()
 {
-    PRISM prism = {1000,-3000,3000,-3000,3000,-3000,3000,0,0,0};
+    PRISM prism = {1000, -3000, 3000, -3000, 3000, -3000, 3000, 0, 0, 0};
     double other, above, below, north, south, east, west, dist = 5000, i, j;
 
     for(i = -10000; i <= 10000; i += 100)
@@ -381,27 +383,27 @@ static char * test_gyz_around()
             east = prism_gyz(prism, i, dist, j);
             west = prism_gyz(prism, i, -dist, j);
             other = prism_gxy(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
-            mu_assert_almost_equals(above, -below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(above, -below, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
-            mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(north, south, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
-            mu_assert_almost_equals(east, -west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(east, -west, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "below", "east", below, east);
-            mu_assert_almost_equals(below, east, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(below, east, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "west", above, west);
-            mu_assert_almost_equals(above, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(above, west, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "gxy", north, other);
-            mu_assert_almost_equals(north, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            mu_assert_almost_equals(north, other, 1e-5, msg);
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "south", "gxy", south, other);
-            mu_assert_almost_equals(south, other, 10E-10, msg);
+            mu_assert_almost_equals(south, other, 1e-5, msg);
         }
     }
     return 0;
@@ -423,28 +425,28 @@ static char * test_gzz_around()
             east = prism_gzz(prism, i, dist, j);
             west = prism_gzz(prism, i, -dist, j);
             other = prism_gyy(prism, i, j, -dist);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "above", "below", above, below);
             mu_assert_almost_equals(above, below, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "south", north, south);
             mu_assert_almost_equals(north, south, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "west", east, west);
             mu_assert_almost_equals(east, west, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "east", north, east);
             mu_assert_almost_equals(north, east, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "north", "gyy", north, other);
             mu_assert_almost_equals(north, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "south", "gyy", south, other);
             mu_assert_almost_equals(south, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "east", "gyy", east, other);
             mu_assert_almost_equals(east, other, 10E-10, msg);
-            sprintf(msg, "point (%g, %g) on planes %s n %s = (%g n %g)",
+            sprintf(msg, "point (%g, %g) on planes %s n %s = (%.8f %.8f)",
                     i, j, "west", "gyy", west, other);
             mu_assert_almost_equals(west, other, 10E-10, msg);
         }
@@ -464,8 +466,7 @@ static char * test_gxx_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(resbelow, restop, 0.1, msg);
     }
 
     return 0;
@@ -483,8 +484,7 @@ static char * test_gxy_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(resbelow, restop, 1, msg);
     }
 
     return 0;
@@ -502,8 +502,7 @@ static char * test_gxz_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - -1*resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(resbelow, -restop, 0.1, msg);
     }
 
     return 0;
@@ -521,8 +520,7 @@ static char * test_gyy_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals_rel(resbelow, restop, 1, msg);
     }
 
     return 0;
@@ -540,8 +538,7 @@ static char * test_gyz_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - -1*resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(resbelow, -restop, 0.1, msg);
     }
 
     return 0;
@@ -559,8 +556,7 @@ static char * test_gzz_below()
 
         sprintf(msg, "(distance %g m) top = %.5f  below = %.5f", dist,
                 restop, resbelow);
-        mu_assert_almost_equals((double)(restop - resbelow)/restop, 0.,
-                                0.001, msg);
+        mu_assert_almost_equals(resbelow, restop, 0.1, msg);
     }
 
     return 0;
