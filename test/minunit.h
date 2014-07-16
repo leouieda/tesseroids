@@ -50,7 +50,8 @@ Date: 25 Jan 2011
 #define _MINUNIT_H_
 
 #include <stdio.h>
-        
+#include <math.h>
+
 /* Global counters. WARNING: Don't forget to initialize in the main program
 before running the tests! */
 extern int tests_run, tests_passed, tests_failed;
@@ -65,15 +66,19 @@ extern int tests_run, tests_passed, tests_failed;
     if(!(val <= expect + prec && val >= expect - prec)) { return msg; }\
     } while (0)
 
+/* Assert if val equals expect within a certain precision precision given in % */
+#define mu_assert_almost_equals_rel(val, expect, prec, msg) do { \
+    if(fabs(val - expect) > 0.01*prec*fabs(expect)) { return msg; }\
+    } while (0)
 
 /* Run a test case, print the verbose and check if passed or failed */
 int mu_run_test(char *(*test)(void), char *verbose)
 {
     char *msg;
-    
+
     printf("\n%s... ", verbose);
     msg = test();
-    tests_run++; 
+    tests_run++;
     if(msg)
     {
         tests_failed++;
