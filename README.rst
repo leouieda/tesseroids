@@ -1,6 +1,5 @@
-=====================
-Welcome to Tesseroids
-=====================
+Tesseroids
+==========
 
 .. image:: http://img.shields.io/travis/leouieda/tesseroids.svg?style=flat
     :target: https://travis-ci.org/leouieda/tesseroids
@@ -10,29 +9,23 @@ Welcome to Tesseroids
     :target: https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt
     :alt: BSD 3 clause license.
 
-*Tesseroids* is a collection of command-line programs
-for the direct modeling of gravitational fields in spherical coordinates.
-It can model the gravitational potential, acceleration, and gradient tensor.
+Command-line programs
+for forward modeling gravitational fields due to mass elements
+in spherical coordinates.
 
-The geometric element used in the modelling processes is
-a spherical prism, also called a tesseroid.
-*Tesseroids* also contains programs for modeling using
-right rectangular prisms, both in Cartesian and spherical coordinates.
+It contains tools for modeling the gravitational potential, acceleration, and
+gradient tensor.
+Models can be made of right rectangular prisms
+or tesseroids (spherical prisms).
 
 *Tesseroids* is developed by `Leonardo Uieda`_
 in cooperation with `Carla Braitenberg`_.
 
-As of version 1.1,
-*Tesseroids* is licensed under the BSD license
-(see LICENSE.txt).
-This means that it can be reused and remixed
-with fewer restrictions.
-
 .. _Leonardo Uieda: http://www.leouieda.com
 .. _Carla Braitenberg: http://lithoflex.org/
 
-Online documentation
---------------------
+Documentation
+-------------
 
 You'll find the documentation for Tesseroids on Read the Docs:
 
@@ -40,9 +33,6 @@ http://tesseroids.readthedocs.org/
 
 The docs contain installation instructions, usage, theorerical background,
 and some examples.
-
-You can also download a **PDF** version of the docs
-`here <https://media.readthedocs.org/pdf/tesseroids/latest/tesseroids.pdf>`__.
 
 Citing
 ------
@@ -56,7 +46,7 @@ Downloading
 You can download the source and binary distributions
 from the `project site`_.
 
-.. _project site: http://leouieda.github.io/tesseroids
+.. _project site: http://www.leouieda.com/tesseroids
 
 Pre-compiled binaries
 ---------------------
@@ -64,8 +54,7 @@ Pre-compiled binaries
 If you downloaded a pre-compiled binary distribution,
 simply unpack in the desired directory.
 
-The executables will be in the ``bin`` folder,
-the pdf documentation in the ``doc`` folder,
+The executables will be in the ``bin`` folder
 and example scripts in the ``cookbook`` folder.
 
 Compiling from source
