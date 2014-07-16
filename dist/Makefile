@@ -1,6 +1,5 @@
 VERSION = 1.1.1
 DIRBASE = tesseroids-${VERSION}
-DOCS=../doc/_build/latex/Tesseroids_v${VERSION}.pdf
 
 help:
 	@echo "Commands:"
@@ -12,18 +11,12 @@ help:
 
 all: src bin32 bin64 win32
 
-${DOCS}:
-	cd ../doc; make clean
-	cd ../doc; make latex
-
-src: ${DOCS}
+src:
 	scons -C ../ -c
 	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}/doc
 	cp -r ../src ${DIRBASE}
 	cp -r ../test ${DIRBASE}
 	cp -r ../cookbook ${DIRBASE}
-	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	cp ../DEPENDENCIES.txt ${DIRBASE}
@@ -33,15 +26,13 @@ src: ${DOCS}
 	tar -zcvf ${DIRBASE}-src.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-bin32: ${DOCS}
+bin32:
 	scons -C ../ -c
 	scons -C .. mode=bin32
 	../tesstest
 	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}/doc
 	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
-	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	cp ../DEPENDENCIES.txt ${DIRBASE}
@@ -49,15 +40,13 @@ bin32: ${DOCS}
 	tar -zcvf ${DIRBASE}-bin32.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-bin64: ${DOCS}
+bin64:
 	scons -C ../ -c
 	scons -C ..
 	../tesstest
 	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}/doc
 	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
-	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	cp ../DEPENDENCIES.txt ${DIRBASE}
@@ -65,15 +54,13 @@ bin64: ${DOCS}
 	tar -zcvf ${DIRBASE}-bin64.tar.gz ${DIRBASE}
 	rm -r ${DIRBASE}
 
-win32: ${DOCS}
+win32:
 	scons -C ../ -c
 	scons -C .. mode=win32
 	wine ../tesstest.exe
 	mkdir ${DIRBASE}
-	mkdir ${DIRBASE}/doc
 	cp -r ../cookbook ${DIRBASE}
 	cp -r ../bin ${DIRBASE}
-	cp ${DOCS} ${DIRBASE}/doc
 	cp ../README.rst ${DIRBASE}/README.txt
 	cp ../LICENSE.txt ${DIRBASE}
 	cp ../DEPENDENCIES.txt ${DIRBASE}
