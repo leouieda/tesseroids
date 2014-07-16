@@ -1,7 +1,15 @@
 Computer specs
-model name	: Intel(R) Xeon(R) CPU           W3565  @ 3.20GHz
-MemTotal:        6112536 kB
+model name	: Intel(R) Core(TM) i5-4200U CPU @ 1.60GHz
+MemTotal:        3950840 kB
 
-Time spent
-819.60user 0.64system 13:43.01elapsed 99%CPU (0avgtext+0avgdata 1371600maxresident)k
-0inputs+16outputs (0major+85828minor)pagefaults 0swaps
+Time spent on potential:
+15.27user 0.00system 0:15.30elapsed 99%CPU (0avgtext+0avgdata 1460maxresident)k
+0inputs+280outputs (0major+432minor)pagefaults 0swaps
+
+Time spent on gz:
+32.00user 0.02system 0:32.05elapsed 99%CPU (0avgtext+0avgdata 1456maxresident)k
+0inputs+280outputs (0major+456minor)pagefaults 0swaps
+
+Time spent on gzz:
+41.84user 0.03system 0:41.91elapsed 99%CPU (0avgtext+0avgdata 1456maxresident)k
+0inputs+280outputs (0major+455minor)pagefaults 0swaps
