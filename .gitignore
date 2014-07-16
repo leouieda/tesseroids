@@ -7,4 +7,5 @@ tesstest
 .sconsign.dblite
 doc/_build
 *.exe
+.*.swp
 scons-tools/*.pyc
