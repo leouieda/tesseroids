@@ -47,11 +47,17 @@ to get you up-to-date with the terms and equations that we use.
 The :ref:`cookbook <cookbook>` has a few example recipes and the expected output
 (I recommend starting here if you just want a quick peek).
 
+.. warning::
+
+    See the list of :ref:`known issues <issues>` for things you should be
+    aware of.
+
 .. toctree::
     :maxdepth: 2
 
     license
     citation
+    issues
     changes
     install
     theory

@@ -3,6 +3,17 @@
 Changelog
 =========
 
+Changes in version
+------------------------
+
+* BUG fix: Singularities when calculating around a prism. Due to wrong quadrant
+  returned by atan2 and log(0) evaluations. Fix by wrapping atan2 in a
+  safe_atan2 that corrects the result. log(0) error happened only in cross
+  components of the gravity gradient when the computation is aligned with the
+  vertices of a certain face (varies for each component. Fix by displacing the
+  point a small amount when that happens.
+  (`PR 12 <https://github.com/leouieda/tesseroids/pull/12>`__)
+
 Changes in version 1.1.1
 ------------------------
 
