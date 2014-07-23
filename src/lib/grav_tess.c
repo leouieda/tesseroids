@@ -134,18 +134,17 @@ double tess_pot(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
     res = 0;
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
                 kappa = rc*rc*coslatc;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa/sqrt(l_sqr);
             }
@@ -173,22 +172,18 @@ double tess_gx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
     res = 0;
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
-
-                kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
-
                 kappa = rc*rc*coslatc;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(rc*kphi)/pow(l_sqr, 1.5);
             }
@@ -217,21 +212,18 @@ double tess_gy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
+        sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-                sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
-
                 kappa = rc*rc*coslatc;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(rc*coslatc*sinlon)/pow(l_sqr, 1.5);
             }
@@ -260,21 +252,17 @@ double tess_gz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon,
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-
-                cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*cospsi;
-
                 kappa = rc*rc*coslatc;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(rc*cospsi - rp)/pow(l_sqr, 1.5);
             }
@@ -304,22 +292,18 @@ double tess_gxx(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
-
-                kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
-
                 kappa = rc*rc*coslatc;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*rc*kphi*rc*kphi - l_sqr)/pow(l_sqr, 2.5);
             }
@@ -348,27 +332,21 @@ double tess_gxy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
+        sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-                sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
-
-                kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
-
                 kappa = rc*rc*coslatc;
-
                 deltax = rc*kphi;
-
                 deltay = rc*coslatc*sinlon;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*deltax*deltay)/pow(l_sqr, 2.5);
             }
@@ -397,27 +375,20 @@ double tess_gxz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
+            kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-
-                cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*cospsi;
-
-                kphi = coslatp*sinlatc - sinlatp*coslatc*coslon;
-
                 kappa = rc*rc*coslatc;
-
                 deltax = rc*kphi;
-
                 deltaz = rc*cospsi - rp;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*deltax*deltaz)/pow(l_sqr, 2.5);
             }
@@ -446,23 +417,19 @@ double tess_gyy(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
+        sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-                sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*(sinlatp*sinlatc +
                                                  coslatp*coslatc*coslon);
-
                 kappa = rc*rc*coslatc;
-
                 deltay = rc*coslatc*sinlon;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*deltay*deltay - l_sqr)/pow(l_sqr, 2.5);
             }
@@ -491,26 +458,20 @@ double tess_gyz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
+        sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-                sinlon = sin(d2r*(glq_lon.nodes[k] - lonp));
-
-                cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*cospsi;
-
                 kappa = rc*rc*coslatc;
-
                 deltay = rc*coslatc*sinlon;
-
                 deltaz = rc*cospsi - rp;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*deltay*deltaz)/pow(l_sqr, 2.5);
             }
@@ -539,23 +500,18 @@ double tess_gzz(TESSEROID tess, double lonp, double latp, double rp, GLQ glq_lon
 
     for(k = 0; k < glq_lon.order; k++)
     {
+        coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
         for(j = 0; j < glq_lat.order; j++)
         {
+            sinlatc = sin(d2r*glq_lat.nodes[j]);
+            coslatc = cos(d2r*glq_lat.nodes[j]);
+            cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
             for(i = 0; i < glq_r.order; i++)
             {
                 rc = glq_r.nodes[i];
-                sinlatc = sin(d2r*glq_lat.nodes[j]);
-                coslatc = cos(d2r*glq_lat.nodes[j]);
-                coslon = cos(d2r*(lonp - glq_lon.nodes[k]));
-
-                cospsi = sinlatp*sinlatc + coslatp*coslatc*coslon;
-
                 l_sqr = rp*rp + rc*rc - 2*rp*rc*cospsi;
-
                 kappa = rc*rc*coslatc;
-
                 deltaz = rc*cospsi - rp;
-
                 res += glq_lon.weights[k]*glq_lat.weights[j]*glq_r.weights[i]*
                        kappa*(3*deltaz*deltaz - l_sqr)/pow(l_sqr, 2.5);
             }
