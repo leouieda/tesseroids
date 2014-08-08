@@ -20,9 +20,11 @@ static char * test_split_tess()
                         {1, 2, 3, -1, 0, 6, 7}, {1, 3, 4, -1, 0, 6, 7},
                         {1, 2, 3, 0, 1, 6, 7}, {1, 3, 4, 0, 1, 6, 7}},
               res[8];
-    int i;
+    int i, n;
 
-    split_tess(tess, res);
+    n = split_tess(tess, 2, 2, 2, res);
+    sprintf(msg, "splitting in %d instead of 8", n);
+    mu_assert(n == 8, msg);
     for(i = 0; i < 8; i++)
     {
         sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
@@ -36,6 +38,30 @@ static char * test_split_tess()
     return 0;
 }
 
+
+static char * test_split_uneven_tess()
+{
+    TESSEROID tess = {1, 2, 4, -1, 1, 5, 7},
+              expect[] = {{1, 2, 3, -1, 0, 5, 7}, {1, 3, 4, -1, 0, 5, 7},
+                        {1, 2, 3, 0, 1, 5, 7}, {1, 3, 4, 0, 1, 5, 7}},
+              res[4];
+    int i, n;
+
+    n = split_tess(tess, 2, 2, 1, res);
+    sprintf(msg, "splitting in %d instead of 4", n);
+    mu_assert(n == 4, msg);
+    for(i = 0; i < 4; i++)
+    {
+        sprintf(msg, "failed for split %d: %g %g %g %g %g %g %g", i, res[i].w,
+                res[i].e, res[i].s, res[i].n, res[i].r1, res[i].r2,
+                res[i].density);
+        mu_assert(res[i].w == expect[i].w && res[i].e == expect[i].e &&
+                  res[i].s == expect[i].s && res[i].n == expect[i].n &&
+                  res[i].r1 == expect[i].r1 && res[i].r2 == expect[i].r2 &&
+                  res[i].density == expect[i].density, msg);
+    }
+    return 0;
+}
 
 static char * test_prism_volume()
 {
@@ -257,6 +283,7 @@ int geometry_run_all()
                 "tess2sphere produces sphere with right volume");
     failed += mu_run_test(test_prism2sphere,
                 "prism2sphere produces sphere with right volume");
-    failed += mu_run_test(test_split_tess, "split_tess returns correct results");
+    failed += mu_run_test(test_split_tess, "split_tess returns correct results for 2, 2, 2 split");
+    failed += mu_run_test(test_split_uneven_tess, "split_tess returns correct results for 2, 2, 1 split");
     return failed;
 }

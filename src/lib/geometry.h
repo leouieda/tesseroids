@@ -44,12 +44,17 @@ typedef struct sphere_struct {
 } SPHERE;
 
 
-/* Split a tesseroid into 8.
+/* Split a tesseroid.
 
 @param tess tesseroid that will be split
-@param split array of 8 tesseroids with memory allocated. Used to return.
+@param split array of nlon*nlat*nr tesseroids with memory allocated.
+
+Returns:
+    Number of tesseroids in split.
 */
-extern void split_tess(TESSEROID tess, TESSEROID *split);
+extern int split_tess(TESSEROID tess, int nlon, int nlat, int nr,
+                      TESSEROID *split);
+
 
 
 /* Calculate the total mass of a tesseroid model.

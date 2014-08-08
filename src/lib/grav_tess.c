@@ -58,62 +58,105 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
           double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
           double ratio)
 {
-    double res, dist, lont, latt, rt, d2r = PI/180.;
-    int tess;
+    double res, distance, lont, latt, rt, d2r = PI/180.,
+           coslatp, sinlatp, rp_sqr, rlonp,
+           dlon, dlat, dr;
+    int t, n, nlon, nlat, nr;
     TESSEROID split[8];
 
+    /* Pre-compute these things out of the loop */
+    rlonp = d2r*lonp;
+    rp_sqr = rp*rp;
+    coslatp = cos(d2r*latp);
+    sinlatp = sin(d2r*latp);
+
     res = 0;
-    for(tess = 0; tess < size; tess++)
+    for(t = 0; t < size; t++)
     {
-        rt = model[tess].r2;
-        lont = 0.5*(model[tess].w + model[tess].e);
-        latt = 0.5*(model[tess].s + model[tess].n);
-        dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
-                    cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
+        /* Compute the distance squared (to avoid calling sqrt all the time) */
+        /*rt = 0.5*(model[t].r2 - model[t].r1);*/
+        rt = model[t].r2;
+        lont = d2r*0.5*(model[t].w + model[t].e);
+        latt = d2r*0.5*(model[t].s + model[t].n);
+        distance = sqrt(rp_sqr + rt*rt - 2*rp*rt*(
+            sinlatp*sin(latt) + coslatp*cos(latt)*cos(rlonp - lont)));
 
         /* Would get stuck in infinite loop if dist = 0 and get wrong results if
            inside de tesseroid. Still do the calculation but warn user that it's
            probably wrong. */
-        if(lonp >= model[tess].w && lonp <= model[tess].e &&
-           latp >= model[tess].s && latp <= model[tess].n &&
-           rp >= model[tess].r1 && rp <= model[tess].r2)
+        if(lonp >= model[t].w && lonp <= model[t].e &&
+           latp >= model[t].s && latp <= model[t].n &&
+           rp >= model[t].r1 && rp <= model[t].r2)
         {
             log_warning("Point (%g %g %g) is on top of tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
-                        lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
-                        model[tess].w, model[tess].e, model[tess].s,
-                        model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
-                        model[tess].r1 - MEAN_EARTH_RADIUS,
-                        model[tess].density);
-            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
-            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
-            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
-            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
+                        lonp, latp, rp - MEAN_EARTH_RADIUS, t,
+                        model[t].w, model[t].e, model[t].s,
+                        model[t].n, model[t].r2 - MEAN_EARTH_RADIUS,
+                        model[t].r1 - MEAN_EARTH_RADIUS,
+                        model[t].density);
+            glq_set_limits(model[t].w, model[t].e, glq_lon);
+            glq_set_limits(model[t].s, model[t].n, glq_lat);
+            glq_set_limits(model[t].r1, model[t].r2, glq_r);
+            res += field(model[t], lonp, latp, rp, *glq_lon, *glq_lat,
                          *glq_r);
         }
         /* Check if the computation point is at an acceptable distance. If not
            split the tesseroid using the given ratio */
-        else if(
-            dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
-            dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
-            dist < ratio*(model[tess].r2 - model[tess].r1))
-        {
-            log_debug("Splitting tesseroid %d (%g %g %g %g %g %g %g) at point (%g %g %g) using ratio %g",
-                      tess, model[tess].w, model[tess].e, model[tess].s,
-                      model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
-                      model[tess].r1 - MEAN_EARTH_RADIUS, model[tess].density,
-                      lonp, latp, rp - MEAN_EARTH_RADIUS, ratio);
-            /* Do it recursively until ratio*size is smaller than distance */
-            split_tess(model[tess], split);
-            res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,
-                                         glq_lat, glq_r, field, ratio);
-        }
         else
         {
-            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
-            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
-            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
-            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
-                         *glq_r);
+            /* Number of times to split the tesseroid in each dimension */
+            nlon = 1;
+            nlat = 1;
+            nr = 1;
+            /* Get the size of each face of the tesseroid */
+            dlon = MEAN_EARTH_RADIUS*d2r*(model[t].e - model[t].w);
+            dlat = MEAN_EARTH_RADIUS*d2r*(model[t].n - model[t].s);
+            dr = model[t].r2 - model[t].r1;
+            /*if((distance < ratio*dlon) ||*/
+               /*(distance < ratio*dlat) ||*/
+               /*(distance < ratio*dr))*/
+            /*{*/
+                /*nlon = 2;*/
+                /*nlat = 2;*/
+                /*nr = 2;*/
+            /*}*/
+            if(distance < ratio*dlon)
+            {
+                nlon = 2;
+            }
+            if(distance < ratio*dlat)
+            {
+                nlat = 2;
+            }
+            if(distance < ratio*dr)
+            {
+                nr = 2;
+            }
+            if(nlon == 1 && nlat == 1 && nr == 1)
+            {
+                glq_set_limits(model[t].w, model[t].e, glq_lon);
+                glq_set_limits(model[t].s, model[t].n, glq_lat);
+                glq_set_limits(model[t].r1, model[t].r2, glq_r);
+                res += field(model[t], lonp, latp, rp, *glq_lon, *glq_lat,
+                             *glq_r);
+            }
+            else
+            {
+                log_debug(
+                    "Splitting tesseroid %d (%g %g %g %g %g %g %g) into (%d %d %d) at point (%g %g %g) using ratio %g",
+                    t, model[t].w, model[t].e, model[t].s,
+                    model[t].n, model[t].r2 - MEAN_EARTH_RADIUS,
+                    model[t].r1 - MEAN_EARTH_RADIUS, model[t].density,
+                    nlon, nlat, nr,
+                    lonp, latp, rp - MEAN_EARTH_RADIUS, ratio);
+                n = split_tess(model[t], nlon, nlat, nr, split);
+                if(n != nlon*nlat*nr)
+                {
+                    log_warning("Splitting into %d instead of %d", n, nlon*nlat*nr);
+                }
+                res += calc_tess_model_adapt(split, n, lonp, latp, rp, glq_lon,
+                                             glq_lat, glq_r, field, ratio);
+            }
         }
     }
     return res;

@@ -531,9 +531,11 @@ static char * test_adaptative()
     /* Check if the adaptative is dividing properly and returning the same thing
        as the non-adaptative (do spliting by hand) */
     TESSEROID tess,
-              split[8];
+              split[10000];
     GLQ *glqlon, *glqlat, *glqr;
     double mindist, resadapt, resnormal;
+    double lon, lat;
+    int n;
 
     tess.density = 1000.;
     tess.w = -0.5;
@@ -555,22 +557,28 @@ static char * test_adaptative()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
-    mindist = TESSEROID_GZZ_SIZE_RATIO*111110.*(tess.e - tess.w);
+    mindist = 100000;
 
     /* If at half mindist should only divide once */
-    resadapt = calc_tess_model_adapt(&tess, 1, 0, 0,
-                                     0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
-                                     glqlat, glqr, tess_gzz,
-                                     TESSEROID_GZZ_SIZE_RATIO);
-
-    split_tess(tess, split);
-    resnormal = calc_tess_model(split, 8, 0, 0,
-                                0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
-                                glqlat, glqr, tess_gzz);
-
-    sprintf(msg, "adapt = %.10f  normal = %.10f", resadapt, resnormal);
-    mu_assert_almost_equals(resadapt, resnormal, pow(10, -10), msg);
-
+    for(lon = -0.5; lon <= 0.5; lon += 0.05)
+    {
+        for(lat = -0.5; lat <= 0.5; lat += 0.05)
+        {
+            resadapt = calc_tess_model_adapt(&tess, 1, lon, lat,
+                                             0.5*mindist + MEAN_EARTH_RADIUS,
+                                             glqlon, glqlat, glqr,
+                                             tess_gzz,
+                                             TESSEROID_GZZ_SIZE_RATIO);
+            n = split_tess(tess, 20, 20, 20, split);
+            sprintf(msg, "splitting in %d instead of 8000", n);
+            mu_assert(n == 8000, msg);
+            resnormal = calc_tess_model(split, n, lon, lat,
+                                        0.5*mindist + MEAN_EARTH_RADIUS, glqlon,
+                                        glqlat, glqr, tess_gzz);
+            sprintf(msg, "adapt = %.10f  normal = %.10f", resadapt, resnormal);
+            mu_assert_almost_equals(resadapt, resnormal, pow(10, -2), msg);
+        }
+    }
     return 0;
 }
 

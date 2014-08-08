@@ -13,38 +13,33 @@ Defines the TESSEROID, SPHERE, and PRISM structures.
 #include "geometry.h"
 
 
-/* Split a tesseroid into 8. */
-void split_tess(TESSEROID tess, TESSEROID *split)
+/* Split a tesseroid. */
+int split_tess(TESSEROID tess, int nlon, int nlat, int nr, TESSEROID *split)
 {
-    double dlon = 0.5*(tess.e - tess.w),
-           dlat = 0.5*(tess.n - tess.s),
-           dr = 0.5*(tess.r2 - tess.r1),
-           ws[2], ss[2], r1s[2];
+    double dlon, dlat, dr, w, s, r1;
     int i, j, k, t = 0;
 
-    ws[0] = tess.w;
-    ws[1] = tess.w + dlon;
-    ss[0] = tess.s;
-    ss[1] = tess.s + dlat;
-    r1s[0] = tess.r1;
-    r1s[1] = tess.r1 + dr;
-    for(k = 0; k < 2; k++)
+    dlon = (double)(tess.e - tess.w)/nlon;
+    dlat = (double)(tess.n - tess.s)/nlat;
+    dr = (double)(tess.r2 - tess.r1)/nr;
+    for(r1=tess.r1, k=0; r1 + dr <= tess.r2 || k < nr; r1 += dr, k++)
     {
-        for(j = 0; j < 2; j++)
+        for(s=tess.s, j=0; s + dlat <= tess.n || j < nlat; s += dlat, j++)
         {
-            for(i = 0; i < 2; i++)
+            for(w=tess.w, i=0; w + dlon <= tess.e || i < nlon; w += dlon, i++)
             {
-                split[t].w = ws[i];
-                split[t].e = ws[i] + dlon;
-                split[t].s = ss[j];
-                split[t].n = ss[j] + dlat;
-                split[t].r1 = r1s[k];
-                split[t].r2 = r1s[k] + dr;
+                split[t].w = w;
+                split[t].e = w + dlon;
+                split[t].s = s;
+                split[t].n = s + dlat;
+                split[t].r1 = r1;
+                split[t].r2 = r1 + dr;
                 split[t].density = tess.density;
                 t++;
             }
         }
     }
+    return t;
 }
 
 
