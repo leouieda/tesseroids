@@ -9,3 +9,5 @@ doc/_build
 *.exe
 .*.swp
 scons-tools/*.pyc
+src/lib/version.c
+*.pyc
