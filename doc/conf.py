@@ -11,7 +11,13 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys
+import os
+import datetime
+
+# Needed to get the version string from versioneer
+sys.path.append('..')
+import print_version
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -42,14 +48,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Tesseroids'
-copyright = u'2012-2014, Leonardo Uieda'
+copyright = u'2012-{:d}, Leonardo Uieda'.format(datetime.date.today().year)
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '1.1.1'
+version = print_version.version
 # The full version, including alpha/beta/rc tags.
 release = version
 

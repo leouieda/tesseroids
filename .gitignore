@@ -1,8 +1,7 @@
 *.o
 bin/
 build/
-dist/*.zip
-dist/*.tar.gz
+dist/
 tesstest
 .sconsign.dblite
 doc/_build
@@ -10,3 +9,5 @@ doc/_build
 .*.swp
 scons-tools/*.pyc
 bench/*.txt
+src/lib/version.c
+*.pyc
