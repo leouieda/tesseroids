@@ -472,6 +472,29 @@ static char * test_glq_intcos()
     return 0;
 }
 
+static char * test_glq_sincos()
+{
+    GLQ *glq;
+    int i;
+    double result, d2r = PI/180.;
+
+    glq = glq_new(10, 0, 90);
+    glq_precompute_sincos(glq);
+
+    for(i = 0; i < glq->order; i++)
+    {
+        result = sin(d2r*glq->nodes[i]);
+        sprintf(msg, "expected sin(%g)=%g, got %g", glq->nodes[i], result,
+               glq->nodes_sin[i]);
+        mu_assert_almost_equals(result, glq->nodes_sin[i], pow(10, -15), msg);
+        result = cos(d2r*glq->nodes[i]);
+        sprintf(msg, "expected cos(%g)=%g, got %g", glq->nodes[i], result,
+               glq->nodes_cos[i]);
+        mu_assert_almost_equals(result, glq->nodes_cos[i], pow(10, -15), msg);
+    }
+    return 0;
+}
+
 
 int glq_run_all()
 {
@@ -485,5 +508,7 @@ int glq_run_all()
     failed += mu_run_test(test_glq_weights, "glq_weights produces correct results");
     failed += mu_run_test(test_glq_intcos,
                 "glq cossine integration produces correct results");
+    failed += mu_run_test(test_glq_sincos,
+                "glq precomputes sin and cos correctly");
     return failed;
 }

@@ -8,20 +8,17 @@ Contains tools for modeling the gravitational potential, acceleration, and
 gradient tensor. Mass models can be made of right rectangular prisms
 or tesseroids_ (spherical prisms).
 
-.. image:: http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat
-    :target: https://github.com/leouieda/tesseroids/releases
-    :alt: Latest version.
+Developed by `Leonardo Uieda`_ in cooperation with `Carla Braitenberg`_.
+
 .. image:: http://img.shields.io/travis/leouieda/tesseroids.svg?style=flat
     :target: https://travis-ci.org/leouieda/tesseroids
     :alt: Travis CI build status.
 .. image:: http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat
     :target: https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt
     :alt: BSD 3 clause license.
-.. image:: http://img.shields.io/badge/10.6084/m9.figshare.786514-blue.svg?style=flat
+.. image:: http://img.shields.io/badge/doi-10.6084/m9.figshare.786514-blue.svg?style=flat
     :target: http://dx.doi.org/10.6084/m9.figshare.786514
     :alt: doi:10.6084/m9.figshare.786514
-
-Developed by `Leonardo Uieda`_ in cooperation with `Carla Braitenberg`_.
 
 .. _Leonardo Uieda: http://www.leouieda.com
 .. _Carla Braitenberg: http://lithoflex.org/
