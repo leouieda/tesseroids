@@ -1,5 +1,23 @@
 # Build the Tesseroids programs
 import sys
+from datetime import date
+
+# Make version.c by replacing stuff in version.template
+import versioneer
+versioneer.VCS = 'git'
+versioneer.tag_prefix = 'v'
+versioneer.versionfile_source = 'src/lib/_version.py'
+versioneer.parentdir_prefix = '.'
+version = versioneer.get_version()
+year = '{:d}'.format(date.today().year)
+print('Replacing year ({}) and version ({}) in version.c...'.format(year,
+                                                                    version))
+with open('src/lib/version.template') as f:
+    template = f.readlines()
+with open('src/lib/version.c', 'w') as f:
+    for line in template:
+        f.write(line.replace('$VERSION', version).replace('$YEAR', year))
+
 
 # get the mode flag from the command line
 mode = ARGUMENTS.get('mode', 'default')
@@ -156,6 +174,8 @@ sources = ['test/test_all.c']
 sources.extend(Glob("src/lib/*.c"))
 tesstest = env.Program('tesstest', source=sources)
 
-# Clean exe files
+# Clean files
 Clean('.', Glob('bin/*.exe'))
 Clean('.', Glob('*.exe'))
+Clean('.', Glob('*.pyc'))
+Clean('.', 'src/lib/version.c')
