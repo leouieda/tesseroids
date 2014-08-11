@@ -35,4 +35,4 @@ result.txt: model.txt
 	@cat result.txt
 
 clean:
-	rm model.txt tmp.txt grid.txt
+	rm -rf model.txt tmp.txt grid.txt
