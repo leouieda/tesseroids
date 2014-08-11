@@ -9,3 +9,4 @@ doc/_build
 *.exe
 .*.swp
 scons-tools/*.pyc
+bench/*.txt
