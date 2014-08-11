@@ -68,6 +68,10 @@ typedef struct glq_struct
     double *nodes; /**< abscissas or discretization points of the quadrature */
     double *weights; /**< weighting coefficients of the quadrature */
     double *nodes_unscaled; /**< nodes in [-1,1] interval */
+    /* Used to store the pre-computed sine and cossine of the nodes, if needed.
+     * Can be useful for the latitude, which is always used as sin and cos */
+    double *nodes_sin;
+    double *nodes_cos;
 } GLQ;
 
 
@@ -181,4 +185,8 @@ extern int glq_next_root(double initial, int root_index, int order,
 */
 extern int glq_weights(int order, double *nodes, double *weights);
 
+
+/* Precompute the sine and cossine of the GLQ nodes and store them in the
+ * structure */
+extern void glq_precompute_sincos(GLQ *glq);
 #endif

@@ -53,7 +53,26 @@ GLQ * glq_new(int order, double lower, double upper)
         free(glq->nodes_unscaled);
         return NULL;
     }
-    rc = glq_nodes(order, glq->nodes_unscaled);    
+    glq->nodes_sin = (double *)malloc(sizeof(double)*order);
+    if(glq->nodes_sin == NULL)
+    {
+        free(glq);
+        free(glq->nodes);
+        free(glq->nodes_unscaled);
+        free(glq->weights);
+        return NULL;
+    }
+    glq->nodes_cos = (double *)malloc(sizeof(double)*order);
+    if(glq->nodes_cos == NULL)
+    {
+        free(glq);
+        free(glq->nodes);
+        free(glq->nodes_unscaled);
+        free(glq->weights);
+        free(glq->nodes_sin);
+        return NULL;
+    }
+    rc = glq_nodes(order, glq->nodes_unscaled);
     if(rc != 0 && rc != 3)
     {
         switch(rc)
@@ -103,7 +122,7 @@ GLQ * glq_new(int order, double lower, double upper)
     {
         glq_free(glq);
         return NULL;
-    }    
+    }
     return glq;
 }
 
@@ -114,6 +133,8 @@ void glq_free(GLQ *glq)
     free(glq->nodes);
     free(glq->nodes_unscaled);
     free(glq->weights);
+    free(glq->nodes_sin);
+    free(glq->nodes_cos);
     free(glq);
 }
 
@@ -124,7 +145,7 @@ int glq_nodes(int order, double *nodes)
     register int i;
     int rc = 0;
     double initial;
-    
+
     if(order < 2)
     {
         return 1;
@@ -151,7 +172,7 @@ int glq_set_limits(double lower, double upper, GLQ *glq)
     /* Only calculate once to optimize the code */
     double tmpplus = 0.5*(upper + lower), tmpminus = 0.5*(upper - lower);
     register int i;
-    
+
     if(glq->order < 2)
     {
         return 1;
@@ -163,7 +184,7 @@ int glq_set_limits(double lower, double upper, GLQ *glq)
     if(glq->nodes_unscaled == NULL)
     {
         return 2;
-    }    
+    }
     for(i = 0; i < glq->order; i++)
     {
         glq->nodes[i] = tmpminus*glq->nodes_unscaled[i] + tmpplus;
@@ -177,8 +198,8 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
 {
     double x1, x0, pn, pn_2, pn_1, pn_line, sum;
     int it = 0;
-    register int n; 
-    
+    register int n;
+
     if(order < 2)
     {
         return 1;
@@ -214,14 +235,14 @@ int glq_next_root(double initial, int root_index, int order, double *roots)
         }
         /* Update the estimate for the root */
         x1 = x0 - (double)pn/(pn_line - pn*sum);
-        
+
     /** Compute the absolute value of x */
     #define GLQ_ABS(x) ((x) < 0 ? -1*(x) : (x))
     } while(GLQ_ABS(x1 - x0) > GLQ_MAXERROR && ++it <= GLQ_MAXIT);
     #undef GLQ_ABS
-    
+
     roots[root_index] = x1;
-    
+
     /* Tell the user if stagnation occurred */
     if(it > GLQ_MAXIT)
     {
@@ -236,7 +257,7 @@ int glq_weights(int order, double *nodes, double *weights)
 {
     register int i, n;
     double xi, pn, pn_2, pn_1, pn_line;
-    
+
     if(order < 2)
     {
         return 1;
@@ -252,7 +273,7 @@ int glq_weights(int order, double *nodes, double *weights)
     for(i = 0; i < order; i++){
 
         xi = nodes[i];
-        
+
         /* Find Pn'(xi) with the recursive relation to find Pn and Pn-1: */
         /*   Pn(x)=(2n-1)xPn_1(x)/n - (n-1)Pn_2(x)/n   */
         /* Then use:   Pn'(x)=n(xPn(x)-Pn_1(x))/(x*x-1) */
@@ -269,6 +290,18 @@ int glq_weights(int order, double *nodes, double *weights)
         pn_line = order*(xi*pn - pn_1)/(xi*xi - 1.);
         /* ith weight is: wi = 2/(1 - xi^2)(Pn'(xi)^2) */
         weights[i] = 2./((1 - xi*xi)*pn_line*pn_line);
-    }    
+    }
     return 0;
+}
+
+
+void glq_precompute_sincos(GLQ *glq)
+{
+    double d2r = PI/180.;
+    register int i;
+    for(i = 0; i < glq->order; i++)
+    {
+        glq->nodes_sin[i] = sin(d2r*glq->nodes[i]);
+        glq->nodes_cos[i] = cos(d2r*glq->nodes[i]);
+    }
 }

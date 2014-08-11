@@ -6,6 +6,9 @@ Changelog
 Changes in version
 ------------------------
 
+* Speedup tesseroid computations by moving some trigonometric functions out of
+  loops.
+  (`PR 22 <https://github.com/leouieda/tesseroids/pull/22>`__)
 * BUG fix: Singularities when calculating around a prism. Due to wrong quadrant
   returned by atan2 and log(0) evaluations. Fix by wrapping atan2 in a
   safe_atan2 that corrects the result. log(0) error happened only in cross

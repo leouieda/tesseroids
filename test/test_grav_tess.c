@@ -42,6 +42,8 @@ static char * test_tess2sphere_pot()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
+    glq_precompute_sincos(glqlat);
+
     radius = tess.r2;
 
     /* Make a sphere with the same mass as the tesseroid */
@@ -84,6 +86,8 @@ static char * test_tess2sphere_gx()
     glqr = glq_new(8, tess.r1, tess.r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
+
+    glq_precompute_sincos(glqlat);
 
     radius = tess.r2;
 
@@ -129,6 +133,8 @@ static char * test_tess2sphere_gy()
     glqr = glq_new(8, tess.r1, tess.r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
+
+    glq_precompute_sincos(glqlat);
 
     radius = tess.r2;
 
@@ -176,6 +182,8 @@ static char * test_tess2sphere_gz()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
+    glq_precompute_sincos(glqlat);
+
     radius = tess.r2;
 
     /* Make a sphere with the same mass as the tesseroid */
@@ -221,6 +229,8 @@ static char * test_tess2sphere_gxx()
     glqr = glq_new(8, tess.r1, tess.r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
+
+    glq_precompute_sincos(glqlat);
 
     radius = tess.r2;
 
@@ -268,6 +278,8 @@ static char * test_tess2sphere_gxy()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
+    glq_precompute_sincos(glqlat);
+
     radius = tess.r2;
 
     /* Make a sphere with the same mass as the tesseroid */
@@ -313,6 +325,8 @@ static char * test_tess2sphere_gxz()
     glqr = glq_new(8, tess.r1, tess.r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
+
+    glq_precompute_sincos(glqlat);
 
     radius = tess.r2;
 
@@ -360,6 +374,8 @@ static char * test_tess2sphere_gyy()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
+    glq_precompute_sincos(glqlat);
+
     radius = tess.r2;
 
     /* Make a sphere with the same mass as the tesseroid */
@@ -406,6 +422,8 @@ static char * test_tess2sphere_gyz()
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
 
+    glq_precompute_sincos(glqlat);
+
     radius = tess.r2;
 
     /* Make a sphere with the same mass as the tesseroid */
@@ -451,6 +469,8 @@ static char * test_tess2sphere_gzz()
     glqr = glq_new(8, tess.r1, tess.r2);
     if(glqr == NULL)
         mu_assert(0, "GLQ allocation error");
+
+    glq_precompute_sincos(glqlat);
 
     radius = tess.r2;
 
