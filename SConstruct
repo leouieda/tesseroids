@@ -3,12 +3,7 @@ import sys
 from datetime import date
 
 # Make version.c by replacing stuff in version.template
-import versioneer
-versioneer.VCS = 'git'
-versioneer.tag_prefix = 'v'
-versioneer.versionfile_source = 'src/lib/_version.py'
-versioneer.parentdir_prefix = '.'
-version = versioneer.get_version()
+from print_version import version
 year = '{:d}'.format(date.today().year)
 print('Replacing year ({}) and version ({}) in version.c...'.format(year,
                                                                     version))

@@ -1,8 +1,7 @@
 *.o
 bin/
 build/
-dist/*.zip
-dist/*.tar.gz
+dist/
 tesstest
 .sconsign.dblite
 doc/_build
