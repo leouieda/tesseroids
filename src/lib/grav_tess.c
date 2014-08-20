@@ -75,7 +75,6 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     for(t = 0; t < size; t++)
     {
         /* Compute the distance squared (to avoid calling sqrt all the time) */
-        /*rt = 0.5*(model[t].r2 - model[t].r1);*/
         rt = model[t].r2;
         lont = d2r*0.5*(model[t].w + model[t].e);
         latt = d2r*0.5*(model[t].s + model[t].n);
@@ -114,14 +113,6 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             dlon = MEAN_EARTH_RADIUS*d2r*(model[t].e - model[t].w);
             dlat = MEAN_EARTH_RADIUS*d2r*(model[t].n - model[t].s);
             dr = model[t].r2 - model[t].r1;
-            /*if((distance < ratio*dlon) ||*/
-               /*(distance < ratio*dlat) ||*/
-               /*(distance < ratio*dr))*/
-            /*{*/
-                /*nlon = 2;*/
-                /*nlat = 2;*/
-                /*nr = 2;*/
-            /*}*/
             if(distance < ratio*dlon)
             {
                 nlon = 2;
