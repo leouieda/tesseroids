@@ -27,7 +27,7 @@ tesslayers:
 	cd tesslayers; bash tesslayers.sh; python plot.py output.txt 50 50
 
 clean:
-	@cd simple_tess; rm -f output.txt column*.png log.txt
+	@cd simple_tess; rm -f output.txt column*.png log.txt tmp.txt
 	@cd custom_ratio; rm -f output.txt column*.png *.log
 	@cd simple_prism; rm -f output.txt column*.png
 	@cd tess2prism_flatten; rm -f output.txt column*.png prism-model.txt
