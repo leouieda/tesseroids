@@ -20,6 +20,8 @@ Karlsruhe, Germany.
 #include "constants.h"
 #include "grav_tess.h"
 
+#define SQ(x) (x)*(x)
+
 
 /* Calculates the field of a tesseroid model at a given point. */
 double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
@@ -61,13 +63,15 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
 {
     double res, distance, lont, latt, rt, d2r = PI/180.,
            coslatp, sinlatp, rp_sqr, rlonp,
-           dlon, dlat, dr;
+           dlon, dlat, dr,
+           sinlatt, coslatt,
+           sinn, sins, cosn, coss, sindlon, cosdlon;
     int t, n, nlon, nlat, nr;
     TESSEROID split[8];
 
     /* Pre-compute these things out of the loop */
     rlonp = d2r*lonp;
-    rp_sqr = rp*rp;
+    rp_sqr = SQ(rp);
     coslatp = cos(d2r*latp);
     sinlatp = sin(d2r*latp);
 
@@ -78,8 +82,10 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
         rt = model[t].r2;
         lont = d2r*0.5*(model[t].w + model[t].e);
         latt = d2r*0.5*(model[t].s + model[t].n);
-        distance = sqrt(rp_sqr + rt*rt - 2*rp*rt*(
-            sinlatp*sin(latt) + coslatp*cos(latt)*cos(rlonp - lont)));
+        sinlatt = sin(latt);
+        coslatt = cos(latt);
+        distance = sqrt(rp_sqr + SQ(rt) - 2*rp*rt*(
+            sinlatp*sinlatt + coslatp*coslatt*cos(rlonp - lont)));
 
         /* Would get stuck in infinite loop if dist = 0 and get wrong results if
            inside de tesseroid. Still do the calculation but warn user that it's
@@ -110,8 +116,20 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             nlat = 1;
             nr = 1;
             /* Get the size of each face of the tesseroid */
-            dlon = MEAN_EARTH_RADIUS*d2r*(model[t].e - model[t].w);
-            dlat = MEAN_EARTH_RADIUS*d2r*(model[t].n - model[t].s);
+            /* Will use Vincenty's formula to calculate great-circle distance
+             * for more accuracy (just in case) */
+            sinn = sin(d2r*model[t].n);
+            cosn = cos(d2r*model[t].n);
+            sins = sin(d2r*model[t].s);
+            coss = cos(d2r*model[t].s);
+            sindlon = sin(d2r*(model[t].e - model[t].w));
+            cosdlon = cos(d2r*(model[t].e - model[t].w));
+            dlon = MEAN_EARTH_RADIUS*atan2(
+                sqrt(SQ(coslatt*sindlon)
+                     + SQ(coslatt*sinlatt - sinlatt*coslatt*cosdlon)),
+                sinlatt*sinlatt + coslatt*coslatt*cosdlon);
+            dlat = MEAN_EARTH_RADIUS*atan2(
+                coss*sinn - sins*cosn, sins*sinn + coss*cosn);
             dr = model[t].r2 - model[t].r1;
             if(distance < ratio*dlon)
             {
