@@ -4,7 +4,7 @@ run: result.txt
 
 model.txt:
 	@echo "Generate the model"
-	@../bin/tessgrd -r-10/10/-10/10 -b51/51 -z1000 | \
+	@../bin/tessgrd -r-10/10/-10/10 -b31/31 -z1000 | \
 	../bin/tessmodgen -s0.4/0.4 -d2670 -z0 > model.txt
 
 result.txt: model.txt
@@ -12,7 +12,7 @@ result.txt: model.txt
 	@cat /proc/cpuinfo | grep -m 1 -i -E 'model name' >> result.txt
 	@cat /proc/meminfo | grep -m 1 -i -E 'MemTotal' >> result.txt
 	@echo ""
-	@../bin/tessgrd -r-10/10/-10/10 -b51/51 -z2000 > grid.txt
+	@../bin/tessgrd -r-8/8/-8/8 -b51/51 -z2000 > grid.txt
 	@echo "Run the tesspot program"
 	@echo "" >> result.txt
 	@echo "Time spent on potential:" >> result.txt
