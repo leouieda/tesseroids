@@ -18,6 +18,7 @@ in cooperation with [Carla Braitenberg](http://lithoflex.org/).
 *Tesseroids* is a collection of **command-line tools**
 for modeling the gravitational potential, acceleration, and
 gradient (Marussi) tensor.
+
 The mass models can be made of right rectangular prisms or tesseroids
 (spherical prisms).
 Computation for rectangular prisms can be made in Cartesian or spherical
@@ -25,7 +26,10 @@ Computation for rectangular prisms can be made in Cartesian or spherical
 
 [![This is a tesseroid.](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/tesseroid.png)](http://tesseroids.readthedocs.org/en/latest/theory.html#what-is-a-tesseroid-anyway)
 
-*Tesseroids* is written in C and made available under the terms of the
+## License
+
+*Tesseroids* is [free software](http://www.fsf.org/about/what-is-free-software) 
+made available under the terms of the
 [BSD 3-clause license](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
 
 ## Citing
