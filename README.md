@@ -1,4 +1,4 @@
-# ![Tesseroids](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/banner.png
+# ![Tesseroids](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/banner.png)
 
 [Website](http://www.leouieda.com/tesseroids/) |
 [Documentation](http://tesseroids.readthedocs.org/) |
