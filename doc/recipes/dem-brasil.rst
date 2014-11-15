@@ -8,7 +8,7 @@ the gravity gradient tensor (GGT) due to
 topographic masses using tesseroids.
 
 To do that we need:
-    
+
 #. A DEM file with lon, lat, and height information;
 #. Assign correct densities to continents and oceans (we'll be using a little Python for this);
 #. Convert the DEM information into a tesseroid model;
@@ -187,7 +187,7 @@ and for the points in the ocean (negative height):
     :number-lines: 9065
     :start-line: 9064
     :end-line: 9065
-    
+
 
 Calculating the GGT
 -------------------
@@ -258,5 +258,5 @@ should give some insight into how it works.
 To hanble the map projections,
 we used the `Basemap toolkit`_ of Matplotlib.
 
-.. _Matplotlib: http://matplotlib.sourceforge.net/index.html
-.. _Basemap toolkit: http://matplotlib.sourceforge.net/basemap/doc/html/
+.. _Matplotlib: http://matplotlib.org
+.. _Basemap toolkit: http://matplotlib.org/basemap/index.html

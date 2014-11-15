@@ -6,7 +6,7 @@ Using Tesseroids
 This is a tutorial about
 how to use the Tesseroids package.
 It is a work-in-progress
-but I have trie to be as complete as possible.
+but I have tried to be as complete as possible.
 If you find that anything is missing,
 or would like something explained in more detail,
 please `submit a bug report`_

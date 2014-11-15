@@ -41,5 +41,5 @@ The result should look like the :ref:`following <tess2prism>`
     (thanks to the Basemap_ toolkit of matplotlib_).
 
 
-.. _Basemap: http://matplotlib.github.com/basemap/index.html
-.. _matplotlib: http://matplotlib.sourceforge.net/index.html
+.. _Basemap: http://matplotlib.org/basemap/index.html
+.. _matplotlib: http://matplotlib.org
