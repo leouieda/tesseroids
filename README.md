@@ -179,6 +179,16 @@ a program called `tesstest`
 will be placed in the directory where you unpacked the source.
 This program runs the [unit tests](https://en.wikipedia.org/wiki/Unit_testing)
 for *Tesseroids* (sources in the `test` directory).
+
+To run the test suite, simply execute `tesstest` with no arguments:
+
+    tesstest
+    
+or on GNU/Linux:
+
+    ./tesstest
+
+A summary of all tests (pass or fail) will be printed on the screen.
 If all tests pass,
 the compilation probably went well.
 If any test fail,
