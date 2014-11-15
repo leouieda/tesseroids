@@ -28,7 +28,7 @@ Computation for rectangular prisms can be made in Cartesian or spherical
 
 ## License
 
-*Tesseroids* is [free software](http://www.fsf.org/about/what-is-free-software) 
+*Tesseroids* is [free software](http://www.fsf.org/about/what-is-free-software)
 made available under the terms of the
 [BSD 3-clause license](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
 
@@ -38,8 +38,8 @@ made available under the terms of the
 If you use it in your research,
 please **cite it** in your publications as:
 
-    Uieda, L. (2013), Source code and compiled binaries for software
-    Tesseroids, figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
+    Uieda, L. (2013), Source code and compiled binaries for software Tesseroids,
+    figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
     doi:10.6084/m9.figshare.786514.
 
 See the
@@ -114,6 +114,15 @@ that particular program. For example:
     Project site: <http://fatiando.org/software/tesseroids>
     Report bugs at: <http://code.google.com/p/tesseroids/issues/list>
 
+
+## Getting help
+
+Write an e-mail to [Leonardo Uieda](http://www.leouieda.com/),
+or [tweet](https://twitter.com/leouieda),
+or [Google Hangout](https://plus.google.com/+LeonardoUieda).
+**Even better**, submit a bug report/feature request/question to the
+[Github issue tracker](https://github.com/leouieda/tesseroids/issues).
+
 ## Compiling from source
 
 If you want to build *Tesseroids* from source, you'll need:
@@ -183,7 +192,7 @@ for *Tesseroids* (sources in the `test` directory).
 To run the test suite, simply execute `tesstest` with no arguments:
 
     tesstest
-    
+
 or on GNU/Linux:
 
     ./tesstest

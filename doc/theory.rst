@@ -473,7 +473,7 @@ transformation for the gravity gradient tensor :math:`T` is
         \bar{\bar{R}}^T
 
 
-.. _GOCE: http://www.esa.int/esaLP/ESAYEK1VMOC_LPgoce_0.html
+.. _GOCE: http://www.esa.int/Our_Activities/Observing_the_Earth/The_Living_Planet_Programme/Earth_Explorers/GOCE/ESA_s_gravity_mission_GOCE
 .. _Wolfram MathWorld: http://mathworld.wolfram.com/RotationMatrix.html
 
 Recommended reading
