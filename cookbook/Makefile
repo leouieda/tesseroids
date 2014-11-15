@@ -15,7 +15,7 @@ tess2prism:
 	cd tess2prism; bash tess2prism.sh; python plot.py output.txt 100 100
 
 simple_tess:
-	cd simple_tess; bash simple_tess.sh; python plot.py output.txt 50 50
+	cd simple_tess; bash simple_tess.sh
 
 custom_ratio:
 	cd custom_ratio; bash custom_ratio.sh; python plot.py output.txt 50 50
@@ -27,7 +27,7 @@ tesslayers:
 	cd tesslayers; bash tesslayers.sh; python plot.py output.txt 50 50
 
 clean:
-	@cd simple_tess; rm -f output.txt column*.png log.txt tmp.txt
+	@cd simple_tess; rm -f output.txt output*.png log.txt tmp.txt
 	@cd custom_ratio; rm -f output.txt column*.png *.log
 	@cd simple_prism; rm -f output.txt column*.png
 	@cd tess2prism_flatten; rm -f output.txt column*.png prism-model.txt

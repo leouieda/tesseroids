@@ -2,33 +2,28 @@
 Plot the columns of the output files
 """
 import sys
-import pylab
+from matplotlib import pyplot as plt
 from mpl_toolkits.basemap import Basemap
+import numpy as np
 
 # Set up a projection
 bm = Basemap(projection='ortho', lon_0=0, lat_0=0,
              resolution='l', area_thresh=10000)
 
-data = pylab.loadtxt(sys.argv[1], unpack=True)
+# Load the data and make them into matrices
+data = np.loadtxt(sys.argv[1], unpack=True)
 shape = (int(sys.argv[2]), int(sys.argv[3]))
-lon = pylab.reshape(data[0], shape)
-lat = pylab.reshape(data[1], shape)
+lon = data[0].reshape(shape)
+lat = data[1].reshape(shape)
 glon, glat = bm(lon, lat)
 
+plt.figure(figsize=(14, 12))
 for i, value in enumerate(data[3:]):
-    value = pylab.reshape(value, shape)
-    pylab.figure(figsize=(4, 3))
-    pylab.title("Column %d" % (i + 4))
-    #bm.drawcoastlines()
-    #bm.fillcontinents(color='coral',lake_color='aqua')
-    #bm.drawmapboundary(fill_color='aqua')
-    #bm.drawmapboundary()
-    #bm.drawparallels(pylab.arange(-90.,120.,30.))
-    #bm.drawmeridians(pylab.arange(0.,420.,60.))
-    bm.bluemarble()
-    #bm.pcolor(glon, glat, value)
-    bm.contourf(glon, glat, value, 15)
-    pylab.colorbar()
-    #bm.contour(glon, glat, value, 15, linewidths=1.5)
-    #pylab.colorbar()
-    pylab.savefig('column%d.png' % (i + 4))
+    plt.subplot(3, 4, i + 1)
+    plt.title("Column %d" % (i + 4))
+    bm.drawcoastlines()
+    bm.drawmapboundary()
+    bm.contourf(glon, glat, value.reshape(shape), 15, cmap=plt.cm.RdBu_r)
+    plt.colorbar(orientation="horizontal", pad=0, aspect=30)
+plt.tight_layout()
+plt.savefig('output.png')
