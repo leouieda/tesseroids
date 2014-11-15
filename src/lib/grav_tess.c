@@ -21,7 +21,7 @@ Karlsruhe, Germany.
 #include "grav_tess.h"
 
 #define SQ(x) (x)*(x)
-#define QSIZE 10000
+#define STKSIZE 10000
 
 
 /* Calculates the field of a tesseroid model at a given point. */
@@ -56,8 +56,8 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
            dlon, dlat, dr,
            sinlatt, coslatt,
            sinn, sins, cosn, coss, sindlon, cosdlon;
-    int t, n, nlon, nlat, nr, qtop = 0;
-    TESSEROID queue[QSIZE], tess;
+    int t, n, nlon, nlat, nr, stktop = 0;
+    TESSEROID stack[STKSIZE], tess;
 
     /* Pre-compute these things out of the loop */
     rlonp = d2r*lonp;
@@ -67,20 +67,14 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     res = 0;
     for(t = 0; t < size; t++)
     {
-        /* Initialize the tesseroid division queue (a LIFO structure) */
-        queue[0] = model[t];
-        qtop = 0;
-        while(qtop >= 0)
+        /* Initialize the tesseroid division stack (a LIFO structure) */
+        stack[0] = model[t];
+        stktop = 0;
+        while(stktop >= 0)
         {
-            /* Pop the queue */
-            tess.w = queue[qtop].w;
-            tess.e = queue[qtop].e;
-            tess.s = queue[qtop].s;
-            tess.n = queue[qtop].n;
-            tess.r1 = queue[qtop].r1;
-            tess.r2 = queue[qtop].r2;
-            tess.density = queue[qtop].density;
-            qtop--;
+            /* Pop the stack */
+            tess = stack[stktop];
+            stktop--;
             /* Compute the distance from the computation point to the top of the
              * tesseroid. */
             rt = tess.r2;
@@ -90,28 +84,20 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             coslatt = cos(latt);
             distance = sqrt(rp_sqr + SQ(rt) - 2*rp*rt*(
                 sinlatp*sinlatt + coslatp*coslatt*cos(rlonp - lont)));
-            /* Check if the tesseroid is at a suitable distance (defined the value
-             * or "ratio" */
             /* Get the size of each dimension of the tesseroid (dlon, dlat, dr) */
-            /* Will use Vincenty's formula to calculate great-circle distance
-             * for more accuracy and robustness at high latitudes */
-            sinn = sin(d2r*tess.n);
-            cosn = cos(d2r*tess.n);
-            sins = sin(d2r*tess.s);
-            coss = cos(d2r*tess.s);
-            sindlon = sin(d2r*(tess.e - tess.w));
-            cosdlon = cos(d2r*(tess.e - tess.w));
-            dlon = MEAN_EARTH_RADIUS*atan2(
-                sqrt(SQ(coslatt*sindlon)
-                     + SQ(coslatt*sinlatt - sinlatt*coslatt*cosdlon)),
-                sinlatt*sinlatt + coslatt*coslatt*cosdlon);
-            dlat = MEAN_EARTH_RADIUS*atan2(
-                coss*sinn - sins*cosn, sins*sinn + coss*cosn);
+            dlon = tess.r2*acos(
+                SQ(sinlatt) + SQ(coslatt)*cos(d2r*(tess.e - tess.w)));
+            dlat = tess.r2*acos(
+                sin(d2r*tess.n)*sin(d2r*tess.s) +
+                cos(d2r*tess.n)*cos(d2r*tess.s));
             dr = tess.r2 - tess.r1;
             /* Number of times to split the tesseroid in each dimension */
             nlon = 1;
             nlat = 1;
             nr = 1;
+            /* Check if the tesseroid is at a suitable distance (defined
+             * the value of "ratio"). If not, mark that dimension for
+             * division. */
             if(distance < ratio*dlon)
             {
                 nlon = 2;
@@ -127,11 +113,13 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             /* In case none of the dimensions need dividing,
              * put the GLQ roots in the proper scale and compute the
              * gravitational field of the tesseroid. */
-            /* Also compute the effect if the tesseroid queue if full (but warn the
-             * user that the computation might not be very precise. */
-            if((nlon == 1 && nlat == 1 && nr == 1) || (nlon*nlat*nr + qtop >= QSIZE))
+            /* Also compute the effect if the tesseroid stack if full
+             * (but warn the user that the computation might not be very
+             * precise). */
+            if((nlon == 1 && nlat == 1 && nr == 1)
+               || (nlon*nlat*nr + stktop >= STKSIZE))
             {
-                if(nlon*nlat*nr + qtop >= QSIZE)
+                if(nlon*nlat*nr + stktop >= STKSIZE)
                 {
                     log_error("Queue overflow: tesseroid %d on %lf %lf %lf.",
                               t, lonp, latp, rp);
@@ -144,11 +132,11 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             }
             else
             {
-                /* Divide the tesseroid in each dimension that needs dividing.
-                 * Put each of the smaller tesseroids on the queue for computing in
-                 * the next loop. */
-                n = split_tess(tess, nlon, nlat, nr, &queue[qtop + 1]);
-                qtop += n;
+                /* Divide the tesseroid in each dimension that needs dividing
+                 * Put each of the smaller tesseroids on the stack for
+                 * computing in the next iteration. */
+                n = split_tess(tess, nlon, nlat, nr, &stack[stktop + 1]);
+                stktop += n;
                 /* Sanity check */
                 if(n != nlon*nlat*nr)
                 {
