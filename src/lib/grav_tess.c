@@ -53,7 +53,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
 {
     double res, distance, lont, latt, rt, d2r = PI/180.,
            coslatp, sinlatp, rp_sqr, rlonp,
-           dlon, dlat, dr,
+           Llon, Llat, Lr,
            sinlatt, coslatt,
            sinn, sins, cosn, coss, sindlon, cosdlon;
     int t, n, nlon, nlat, nr, stktop = 0;
@@ -84,13 +84,13 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             coslatt = cos(latt);
             distance = sqrt(rp_sqr + SQ(rt) - 2*rp*rt*(
                 sinlatp*sinlatt + coslatp*coslatt*cos(rlonp - lont)));
-            /* Get the size of each dimension of the tesseroid (dlon, dlat, dr) */
-            dlon = tess.r2*acos(
+            /* Get the size of each dimension of the tesseroid in meters */
+            Llon = tess.r2*acos(
                 SQ(sinlatt) + SQ(coslatt)*cos(d2r*(tess.e - tess.w)));
-            dlat = tess.r2*acos(
+            Llat = tess.r2*acos(
                 sin(d2r*tess.n)*sin(d2r*tess.s) +
                 cos(d2r*tess.n)*cos(d2r*tess.s));
-            dr = tess.r2 - tess.r1;
+            Lr = tess.r2 - tess.r1;
             /* Number of times to split the tesseroid in each dimension */
             nlon = 1;
             nlat = 1;
@@ -98,15 +98,15 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             /* Check if the tesseroid is at a suitable distance (defined
              * the value of "ratio"). If not, mark that dimension for
              * division. */
-            if(distance < ratio*dlon)
+            if(distance < ratio*Llon)
             {
                 nlon = 2;
             }
-            if(distance < ratio*dlat)
+            if(distance < ratio*Llat)
             {
                 nlat = 2;
             }
-            if(distance < ratio*dr)
+            if(distance < ratio*Lr)
             {
                 nr = 2;
             }
