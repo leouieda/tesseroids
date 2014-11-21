@@ -75,9 +75,9 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             /* Pop the stack */
             tess = stack[stktop];
             stktop--;
-            /* Compute the distance from the computation point to the top of the
-             * tesseroid. */
-            rt = tess.r2;
+            /* Compute the distance from the computation point to the
+             * geometric center of the tesseroid. */
+            rt = 0.5*(tess.r2 + tess.r1);
             lont = d2r*0.5*(tess.w + tess.e);
             latt = d2r*0.5*(tess.s + tess.n);
             sinlatt = sin(latt);
