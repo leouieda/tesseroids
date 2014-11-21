@@ -20,7 +20,6 @@ Karlsruhe, Germany.
 #include "constants.h"
 #include "grav_tess.h"
 
-#define SQ(x) (x)*(x)
 #define STKSIZE 10000
 
 
@@ -54,11 +53,11 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
     double res, distance, lont, latt, rt, d2r = PI/180.,
            coslatp, sinlatp, rp_sqr, rlonp,
            Llon, Llat, Lr,
-           sinlatt, coslatt,
-           sinn, sins, cosn, coss, sindlon, cosdlon;
+           sinlatt, coslatt;
     int t, n, nlon, nlat, nr, stktop = 0;
     TESSEROID stack[STKSIZE], tess;
 
+    #define SQ(x) (x)*(x)
     /* Pre-compute these things out of the loop */
     rlonp = d2r*lonp;
     rp_sqr = SQ(rp);
@@ -146,6 +145,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             }
         }
     }
+    #undef SQ
     return res;
 }
 
