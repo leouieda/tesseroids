@@ -120,8 +120,20 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             {
                 if(nlon*nlat*nr + stktop >= STKSIZE)
                 {
-                    log_error("Queue overflow: tesseroid %d on %lf %lf %lf.",
-                              t, lonp, latp, rp);
+                    log_error(
+                        "Stack overflow: "
+                        "tesseroid %d in the model file on "
+                        "lon=%lf lat=%lf height=%lf."
+                        "\n  Calculated without fully dividing the tesseroid. "
+                        "Accuracy of the solution cannot be guaranteed."
+                        "\n  This is probably caused by a computation point "
+                        "too close to the tesseroid."
+                        "\n  Try increasing the computation height."
+                        "\n  *Expert users* can try modifying the "
+                        "distance-size ratio."
+                        "\n  *Beware* that this might affect "
+                        "the accuracy of the solution.",
+                        t + 1, lonp, latp, rp);
                 }
                 glq_set_limits(tess.w, tess.e, glq_lon);
                 glq_set_limits(tess.s, tess.n, glq_lat);
