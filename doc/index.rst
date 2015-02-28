@@ -13,7 +13,7 @@ in spherical coordinates.
 Developed by `Leonardo Uieda`_
 in cooperation with `Carla Braitenberg`_.
 
-**Official site**: http://www.leouieda.com/tesseroids
+**Official site**: http://tesseroids.leouieda.com
 
 **License**: :ref:`BSD 3-clause <license>`
 

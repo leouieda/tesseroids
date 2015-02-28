@@ -1,7 +1,6 @@
 # ![Tesseroids](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/banner.png)
 
-[Website](http://www.leouieda.com/tesseroids/) |
-[Documentation](http://tesseroids.readthedocs.org/) |
+[Documentation](http://tesseroids.leouieda.com) |
 [Download](https://github.com/leouieda/tesseroids/releases)
 
 [![Version number](http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat)](https://github.com/leouieda/tesseroids/releases)
@@ -44,7 +43,7 @@ please **cite it** in your publications as:
     doi:10.6084/m9.figshare.786514.
 
 See the
-[CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt)
+[CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/CITATION.txt)
 file for more information.
 
 ## Installing
