@@ -11,3 +11,4 @@ scons-tools/*.pyc
 bench/*.txt
 src/lib/version.c
 *.pyc
+*~
