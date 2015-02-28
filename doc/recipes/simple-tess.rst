@@ -1,46 +1,37 @@
+.. _simpletess:
 
 Simple tesseroid model
 ======================
 
-The ``simple_tess.sh`` script calculates
-the gravitational potential, gravitational attraction,
-and gravity gradient tensor due to a simple tesseroid model:
+The files in the folder ``cookbook/simple_tess`` show how to calculate the
+gravitational fields of a simple 2 tesseroid model at 260 km height.
+
+For this simple setup, the model file looks like this:
+
+.. include:: ../../cookbook/simple_tess/model.txt
+    :literal:
+
+The ``simple_tess.sh`` script performs the calculations and calls the
+``plot.py`` script to plot the results:
 
 .. include:: ../../cookbook/simple_tess/simple_tess.sh
     :literal:
 
-Option ``-v`` tells tessgzz
+``tessgrd`` generates a regular grid and prints that to standard output
+(``stdout``).
+The scripts pipes the grid points to ``tesspot`` etc. to calculate the
+corresponding fields.
+Option ``-v`` tells ``tessgzz``
 to print information messages (to stderr).
 Option ``-llog.txt`` tells tessgzz
 to log the information plus debug messages
 to a file called ``log.txt``.
 
-The model file looks like this:
-
-.. include:: ../../cookbook/simple_tess/model.txt
-    :literal:
-
-You will notice that this takes
-considerably more time to compute
-than a :ref:`simple 2 prism model <recipe_simple_prism>`.
-This is because *Tesseroids* has to
-recursively divide each tesseroid
-into smaller tesseroids
-in order to maintain the accuracy
-of the :ref:`numerical integration <theory>`.
-If you have a look at ``log.txt``,
-you'll notice that the 2 tesseroids
-were divided approximately 360,000 times
-in total.
-Don't worry,
-this only happened because the tesseroids
-are extremely large.
-
-The result should look like the :ref:`following <simpletess>`
-("column" means the column of the output file).
-
-
-.. _simpletess:
+The columns of the output file will be, respectively:
+longitude, latitude, height, potential, gx, gy, gz, gxx, gxy, gxz, gyy, gyz,
+and gzz.
+The result should look like this
+("column" means the column of the output file):
 
 .. figure:: ../../cookbook/simple_tess/simple_tess.png
     :align: center

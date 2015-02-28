@@ -20,6 +20,8 @@ Karlsruhe, Germany.
 #include "constants.h"
 #include "grav_tess.h"
 
+#define STKSIZE 10000
+
 
 /* Calculates the field of a tesseroid model at a given point. */
 double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
@@ -32,17 +34,6 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
     res = 0;
     for(tess = 0; tess < size; tess++)
     {
-        if(lonp >= model[tess].w && lonp <= model[tess].e &&
-           latp >= model[tess].s && latp <= model[tess].n &&
-           rp >= model[tess].r1 && rp <= model[tess].r2)
-        {
-            log_warning("Point (%g %g %g) is on tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
-                        lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
-                        model[tess].w, model[tess].e, model[tess].s,
-                        model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
-                        model[tess].r1 - MEAN_EARTH_RADIUS,
-                        model[tess].density);
-        }
         glq_set_limits(model[tess].w, model[tess].e, glq_lon);
         glq_set_limits(model[tess].s, model[tess].n, glq_lat);
         glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
@@ -59,66 +50,114 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
           double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
           double ratio)
 {
-    double res, dist, lont, latt, rt, d2r = PI/180.;
-    int tess;
-    TESSEROID split[8];
+    double res, distance, lont, latt, rt, d2r = PI/180.,
+           coslatp, sinlatp, rp_sqr, rlonp,
+           Llon, Llat, Lr,
+           sinlatt, coslatt;
+    int t, n, nlon, nlat, nr, stktop = 0;
+    TESSEROID stack[STKSIZE], tess;
 
+    #define SQ(x) (x)*(x)
+    /* Pre-compute these things out of the loop */
+    rlonp = d2r*lonp;
+    rp_sqr = SQ(rp);
+    coslatp = cos(d2r*latp);
+    sinlatp = sin(d2r*latp);
     res = 0;
-    for(tess = 0; tess < size; tess++)
+    for(t = 0; t < size; t++)
     {
-        rt = model[tess].r2;
-        lont = 0.5*(model[tess].w + model[tess].e);
-        latt = 0.5*(model[tess].s + model[tess].n);
-        dist = sqrt(rp*rp + rt*rt - 2*rp*rt*(sin(d2r*latp)*sin(d2r*latt) +
-                    cos(d2r*latp)*cos(d2r*latt)*cos(d2r*(lonp - lont))));
-
-        /* Would get stuck in infinite loop if dist = 0 and get wrong results if
-           inside de tesseroid. Still do the calculation but warn user that it's
-           probably wrong. */
-        if(lonp >= model[tess].w && lonp <= model[tess].e &&
-           latp >= model[tess].s && latp <= model[tess].n &&
-           rp >= model[tess].r1 && rp <= model[tess].r2)
+        /* Initialize the tesseroid division stack (a LIFO structure) */
+        stack[0] = model[t];
+        stktop = 0;
+        while(stktop >= 0)
         {
-            log_warning("Point (%g %g %g) is on top of tesseroid %d: %g %g %g %g %g %g %g. Can't guarantee accuracy.",
-                        lonp, latp, rp - MEAN_EARTH_RADIUS, tess,
-                        model[tess].w, model[tess].e, model[tess].s,
-                        model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
-                        model[tess].r1 - MEAN_EARTH_RADIUS,
-                        model[tess].density);
-            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
-            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
-            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
-            glq_precompute_sincos(glq_lat);
-            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
-                         *glq_r);
-        }
-        /* Check if the computation point is at an acceptable distance. If not
-           split the tesseroid using the given ratio */
-        else if(
-            dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].e - model[tess].w) ||
-            dist < ratio*MEAN_EARTH_RADIUS*d2r*(model[tess].n - model[tess].s) ||
-            dist < ratio*(model[tess].r2 - model[tess].r1))
-        {
-            log_debug("Splitting tesseroid %d (%g %g %g %g %g %g %g) at point (%g %g %g) using ratio %g",
-                      tess, model[tess].w, model[tess].e, model[tess].s,
-                      model[tess].n, model[tess].r2 - MEAN_EARTH_RADIUS,
-                      model[tess].r1 - MEAN_EARTH_RADIUS, model[tess].density,
-                      lonp, latp, rp - MEAN_EARTH_RADIUS, ratio);
-            /* Do it recursively until ratio*size is smaller than distance */
-            split_tess(model[tess], split);
-            res += calc_tess_model_adapt(split, 8, lonp, latp, rp, glq_lon,
-                                         glq_lat, glq_r, field, ratio);
-        }
-        else
-        {
-            glq_set_limits(model[tess].w, model[tess].e, glq_lon);
-            glq_set_limits(model[tess].s, model[tess].n, glq_lat);
-            glq_set_limits(model[tess].r1, model[tess].r2, glq_r);
-            glq_precompute_sincos(glq_lat);
-            res += field(model[tess], lonp, latp, rp, *glq_lon, *glq_lat,
-                         *glq_r);
+            /* Pop the stack */
+            tess = stack[stktop];
+            stktop--;
+            /* Compute the distance from the computation point to the
+             * geometric center of the tesseroid. */
+            rt = 0.5*(tess.r2 + tess.r1);
+            lont = d2r*0.5*(tess.w + tess.e);
+            latt = d2r*0.5*(tess.s + tess.n);
+            sinlatt = sin(latt);
+            coslatt = cos(latt);
+            distance = sqrt(rp_sqr + SQ(rt) - 2*rp*rt*(
+                sinlatp*sinlatt + coslatp*coslatt*cos(rlonp - lont)));
+            /* Get the size of each dimension of the tesseroid in meters */
+            Llon = tess.r2*acos(
+                SQ(sinlatt) + SQ(coslatt)*cos(d2r*(tess.e - tess.w)));
+            Llat = tess.r2*acos(
+                sin(d2r*tess.n)*sin(d2r*tess.s) +
+                cos(d2r*tess.n)*cos(d2r*tess.s));
+            Lr = tess.r2 - tess.r1;
+            /* Number of times to split the tesseroid in each dimension */
+            nlon = 1;
+            nlat = 1;
+            nr = 1;
+            /* Check if the tesseroid is at a suitable distance (defined
+             * the value of "ratio"). If not, mark that dimension for
+             * division. */
+            if(distance < ratio*Llon)
+            {
+                nlon = 2;
+            }
+            if(distance < ratio*Llat)
+            {
+                nlat = 2;
+            }
+            if(distance < ratio*Lr)
+            {
+                nr = 2;
+            }
+            /* In case none of the dimensions need dividing,
+             * put the GLQ roots in the proper scale and compute the
+             * gravitational field of the tesseroid. */
+            /* Also compute the effect if the tesseroid stack if full
+             * (but warn the user that the computation might not be very
+             * precise). */
+            if((nlon == 1 && nlat == 1 && nr == 1)
+               || (nlon*nlat*nr + stktop >= STKSIZE))
+            {
+                if(nlon*nlat*nr + stktop >= STKSIZE)
+                {
+                    log_error(
+                        "Stack overflow: "
+                        "tesseroid %d in the model file on "
+                        "lon=%lf lat=%lf height=%lf."
+                        "\n  Calculated without fully dividing the tesseroid. "
+                        "Accuracy of the solution cannot be guaranteed."
+                        "\n  This is probably caused by a computation point "
+                        "too close to the tesseroid."
+                        "\n  Try increasing the computation height."
+                        "\n  *Expert users* can try modifying the "
+                        "distance-size ratio."
+                        "\n  *Beware* that this might affect "
+                        "the accuracy of the solution.",
+                        t + 1, lonp, latp, rp);
+                }
+                glq_set_limits(tess.w, tess.e, glq_lon);
+                glq_set_limits(tess.s, tess.n, glq_lat);
+                glq_set_limits(tess.r1, tess.r2, glq_r);
+                glq_precompute_sincos(glq_lat);
+                res += field(tess, lonp, latp, rp, *glq_lon, *glq_lat, *glq_r);
+            }
+            else
+            {
+                /* Divide the tesseroid in each dimension that needs dividing
+                 * Put each of the smaller tesseroids on the stack for
+                 * computing in the next iteration. */
+                n = split_tess(tess, nlon, nlat, nr, &stack[stktop + 1]);
+                stktop += n;
+                /* Sanity check */
+                if(n != nlon*nlat*nr)
+                {
+                    log_error("Splitting into %d instead of %d", n,
+                                nlon*nlat*nr);
+                }
+            }
         }
     }
+    #undef SQ
     return res;
 }
 

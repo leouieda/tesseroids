@@ -1,42 +1,43 @@
 # Benchmark for calculating the effect of a tesseroid model
+RESULT:=$(shell echo result-`tessgz --version`.txt)
 
-run: result.txt
+run: $(RESULT)
 
 model.txt:
 	@echo "Generate the model"
 	@../bin/tessgrd -r-10/10/-10/10 -b41/41 -z1000 | \
 	../bin/tessmodgen -s0.5/0.5 -d2670 -z0 > model.txt
 
-result.txt: model.txt
-	@echo "Computer specs" > result.txt
-	@cat /proc/cpuinfo | grep -m 1 -i -E 'model name' >> result.txt
-	@cat /proc/meminfo | grep -m 1 -i -E 'MemTotal' >> result.txt
-	@echo "\nTesseroids version\n" >> result.txt
-	@tessgz --version >> result.txt
-	@echo ""
+$(RESULT): model.txt
+	@echo "Computer specs" > $@
+	@cat /proc/cpuinfo | grep -m 1 -i -E 'model name' >> $@
+	@cat /proc/meminfo | grep -m 1 -i -E 'MemTotal' >> $@
+	@echo "\nTesseroids version\n" >> $@
+	@tessgz --version >> $@
+	@echo "" >> $@
 	@../bin/tessgrd -r-8/8/-8/8 -b51/51 -z2000 > grid.txt
-	@echo "\nModel size: `wc -l model.txt`" >> result.txt
-	@echo "Grid size: `wc -l grid.txt`" >> result.txt
+	@echo "\nModel size: `wc -l model.txt`" >> $@
+	@echo "Grid size: `wc -l grid.txt`" >> $@
 	@echo "Run the tesspot program"
-	@echo "" >> result.txt
-	@echo "Time spent on potential:" >> result.txt
-	@/usr/bin/time -o result.txt -a \
+	@echo "" >> $@
+	@echo "Time spent on potential:" >> $@
+	@/usr/bin/time -o $@ -a \
 	../bin/tesspot model.txt -v < grid.txt > tmp.txt
 	@echo ""
 	@echo "Run the tessgz program"
-	@echo "" >> result.txt
-	@echo "Time spent on gz:" >> result.txt
-	@/usr/bin/time -o result.txt -a \
+	@echo "" >> $@
+	@echo "Time spent on gz:" >> $@
+	@/usr/bin/time -o $@ -a \
 	../bin/tessgz model.txt -v < grid.txt > tmp.txt
 	@echo ""
 	@echo "Run the tessgzz program"
-	@echo "" >> result.txt
-	@echo "Time spent on gzz:" >> result.txt
-	@/usr/bin/time -o result.txt -a \
+	@echo "" >> $@
+	@echo "Time spent on gzz:" >> $@
+	@/usr/bin/time -o $@ -a \
 	../bin/tessgzz model.txt -v < grid.txt > tmp.txt
 	@echo ""
 	@echo "Results:"
-	@cat result.txt
+	@cat $@
 
 clean:
 	rm -rf model.txt tmp.txt grid.txt

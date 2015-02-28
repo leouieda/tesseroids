@@ -193,7 +193,8 @@ int glq_set_limits(double lower, double upper, GLQ *glq)
 }
 
 
-/* Calculate the next Legendre polynomial root given the previous root found. */
+/* Calculate the next Legendre polynomial root given the previous root found.
+ * Uses the method of Barrera-Figueroa et al. (2006). */
 int glq_next_root(double initial, int root_index, int order, double *roots)
 {
     double x1, x0, pn, pn_2, pn_1, pn_line, sum;

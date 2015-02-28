@@ -6,6 +6,19 @@ Changelog
 Changes in version
 ------------------------
 
+* General improvements to the adaptive discretization (described in the
+  upcoming method paper).
+  (`PR 21 <https://github.com/leouieda/tesseroids/pull/21>`__)
+* Better error messages when there is a stack overflow (computation point too
+  close to the tesseroid).
+  (`PR 21 <https://github.com/leouieda/tesseroids/pull/21>`__)
+* Replace the recursive algorithm with a stack-based algorithm for adaptive
+  discretization of tesseroids. This makes the computations faster, specially
+  for gravity acceleration and gradient tensor components.
+  (`PR 21 <https://github.com/leouieda/tesseroids/pull/21>`__)
+* Divide the tesseroids only along the necessary dimensions. This provides
+  speedups when dealing with flattened or elongated tesseroids.
+  (`PR 21 <https://github.com/leouieda/tesseroids/pull/21>`__)
 * Speedup tesseroid computations by moving some trigonometric functions out of
   loops.
   (`PR 22 <https://github.com/leouieda/tesseroids/pull/22>`__)

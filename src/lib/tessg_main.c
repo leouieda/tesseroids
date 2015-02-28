@@ -91,10 +91,7 @@ void print_tessg_help(const char *progname)
     printf("  --version      Print version and license information.\n");
     printf("  -v             Enable verbose printing to stderr.\n");
     printf("  -lFILENAME     Print log messages to file FILENAME.\n");
-    printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
-    printf("Report bugs at: ");
-    printf("<http://code.google.com/p/tesseroids/issues/list>\n");
+    print_copyright();
 }
 
 
@@ -234,50 +231,39 @@ int run_tessg_main(int argc, char **argv, const char *progname,
     /* Read each computation point from stdin and calculate */
     log_info("Calculating (this may take a while)...");
     tstart = clock();
-    for(line = 1; !feof(stdin); line++)
+    for(line = 1; fgets(buff, 10000, stdin) != NULL; line++)
     {
-        if(fgets(buff, 10000, stdin) == NULL)
+        /* Check for comments and blank lines */
+        if(buff[0] == '#' || buff[0] == '\r' || buff[0] == '\n')
         {
-            if(ferror(stdin))
-            {
-                log_error("problem encountered reading line %d", line);
-                error_exit = 1;
-                break;
-            }
+            printf("%s", buff);
+            continue;
+        }
+        /* Need to remove \n and \r from end of buff first to print the
+           result in the end */
+        strstrip(buff);
+        if(sscanf(buff, "%lf %lf %lf", &lon, &lat, &height) != 3)
+        {
+            log_warning("bad/invalid computation point at line %d:", line);
+            log_warning("  '%s'", buff);
+            log_warning("skipping this line and continuing");
+            bad_input++;
+            continue;
+        }
+        if(args.adaptative)
+        {
+            res = calc_tess_model_adapt(model, modelsize, lon, lat,
+                                        height + MEAN_EARTH_RADIUS, glq_lon,
+                                        glq_lat, glq_r, field, ratio);
         }
         else
         {
-            /* Check for comments and blank lines */
-            if(buff[0] == '#' || buff[0] == '\r' || buff[0] == '\n')
-            {
-                printf("%s", buff);
-                continue;
-            }
-            if(sscanf(buff, "%lf %lf %lf", &lon, &lat, &height) != 3)
-            {
-                log_warning("bad/invalid computation point at line %d", line);
-                log_warning("skipping this line and continuing");
-                bad_input++;
-                continue;
-            }
-            /* Need to remove \n and \r from end of buff first to print the
-               result in the end */
-            strstrip(buff);
-            if(args.adaptative)
-            {
-                res = calc_tess_model_adapt(model, modelsize, lon, lat,
-                                            height + MEAN_EARTH_RADIUS, glq_lon,
-                                            glq_lat, glq_r, field, ratio);
-            }
-            else
-            {
-                res = calc_tess_model(model, modelsize, lon, lat,
-                                      height + MEAN_EARTH_RADIUS, glq_lon,
-                                      glq_lat, glq_r, field);
-            }
-            printf("%s %.15g\n", buff, res);
-            points++;
+            res = calc_tess_model(model, modelsize, lon, lat,
+                                  height + MEAN_EARTH_RADIUS, glq_lon,
+                                  glq_lat, glq_r, field);
         }
+        printf("%s %.15g\n", buff, res);
+        points++;
     }
     if(bad_input)
     {

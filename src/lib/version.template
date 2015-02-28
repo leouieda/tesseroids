@@ -11,15 +11,24 @@ year.
 /* Current project version number */
 const char tesseroids_version[] = "$VERSION";
 
-/* Print version and license information */
-void print_version(const char *progname)
+/* Print version number*/
+void print_version()
 {
-    printf("%s (Tesseroids project) %s\n\n", progname, tesseroids_version);
-    printf("Copyright (C) 2011-$YEAR, Leonardo Uieda.\n");
+    printf("%s", tesseroids_version);
+}
+
+/* Print a copyright notice */
+void print_copyright()
+{
+    printf("\nPart of the Tesseroids package (v%s).\n", tesseroids_version);
+    printf("\nProject site: <http://www.leouieda.com/tesseroids/>\n");
+    printf("Report bugs at: ");
+    printf("<https://github.com/leouieda/tesseroids/issues>\n");
+    printf("\nCopyright (C) 2011-$YEAR, Leonardo Uieda.\n");
     printf("This software is distributed under the terms of the BSD License:\n");
     printf("<http://tesseroids.readthedocs.org/en/latest/license.html>\n");
     printf("This is free software: ");
     printf("you are free to change and redistribute it.\n");
-    printf("There is NO WARRANTY, to the extent permitted by law.\n\n");
-    printf("Developed by Leonardo Uieda.\n");
+    printf("There is NO WARRANTY, to the extent permitted by law.\n");
 }
+
