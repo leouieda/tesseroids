@@ -25,10 +25,7 @@ void print_help()
     printf("Options:\n");
     printf("  -h         Print instructions.\n");
     printf("  --version  Print version and license information.\n");
-    printf("\nPart of the Tesseroids package.\n");
-    printf("Project site: <http://fatiando.org/software/tesseroids>\n");
-    printf("Report bugs at: ");
-    printf("<http://code.google.com/p/tesseroids/issues/list>\n");
+    print_copyright();
 }
 
 

@@ -9,10 +9,10 @@ Hold the version number of the project.
 extern const char tesseroids_version[];
 
 
-/** Print version and license information
+/** Print version number */
+extern void print_version();
 
-@param progname name of the program
-*/
-extern void print_version(const char *progname);
+/** Print version number */
+extern void print_copyright();
 
 #endif
