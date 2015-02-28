@@ -1,14 +1,16 @@
 .. index:
 
-Documentation for Tesseroids (|version|)
-=========================================
+Tesseroids: forward modeling in spherical coordinates
+=====================================================
 
 .. image:: _static/banner.png
     :alt: Tesseroids
 
 A collection of **command-line programs**
-for modeling the gravitational potential, acceleration, and gradient tensor
-in spherical coordinates.
+for modeling the **gravitational potential, acceleration, and gradient
+tensor**.
+*Tesseroids* supports models and computation grids in Cartesian
+and spherical coordinates.
 
 Developed by `Leonardo Uieda`_
 in cooperation with `Carla Braitenberg`_.
@@ -22,9 +24,8 @@ in cooperation with `Carla Braitenberg`_.
 .. note::
 
     *Tesseroids* is **research software**.
-    Please consider **citing** it in your publications
+    Please consider :ref:`citing <citation>` it in your publications
     if you use it for your research.
-    See :ref:`Citation <citation>` for more information.
 
 .. warning::
 

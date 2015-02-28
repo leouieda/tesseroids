@@ -1,7 +1,7 @@
 .. _citation:
 
-Citation
-========
+Citing
+======
 
 To cite *Tesseroids* in publications, please use::
 

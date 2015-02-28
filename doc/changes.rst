@@ -3,8 +3,8 @@
 Changelog
 =========
 
-Changes in version
-------------------------
+Changes in version (future)
+---------------------------
 
 * General improvements to the adaptive discretization (described in the
   upcoming method paper).

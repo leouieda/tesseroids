@@ -17,6 +17,10 @@ For easier access to the programs, consider
 `adding the bin folder to your PATH environment
 variable <http://www.computerhope.com/issues/ch000549.htm>`__.
 
+Source code and compiled binaries of previous releases can be found on
+`the old Google Code project site
+<https://code.google.com/p/tesseroids/downloads/list>`__.
+
 Compiling from source
 ---------------------
 

@@ -185,6 +185,17 @@ are the number of quadrature nodes
 (i.e., the order of the quadrature),
 for the radius, latitude, and longitude, respectively.
 
+*Tesseroids* implements a modified version the adaptive discretization
+algorithm of Li et al (2011).
+This helps guarantee that the numerical integration will achieve a
+maximum error of 0.1%.
+
+.. warning::
+
+    The integration error may be larger than this if the computation
+    points are closer than 1km of the tesseroids. This effect is more
+    significant in the gravity gradient components.
+
 
 Gravitational fields of a prism in spherical coordinates
 --------------------------------------------------------
@@ -495,6 +506,10 @@ doi:10.1111/j.1365-246X.2007.03214.x.
 Grombein, T.; Seitz, K.; Heck, B. (2013), Optimized formulas for the
 gravitational field of a tesseroid, Journal of Geodesy,
 doi: 10.1007/s00190-013-0636-1
+
+Li, Z., T. Hao, Y. Xu, and Y. Xu (2011), An efficient and adaptive approach for
+modeling gravity effects in spherical coordinates, Journal of Applied
+Geophysics, 73(3), 221–231, doi:10.1016/j.jappgeo.2011.01.004.
 
 Nagy, D., G. Papp, and J. Benedek (2000),
 The gravitational potential and its derivatives for the prism,
