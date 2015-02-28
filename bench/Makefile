@@ -5,15 +5,19 @@ run: $(RESULT)
 
 model.txt:
 	@echo "Generate the model"
-	@../bin/tessgrd -r-10/10/-10/10 -b31/31 -z1000 | \
-	../bin/tessmodgen -s0.4/0.4 -d2670 -z0 > model.txt
+	@../bin/tessgrd -r-10/10/-10/10 -b41/41 -z1000 | \
+	../bin/tessmodgen -s0.5/0.5 -d2670 -z0 > model.txt
 
 $(RESULT): model.txt
 	@echo "Computer specs" > $@
 	@cat /proc/cpuinfo | grep -m 1 -i -E 'model name' >> $@
 	@cat /proc/meminfo | grep -m 1 -i -E 'MemTotal' >> $@
+	@echo "\nTesseroids version\n" >> result.txt
+	@tessgz --version >> result.txt
 	@echo ""
 	@../bin/tessgrd -r-8/8/-8/8 -b51/51 -z2000 > grid.txt
+	@echo "\nModel size: `wc -l model.txt`" >> result.txt
+	@echo "Grid size: `wc -l grid.txt`" >> result.txt
 	@echo "Run the tesspot program"
 	@echo "" >> $@
 	@echo "Time spent on potential:" >> $@
