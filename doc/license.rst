@@ -4,7 +4,7 @@
 License
 =======
 
-Copyright (c) 2012-2014, Leonardo Uieda
+Copyright (c) 2012-2015, Leonardo Uieda
 
 All rights reserved.
 
