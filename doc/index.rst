@@ -119,14 +119,15 @@ Contents
 .. toctree::
     :maxdepth: 2
 
-    license
     citation
     issues
     changes
     install
+    releases
     theory
     usage
     cookbook
+    license
 
 
 .. _Leonardo Uieda: http://www.leouieda.com
