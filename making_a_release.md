@@ -1,12 +1,36 @@
 # Making a new release of Tesseroids
 
-1. `git checkout master`, just to be sure
-2. Update the changelog with the version number
-3. `make check`, `make test`, `cd cookbook; make all`, `make doc`, and
-   `make package` to make sure everything works
-4. `git tag v1.2.3` to mark a new release from the current commit
-5. `git push --tags` to tell Github to make a new release
-6. `make package` and upload the binary builds to Github (the sources are
-   created automatically)
-7. Grab a new DOI from Zenodo or figshare
-8. Update the website
+* `git checkout master`, just to be sure
+* Run `make check`, `make test`, `cd cookbook; make all`, `make doc`, and
+   `make package` and make sure everything works
+* Update the changelog with the version number (insert below the "(future)"
+   version)
+* Reserve a new DOI from Zenodo
+    * Create a new upload (use some dummy files and **delete them later**)
+    * Click on "Pre-reserve DOI"
+    * Copy in the title "Tesseroids vX.X.X: Forward modeling of gravitational
+      fields in spherical coordinates"
+    * Copy the project description (below)
+    * Copy the changelog of this release to the description
+    * Use tags: tesseroid, geophysics, modeling, C, gravity
+* Update the DOI in the README and in the documentation ("Latest release" and
+   "Previous releases")
+* Commit the recent changes (DOI updates)
+* `git tag vX.X.X` to mark a new release from the current commit
+* `git push --tags` to tell Github to make a new release
+* `make package` to build Linux and Windows binaries
+* Create the release on Github
+    * Upload the **only** binary builds to Github (the sources are  created
+      automatically)
+    * Copy the project description and latest changelog from Zenodo
+    * Put a mention of the DOI with a link
+* Upload the latest packages for the release on Zenodo and publish
+
+Use the following project description for releases and Zenodo:
+
+> A collection of command-line programs for modeling the gravitational
+> potential, acceleration, and gradient tensor. Tesseroids supports models
+> and computation grids in Cartesian and spherical coordinates.
+>
+> Official website and documentation: http://tesseroids.leouieda.com/
+
