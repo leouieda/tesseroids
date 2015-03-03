@@ -28,9 +28,7 @@
 
 Use the following project description for releases and Zenodo:
 
-> A collection of command-line programs for modeling the gravitational
-> potential, acceleration, and gradient tensor. Tesseroids supports models
-> and computation grids in Cartesian and spherical coordinates.
->
-> Official website and documentation: http://tesseroids.leouieda.com/
+A collection of command-line programs for modeling the gravitational potential, acceleration, and gradient tensor. Tesseroids supports models and computation grids in Cartesian and spherical coordinates.
+
+Official website and documentation: http://tesseroids.leouieda.com/
 
