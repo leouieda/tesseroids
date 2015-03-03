@@ -3,13 +3,11 @@
 Installing
 ==========
 
-The easiest way to install is to download the compiled binary archives
-(e.g., ``tesseroids-1.1-win32.zip``) from:
-
-https://github.com/leouieda/tesseroids/releases
-
 We offer binaries for Windows (32 bit only)
 and GNU/Linux (32 and 64 bit).
+You can download the latest version for your operating system from Github:
+
+https://github.com/leouieda/tesseroids/releases/latest
 
 Once downloaded, simply unpack the archive in the desired directory.
 The executables will be in the ``bin`` folder.
@@ -17,9 +15,15 @@ For easier access to the programs, consider
 `adding the bin folder to your PATH environment
 variable <http://www.computerhope.com/issues/ch000549.htm>`__.
 
-Source code and compiled binaries of previous releases can be found on
-`the old Google Code project site
-<https://code.google.com/p/tesseroids/downloads/list>`__.
+Tesseroids is permanently archived in `Zenodo <http://zenodo.org/>`__.
+Each release is stored (source code and binaries) and given a
+`DOI <http://www.doi.org/>`__.
+The DOIs, source code, and compiled binaries for previous versions
+can be found on the :ref:`Releases <releases>` page.
+
+If we don't provide the binaries for your operating system,
+you can compile the source code (download a source distribution from Github) by
+following the instructions below.
 
 Compiling from source
 ---------------------
