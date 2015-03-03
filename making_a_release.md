@@ -13,8 +13,9 @@
     * Copy the project description (below)
     * Copy the changelog of this release to the description
     * Use tags: tesseroid, geophysics, modeling, C, gravity
-* Update the DOI in the README and in the documentation ("Latest release" and
-   "Previous releases")
+* Update the DOI in the README
+* Update the DOI in the `conf.py` of the docs
+* Update the DOI in the Previous releases
 * Commit the recent changes (DOI updates)
 * `git tag vX.X.X` to mark a new release from the current commit
 * `git push --tags` to tell Github to make a new release

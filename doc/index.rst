@@ -21,6 +21,8 @@ in cooperation with `Carla Braitenberg`_.
 
 **Source code**: https://github.com/leouieda/tesseroids
 
+**Latest release**: |release| (|doilink|)
+
 .. note::
 
     *Tesseroids* is **research software**.
