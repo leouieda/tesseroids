@@ -6,7 +6,9 @@
 [![Version number](http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat)](https://github.com/leouieda/tesseroids/releases)
 [![Travis CI build status](http://img.shields.io/travis/leouieda/tesseroids.svg?style=flat)](https://travis-ci.org/leouieda/tesseroids)
 [![BSD license](http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat)](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt)
-[![doi:10.6084/m9.figshare.786514](http://img.shields.io/badge/doi-10.6084/m9.figshare.786514-blue.svg?style=flat)](http://dx.doi.org/10.6084/m9.figshare.786514)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.15800.svg)](http://dx.doi.org/10.5281/zenodo.15800)
+
+
 
 *Forward modeling of gravitational fields in spherical coordinates.*
 
@@ -48,10 +50,10 @@ file for more information.
 
 ## Installing
 
-The easiest way to install is to download the compiled binary archives
-(e.g., `tesseroids-1.1-win32.zip`) from:
+The easiest way to install is to download the latest compiled binary
+distribution from:
 
-https://github.com/leouieda/tesseroids/releases
+https://github.com/leouieda/tesseroids/releases/latest
 
 We offer binaries for Windows (32 bit only)
 and GNU/Linux (32 and 64 bit).
