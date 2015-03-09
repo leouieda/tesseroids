@@ -3,14 +3,7 @@
 Citing
 ======
 
-To cite *Tesseroids* in publications, please use::
-
-    Uieda, L. (2013), Source code and compiled binaries for software Tesseroids,
-    figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
-    doi:10.6084/m9.figshare.786514.
-
-If you require a more traditional publication (though the **above** citation is
-preferred), use::
+To cite *Tesseroids* in publications, please use:
 
     Uieda, L., E. P. Bomfim, C. Braitenberg, and E. Molina (2011),
     Optimal forward calculation method of the Marussi tensor
@@ -24,15 +17,6 @@ the `Github repository <https://github.com/leouieda/goce2011>`__.
 
 If you're a BibTeX user::
 
-    @article{,
-        author = {Uieda, Leonardo},
-        title = {Source code and compiled binaries for software Tesseroids},
-        journal = {figshare},
-        year = {2013},
-        doi = {10.6084/m9.figshare.786514},
-        url = {http://dx.doi.org/10.6084/m9.figshare.786514}
-    }
-
     @inproceedings{,
         author = {Uieda, Leonardo and Bomfim, Everton P. and Braitenberg,
                   Carla and Molina, Eder},
@@ -42,3 +26,18 @@ If you're a BibTeX user::
                      Workshop},
         year = {2011},
     }
+
+
+You can refer to individual versions of Tesseroids through their DOIs.
+However, please also cite the reference above reference.
+
+For example. if you want to mention that you used the 1.1.1 version,
+you can go to :ref:`releases` and get the DOI link for that version.
+This link will not be broken, even if I move the site somewhere else.
+
+You can also cite the specific version instead of just providing the link.
+If you click of the DOI link for 1.1.1, the Zenodo page will
+recommend that you cite it as:
+
+    Uieda, Leonardo. (2015). Tesseroids v1.1.1: Forward modeling of
+    gravitational fields in spherical coordinates. Zenodo. 10.5281/zenodo.15800
