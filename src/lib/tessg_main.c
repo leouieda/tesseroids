@@ -98,7 +98,7 @@ void print_tessg_help(const char *progname)
 /* Run the main for a generic tessg* program */
 int run_tessg_main(int argc, char **argv, const char *progname,
     double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-    double ratio)
+    double ratio, double power)
 {
     TESSG_ARGS args;
     GLQ *glq_lon, *glq_lat, *glq_r;
@@ -254,7 +254,7 @@ int run_tessg_main(int argc, char **argv, const char *progname,
         {
             res = calc_tess_model_adapt(model, modelsize, lon, lat,
                                         height + MEAN_EARTH_RADIUS, glq_lon,
-                                        glq_lat, glq_r, field, ratio);
+                                        glq_lat, glq_r, field, ratio, power);
         }
         else
         {

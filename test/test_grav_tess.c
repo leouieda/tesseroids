@@ -525,13 +525,13 @@ static char * test_tess_tensor_trace()
         {
             trace = calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
                         glqlon, glqlat, glqr, tess_gxx,
-                        TESSEROID_GXX_SIZE_RATIO) +
+                        TESSEROID_GXX_SIZE_RATIO, TESSEROID_GG_POWER) +
                     calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
                         glqlon, glqlat, glqr, tess_gyy,
-                        TESSEROID_GYY_SIZE_RATIO) +
+                        TESSEROID_GYY_SIZE_RATIO, TESSEROID_GG_POWER) +
                     calc_tess_model_adapt(&tesses[i], 1, lon, lat, r + dist,
                         glqlon, glqlat, glqr, tess_gzz,
-                        TESSEROID_GZZ_SIZE_RATIO);
+                        TESSEROID_GZZ_SIZE_RATIO, TESSEROID_GG_POWER);
 
             sprintf(msg, "(tess %d dist %g) trace %.10f", i, dist, trace);
             mu_assert_almost_equals(trace, 0, 0.0000000001, msg);
@@ -588,7 +588,8 @@ static char * test_adaptative()
                                              0.5*mindist + MEAN_EARTH_RADIUS,
                                              glqlon, glqlat, glqr,
                                              tess_gzz,
-                                             TESSEROID_GZZ_SIZE_RATIO);
+                                             TESSEROID_GZZ_SIZE_RATIO,
+                                             TESSEROID_GG_POWER);
             n = split_tess(tess, 20, 20, 20, split);
             sprintf(msg, "splitting in %d instead of 8000", n);
             mu_assert(n == 8000, msg);

@@ -48,7 +48,7 @@ double calc_tess_model(TESSEROID *model, int size, double lonp, double latp,
 double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
           double latp, double rp, GLQ *glq_lon, GLQ *glq_lat, GLQ *glq_r,
           double (*field)(TESSEROID, double, double, double, GLQ, GLQ, GLQ),
-          double ratio)
+          double ratio, double power)
 {
     double res, distance, lont, latt, rt, d2r = PI/180.,
            coslatp, sinlatp, rp_sqr, rlonp,
@@ -97,6 +97,7 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
             /* Check if the tesseroid is at a suitable distance (defined
              * the value of "ratio"). If not, mark that dimension for
              * division. */
+            distance = pow(distance, power);
             if(distance < ratio*Llon)
             {
                 nlon = 2;

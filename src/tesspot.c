@@ -12,5 +12,5 @@ Program to calculate potential of a tesseroid model on a set of points.
 int main(int argc, char **argv)
 {
     return run_tessg_main(argc, argv, "tesspot", &tess_pot,
-                          TESSEROID_POT_SIZE_RATIO);
+                          TESSEROID_POT_SIZE_RATIO, TESSEROID_POT_POWER);
 }
