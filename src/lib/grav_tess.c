@@ -98,15 +98,18 @@ double calc_tess_model_adapt(TESSEROID *model, int size, double lonp,
              * the value of "ratio"). If not, mark that dimension for
              * division. */
             distance = pow(distance, power);
-            if(distance < ratio*Llon)
+            Llon = pow(Llon, 3);
+            Llat = pow(Llat, 3);
+            Lr = pow(Lr, 3);
+            if(distance/Llon < ratio)
             {
                 nlon = 2;
             }
-            if(distance < ratio*Llat)
+            if(distance/Llat < ratio)
             {
                 nlat = 2;
             }
-            if(distance < ratio*Lr)
+            if(distance/Lr < ratio)
             {
                 nr = 2;
             }
