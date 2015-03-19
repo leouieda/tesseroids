@@ -1,6 +1,12 @@
 """
 Get the version string from versioneer and print it to stdout
 """
+import sys
+import os
+
+# Make sure versioneer is imported from here
+here = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, here)
 import versioneer
 
 versioneer.VCS = 'git'
