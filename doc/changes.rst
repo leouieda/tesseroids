@@ -6,6 +6,9 @@ Changelog
 Changes in version (future)
 ---------------------------
 
+Changes in version 1.2.0
+------------------------
+
 * General improvements to the adaptive discretization (described in the
   upcoming method paper).
   (`PR 21 <https://github.com/leouieda/tesseroids/pull/21>`__)
