@@ -9,7 +9,6 @@
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.15800.svg)](http://dx.doi.org/10.5281/zenodo.15800)
 
 
-
 *Forward modeling of gravitational fields in spherical coordinates.*
 
 Developed by [Leonardo Uieda](http://www.leouieda.com)
@@ -26,27 +25,23 @@ The mass models can be made of right rectangular prisms or tesseroids
 Computation for rectangular prisms can be made in Cartesian or spherical
 (geocentric) coordinates.
 
-[![This is a tesseroid.](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/tesseroid.png)](http://tesseroids.readthedocs.org/en/latest/theory.html#what-is-a-tesseroid-anyway)
+[![This is a tesseroid.](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/tesseroid.png)](http://tesseroids.leouieda.com/en/latest/theory.html#what-is-a-tesseroid-anyway)
 
 ## License
 
 *Tesseroids* is [free software](http://www.fsf.org/about/what-is-free-software)
 made available under the terms of the
-[BSD 3-clause license](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
+BSD 3-clause license.
+See [LICENSE.txt](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
 
 ## Citing
 
-*Tesseroids* is research software.
+*Tesseroids* is research software made by scientists.
 If you use it in your research,
-please **cite it** in your publications as:
-
-    Uieda, L. (2013), Source code and compiled binaries for software Tesseroids,
-    figshare, http://dx.doi.org/10.6084/m9.figshare.786514,
-    doi:10.6084/m9.figshare.786514.
-
-See the
-[CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/CITATION.txt)
-file for more information.
+please **cite it** in your publications.
+See [CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/CITATION.txt)
+or the [Citing](http://tesseroids.leouieda.com/en/latest/citation.html)
+page of the documentation for more information.
 
 ## Installing
 
@@ -67,13 +62,13 @@ variable](http://www.computerhope.com/issues/ch000549.htm).
 ## Getting started
 
 Take a look at the examples in the
-[Cookbook](http://tesseroids.readthedocs.org/en/latest/cookbook.html).
+[Cookbook](http://tesseroids.leouieda.com/en/latest/cookbook.html).
 They contain scripts that run *Tesseroids* and some Python code to plot the
 results.
 
 The documentation contains sections on
-[the theory and equations](http://tesseroids.readthedocs.org/en/latest/theory.html)
-and [usage instructions](http://tesseroids.readthedocs.org/en/latest/usage.html).
+[the theory and equations](http://tesseroids.leouieda.com/en/latest/theory.html)
+and [usage instructions](http://tesseroids.leouieda.com/en/latest/usage.html).
 
 Also, all programs accept the `-h` flag to print the instructions for using
 that particular program. For example:

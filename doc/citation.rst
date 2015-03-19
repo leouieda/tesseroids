@@ -32,7 +32,8 @@ You can refer to individual versions of Tesseroids through their DOIs.
 However, please also cite the reference above reference.
 
 For example. if you want to mention that you used the 1.1.1 version,
-you can go to :ref:`releases` and get the DOI link for that version.
+you can go to :ref:`the Releases page <releases>` of the documentation
+and get the DOI link for that version.
 This link will not be broken, even if I move the site somewhere else.
 
 You can also cite the specific version instead of just providing the link.
