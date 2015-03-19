@@ -6,7 +6,7 @@
 [![Version number](http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat)](https://github.com/leouieda/tesseroids/releases)
 [![Travis CI build status](http://img.shields.io/travis/leouieda/tesseroids/master.svg?style=flat)](https://travis-ci.org/leouieda/tesseroids)
 [![BSD license](http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat)](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.15800.svg)](http://dx.doi.org/10.5281/zenodo.15800)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.16033.svg)](http://dx.doi.org/10.5281/zenodo.16033)
 
 
 *Forward modeling of gravitational fields in spherical coordinates.*

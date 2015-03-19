@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import sys
 import os
 import datetime
@@ -11,7 +12,8 @@ project = u'Tesseroids'
 copyright = u'2009-{:d}, Leonardo Uieda'.format(datetime.date.today().year)
 version = 'v{}'.format(print_version.version)
 release = version.split('-')[0]
-doi = "10.5281/zenodo.15800"
+print(version, release)
+doi = "10.5281/zenodo.16033"
 rst_epilog = """
 .. |doi| replace:: {}
 .. |doilink| replace:: doi:`{} <http://dx.doi.org/{}>`__
