@@ -107,7 +107,7 @@ mkenv:
 	conda create -n $(CONDAENV) --yes pip python=$(PYTHON)
 
 install_requires:
-	bash -c "source activate $(CONDAENV) && conda install --yes --file requirements.txt"
+	bash -c "source activate $(CONDAENV) && conda install --yes --file python-requirements.txt"
 
 delete_env:
 	bash -c "source deactivate; conda env remove --name $(CONDAENV)"
