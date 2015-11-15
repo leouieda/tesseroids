@@ -1,47 +1,36 @@
-# ![Tesseroids](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/banner.png)
+# Tesseroids: Forward modeling of gravitational fields in spherical coordinates
 
-[Documentation](http://tesseroids.leouieda.com) |
-[Download](https://github.com/leouieda/tesseroids/releases)
-
-[![Version number](http://img.shields.io/github/release/leouieda/tesseroids.svg?style=flat)](https://github.com/leouieda/tesseroids/releases)
-[![Travis CI build status](http://img.shields.io/travis/leouieda/tesseroids/master.svg?style=flat)](https://travis-ci.org/leouieda/tesseroids)
-[![BSD license](http://img.shields.io/badge/license-BSD-lightgrey.svg?style=flat)](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.16033.svg)](http://dx.doi.org/10.5281/zenodo.16033)
-
-
-*Forward modeling of gravitational fields in spherical coordinates.*
+Online documentation: http://tesseroids.leouieda.com
 
 Developed by [Leonardo Uieda](http://www.leouieda.com)
 in cooperation with [Carla Braitenberg](http://lithoflex.org/).
 
 ## About
 
-*Tesseroids* is a collection of **command-line tools**
-for modeling the gravitational potential, acceleration, and
-gradient (Marussi) tensor.
+*Tesseroids* is a collection of **command-line tools** for modeling the
+gravitational potential, acceleration, and gradient (Marussi) tensor.
 
 The mass models can be made of right rectangular prisms or tesseroids
-(spherical prisms).
-Computation for rectangular prisms can be made in Cartesian or spherical
-(geocentric) coordinates.
+(spherical prisms).  Computation for rectangular prisms can be made in
+Cartesian or spherical (geocentric) coordinates.
 
-[![This is a tesseroid.](https://raw.githubusercontent.com/leouieda/tesseroids/master/doc/_static/tesseroid.png)](http://tesseroids.leouieda.com/en/latest/theory.html#what-is-a-tesseroid-anyway)
+This "SEG" (static) version of this code may be downloaded from:
+
+http://software.seg.org
+
+By downloading the SEG version, you agree to abide by the disclaimer included
+alongside this README. You may also download the SEG disclaimer from:
+
+http://software.seg.org/disclaimer2.txt
+
+The live (ongoing) version of the software can be found at
+http://tesseroids.leouieda.com and https://github.com/leouieda/tesseroids
 
 ## License
 
 *Tesseroids* is [free software](http://www.fsf.org/about/what-is-free-software)
-made available under the terms of the
-BSD 3-clause license.
-See [LICENSE.txt](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
-
-## Citing
-
-*Tesseroids* is research software made by scientists.
-If you use it in your research,
-please **cite it** in your publications.
-See [CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/CITATION.txt)
-or the [Citing](http://tesseroids.leouieda.com/en/latest/citation.html)
-page of the documentation for more information.
+made available under the terms of the BSD 3-clause license.  See
+[LICENSE.txt](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt).
 
 ## Installing
 
@@ -58,6 +47,9 @@ The executables will be in the `bin` folder.
 For easier access to the programs, consider
 [adding the bin folder to your PATH environment
 variable](http://www.computerhope.com/issues/ch000549.htm).
+
+You can also compile the C source-code yourself. See section "Compiling from
+source" below.
 
 ## Getting started
 
@@ -129,41 +121,31 @@ If you want to build *Tesseroids* from source, you'll need:
 
 ### Setting up SCons
 
-Tesseroids uses the build tool SCons.
-A `SConstruct` file (`Makefile` equivalent)
-is used to define the compilation rules.
-The advantage of SCons over Make is that it automatically detects your system
-settings.
-You will have to download and install SCons
-in order to easily compile Tesseroids.
-SCons is available for both GNU/Linux and Windows
-so compiling should work the same on both platforms.
+Tesseroids uses the build tool SCons.  A `SConstruct` file (`Makefile`
+equivalent) is used to define the compilation rules.  The advantage of SCons
+over Make is that it automatically detects your system settings.  You will have
+to download and install SCons in order to easily compile Tesseroids.  SCons is
+available for both GNU/Linux and Windows so compiling should work the same on
+both platforms.
 
-SCons requires that you have [Python](http://www.python.org) installed.
-Follow the instructions in the [SCons website](http://www.scons.org/)
-to install it.
+SCons requires that you have [Python](http://www.python.org) installed.  Follow
+the instructions in the [SCons website](http://www.scons.org/) to install it.
 Python is usually installed by default on most GNU/Linux systems.
 
-Under Windows you will have to put SCons on
-your `PATH` environment variable
-in order to use it from the command line.
-It is usually located in the `Scripts` directory of your Python installation.
+Under Windows you will have to put SCons on your `PATH` environment variable in
+order to use it from the command line.  It is usually located in the `Scripts`
+directory of your Python installation.
 
-On GNU/Linux, SCons will generally use
-the GCC compiler to compile sources.
-On Windows it will search for an existing compiler.
-We recommend that you install GCC on Windows using
-[MinGW](http://mingw.org/).
+On GNU/Linux, SCons will generally use the GCC compiler to compile sources.  On
+Windows it will search for an existing compiler.  We recommend that you install
+GCC on Windows using [MinGW](http://mingw.org/).
 
 ### Compiling
 
-Download a source distribution and
-unpack the archive anywhere you want
-(e.g., `~/tesseroids` or `C:\tesseroids` or whatever).
-To compile,
-open a terminal (or `cmd.exe` on Windows)
-and go to the directory where you unpacked (use the `cd` command).
-Then, type the following and hit `Enter`:
+Download a source distribution and unpack the archive anywhere you want (e.g.,
+`~/tesseroids` or `C:\tesseroids` or whatever).  To compile, open a terminal
+(or `cmd.exe` on Windows) and go to the directory where you unpacked (use the
+`cd` command).  Then, type the following and hit `Enter`:
 
     scons
 
@@ -180,11 +162,10 @@ Don't forget to copy the output of running `scons`.
 
 ### Testing the build
 
-After the compilation,
-a program called `tesstest`
-will be placed in the directory where you unpacked the source.
-This program runs the [unit tests](https://en.wikipedia.org/wiki/Unit_testing)
-for *Tesseroids* (sources in the `test` directory).
+After the compilation, a program called `tesstest` will be placed in the
+directory where you unpacked the source.  This program runs the [unit
+tests](https://en.wikipedia.org/wiki/Unit_testing) for *Tesseroids* (sources in
+the `test` directory).
 
 To run the test suite, simply execute `tesstest` with no arguments:
 
@@ -194,9 +175,7 @@ or on GNU/Linux:
 
     ./tesstest
 
-A summary of all tests (pass or fail) will be printed on the screen.
-If all tests pass,
-the compilation probably went well.
-If any test fail,
-please [submit a bug report](https://github.com/leouieda/tesseroids/issues)
-with the output of running `tesstest`.
+A summary of all tests (pass or fail) will be printed on the screen.  If all
+tests pass, the compilation probably went well.  If any test fail, please
+[submit a bug report](https://github.com/leouieda/tesseroids/issues) with the
+output of running `tesstest`.

@@ -1,0 +1,65 @@
+This document may be found at:
+
+http://software.seg.org/disclaimer2.txt
+
+This is the modified disclaimer.txt covering documents that
+could not be copyrighted by the SEG.
+
+MAKE SURE YOU READ AND UNDERSTAND THIS DOCUMENT FULLY.
+By using material from the software.seg.org GEOPHYSICS
+source-code archive, you agree to abide by these terms.
+
+TERMS OF USAGE.
+---------------
+This software may be used freely under the following terms of use:
+
+1) If the software is used in the creation of a publication or software
+   distribution, or in any substantive way in a formal presentation, the
+   GEOPHYSICS paper associated with the software must be referenced, and
+   the URL for the code at software.seg.org must be referenced.
+
+2) Notices in the source code indicating the origin of the code may not be
+   removed. Disclaimers, copyright, and patent notices in the code may not
+   be removed.
+   Source-code files should contain:
+	A link to the URL for the source code at software.seg.org.
+
+3) If any portion of a code from software.seg.org is imported into another
+   routine in either its original form or in modified form, the block of
+   code containing that material must be clearly noted and attributed.
+   The attribution must include, at a minimum, a reference to the
+   GEOPHYSICS paper associated with the software, the URL for the
+   code at software.seg.org, and a pointer to this disclaimer
+   (http://software.seg.org/disclaimer2.txt). If any part of the algorithm
+   is restricted in its use by patents, the patents must be referenced
+   and the terms of use documented.
+
+4) If any material from the software.seg.org GEOPHYSICS source-code
+   archive is modified and then redistributed, clear notice must be
+   included indicating that the code has been modified. The notice
+   should include the nature of the modification, the extent of the
+   modification, the purpose of the modification, when the modification
+   was done, who made the modification, and the affiliation of the party
+   that made the modification.
+   Such notices should not be removed during successive redistributions.
+
+NO WARRANTIES.
+--------------
+You accept all the materials provided "as is."
+You assume all responsibility for the results or use of the materials.
+SEG makes no representations or warranties of any kind including, but
+not limited to, the accuracy, reliability, or usability of these materials.
+Any use that you make of the materials is at your own risk.
+
+DISCLAIMER.
+-----------
+SEG provides no warranties to you, expressed, implied, or statutory,
+including any implied warranties of fitness for a particular purpose.
+
+DAMAGE WAIVER.
+--------------
+In no event will SEG be liable for any damages, including direct,
+indirect, special, incidental, or consequential damages, arising out of
+anyone's use of or inability to use these materials, or any copies prepared
+from these materials, even if SEG has been advised as to the possibility
+of such damages.
