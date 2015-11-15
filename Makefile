@@ -10,7 +10,6 @@ help:
 	@echo "  build        Compile the source"
 	@echo "  check        Compile in debug mode and check for ANSI compatibility"
 	@echo "  test         Run the tests"
-	@echo "  benchmark    Run the benchmarks"
 	@echo "  doc          Build the HTML documentation"
 	@echo "  clean        Clean the directory"
 	@echo "  package      Make binary packages for distribution"
@@ -46,10 +45,10 @@ pkg-src: clean
 	cp -r cookbook $(PKG)
 	cp print_version.py $(PKG)
 	cp versioneer.py $(PKG)
-	cp README.md $(PKG)/README.md
+	cp README.md $(PKG)
 	cp LICENSE.txt $(PKG)
 	cp DEPENDENCIES.txt $(PKG)
-	cp CITATION.txt $(PKG)
+	cp disclaimer2.txt $(PKG)
 	cp SConstruct $(PKG)
 	cd $(DIST); zip -r $(PKGNAME)-src.zip $(PKGNAME); cd ..
 	cd $(DIST); tar -zcvf $(PKGNAME)-src.tar.gz $(PKGNAME); cd ..
@@ -65,7 +64,7 @@ pkg-bin32: clean
 	cp README.md $(PKG)/README.md
 	cp LICENSE.txt $(PKG)
 	cp DEPENDENCIES.txt $(PKG)
-	cp CITATION.txt $(PKG)
+	cp disclaimer2.txt $(PKG)
 	cd $(DIST); tar -zcvf $(PKGNAME)-bin32.tar.gz $(PKGNAME); cd ..
 	rm -r $(PKG)
 
@@ -79,7 +78,7 @@ pkg-bin64: clean
 	cp README.md $(PKG)/README.md
 	cp LICENSE.txt $(PKG)
 	cp DEPENDENCIES.txt $(PKG)
-	cp CITATION.txt $(PKG)
+	cp disclaimer2.txt $(PKG)
 	cd $(DIST); tar -zcvf $(PKGNAME)-bin64.tar.gz $(PKGNAME); cd ..
 	rm -r $(PKG)
 
@@ -93,7 +92,7 @@ pkg-win32: clean
 	cp README.md $(PKG)/README.md
 	cp LICENSE.txt $(PKG)
 	cp DEPENDENCIES.txt $(PKG)
-	cp CITATION.txt $(PKG)
+	cp disclaimer2.txt $(PKG)
 	cd $(DIST); zip -r $(PKGNAME)-win32.zip $(PKGNAME); cd ..
 	rm -r $(PKG)
 
