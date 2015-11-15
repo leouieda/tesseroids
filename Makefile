@@ -1,7 +1,9 @@
-VERSION:=$(shell python print_version.py)
-DIST:=dist
-PKGNAME:=tesseroids-$(VERSION)
-PKG:=$(DIST)/$(PKGNAME)
+VERSION := $(shell python print_version.py)
+DIST := dist
+PKGNAME := tesseroids-$(VERSION)
+PKG := $(DIST)/$(PKGNAME)
+CONDAENV := tesseroids
+PYTHON := 2.7
 
 help:
 	@echo "Commands:"
@@ -99,3 +101,13 @@ clean:
 	scons -c
 	cd doc; make clean
 
+setup: mkenv install_requires
+
+mkenv:
+	conda create -n $(CONDAENV) --yes pip python=$(PYTHON)
+
+install_requires:
+	bash -c "source activate $(CONDAENV) && conda install --yes --file requirements.txt"
+
+delete_env:
+	bash -c "source deactivate; conda env remove --name $(CONDAENV)"

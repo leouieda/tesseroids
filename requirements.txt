@@ -1,0 +1,5 @@
+matplotlib
+basemap
+numpy
+sphinx
+scons
