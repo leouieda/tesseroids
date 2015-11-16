@@ -1,6 +1,8 @@
 # Build the Tesseroids programs
 import sys
 from datetime import date
+import os
+import fnmatch
 
 # Make version.c by replacing stuff in version.template
 from print_version import version
@@ -170,7 +172,11 @@ sources.extend(Glob("src/lib/*.c"))
 tesstest = env.Program('tesstest', source=sources)
 
 # Clean files
-Clean('.', Glob('bin/*.exe'))
-Clean('.', Glob('*.exe'))
-Clean('.', Glob('*.pyc'))
+clean = '*.exe *.pyc *~'.split()
+for root, folders, files in os.walk('.'):
+    if '.git' not in root:
+        for target in clean:
+            for fname in fnmatch.filter(files, target):
+                Clean('.', os.path.join(root, fname))
 Clean('.', 'src/lib/version.c')
+Clean('.', '__pycache__')
