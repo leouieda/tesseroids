@@ -12,3 +12,5 @@ bench/*.txt
 src/lib/version.c
 *.pyc
 *~
+bench-*
+.env
