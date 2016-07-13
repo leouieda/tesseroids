@@ -1,0 +1,10 @@
+name: tesseroids
+dependencies:
+    - python=2.7
+    - pip
+    - scons
+    - numpy
+    - matplotlib
+    - sphinx
+    - pip:
+        - sphinx_rtd_theme
