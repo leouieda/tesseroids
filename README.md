@@ -38,7 +38,15 @@ See [LICENSE.txt](https://github.com/leouieda/tesseroids/blob/master/LICENSE.txt
 
 *Tesseroids* is research software made by scientists.
 If you use it in your research,
-please **cite it** in your publications.
+please **cite** our *Geophysics* paper in your publications:
+
+> Uieda, L., V. Barbosa, and C. Braitenberg (2016), Tesseroids: Forward-modeling gravitational fields in spherical coordinates, GEOPHYSICS, F41-F48, doi:[10.1190/geo2015-0204.1](http://dx.doi.org/10.1190/geo2015-0204.1).
+
+You can download a copy of the paper PDF at
+[leouieda.com/papers/paper-tesseroids-2016.html](http://www.leouieda.com/papers/paper-tesseroids-2016.html)
+and see all source code used in the paper at the Github repository
+[pinga-lab/paper-tesseroids](https://github.com/pinga-lab/paper-tesseroids).
+
 See [CITATION.txt](https://github.com/leouieda/tesseroids/blob/master/CITATION.txt)
 or the [Citing](http://tesseroids.leouieda.com/en/latest/citation.html)
 page of the documentation for more information.
