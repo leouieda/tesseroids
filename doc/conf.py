@@ -13,10 +13,10 @@ copyright = u'2009-{:d}, Leonardo Uieda'.format(datetime.date.today().year)
 version = 'v{}'.format(print_version.version)
 release = version.split('-')[0]
 print(version, release)
-doi = "10.5281/zenodo.16033"
+doi = "10.5281/zenodo.582366"
 rst_epilog = """
 .. |doi| replace:: {}
-.. |doilink| replace:: doi:`{} <http://dx.doi.org/{}>`__
+.. |doilink| replace:: doi:`{} <https://doi.org/{}>`__
 """.format(doi, doi, doi)
 
 extensions = ['sphinx.ext.mathjax']
