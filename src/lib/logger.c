@@ -29,6 +29,7 @@ void log_tofile(FILE *logfile, int level)
 
 
 /* Log a message at debug level */
+/* These messages are always printed to stderr and the log file */
 void log_debug(const char *fmt, ...)
 {
     char msg[10000];
@@ -37,12 +38,9 @@ void log_debug(const char *fmt, ...)
     vsprintf(msg, fmt, args);
     va_end(args);
 
-    if(logger.level <= LOG_DEBUG)
-    {
-        fprintf(stderr, "DEBUG: %s\n", msg);
-    }
+    fprintf(stderr, "DEBUG: %s\n", msg);
 
-    if(logger.filelogging && (logger.file_level <= LOG_DEBUG))
+    if(logger.filelogging)
     {
         fprintf(logger.logfile, "DEBUG: %s\n", msg);
     }
@@ -102,11 +100,11 @@ void log_error(const char *fmt, ...)
 
     if(logger.level <= LOG_ERROR)
     {
-        fprintf(stderr, "ERROR: %s\n", msg);
+        fprintf(stderr, "\nERROR: %s\n\n", msg);
     }
 
     if(logger.filelogging && logger.file_level <= LOG_ERROR)
     {
-        fprintf(logger.logfile, "ERROR: %s\n", msg);
+        fprintf(logger.logfile, "\nERROR: %s\n\n", msg);
     }
 }
