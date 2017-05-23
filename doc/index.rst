@@ -40,9 +40,13 @@ a **spherical prism**, also called a **tesseroid**.
 **right rectangular prisms**,
 both in **Cartesian** and **spherical coordinates**.
 
-.. image:: _static/tesseroid.png
+.. figure:: _static/tesseroid.png
     :align: center
     :width: 300px
+
+    View of a tesseroid (spherical prism) in a geocentric coordinate system.
+    Original image (licensed CC-BY) at doi:`10.6084/m9.figshare.1495521
+    <https://doi.org/10.6084/m9.figshare.1495521>`__.
 
 
 Getting started
