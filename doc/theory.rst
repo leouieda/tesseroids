@@ -6,10 +6,6 @@ Theorerical background
 What is a tesseroid anyway?
 ---------------------------
 
-.. image:: _static/tesseroid.png
-    :align: center
-    :width: 300px
-
 A tesseroid, or spherical prism,
 is segment of a sphere.
 It is delimited by:
@@ -33,6 +29,10 @@ It is delimited by:
         :width: 600px
 
 
+*Original images (licensed CC-BY) at* doi:`10.6084/m9.figshare.1495537
+<https://doi.org/10.6084/m9.figshare.1495537>`__.
+
+
 About coordinate systems
 ------------------------
 
@@ -54,6 +54,8 @@ and the local coordinate system (:math:`x,\ y,\ z`) of a point P.
     :math:`r,\ \phi,\ \lambda` are
     the radius, latitude, and longitude, respectively,
     of point P.
+    Original image (licensed CC-BY) at doi:`10.6084/m9.figshare.1495525
+    <https://doi.org/10.6084/m9.figshare.1495525>`__.
 
 The global system has origin on the center of the Earth
 and Z axis aligned with the Earth's mean rotation axis.
