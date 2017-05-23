@@ -1077,9 +1077,6 @@ void strstrip(char *str)
 /* Read a single tesseroid from a string */
 int gets_tess(const char *str, TESSEROID *tess)
 {
-    /** \todo Catch wrong order of model inputs, ie. w > e or s > n or
-    top < bottom */
-
     double w, e, s, n, top, bot, dens;
     int nread, nchars;
 
@@ -1087,7 +1084,18 @@ int gets_tess(const char *str, TESSEROID *tess)
                     &n, &top, &bot, &dens, &nchars);
     if(nread != 7 || str[nchars] != '\0')
     {
+        /* Something wrong with the tesseroid string */
         return 1;
+    }
+    if((w > e) || (s > n) || (top < bot))
+    {
+        /* Model bounds in wrong order */
+        return 2;
+    }
+    if((w == e) || (s == n) || (top == bot))
+    {
+        /* Tesseroid has zero volume */
+        return 3;
     }
     tess->w = w;
     tess->e = e;
@@ -1104,7 +1112,7 @@ int gets_tess(const char *str, TESSEROID *tess)
 TESSEROID * read_tess_model(FILE *modelfile, int *size)
 {
     TESSEROID *model, *tmp;
-    int buffsize = 100, line, badinput = 0, error_exit = 0;
+    int buffsize = 100, line, badinput = 0, error_exit = 0, gets_error;
     char sbuff[10000];
 
     /* Start with a single buffer allocation and expand later if necessary */
@@ -1142,17 +1150,29 @@ TESSEROID * read_tess_model(FILE *modelfile, int *size)
                     /* Need to free because realloc leaves unchanged in case of
                        error */
                     free(model);
-                    log_error("problem expanding memory for tesseroid model.\nModel is too big.");
+                    log_error("problem expanding memory for tesseroid model. Model is too big.");
                     return NULL;
                 }
                 model = tmp;
             }
             /* Remove any trailing spaces or newlines */
             strstrip(sbuff);
-            if(gets_tess(sbuff, &model[*size]))
+            gets_error = gets_tess(sbuff, &model[*size]);
+            if(gets_error == 1)
             {
-                log_warning("bad/invalid tesseroid at line %d.", line);
+                log_error("bad/invalid tesseroid at line %d.", line);
                 badinput = 1;
+                continue;
+            }
+            if(gets_error == 2)
+            {
+                log_error("invalid tesseroid dimensions at line %d. Must be w < e, s < n, top > bottom.", line);
+                badinput = 1;
+                continue;
+            }
+            if(gets_error == 3)
+            {
+                log_warning("ignoring tesseroid with zero volume at line %d. This should not impact the computations.", line);
                 continue;
             }
             (*size)++;
