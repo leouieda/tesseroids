@@ -97,6 +97,20 @@ pkg-win32: clean
 	cd $(DIST); zip -r $(PKGNAME)-win32.zip $(PKGNAME); cd ..
 	rm -r $(PKG)
 
+pkg-win64: clean
+	@echo "Creating 64bit Windows package..."
+	scons mode=win64
+	wine64 tesstest.exe
+	mkdir $(PKG)
+	cp -r cookbook $(PKG)
+	cp -r bin $(PKG)
+	cp README.md $(PKG)/README.md
+	cp LICENSE.txt $(PKG)
+	cp DEPENDENCIES.txt $(PKG)
+	cp CITATION.txt $(PKG)
+	cd $(DIST); zip -r $(PKGNAME)-win64.zip $(PKGNAME); cd ..
+	rm -r $(PKG)
+
 clean:
 	scons -c
 	cd doc; make clean
