@@ -6,6 +6,14 @@ Changelog
 Changes in version (future)
 ---------------------------
 
+* Validate order of boundaries for input tesseroids. Errors if boundaries are
+  switched (e.g, W > E).
+  (`PR 27 <https://github.com/leouieda/tesseroids/pull/27>`__)
+* Ignore tesseroids with zero volume from the input file (i.e., W == E, S == N,
+  or top == bottom). These elements can cause crashes because of infinite loops
+  during adaptive discretization.
+  (`PR 27 <https://github.com/leouieda/tesseroids/pull/27>`__)
+
 Changes in version 1.2.0
 ------------------------
 
