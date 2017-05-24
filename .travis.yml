@@ -1,21 +1,30 @@
 language: c
+
 compiler: gcc
-env:
-  - PATH=$TRAVIS_BUILD_DIR/bin:$PATH MPLCONFIGDIR=$TRAVIS_BUILD_DIR
-install:
-  - sudo apt-get update
-  - sudo apt-get install python-matplotlib python-numpy python-mpltoolkits.basemap
-  # For cross-compiling 32bit binaries (mode=bin32)
-  - sudo apt-get install libc6-dev-i386
-  # To set the matplotlib rc file
-  - bash .travis.sh
-script:
-  - scons mode=check
-  - scons -c; scons mode=default
-  - ./tesstest
-  - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
-  - scons -c; scons mode=bin32
-  - ./tesstest
-  - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
+
 notifications:
-  email: false
+    email: false
+
+branches:
+    only:
+        - master
+
+env:
+    - PATH=$TRAVIS_BUILD_DIR/bin:$PATH MPLCONFIGDIR=$TRAVIS_BUILD_DIR
+
+install:
+    - sudo apt-get update
+    - sudo apt-get install python-matplotlib python-numpy python-mpltoolkits.basemap
+    # For cross-compiling 32bit binaries (mode=bin32)
+    - sudo apt-get install libc6-dev-i386
+    # To set the matplotlib rc file
+    - bash .travis.sh
+
+script:
+    - scons mode=check
+    - scons -c; scons mode=default
+    - ./tesstest
+    - cd cookbook; make all; cd $TRAVIS_BUILD_DIR
+    - scons -c; scons mode=bin32
+    - ./tesstest
+    - cd cookbook; make all; cd $TRAVIS_BUILD_DIR

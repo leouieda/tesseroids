@@ -2,18 +2,16 @@ VERSION := $(shell python print_version.py)
 DIST := dist
 PKGNAME := tesseroids-$(VERSION)
 PKG := $(DIST)/$(PKGNAME)
-CONDAENV := tesseroids
-PYTHON := 2.7
+
+.PHONY: help build check test package pkg-bin32 pkg-bin64 pkg-win32 pkg-win64 clean
 
 help:
 	@echo "Commands:"
 	@echo "  build        Compile the source"
 	@echo "  check        Compile in debug mode and check for ANSI compatibility"
 	@echo "  test         Run the tests"
-	@echo "  benchmark    Run the benchmarks"
-	@echo "  doc          Build the HTML documentation"
 	@echo "  clean        Clean the directory"
-	@echo "  package      Make binary packages for distribution"
+	@echo "  package      Make binary packages for all supported platforms"
 	@echo "  pkg-bin32    Make a 32bit linux binary distribution"
 	@echo "  pkg-bin64    Make a 64bit linux binary distribution"
 	@echo "  pkg-win32    Cross-compile 32bit Windows binary distribution"
@@ -26,21 +24,15 @@ build:
 check:
 	scons mode=check
 
-.PHONY: test
 test: build
 	./tesstest
 
-benchmark: build
-	cd bench; make
-
-.PHONY: doc
-doc:
-	cd doc; make html
-
 package: pkg-bin32 pkg-bin64 pkg-win32 pkg-win64
 
-pkg-src: clean
-	@echo "Creating source package..."
+pkg-src:
+	@echo "\nCreating source package\n"
+	@echo "#######################\n"
+	bash clean.sh
 	mkdir -p $(PKG)
 	cp -r src $(PKG)
 	cp -r test $(PKG)
@@ -56,8 +48,10 @@ pkg-src: clean
 	cd $(DIST); tar -zcvf $(PKGNAME)-src.tar.gz $(PKGNAME); cd ..
 	rm -rf $(PKG)
 
-pkg-bin32: clean
-	@echo "Creating 32bit Linux package..."
+pkg-bin32:
+	@echo "\nCreating 32bit Linux package"
+	@echo "############################\n"
+	bash clean.sh
 	scons mode=bin32
 	./tesstest
 	mkdir -p $(PKG)
@@ -70,8 +64,10 @@ pkg-bin32: clean
 	cd $(DIST); tar -zcvf $(PKGNAME)-bin32.tar.gz $(PKGNAME); cd ..
 	rm -r $(PKG)
 
-pkg-bin64: clean
-	@echo "Creating 64bit Linux package..."
+pkg-bin64:
+	@echo "\nCreating 64bit Linux package"
+	@echo "############################\n"
+	bash clean.sh
 	scons
 	./tesstest
 	mkdir -p $(PKG)
@@ -84,8 +80,10 @@ pkg-bin64: clean
 	cd $(DIST); tar -zcvf $(PKGNAME)-bin64.tar.gz $(PKGNAME); cd ..
 	rm -r $(PKG)
 
-pkg-win32: clean
-	@echo "Creating 32bit Windows package..."
+pkg-win32:
+	@echo "\nCreating 32bit Windows package"
+	@echo "##############################\n"
+	bash clean.sh
 	scons mode=win32
 	# Need to clear the wine install or it will complain when running both
 	# 32bit and 64bit
@@ -101,8 +99,10 @@ pkg-win32: clean
 	cd $(DIST); zip -r $(PKGNAME)-win32.zip $(PKGNAME); cd ..
 	rm -r $(PKG)
 
-pkg-win64: clean
-	@echo "Creating 64bit Windows package..."
+pkg-win64:
+	@echo "\nCreating 64bit Windows package"
+	@echo "##############################\n"
+	bash clean.sh
 	scons mode=win64
 	# Need to clear the wine install or it will complain when running both
 	# 32bit and 64bit
@@ -119,16 +119,4 @@ pkg-win64: clean
 	rm -r $(PKG)
 
 clean:
-	scons -c
-	cd doc; make clean
-
-setup: mkenv install_requires
-
-mkenv:
-	conda create -n $(CONDAENV) --yes pip python=$(PYTHON)
-
-install_requires:
-	bash -c "source activate $(CONDAENV) && conda install --yes --file python-requirements.txt"
-
-delete_env:
-	bash -c "source deactivate; conda env remove --name $(CONDAENV)"
+	bash clean.sh
