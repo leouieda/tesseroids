@@ -16,6 +16,7 @@
 * Update the DOI in the README
 * Update the DOI in the `conf.py` of the docs
 * Update the DOI in the Previous releases
+* Update year in LICENSE.txt
 * Commit the recent changes (DOI updates)
 * `git tag vX.X.X` to mark a new release from the current commit
 * `git push --tags` to tell Github to make a new release
