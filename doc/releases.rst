@@ -15,6 +15,11 @@ code.
 Stable releases
 ---------------
 
+* v1.2.1:
+    * `Source code <https://github.com/leouieda/tesseroids/tree/v1.2.1>`__
+    * `Download <https://github.com/leouieda/tesseroids/releases/tag/v1.2.1>`__
+    * `Documentation <http://tesseroids.leouieda.com/en/v1.2.1>`__
+    * doi:`10.5281/zenodo.16033 <http://dx.doi.org/10.5281/zenodo.582366>`__
 * v1.2.0:
     * `Source code <https://github.com/leouieda/tesseroids/tree/v1.2.0>`__
     * `Download <https://github.com/leouieda/tesseroids/releases/tag/v1.2.0>`__

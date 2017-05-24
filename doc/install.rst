@@ -3,7 +3,7 @@
 Installing
 ==========
 
-We offer binaries for Windows (32 bit only)
+We offer binaries for Windows (32 and 64 bit)
 and GNU/Linux (32 and 64 bit).
 You can download the latest version for your operating system from Github:
 

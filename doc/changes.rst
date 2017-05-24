@@ -3,9 +3,11 @@
 Changelog
 =========
 
-Changes in version (future)
----------------------------
+Changes in version 1.2.1
+------------------------
 
+* Binaries for Windows 64bit are now available for download as well.
+  (`PR 28 <https://github.com/leouieda/tesseroids/pull/28>`__)
 * Validate order of boundaries for input tesseroids. Errors if boundaries are
   switched (e.g, W > E).
   (`PR 27 <https://github.com/leouieda/tesseroids/pull/27>`__)

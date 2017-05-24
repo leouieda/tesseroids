@@ -18,7 +18,7 @@ with open('src/lib/version.c', 'w') as f:
 
 # get the mode flag from the command line
 mode = ARGUMENTS.get('mode', 'default')
-if not (mode in ['default', 'check', 'bin32', 'win32']):
+if not (mode in ['default', 'check', 'bin32', 'win32', 'win64']):
    print "Error: unknown mode '%s'" % (mode)
    Exit(1)
 print '**** Compiling in ' + mode + ' mode...'
@@ -37,6 +37,12 @@ elif mode == 'win32':
         LIBS=['m'],
         CPPPATH='src/lib')
     env.Tool('crossmingw', toolpath=['scons-tools'])
+elif mode == 'win64':
+    env = Environment(
+        CFLAGS='-O3',
+        LIBS=['m'],
+        CPPPATH='src/lib')
+    env.Tool('crossmingw64', toolpath=['scons-tools'])
 elif mode == 'bin32':
     env = Environment(
         CFLAGS='-O3 -m32',

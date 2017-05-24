@@ -17,6 +17,7 @@ help:
 	@echo "  pkg-bin32    Make a 32bit linux binary distribution"
 	@echo "  pkg-bin64    Make a 64bit linux binary distribution"
 	@echo "  pkg-win32    Cross-compile 32bit Windows binary distribution"
+	@echo "  pkg-win64    Cross-compile 64bit Windows binary distribution"
 	@echo "  pkg-src      Make a source distribution"
 
 build:
@@ -36,7 +37,7 @@ benchmark: build
 doc:
 	cd doc; make html
 
-package: pkg-bin32 pkg-bin64 pkg-win32
+package: pkg-bin32 pkg-bin64 pkg-win32 pkg-win64
 
 pkg-src: clean
 	@echo "Creating source package..."
@@ -86,6 +87,9 @@ pkg-bin64: clean
 pkg-win32: clean
 	@echo "Creating 32bit Windows package..."
 	scons mode=win32
+	# Need to clear the wine install or it will complain when running both
+	# 32bit and 64bit
+	rm -r ~/.wine
 	wine tesstest.exe
 	mkdir $(PKG)
 	cp -r cookbook $(PKG)
@@ -95,6 +99,23 @@ pkg-win32: clean
 	cp DEPENDENCIES.txt $(PKG)
 	cp CITATION.txt $(PKG)
 	cd $(DIST); zip -r $(PKGNAME)-win32.zip $(PKGNAME); cd ..
+	rm -r $(PKG)
+
+pkg-win64: clean
+	@echo "Creating 64bit Windows package..."
+	scons mode=win64
+	# Need to clear the wine install or it will complain when running both
+	# 32bit and 64bit
+	rm -r ~/.wine
+	wine64 tesstest.exe
+	mkdir $(PKG)
+	cp -r cookbook $(PKG)
+	cp -r bin $(PKG)
+	cp README.md $(PKG)/README.md
+	cp LICENSE.txt $(PKG)
+	cp DEPENDENCIES.txt $(PKG)
+	cp CITATION.txt $(PKG)
+	cd $(DIST); zip -r $(PKGNAME)-win64.zip $(PKGNAME); cd ..
 	rm -r $(PKG)
 
 clean:
