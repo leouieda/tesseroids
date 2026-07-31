@@ -19,9 +19,9 @@ with open('src/lib/version.c', 'w') as f:
 # get the mode flag from the command line
 mode = ARGUMENTS.get('mode', 'default')
 if not (mode in ['default', 'check', 'bin32', 'win32', 'win64']):
-   print "Error: unknown mode '%s'" % (mode)
+    ("Error: unknown mode '%s'" % (mode))
    Exit(1)
-print '**** Compiling in ' + mode + ' mode...'
+print ('**** Compiling in ' + mode + ' mode...')
 
 if sys.platform == 'win32':
     env = Environment(
